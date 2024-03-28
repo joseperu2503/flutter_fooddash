@@ -34,7 +34,7 @@ class HomeScreen extends ConsumerWidget {
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.gray700,
+                        color: AppColors.gray900,
                         height: 1.5,
                         leadingDistribution: TextLeadingDistribution.even,
                       ),
@@ -47,7 +47,7 @@ class HomeScreen extends ConsumerWidget {
                       style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w400,
-                        color: AppColors.gray700,
+                        color: AppColors.gray900,
                         height: 19 / 13,
                         leadingDistribution: TextLeadingDistribution.even,
                       ),
@@ -127,34 +127,34 @@ class HomeScreen extends ConsumerWidget {
                         children: <TextSpan>[
                           const TextSpan(
                             text: 'By ',
-                            style: TextStyle(color: AppColors.gray700),
+                            style: TextStyle(color: AppColors.gray900),
                           ),
                           const TextSpan(
                             text: 'Registerin ',
                             style: TextStyle(
-                              color: AppColors.gray700,
+                              color: AppColors.gray900,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
                           const TextSpan(
                             text: 'or  ',
-                            style: TextStyle(color: AppColors.gray700),
+                            style: TextStyle(color: AppColors.gray900),
                           ),
                           const TextSpan(
                             text: 'Login ',
                             style: TextStyle(
-                              color: AppColors.gray700,
+                              color: AppColors.gray900,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
                           const TextSpan(
                             text: 'you have agree to these\n',
-                            style: TextStyle(color: AppColors.gray700),
+                            style: TextStyle(color: AppColors.gray900),
                           ),
                           TextSpan(
                             text: 'Terms and Conditions. ',
                             style: const TextStyle(
-                              color: AppColors.gray700,
+                              color: AppColors.gray900,
                               fontWeight: FontWeight.w600,
                             ),
                             recognizer: TapGestureRecognizer()

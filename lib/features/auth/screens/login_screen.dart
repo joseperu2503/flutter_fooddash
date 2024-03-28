@@ -1,4 +1,5 @@
 import 'package:delivery_app/config/constants/app_colors.dart';
+import 'package:delivery_app/features/auth/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -119,7 +120,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.w600,
-                            color: AppColors.gray700,
+                            color: AppColors.gray900,
                             height: 1.5,
                             leadingDistribution: TextLeadingDistribution.even,
                           ),
@@ -145,7 +146,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
-                            color: AppColors.gray700,
+                            color: AppColors.gray900,
                             height: 19 / 16,
                             leadingDistribution: TextLeadingDistribution.even,
                           ),
@@ -187,7 +188,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
-                            color: AppColors.gray700,
+                            color: AppColors.gray900,
                           ),
                         ),
                         const SizedBox(
@@ -198,7 +199,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
-                            color: AppColors.gray700,
+                            color: AppColors.gray900,
                             height: 19 / 16,
                             leadingDistribution: TextLeadingDistribution.even,
                           ),
@@ -240,14 +241,18 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
-                            color: AppColors.gray700,
+                            color: AppColors.gray900,
                           ),
                         ),
                         const SizedBox(
                           height: 50,
                         ),
                         FilledButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            ref
+                                .read(authProvider.notifier)
+                                .setAuthStatus(AuthStatus.authenticated);
+                          },
                           style: FilledButton.styleFrom(
                             minimumSize: const Size(
                               double.infinity,
