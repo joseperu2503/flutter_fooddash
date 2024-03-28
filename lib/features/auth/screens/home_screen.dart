@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -33,7 +34,7 @@ class HomeScreen extends ConsumerWidget {
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.text700,
+                        color: AppColors.gray700,
                         height: 1.5,
                         leadingDistribution: TextLeadingDistribution.even,
                       ),
@@ -46,7 +47,7 @@ class HomeScreen extends ConsumerWidget {
                       style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w400,
-                        color: AppColors.text700,
+                        color: AppColors.gray700,
                         height: 19 / 13,
                         leadingDistribution: TextLeadingDistribution.even,
                       ),
@@ -60,13 +61,13 @@ class HomeScreen extends ConsumerWidget {
                       style: FilledButton.styleFrom(
                         minimumSize: const Size(
                           double.infinity,
-                          51,
+                          60,
                         ),
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(40),
                         ),
-                        backgroundColor: AppColors.primaryGreen,
+                        backgroundColor: AppColors.primary500,
                       ),
                       child: const Text(
                         'Create account',
@@ -83,18 +84,20 @@ class HomeScreen extends ConsumerWidget {
                       height: 22,
                     ),
                     OutlinedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        context.push('/login');
+                      },
                       style: OutlinedButton.styleFrom(
                         minimumSize: const Size(
                           double.infinity,
-                          51,
+                          60,
                         ),
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(40),
                         ),
                         side: const BorderSide(
-                          color: AppColors.primaryGreen,
+                          color: AppColors.primary500,
                         ),
                         // backgroundColor: AppColors.primaryGreen,
                       ),
@@ -103,7 +106,7 @@ class HomeScreen extends ConsumerWidget {
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
-                          color: AppColors.primaryGreen,
+                          color: AppColors.primary500,
                           height: 19 / 16,
                           leadingDistribution: TextLeadingDistribution.even,
                         ),
@@ -124,34 +127,34 @@ class HomeScreen extends ConsumerWidget {
                         children: <TextSpan>[
                           const TextSpan(
                             text: 'By ',
-                            style: TextStyle(color: AppColors.text700),
+                            style: TextStyle(color: AppColors.gray700),
                           ),
                           const TextSpan(
                             text: 'Registerin ',
                             style: TextStyle(
-                              color: AppColors.text700,
+                              color: AppColors.gray700,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
                           const TextSpan(
                             text: 'or  ',
-                            style: TextStyle(color: AppColors.text700),
+                            style: TextStyle(color: AppColors.gray700),
                           ),
                           const TextSpan(
                             text: 'Login ',
                             style: TextStyle(
-                              color: AppColors.text700,
+                              color: AppColors.gray700,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
                           const TextSpan(
                             text: 'you have agree to these\n',
-                            style: TextStyle(color: AppColors.text700),
+                            style: TextStyle(color: AppColors.gray700),
                           ),
                           TextSpan(
                             text: 'Terms and Conditions. ',
                             style: const TextStyle(
-                              color: AppColors.text700,
+                              color: AppColors.gray700,
                               fontWeight: FontWeight.w600,
                             ),
                             recognizer: TapGestureRecognizer()

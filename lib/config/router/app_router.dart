@@ -15,12 +15,18 @@ final goRouterProvider = Provider<GoRouter>((ref) {
     refreshListenable: goRouterNotifier,
     redirect: (context, state) {
       final authStatus = goRouterNotifier.authStatus;
+      final isGoingTo = state.fullPath;
 
       if (authStatus == AuthStatus.authenticated) {
         return '/dashboard';
-      } else {
+      }
+
+      if (authStatus == AuthStatus.notAuthenticated) {
+        if (isGoingTo == '/login' || isGoingTo == '/home') return null;
         return '/home';
       }
+
+      return null;
     },
     routes: [
       GoRoute(
