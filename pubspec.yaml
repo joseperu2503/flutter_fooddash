@@ -22,4 +22,5 @@ flutter:
   uses-material-design: true
   assets:
     - assets/icons/
+    - assets/icons/tabs/
     - assets/images_prueba/
