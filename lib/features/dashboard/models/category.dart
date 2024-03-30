@@ -11,9 +11,4 @@ class Category {
         name: json["name"],
         image: json["image"],
       );
-
-  Map<String, dynamic> toJson() => {
-        "name": name,
-        "image": image,
-      };
 }

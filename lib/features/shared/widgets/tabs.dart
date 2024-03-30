@@ -27,16 +27,14 @@ class Tabs extends StatelessWidget {
         onTap: (value) {
           _onTap(context, value);
         },
-        // unselectedLabelStyle: TextStyle(
-        //   fontSize: 14,
-        //   fontWeight: FontWeight.w400,
-        //   color: AppColors.gray400,
-        // ),
-        // selectedLabelStyle: TextStyle(
-        //   fontSize: 14,
-        //   fontWeight: FontWeight.w400,
-        //   color: AppColors.gray400,
-        // ),
+        unselectedLabelStyle: const TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w400,
+        ),
+        selectedLabelStyle: const TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
+        ),
         unselectedItemColor: AppColors.gray400,
         selectedItemColor: AppColors.primary500,
         type: BottomNavigationBarType.fixed,
@@ -78,14 +76,14 @@ class Tabs extends StatelessWidget {
           BottomNavigationBarItem(
             label: 'Favorite',
             icon: SvgPicture.asset(
-              'assets/icons/tabs/cart_outlined.svg',
+              'assets/icons/tabs/heart_outlined.svg',
               colorFilter: const ColorFilter.mode(
                 AppColors.gray400,
                 BlendMode.srcIn,
               ),
             ),
             activeIcon: SvgPicture.asset(
-              'assets/icons/tabs/cart_solid.svg',
+              'assets/icons/tabs/heart_solid.svg',
               colorFilter: const ColorFilter.mode(
                 AppColors.primary500,
                 BlendMode.srcIn,
@@ -95,14 +93,14 @@ class Tabs extends StatelessWidget {
           BottomNavigationBarItem(
             label: 'Profile',
             icon: SvgPicture.asset(
-              'assets/icons/tabs/cart_outlined.svg',
+              'assets/icons/tabs/profile_outlined.svg',
               colorFilter: const ColorFilter.mode(
                 AppColors.gray400,
                 BlendMode.srcIn,
               ),
             ),
             activeIcon: SvgPicture.asset(
-              'assets/icons/tabs/cart_solid.svg',
+              'assets/icons/tabs/profile_solid.svg',
               colorFilter: const ColorFilter.mode(
                 AppColors.primary500,
                 BlendMode.srcIn,
