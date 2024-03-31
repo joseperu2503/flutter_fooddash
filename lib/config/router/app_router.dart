@@ -3,6 +3,7 @@ import 'package:delivery_app/features/auth/screens/home_screen.dart';
 import 'package:delivery_app/features/auth/screens/login_screen.dart';
 import 'package:delivery_app/features/dashboard/screens/dashboard_screen.dart';
 import 'package:delivery_app/features/order/screens/order_screen.dart';
+import 'package:delivery_app/features/restaurant/screens/restaurant_screen.dart';
 import 'package:delivery_app/features/shared/widgets/tabs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -81,6 +82,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             ],
           ),
         ],
+      ),
+      GoRoute(
+        path: '/restaurant',
+        builder: (context, state) => const RestaurantScreen(),
+        parentNavigatorKey: _rootNavigatorKey,
       ),
       GoRoute(
         path: '/home',

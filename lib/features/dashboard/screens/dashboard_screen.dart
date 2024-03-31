@@ -2,6 +2,7 @@ import 'package:delivery_app/config/constants/app_colors.dart';
 import 'package:delivery_app/features/auth/providers/auth_provider.dart';
 import 'package:delivery_app/features/dashboard/data/categories.dart';
 import 'package:delivery_app/features/dashboard/data/restaurants.dart';
+import 'package:delivery_app/features/dashboard/widgets/restaurant_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -11,8 +12,6 @@ class DashboardScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    EdgeInsets padding = MediaQuery.of(context).padding;
-
     return Scaffold(
       body: SafeArea(
         bottom: false,
@@ -350,121 +349,7 @@ class DashboardScreen extends ConsumerWidget {
               sliver: SliverList.separated(
                 itemBuilder: (context, index) {
                   final restaurant = restaurants[index];
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Container(
-                          width: double.infinity,
-                          height: 171,
-                          child: Image.network(
-                            restaurant.image,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        restaurant.name,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.gray900,
-                          height: 1.5,
-                          leadingDistribution: TextLeadingDistribution.even,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 4,
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            restaurant.record.toString(),
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.yellow,
-                              height: 20 / 14,
-                              leadingDistribution: TextLeadingDistribution.even,
-                            ),
-                          ),
-                          SvgPicture.asset(
-                            'assets/icons/star.svg',
-                            width: 14,
-                            colorFilter: const ColorFilter.mode(
-                              AppColors.yellow,
-                              BlendMode.srcIn,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 6,
-                          ),
-                          Text(
-                            '(${restaurant.recordPeople})',
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.gray400,
-                              height: 20 / 14,
-                              leadingDistribution: TextLeadingDistribution.even,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 6,
-                          ),
-                          Container(
-                            width: 3,
-                            height: 3,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(2),
-                              color: AppColors.gray300,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 6,
-                          ),
-                          Text(
-                            '${restaurant.distance} Km',
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.gray400,
-                              height: 20 / 14,
-                              leadingDistribution: TextLeadingDistribution.even,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 6,
-                          ),
-                          Container(
-                            width: 3,
-                            height: 3,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(2),
-                              color: AppColors.gray300,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 6,
-                          ),
-                          Text(
-                            '${restaurant.time} min',
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.gray400,
-                              height: 20 / 14,
-                              leadingDistribution: TextLeadingDistribution.even,
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  );
+                  return RestaurantItem(restaurant: restaurant);
                 },
                 separatorBuilder: (context, index) {
                   return const SizedBox(
