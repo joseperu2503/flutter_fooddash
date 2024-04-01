@@ -5,9 +5,9 @@ final List<DishCategory> menu = [
     name: 'Burgers',
     dishes: [
       Dish(
-        name: 'Taco grande',
+        name: 'Cookie Sandwich',
         price: 20.36,
-        description: 'descripcion del producto',
+        description: 'Shortbread, chocolate turtle cookies, and red velvet',
         image:
             'https://files.joseperezgil.com/images/delivery/categories/burger.jpeg',
       ),
