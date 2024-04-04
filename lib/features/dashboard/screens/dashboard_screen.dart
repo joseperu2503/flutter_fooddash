@@ -6,6 +6,7 @@ import 'package:delivery_app/features/dashboard/widgets/restaurant_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 
 class DashboardScreen extends ConsumerWidget {
   const DashboardScreen({super.key});
@@ -79,14 +80,44 @@ class DashboardScreen extends ConsumerWidget {
                     ),
                     const Spacer(),
                     Container(
-                      width: 34,
-                      height: 34,
+                      height: 38,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(4),
-                        color: AppColors.gray50,
+                        borderRadius: BorderRadius.circular(19),
+                        color: AppColors.primary500,
                       ),
-                      child: const Center(
-                        child: Icon(Icons.notifications_outlined),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.primary500,
+                          elevation: 3,
+                        ),
+                        onPressed: () {
+                          context.push('/cart');
+                        },
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(
+                              'assets/icons/tabs/cart_outlined.svg',
+                              colorFilter: const ColorFilter.mode(
+                                AppColors.white,
+                                BlendMode.srcIn,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 6,
+                            ),
+                            const Text(
+                              '1',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.white,
+                                height: 1,
+                                leadingDistribution:
+                                    TextLeadingDistribution.even,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],
