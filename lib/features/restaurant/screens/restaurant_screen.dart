@@ -164,8 +164,9 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
       body: CustomScrollView(
         controller: verticalScrollController,
         slivers: [
-          RestaurantAppBar(
-            restaurant: restaurant,
+          ImageAppBar(
+            title: restaurant.name,
+            image: restaurant.image,
             scrollController: verticalScrollController,
           ),
           RestaurantInfo(restaurant: restaurant),

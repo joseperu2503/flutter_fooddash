@@ -13,6 +13,11 @@ class AppTheme {
           foregroundColor: Colors.black12,
         ),
       ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor: Colors.black12,
+        ),
+      ),
       scaffoldBackgroundColor: Colors.white,
       textSelectionTheme: TextSelectionThemeData(
         cursorColor: Colors.grey[700],

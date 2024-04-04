@@ -1,24 +1,25 @@
 import 'package:delivery_app/config/constants/app_colors.dart';
-import 'package:delivery_app/features/dashboard/models/restaurant.dart';
 import 'package:delivery_app/features/restaurant/data/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
-class RestaurantAppBar extends StatefulWidget {
-  const RestaurantAppBar({
+class ImageAppBar extends StatefulWidget {
+  const ImageAppBar({
     super.key,
-    required this.restaurant,
+    required this.title,
+    required this.image,
     required this.scrollController,
   });
-  final Restaurant restaurant;
+  final String title;
+  final String image;
   final ScrollController scrollController;
 
   @override
-  State<RestaurantAppBar> createState() => _RestaurantAppBarState();
+  State<ImageAppBar> createState() => _ImageAppBarState();
 }
 
-class _RestaurantAppBarState extends State<RestaurantAppBar> {
+class _ImageAppBarState extends State<ImageAppBar> {
   double opacity = 0;
 
   @override
@@ -80,7 +81,7 @@ class _RestaurantAppBarState extends State<RestaurantAppBar> {
             Opacity(
               opacity: opacity,
               child: Text(
-                widget.restaurant.name,
+                widget.title,
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
@@ -104,12 +105,10 @@ class _RestaurantAppBarState extends State<RestaurantAppBar> {
         background: Container(
           width: double.infinity,
           color: AppColors.white,
-          child: Center(
-            child: Image.network(
-              widget.restaurant.image,
-              fit: BoxFit.cover,
-              height: double.infinity,
-            ),
+          child: Image.network(
+            widget.image,
+            fit: BoxFit.cover,
+            height: double.infinity,
           ),
         ),
       ),

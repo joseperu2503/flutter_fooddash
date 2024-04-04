@@ -7,9 +7,10 @@ final List<DishCategory> menu = [
       Dish(
         name: 'Cookie Sandwich',
         price: 20.36,
-        description: 'Shortbread, chocolate turtle cookies, and red velvet',
+        description:
+            'Brown the beef better. Lean ground beef – I like to use 85% lean angus. Garlic – use fresh  chopped. Spices – chili powder, cumin, onion powder.',
         image:
-            'https://files.joseperezgil.com/images/delivery/categories/burger.jpeg',
+            'https://files.joseperezgil.com/images/delivery/dishes/dish1.jpeg',
       ),
       Dish(
         name: 'Taco grande',
