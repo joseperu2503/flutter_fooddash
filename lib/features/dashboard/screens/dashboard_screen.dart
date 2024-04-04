@@ -28,10 +28,10 @@ class DashboardScreen extends ConsumerWidget {
                 child: Row(
                   children: [
                     Container(
-                      width: 34,
-                      height: 34,
+                      width: 45,
+                      height: 45,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(4),
+                        borderRadius: BorderRadius.circular(10),
                         color: AppColors.primary50,
                       ),
                       child: Center(
@@ -69,7 +69,7 @@ class DashboardScreen extends ConsumerWidget {
                         Text(
                           'Jl. Soekarno Hatta 15A...',
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: 15,
                             fontWeight: FontWeight.w600,
                             color: AppColors.gray900,
                             height: 1.5,

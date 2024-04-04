@@ -16,9 +16,9 @@ class AuthNotifier extends StateNotifier<AuthState> {
   }
 
   checkAuthStatus() {
-    Future.delayed(const Duration(seconds: 1), () {
-      setAuthStatus(AuthStatus.authenticated);
-    });
+    // Future.delayed(const Duration(seconds: 1), () {
+    //   setAuthStatus(AuthStatus.authenticated);
+    // });
   }
 }
 

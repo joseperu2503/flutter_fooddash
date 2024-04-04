@@ -1,5 +1,6 @@
 import 'package:delivery_app/config/constants/app_colors.dart';
 import 'package:delivery_app/features/auth/providers/auth_provider.dart';
+import 'package:delivery_app/features/shared/widgets/back_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -74,28 +75,9 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                           vertical: 8,
                         ),
                         height: 60,
-                        child: Row(
+                        child: const Row(
                           children: [
-                            SizedBox(
-                              width: 38,
-                              height: 38,
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  context.pop();
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  padding: EdgeInsets.zero,
-                                  elevation: 4,
-                                  surfaceTintColor: AppColors.white,
-                                ),
-                                child: SvgPicture.asset(
-                                  'assets/icons/arrow_down.svg',
-                                ),
-                              ),
-                            ),
+                            CustomBackButton(),
                           ],
                         ),
                       ),

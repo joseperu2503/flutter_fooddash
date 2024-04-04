@@ -1,8 +1,8 @@
 import 'package:delivery_app/config/constants/app_colors.dart';
 import 'package:delivery_app/features/restaurant/data/menu.dart';
+import 'package:delivery_app/features/shared/widgets/back_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
@@ -19,31 +19,11 @@ class CartScreen extends StatelessWidget {
               horizontal: 24,
             ),
             height: 60,
-            child: Row(
+            child: const Row(
               children: [
-                SizedBox(
-                  width: 45,
-                  height: 45,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      context.pop();
-                    },
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      padding: EdgeInsets.zero,
-                      elevation: 4,
-                      surfaceTintColor: AppColors.white,
-                    ),
-                    child: SvgPicture.asset(
-                      'assets/icons/arrow_down.svg',
-                      width: 9,
-                    ),
-                  ),
-                ),
-                const Spacer(),
-                const Text(
+                CustomBackButton(),
+                Spacer(),
+                Text(
                   'My Cart',
                   style: TextStyle(
                     fontSize: 20,
@@ -53,8 +33,8 @@ class CartScreen extends StatelessWidget {
                     leadingDistribution: TextLeadingDistribution.even,
                   ),
                 ),
-                const Spacer(),
-                const SizedBox(
+                Spacer(),
+                SizedBox(
                   width: 38,
                   height: 38,
                 ),
