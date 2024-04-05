@@ -24,3 +24,19 @@ flutter:
     - assets/icons/
     - assets/icons/tabs/
     - assets/images_prueba/
+
+  fonts:
+    - family: SofiaPro
+      fonts:
+        - asset: assets/fonts/sofia-pro/SofiaPro-Bold.otf
+          weight: 700
+        - asset: assets/fonts/sofia-pro/SofiaPro-SemiBold.otf
+          weight: 600
+        - asset: assets/fonts/sofia-pro/SofiaPro-Medium.otf
+          weight: 500
+        - asset: assets/fonts/sofia-pro/SofiaPro-Regular.otf
+          weight: 400
+        - asset: assets/fonts/sofia-pro/SofiaPro-Light.otf
+          weight: 300
+        - asset: assets/fonts/sofia-pro/SofiaPro-ExtraLight.otf
+          weight: 200

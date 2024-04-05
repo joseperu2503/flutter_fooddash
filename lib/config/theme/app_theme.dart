@@ -5,6 +5,7 @@ class AppTheme {
   static ThemeData getTheme() {
     return ThemeData(
       useMaterial3: true,
+      fontFamily: 'SofiaPro',
       colorScheme: ColorScheme.fromSwatch(
         accentColor: Colors.black12,
         backgroundColor: Colors.white,
