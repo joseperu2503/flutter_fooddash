@@ -325,7 +325,7 @@ class CheckoutScreen extends StatelessWidget {
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderSide: const BorderSide(
-                          color: AppColors.primary500,
+                          color: AppColors.primary,
                         ),
                         borderRadius: BorderRadius.circular(16),
                       ),
@@ -337,7 +337,7 @@ class CheckoutScreen extends StatelessWidget {
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderSide: const BorderSide(
-                          color: AppColors.primary500,
+                          color: AppColors.primary,
                         ),
                         borderRadius: BorderRadius.circular(16),
                       ),

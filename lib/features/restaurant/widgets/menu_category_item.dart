@@ -106,7 +106,7 @@ class MenuCategoryItem extends StatelessWidget {
                               style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,
-                                color: AppColors.primary800,
+                                color: AppColors.primary,
                                 height: 1.3,
                                 leadingDistribution:
                                     TextLeadingDistribution.even,

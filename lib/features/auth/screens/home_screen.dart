@@ -67,7 +67,7 @@ class HomeScreen extends ConsumerWidget {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(40),
                         ),
-                        backgroundColor: AppColors.primary500,
+                        backgroundColor: AppColors.primary,
                       ),
                       child: const Text(
                         'Create account',
@@ -97,7 +97,7 @@ class HomeScreen extends ConsumerWidget {
                           borderRadius: BorderRadius.circular(40),
                         ),
                         side: const BorderSide(
-                          color: AppColors.primary500,
+                          color: AppColors.primary,
                         ),
                         // backgroundColor: AppColors.primaryGreen,
                       ),
@@ -106,7 +106,7 @@ class HomeScreen extends ConsumerWidget {
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
-                          color: AppColors.primary500,
+                          color: AppColors.primary,
                           height: 19 / 16,
                           leadingDistribution: TextLeadingDistribution.even,
                         ),

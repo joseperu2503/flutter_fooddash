@@ -23,7 +23,7 @@ class AppbarDashboard extends StatelessWidget {
               height: 45,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: AppColors.primary50,
+                color: AppColors.orange80,
               ),
               child: Center(
                 child: SvgPicture.asset(
@@ -73,11 +73,10 @@ class AppbarDashboard extends StatelessWidget {
               height: 38,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(19),
-                color: AppColors.primary500,
               ),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary500,
+                  backgroundColor: AppColors.primary,
                   elevation: 3,
                 ),
                 onPressed: () {

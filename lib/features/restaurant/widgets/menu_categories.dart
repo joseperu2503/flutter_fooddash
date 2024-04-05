@@ -131,14 +131,14 @@ class _CategoriesState extends State<Categories> {
             widget.onChanged(index);
           },
           style: TextButton.styleFrom(
-            foregroundColor: isSelected ? AppColors.primary500 : Colors.black38,
+            foregroundColor: isSelected ? AppColors.primary : Colors.black38,
             side: const BorderSide(color: AppColors.gray300),
             padding: const EdgeInsets.symmetric(
               vertical: 0,
               horizontal: 18,
             ),
             backgroundColor:
-                isSelected ? AppColors.primary500 : Colors.transparent,
+                isSelected ? AppColors.primary : Colors.transparent,
           ),
           child: Text(
             menu[index].name,

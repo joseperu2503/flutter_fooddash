@@ -209,7 +209,7 @@ class _DishScreenState extends State<DishScreen> {
                     child: ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primary500,
+                        backgroundColor: AppColors.primary,
                       ),
                       child: Text(
                         'Add \$${dish.price}',

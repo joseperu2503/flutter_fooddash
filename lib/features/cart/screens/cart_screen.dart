@@ -128,7 +128,7 @@ class CartScreen extends StatelessWidget {
                                     style: const TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w500,
-                                      color: AppColors.primary800,
+                                      color: AppColors.primary,
                                       height: 1.3,
                                       leadingDistribution:
                                           TextLeadingDistribution.even,
@@ -282,7 +282,7 @@ class CartScreen extends StatelessWidget {
                       context.push('/checkout');
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primary500,
+                      backgroundColor: AppColors.primary,
                       elevation: 3,
                     ),
                     child: const Text(

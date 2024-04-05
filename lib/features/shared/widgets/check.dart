@@ -15,7 +15,7 @@ class Check extends StatelessWidget {
       height: 22,
       decoration: BoxDecoration(
         border: Border.all(
-          color: isSelected ? AppColors.primary500 : AppColors.gray400,
+          color: isSelected ? AppColors.primary : AppColors.gray400,
           width: 1.5,
         ),
         shape: BoxShape.circle,
@@ -26,7 +26,7 @@ class Check extends StatelessWidget {
                 width: 13,
                 height: 13,
                 decoration: const BoxDecoration(
-                  color: AppColors.primary500,
+                  color: AppColors.primary,
                   shape: BoxShape.circle,
                 ),
               ),

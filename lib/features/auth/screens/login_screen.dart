@@ -3,8 +3,6 @@ import 'package:delivery_app/features/auth/providers/auth_provider.dart';
 import 'package:delivery_app/features/shared/widgets/back_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -38,7 +36,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                           shape: BoxShape.circle,
                           color: AppColors.white,
                           border: Border.all(
-                            color: AppColors.primary500,
+                            color: AppColors.primary,
                             width: 36,
                           ),
                         ),
@@ -52,7 +50,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                         height: 165,
                         decoration: const BoxDecoration(
                           shape: BoxShape.circle,
-                          color: AppColors.primary100,
+                          color: AppColors.primary,
                         ),
                       ),
                     ),
@@ -64,7 +62,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                         height: 181,
                         decoration: const BoxDecoration(
                           shape: BoxShape.circle,
-                          color: AppColors.primary500,
+                          color: AppColors.primary,
                         ),
                       ),
                     ),
@@ -140,7 +138,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                               borderSide: const BorderSide(
-                                color: AppColors.primary500,
+                                color: AppColors.primary,
                               ),
                               borderRadius: BorderRadius.circular(16),
                             ),
@@ -152,7 +150,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderSide: const BorderSide(
-                                color: AppColors.primary500,
+                                color: AppColors.primary,
                               ),
                               borderRadius: BorderRadius.circular(16),
                             ),
@@ -193,7 +191,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                               borderSide: const BorderSide(
-                                color: AppColors.primary500,
+                                color: AppColors.primary,
                               ),
                               borderRadius: BorderRadius.circular(16),
                             ),
@@ -205,7 +203,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderSide: const BorderSide(
-                                color: AppColors.primary500,
+                                color: AppColors.primary,
                               ),
                               borderRadius: BorderRadius.circular(16),
                             ),
@@ -244,7 +242,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(40),
                             ),
-                            backgroundColor: AppColors.primary500,
+                            backgroundColor: AppColors.primary,
                           ),
                           child: const Text(
                             'Login',

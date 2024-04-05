@@ -22,11 +22,11 @@ class _BannerDashboardState extends State<BannerDashboard> {
           height: 142,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: AppColors.primary400,
+            color: AppColors.primary,
             gradient: const LinearGradient(colors: [
-              AppColors.primary500,
-              AppColors.primary500,
-              AppColors.primary200,
+              AppColors.primary,
+              AppColors.primary,
+              AppColors.orange20,
             ], stops: [
               0,
               0.2,

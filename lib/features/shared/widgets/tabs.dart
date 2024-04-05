@@ -36,7 +36,7 @@ class Tabs extends StatelessWidget {
           fontWeight: FontWeight.w500,
         ),
         unselectedItemColor: AppColors.gray400,
-        selectedItemColor: AppColors.primary500,
+        selectedItemColor: AppColors.primary,
         type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
@@ -51,7 +51,7 @@ class Tabs extends StatelessWidget {
             activeIcon: SvgPicture.asset(
               'assets/icons/tabs/home_solid.svg',
               colorFilter: const ColorFilter.mode(
-                AppColors.primary500,
+                AppColors.primary,
                 BlendMode.srcIn,
               ),
             ),
@@ -68,7 +68,7 @@ class Tabs extends StatelessWidget {
             activeIcon: SvgPicture.asset(
               'assets/icons/tabs/cart_solid.svg',
               colorFilter: const ColorFilter.mode(
-                AppColors.primary500,
+                AppColors.primary,
                 BlendMode.srcIn,
               ),
             ),
@@ -85,7 +85,7 @@ class Tabs extends StatelessWidget {
             activeIcon: SvgPicture.asset(
               'assets/icons/tabs/heart_solid.svg',
               colorFilter: const ColorFilter.mode(
-                AppColors.primary500,
+                AppColors.primary,
                 BlendMode.srcIn,
               ),
             ),
@@ -102,7 +102,7 @@ class Tabs extends StatelessWidget {
             activeIcon: SvgPicture.asset(
               'assets/icons/tabs/profile_solid.svg',
               colorFilter: const ColorFilter.mode(
-                AppColors.primary500,
+                AppColors.primary,
                 BlendMode.srcIn,
               ),
             ),

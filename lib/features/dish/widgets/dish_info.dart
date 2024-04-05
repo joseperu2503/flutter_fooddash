@@ -40,7 +40,7 @@ class DishInfo extends StatelessWidget {
               style: const TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.w600,
-                color: AppColors.primary800,
+                color: AppColors.primary,
                 height: 1.3,
                 leadingDistribution: TextLeadingDistribution.even,
               ),
