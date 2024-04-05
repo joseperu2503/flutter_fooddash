@@ -38,7 +38,7 @@ class OrderScreen extends StatelessWidget {
                       surfaceTintColor: AppColors.white,
                     ),
                     child: SvgPicture.asset(
-                      'assets/icons/arrow_down.svg',
+                      'assets/icons/arrow_back.svg',
                     ),
                   ),
                 ),

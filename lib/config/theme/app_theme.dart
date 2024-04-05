@@ -1,3 +1,4 @@
+import 'package:delivery_app/config/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class AppTheme {
@@ -18,7 +19,7 @@ class AppTheme {
           foregroundColor: Colors.black12,
         ),
       ),
-      scaffoldBackgroundColor: Colors.white,
+      scaffoldBackgroundColor: AppColors.white,
       textSelectionTheme: TextSelectionThemeData(
         cursorColor: Colors.grey[700],
       ),

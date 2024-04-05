@@ -2,6 +2,7 @@ import 'package:delivery_app/features/auth/providers/auth_provider.dart';
 import 'package:delivery_app/features/auth/screens/home_screen.dart';
 import 'package:delivery_app/features/auth/screens/login_screen.dart';
 import 'package:delivery_app/features/cart/screens/cart_screen.dart';
+import 'package:delivery_app/features/checkout/screens/checkout_screen.dart';
 import 'package:delivery_app/features/dashboard/screens/dashboard_screen.dart';
 import 'package:delivery_app/features/dish/screens/dish_screen.dart';
 import 'package:delivery_app/features/order/screens/order_screen.dart';
@@ -98,6 +99,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/cart',
         builder: (context, state) => const CartScreen(),
+        parentNavigatorKey: _rootNavigatorKey,
+      ),
+      GoRoute(
+        path: '/checkout',
+        builder: (context, state) => const CheckoutScreen(),
         parentNavigatorKey: _rootNavigatorKey,
       ),
       GoRoute(

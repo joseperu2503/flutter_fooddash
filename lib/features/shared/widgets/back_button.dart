@@ -24,7 +24,7 @@ class CustomBackButton extends StatelessWidget {
           surfaceTintColor: AppColors.white,
         ),
         child: SvgPicture.asset(
-          'assets/icons/arrow_down.svg',
+          'assets/icons/arrow_back.svg',
           width: 9,
         ),
       ),

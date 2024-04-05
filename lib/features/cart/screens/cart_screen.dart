@@ -3,6 +3,7 @@ import 'package:delivery_app/features/restaurant/data/menu.dart';
 import 'package:delivery_app/features/shared/widgets/back_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
@@ -277,7 +278,9 @@ class CartScreen extends StatelessWidget {
                   width: 150,
                   height: 51,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      context.push('/checkout');
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primary500,
                       elevation: 3,
