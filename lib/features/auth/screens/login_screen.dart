@@ -50,7 +50,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                         height: 165,
                         decoration: const BoxDecoration(
                           shape: BoxShape.circle,
-                          color: AppColors.primary,
+                          color: AppColors.orange20,
                         ),
                       ),
                     ),
@@ -96,12 +96,12 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                           height: 40,
                         ),
                         const Text(
-                          'Login Account',
+                          'Login',
                           style: TextStyle(
-                            fontSize: 24,
+                            fontSize: 36,
                             fontWeight: FontWeight.w600,
                             color: AppColors.gray900,
-                            height: 1.5,
+                            height: 43 / 36,
                             leadingDistribution: TextLeadingDistribution.even,
                           ),
                         ),
@@ -122,136 +122,191 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                           height: 50,
                         ),
                         const Text(
-                          'Email',
+                          'E-mail',
                           style: TextStyle(
                             fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.gray900,
-                            height: 19 / 16,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.label,
+                            height: 16 / 16,
                             leadingDistribution: TextLeadingDistribution.even,
                           ),
                         ),
                         const SizedBox(
-                          height: 10,
+                          height: 12,
                         ),
-                        TextFormField(
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                color: AppColors.primary,
+                        Container(
+                          height: 65,
+                          decoration: const BoxDecoration(
+                            color: AppColors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Color.fromRGBO(233, 233, 233, 0.25),
+                                offset: Offset(15, 20),
+                                blurRadius: 45,
+                                spreadRadius: 0,
                               ),
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                color: AppColors.gray400,
-                              ),
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                color: AppColors.primary,
-                              ),
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            hintText: 'Your email',
-                            hintStyle: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.gray400,
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 18,
-                              vertical: 20,
-                            ),
+                            ],
                           ),
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                            color: AppColors.gray900,
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                  color: AppColors.inputBorder,
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                  color: AppColors.primary,
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              hintText: 'Your email',
+                              hintStyle: const TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.w400,
+                                color: AppColors.inputHint,
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 20,
+                              ),
+                            ),
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.input,
+                            ),
                           ),
                         ),
                         const SizedBox(
-                          height: 26,
+                          height: 29,
                         ),
                         const Text(
                           'Password',
                           style: TextStyle(
                             fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.gray900,
-                            height: 19 / 16,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.label,
+                            height: 16 / 16,
                             leadingDistribution: TextLeadingDistribution.even,
                           ),
                         ),
                         const SizedBox(
-                          height: 10,
+                          height: 12,
                         ),
-                        TextFormField(
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                color: AppColors.primary,
+                        Container(
+                          height: 65,
+                          decoration: const BoxDecoration(
+                            color: AppColors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Color.fromRGBO(233, 233, 233, 0.25),
+                                offset: Offset(15, 20),
+                                blurRadius: 45,
+                                spreadRadius: 0,
                               ),
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                color: AppColors.gray400,
-                              ),
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                color: AppColors.primary,
-                              ),
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            hintText: 'Your password',
-                            hintStyle: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.gray400,
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 18,
-                              vertical: 20,
-                            ),
+                            ],
                           ),
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                            color: AppColors.gray900,
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                  color: AppColors.inputBorder,
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                  color: AppColors.primary,
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              hintText: 'Your password',
+                              hintStyle: const TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.w400,
+                                color: AppColors.inputHint,
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 20,
+                              ),
+                            ),
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.input,
+                            ),
                           ),
                         ),
                         const SizedBox(
-                          height: 50,
+                          height: 32,
                         ),
-                        FilledButton(
-                          onPressed: () {
-                            ref
-                                .read(authProvider.notifier)
-                                .setAuthStatus(AuthStatus.authenticated);
-                          },
-                          style: FilledButton.styleFrom(
-                            minimumSize: const Size(
-                              double.infinity,
-                              60,
-                            ),
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(40),
-                            ),
-                            backgroundColor: AppColors.primary,
-                          ),
-                          child: const Text(
-                            'Login',
+                        const Center(
+                          child: Text(
+                            'Forgot password?',
                             style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.white,
-                              height: 19 / 16,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.primary,
+                              height: 1,
                               leadingDistribution: TextLeadingDistribution.even,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 32,
+                        ),
+                        Center(
+                          child: Container(
+                            height: 60,
+                            width: 248,
+                            decoration: const BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color.fromRGBO(122, 129, 190, 0.16),
+                                  offset: Offset(0, 10),
+                                  blurRadius: 40,
+                                  spreadRadius: 0,
+                                ),
+                              ],
+                            ),
+                            child: FilledButton(
+                              onPressed: () {
+                                ref
+                                    .read(authProvider.notifier)
+                                    .setAuthStatus(AuthStatus.authenticated);
+                              },
+                              style: FilledButton.styleFrom(
+                                minimumSize: const Size(
+                                  double.infinity,
+                                  60,
+                                ),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 16),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40),
+                                ),
+                                backgroundColor: AppColors.primary,
+                              ),
+                              child: const Text(
+                                'LOGIN',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.white,
+                                  height: 15 / 15,
+                                  leadingDistribution:
+                                      TextLeadingDistribution.even,
+                                ),
+                              ),
                             ),
                           ),
                         ),

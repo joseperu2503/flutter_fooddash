@@ -18,120 +18,175 @@ class RestaurantItem extends StatelessWidget {
       onTap: () {
         context.push('/restaurant');
       },
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: SizedBox(
-              width: double.infinity,
-              height: 171,
-              child: Image.network(
-                restaurant.image,
-                fit: BoxFit.cover,
-              ),
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: const [
+            BoxShadow(
+              color: Color.fromRGBO(211, 209, 216, 0.25),
+              offset: Offset(15, 15),
+              blurRadius: 30,
+              spreadRadius: 0,
             ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Text(
-            restaurant.name,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color: AppColors.gray900,
-              height: 1.5,
-              leadingDistribution: TextLeadingDistribution.even,
-            ),
-          ),
-          const SizedBox(
-            height: 4,
-          ),
-          Row(
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(
-                restaurant.record.toString(),
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.yellow,
-                  height: 20 / 14,
-                  leadingDistribution: TextLeadingDistribution.even,
+              SizedBox(
+                width: double.infinity,
+                height: 171,
+                child: Stack(
+                  children: [
+                    Image.network(
+                      width: double.infinity,
+                      height: double.infinity,
+                      restaurant.image,
+                      fit: BoxFit.cover,
+                    ),
+                    Positioned(
+                      top: 10,
+                      left: 11,
+                      child: Container(
+                        width: 69,
+                        height: 28,
+                        decoration: BoxDecoration(
+                          color: AppColors.white,
+                          borderRadius: BorderRadius.circular(15),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Color.fromRGBO(254, 114, 76, 0.2),
+                              offset: Offset(0, 5.85),
+                              blurRadius: 23.39,
+                              spreadRadius: 0,
+                            ),
+                          ],
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              restaurant.record.toString(),
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.black,
+                                height: 1,
+                                leadingDistribution:
+                                    TextLeadingDistribution.even,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 2,
+                            ),
+                            SvgPicture.asset(
+                              'assets/icons/star.svg',
+                              width: 14,
+                              colorFilter: const ColorFilter.mode(
+                                AppColors.yellow,
+                                BlendMode.srcIn,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 2,
+                            ),
+                            Text(
+                              '(${restaurant.recordPeople})',
+                              style: const TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.w400,
+                                color: AppColors.label,
+                                height: 1,
+                                leadingDistribution:
+                                    TextLeadingDistribution.even,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
                 ),
-              ),
-              SvgPicture.asset(
-                'assets/icons/star.svg',
-                width: 14,
-                colorFilter: const ColorFilter.mode(
-                  AppColors.yellow,
-                  BlendMode.srcIn,
-                ),
-              ),
-              const SizedBox(
-                width: 6,
-              ),
-              Text(
-                '(${restaurant.recordPeople})',
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  color: AppColors.gray400,
-                  height: 20 / 14,
-                  leadingDistribution: TextLeadingDistribution.even,
-                ),
-              ),
-              const SizedBox(
-                width: 6,
               ),
               Container(
-                width: 3,
-                height: 3,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(2),
-                  color: AppColors.gray300,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 13,
+                  vertical: 14,
                 ),
-              ),
-              const SizedBox(
-                width: 6,
-              ),
-              Text(
-                '${restaurant.distance} Km',
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  color: AppColors.gray400,
-                  height: 20 / 14,
-                  leadingDistribution: TextLeadingDistribution.even,
-                ),
-              ),
-              const SizedBox(
-                width: 6,
-              ),
-              Container(
-                width: 3,
-                height: 3,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(2),
-                  color: AppColors.gray300,
-                ),
-              ),
-              const SizedBox(
-                width: 6,
-              ),
-              Text(
-                '${restaurant.time} min',
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  color: AppColors.gray400,
-                  height: 20 / 14,
-                  leadingDistribution: TextLeadingDistribution.even,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      restaurant.name,
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.black,
+                        height: 1,
+                        leadingDistribution: TextLeadingDistribution.even,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Row(
+                      children: [
+                        SvgPicture.asset(
+                          'assets/icons/delivery.svg',
+                          height: 16,
+                          colorFilter: const ColorFilter.mode(
+                            AppColors.primary,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 6,
+                        ),
+                        const Text(
+                          'Free delivery',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.gray400,
+                            height: 14 / 12,
+                            leadingDistribution: TextLeadingDistribution.even,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 16,
+                        ),
+                        SvgPicture.asset(
+                          'assets/icons/clock.svg',
+                          height: 16,
+                          colorFilter: const ColorFilter.mode(
+                            AppColors.primary,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 6,
+                        ),
+                        Text(
+                          '${restaurant.time} min',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.gray400,
+                            height: 14 / 12,
+                            leadingDistribution: TextLeadingDistribution.even,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ],
-          )
-        ],
+          ),
+        ),
       ),
     );
   }

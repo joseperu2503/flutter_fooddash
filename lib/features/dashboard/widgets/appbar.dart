@@ -19,65 +19,93 @@ class AppbarDashboard extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              width: 45,
-              height: 45,
+              width: 38,
+              height: 38,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: AppColors.orange80,
+                color: AppColors.white,
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color.fromRGBO(211, 209, 216, 0.3),
+                    offset:
+                        Offset(5, 10), // Desplazamiento horizontal y vertical
+                    blurRadius: 20, // Radio de desenfoque
+                    spreadRadius: 0, // Extensión de la sombra
+                  ),
+                ],
               ),
-              child: Center(
-                child: SvgPicture.asset(
-                  'assets/icons/map_pin.svg',
+              child: TextButton(
+                onPressed: () {},
+                style: TextButton.styleFrom(
+                  shape: ContinuousRectangleBorder(
+                    borderRadius: BorderRadiusDirectional.circular(10),
+                  ),
+                ),
+                child: Center(
+                  child: SvgPicture.asset(
+                    'assets/icons/menu.svg',
+                  ),
                 ),
               ),
             ),
             const SizedBox(
               width: 12,
             ),
-            const Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      'Current location',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.gray500,
-                        height: 1.5,
-                        leadingDistribution: TextLeadingDistribution.even,
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'Deliver to',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.gray500,
+                          height: 1.22,
+                          leadingDistribution: TextLeadingDistribution.even,
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      width: 6,
-                    ),
-                    Icon(Icons.arrow_drop_down)
-                  ],
-                ),
-                Text(
-                  'Jl. Soekarno Hatta 15A...',
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.gray900,
-                    height: 1.5,
-                    leadingDistribution: TextLeadingDistribution.even,
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      SvgPicture.asset(
+                        'assets/icons/arrow_down.svg',
+                        width: 10,
+                        colorFilter: const ColorFilter.mode(
+                          AppColors.gray500,
+                          BlendMode.srcIn,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
+                  const SizedBox(
+                    height: 4,
+                  ),
+                  const Text(
+                    '4102  Pretty View Lane ',
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.primary,
+                      height: 1.22,
+                      leadingDistribution: TextLeadingDistribution.even,
+                    ),
+                  ),
+                ],
+              ),
             ),
-            const Spacer(),
             Container(
               height: 38,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(19),
               ),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
+              child: TextButton(
+                style: TextButton.styleFrom(
                   backgroundColor: AppColors.primary,
-                  elevation: 3,
                 ),
                 onPressed: () {
                   context.push('/cart');

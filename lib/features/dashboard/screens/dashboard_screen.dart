@@ -18,6 +18,25 @@ class DashboardScreen extends ConsumerWidget {
         child: CustomScrollView(
           slivers: [
             const AppbarDashboard(),
+            SliverToBoxAdapter(
+              child: Container(
+                padding: const EdgeInsets.only(
+                  left: 24,
+                  right: 24,
+                  top: 20,
+                ),
+                child: const Text(
+                  'What would you like to order',
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.label2,
+                    height: 1,
+                    leadingDistribution: TextLeadingDistribution.even,
+                  ),
+                ),
+              ),
+            ),
             const InputSearchDashboard(),
             // const BannerDashboard(),
             const CategoriesDashboard(),
@@ -33,10 +52,10 @@ class DashboardScreen extends ConsumerWidget {
                     Text(
                       'Recommended',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 18,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.gray900,
-                        height: 1.5,
+                        color: AppColors.label2,
+                        height: 1,
                         leadingDistribution: TextLeadingDistribution.even,
                       ),
                     ),

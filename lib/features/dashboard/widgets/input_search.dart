@@ -18,14 +18,15 @@ class InputSearchDashboard extends StatelessWidget {
         height: 70,
         child: Center(
           child: Container(
-            height: 48,
+            height: 51,
             padding: const EdgeInsets.symmetric(
-              horizontal: 12,
+              horizontal: 18,
             ),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(40),
+              borderRadius: BorderRadius.circular(10),
+              color: const Color(0xffFCFCFD),
               border: Border.all(
-                color: AppColors.gray300,
+                color: const Color(0xffEFEFEF),
               ),
             ),
             child: Row(
@@ -38,12 +39,12 @@ class InputSearchDashboard extends StatelessWidget {
                 ),
                 const Expanded(
                   child: Text(
-                    'Search menu, restaurant or etc',
+                    'Find for food or restaurant...',
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: 14,
                       fontWeight: FontWeight.w400,
-                      color: AppColors.gray600,
-                      height: 1.5,
+                      color: Color(0xff9AA0B4),
+                      height: 14 / 14,
                       leadingDistribution: TextLeadingDistribution.even,
                     ),
                   ),

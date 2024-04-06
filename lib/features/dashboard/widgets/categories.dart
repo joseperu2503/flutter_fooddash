@@ -20,10 +20,10 @@ class CategoriesDashboard extends StatelessWidget {
             child: const Text(
               'Top Categories',
               style: TextStyle(
-                fontSize: 20,
+                fontSize: 18,
                 fontWeight: FontWeight.w600,
-                color: AppColors.gray900,
-                height: 1.5,
+                color: AppColors.label2,
+                height: 1,
                 leadingDistribution: TextLeadingDistribution.even,
               ),
             ),
