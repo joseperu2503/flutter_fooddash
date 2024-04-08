@@ -9,6 +9,7 @@ final List<Restaurant> restaurants = [
     time: 20,
     record: 4.7,
     recordPeople: 59,
+    tags: ['BURGER', 'CHICKEN', 'FAST FOOD'],
   ),
   Restaurant(
     name: 'Sabor Mexicano Grill',
@@ -18,5 +19,6 @@ final List<Restaurant> restaurants = [
     time: 20,
     record: 4.7,
     recordPeople: 59,
+    tags: [],
   ),
 ];

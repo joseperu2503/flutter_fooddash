@@ -5,6 +5,7 @@ class Restaurant {
   final int time;
   final double record;
   final int recordPeople;
+  final List<String> tags;
 
   Restaurant({
     required this.name,
@@ -13,6 +14,7 @@ class Restaurant {
     required this.time,
     required this.record,
     required this.recordPeople,
+    required this.tags,
   });
 
   factory Restaurant.fromJson(Map<String, dynamic> json) => Restaurant(
@@ -22,5 +24,6 @@ class Restaurant {
         time: json["time"],
         record: json["record"]?.toDouble(),
         recordPeople: json["recordPeople"],
+        tags: List<String>.from(json["tags"].map((x) => x)),
       );
 }

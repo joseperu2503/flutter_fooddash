@@ -70,10 +70,8 @@ class _CategoriesState extends State<Categories> {
 
   @override
   void didUpdateWidget(covariant Categories oldWidget) {
-    // print(MediaQuery.of(context).size.width);
     final anchoPantalla = MediaQuery.of(context).size.width;
 
-    // if(anchoPantalla - paddingHorizontal)
     double scrollRestante =
         48 + (menu.length - widget.selectedIndex) * widthSeparateCategories;
 
@@ -125,29 +123,31 @@ class _CategoriesState extends State<Categories> {
         final key = _keys[index];
         final bool isSelected = widget.selectedIndex == index;
 
-        return TextButton(
-          key: key,
-          onPressed: () {
-            widget.onChanged(index);
-          },
-          style: TextButton.styleFrom(
-            foregroundColor: isSelected ? AppColors.primary : Colors.black38,
-            side: const BorderSide(color: AppColors.gray300),
-            padding: const EdgeInsets.symmetric(
-              vertical: 0,
-              horizontal: 18,
+        return SizedBox(
+          child: TextButton(
+            key: key,
+            onPressed: () {
+              widget.onChanged(index);
+            },
+            style: TextButton.styleFrom(
+              foregroundColor: isSelected ? AppColors.white : Colors.black38,
+              side: const BorderSide(color: AppColors.gray300),
+              padding: const EdgeInsets.symmetric(
+                vertical: 0,
+                horizontal: 18,
+              ),
+              backgroundColor:
+                  isSelected ? AppColors.primary : Colors.transparent,
             ),
-            backgroundColor:
-                isSelected ? AppColors.primary : Colors.transparent,
-          ),
-          child: Text(
-            menu[index].name,
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-              color: isSelected ? AppColors.white : AppColors.gray500,
-              height: 1.3,
-              leadingDistribution: TextLeadingDistribution.even,
+            child: Text(
+              menu[index].name,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: isSelected ? AppColors.white : AppColors.label,
+                height: 1.3,
+                leadingDistribution: TextLeadingDistribution.even,
+              ),
             ),
           ),
         );

@@ -150,7 +150,7 @@ class RestaurantItem extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
-                            color: AppColors.gray400,
+                            color: Color(0xff7E8392),
                             height: 14 / 12,
                             leadingDistribution: TextLeadingDistribution.even,
                           ),
@@ -174,13 +174,52 @@ class RestaurantItem extends StatelessWidget {
                           style: const TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
-                            color: AppColors.gray400,
+                            color: Color(0xff7E8392),
                             height: 14 / 12,
                             leadingDistribution: TextLeadingDistribution.even,
                           ),
                         ),
                       ],
                     ),
+                    if (restaurant.tags.isNotEmpty)
+                      const SizedBox(
+                        height: 10,
+                      ),
+                    if (restaurant.tags.isNotEmpty)
+                      SizedBox(
+                        height: 22,
+                        child: ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              height: 22,
+                              decoration: BoxDecoration(
+                                color: const Color(0xffF6F6F6),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 14),
+                              child: Center(
+                                child: Text(
+                                  restaurant.tags[index],
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color(0xff8A8E9B),
+                                    height: 1,
+                                    leadingDistribution:
+                                        TextLeadingDistribution.even,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                          separatorBuilder: (context, index) {
+                            return const SizedBox(width: 8);
+                          },
+                          itemCount: restaurant.tags.length,
+                        ),
+                      )
                   ],
                 ),
               ),

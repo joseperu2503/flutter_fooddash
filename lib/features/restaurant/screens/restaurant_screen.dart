@@ -28,12 +28,12 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
   @override
   void initState() {
     createBreakPoints();
+    createHeightsCategories();
+
     verticalScrollController.addListener(() {
       updateCategoryIndexOnScroll(verticalScrollController.offset);
-      // print(kToolbarHeight);
-      // print(
-      //     'scroll maxScrollExtent ${scrollController.position.maxScrollExtent}');
-      print('scroll actual ${verticalScrollController.offset}');
+
+      // print('scroll actual ${verticalScrollController.offset}');
     });
     super.initState();
   }
@@ -56,19 +56,19 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
 
       totalScroll += heightCategorySpace * (menu.length - 1);
       totalScroll += 3;
+      totalScroll += heightEnd;
 
       for (var i = 0; i < menu.length; i++) {
-        totalScroll += (menu[i].dishes.length * heightDishItem) +
-            (heightCategoryTitle + heightCategoryTitleSpace);
+        totalScroll += heightsCategories[i];
       }
 
-      print('totalscroll $totalScroll');
+      // print('totalscroll $totalScroll');
 
       double scrollRestante = heightCategorySpace * (menu.length - index - 1);
       for (var i = index; i < menu.length; i++) {
-        scrollRestante += menu[i].dishes.length * heightDishItem +
-            (heightCategoryTitle + heightCategoryTitleSpace);
+        scrollRestante += heightsCategories[i];
       }
+      scrollRestante += heightEnd;
 
       if (scrollRestante <
           altoPantalla -
@@ -87,21 +87,10 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
         return;
       }
 
-      int numDishes = 0;
-      for (var i = 0; i < index; i++) {
-        numDishes += menu[i].dishes.length;
-      }
-      final double scrollVertical = restaurantInfoHeight +
-          (heightDishItem * numDishes) +
-          (heightCategorySpace +
-                  heightCategoryTitle +
-                  heightCategoryTitleSpace) *
-              index;
-
-      print('scroll vertical hasta $scrollVertical');
+      // print('scroll vertical hasta ${breakPoints[index]}');
 
       await verticalScrollController.animateTo(
-        scrollVertical,
+        breakPoints[index],
         duration: const Duration(milliseconds: 500),
         curve: Curves.ease,
       );
@@ -112,21 +101,33 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
   }
 
   List<double> breakPoints = [];
+  List<double> heightsCategories = [];
 
   void createBreakPoints() {
-    double firstBreakPoint = restaurantInfoHeight +
-        (heightCategorySpace + heightCategoryTitle + heightCategoryTitleSpace) +
-        (heightDishItem * menu[0].dishes.length);
+    double firstBreakPoint = restaurantInfoHeight;
 
     breakPoints.add(firstBreakPoint);
 
-    for (var i = 1; i < menu.length; i++) {
+    for (var i = 0; i < menu.length; i++) {
       double breakPoint = breakPoints.last +
           (heightCategorySpace +
               heightCategoryTitle +
               heightCategoryTitleSpace) +
-          (heightDishItem * menu[i].dishes.length);
+          (heightDish * rowsPerDishes(menu[i].dishes.length)) +
+          (rowsPerDishes(menu[i].dishes.length) - 1) * mainAxisSpacing;
       breakPoints.add(breakPoint);
+    }
+  }
+
+  void createHeightsCategories() {
+    for (var i = 0; i < menu.length; i++) {
+      int numDishes = menu[i].dishes.length;
+      int numRows = rowsPerDishes(numDishes);
+      double height = numRows * heightDish +
+          (numRows - 1) * mainAxisSpacing +
+          (heightCategoryTitle + heightCategoryTitleSpace);
+
+      heightsCategories.add(height);
     }
   }
 
@@ -134,13 +135,8 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
     if (scrollType == ScrollType.tap) return;
 
     for (var i = 0; i < menu.length; i++) {
-      if (i == 0) {
-        if (offset < breakPoints.first && selectedCategoryIndex != 0) {
-          setState(() {
-            selectedCategoryIndex = 0;
-          });
-        }
-      } else if (breakPoints[i - 1] <= offset && offset < breakPoints[i]) {
+      if (breakPoints[i] <= offset + heightCategorySpace &&
+          offset < breakPoints[i + 1]) {
         if (selectedCategoryIndex != i) {
           setState(() {
             selectedCategoryIndex = i;
@@ -148,6 +144,10 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
         }
       }
     }
+  }
+
+  int rowsPerDishes(int numDishes) {
+    return (numDishes / crossAxisCount).ceil();
   }
 
   @override
@@ -192,11 +192,16 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
               },
               separatorBuilder: (context, index) {
                 return const SizedBox(
-                  height: 10,
+                  height: heightCategorySpace,
                 );
               },
             ),
           ),
+          const SliverToBoxAdapter(
+            child: SizedBox(
+              height: heightEnd,
+            ),
+          )
         ],
       ),
     );
