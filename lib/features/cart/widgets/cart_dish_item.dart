@@ -115,6 +115,14 @@ class CartDishItem extends StatelessWidget {
                           border: Border.all(
                             color: AppColors.primary,
                           ),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Color(0xffEEF0F2),
+                              offset: Offset(0, 20),
+                              blurRadius: 30,
+                              spreadRadius: 0,
+                            )
+                          ],
                         ),
                         height: 30,
                         width: 30,
@@ -157,6 +165,14 @@ class CartDishItem extends StatelessWidget {
                             color: AppColors.primary,
                           ),
                           color: AppColors.primary,
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppColors.orange.withOpacity(0.4),
+                              offset: const Offset(0, 7),
+                              blurRadius: 15,
+                              spreadRadius: 0,
+                            )
+                          ],
                         ),
                         height: 30,
                         width: 30,

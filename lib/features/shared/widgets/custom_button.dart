@@ -9,7 +9,7 @@ List<BoxShadowStyle> boxShadows = [
     boxShadow: [
       BoxShadow(
         color: AppColors.orange.withOpacity(0.2),
-        offset: Offset(0, 8),
+        offset: const Offset(0, 8),
         blurRadius: 30,
         spreadRadius: 0,
       )
@@ -18,7 +18,7 @@ List<BoxShadowStyle> boxShadows = [
   BoxShadowStyle(
     boxShadowType: BoxShadowType.gray,
     boxShadow: [
-      BoxShadow(
+      const BoxShadow(
         color: Color.fromRGBO(122, 129, 190, 0.16),
         offset: Offset(0, 10),
         blurRadius: 40,
