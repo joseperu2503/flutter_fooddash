@@ -30,10 +30,10 @@ class CartScreen extends StatelessWidget {
                 Text(
                   'My Cart',
                   style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.gray800,
-                    height: 1.3,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.input,
+                    height: 1,
                     leadingDistribution: TextLeadingDistribution.even,
                   ),
                 ),

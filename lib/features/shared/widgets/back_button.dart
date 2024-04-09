@@ -8,24 +8,34 @@ class CustomBackButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 45,
-      height: 45,
-      child: ElevatedButton(
+    return Container(
+      width: 38,
+      height: 38,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(14),
+        color: AppColors.white,
+        boxShadow: const [
+          BoxShadow(
+            color: Color.fromRGBO(211, 209, 216, 0.3),
+            offset: Offset(5, 10), // Desplazamiento horizontal y vertical
+            blurRadius: 20, // Radio de desenfoque
+            spreadRadius: 0, // Extensión de la sombra
+          ),
+        ],
+      ),
+      child: TextButton(
         onPressed: () {
           context.pop();
         },
-        style: ElevatedButton.styleFrom(
+        style: TextButton.styleFrom(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(14),
           ),
-          padding: EdgeInsets.zero,
-          elevation: 4,
-          surfaceTintColor: AppColors.white,
         ),
-        child: SvgPicture.asset(
-          'assets/icons/arrow_back.svg',
-          width: 9,
+        child: Center(
+          child: SvgPicture.asset(
+            'assets/icons/arrow_back.svg',
+          ),
         ),
       ),
     );

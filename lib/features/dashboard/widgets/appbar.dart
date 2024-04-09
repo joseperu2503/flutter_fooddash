@@ -22,7 +22,7 @@ class AppbarDashboard extends StatelessWidget {
               width: 38,
               height: 38,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(14),
                 color: AppColors.white,
                 boxShadow: const [
                   BoxShadow(
@@ -37,8 +37,8 @@ class AppbarDashboard extends StatelessWidget {
               child: TextButton(
                 onPressed: () {},
                 style: TextButton.styleFrom(
-                  shape: ContinuousRectangleBorder(
-                    borderRadius: BorderRadiusDirectional.circular(10),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(14),
                   ),
                 ),
                 child: Center(
