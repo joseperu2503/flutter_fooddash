@@ -1,9 +1,12 @@
 import 'package:delivery_app/config/constants/app_colors.dart';
+import 'package:delivery_app/features/cart/widgets/cart_dish_item.dart';
 import 'package:delivery_app/features/restaurant/data/menu.dart';
 import 'package:delivery_app/features/shared/widgets/back_button.dart';
+import 'package:delivery_app/features/shared/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+
+const double heightBottomSheet = 380;
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
@@ -46,262 +49,270 @@ class CartScreen extends StatelessWidget {
         automaticallyImplyLeading: false,
         scrolledUnderElevation: 0,
       ),
-      body: CustomScrollView(
-        slivers: [
-          const SliverToBoxAdapter(
-            child: SizedBox(
-              height: 40,
-            ),
-          ),
-          SliverPadding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 24,
-            ),
-            sliver: SliverList.separated(
-              itemBuilder: (context, index) {
-                final dish = dishes[index];
+      body: Stack(
+        children: [
+          CustomScrollView(
+            slivers: [
+              const SliverToBoxAdapter(
+                child: SizedBox(
+                  height: 40,
+                ),
+              ),
+              SliverPadding(
+                padding: const EdgeInsets.only(
+                  left: 24,
+                  right: 24,
+                  bottom: heightBottomSheet,
+                ),
+                sliver: SliverList.separated(
+                  itemBuilder: (context, index) {
+                    final dish = dishes[index];
 
-                return ListTile(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  contentPadding: EdgeInsets.zero,
-                  dense: true,
-                  minVerticalPadding: 0,
-                  title: SizedBox(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(12),
-                          child: Image.network(
-                            dish.image,
-                            fit: BoxFit.cover,
-                            height: 100,
-                            width: 100,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const SizedBox(
-                                height: 4,
-                              ),
-                              Text(
-                                dish.name,
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.gray800,
-                                  height: 1.5,
-                                  leadingDistribution:
-                                      TextLeadingDistribution.even,
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 2,
-                              ),
-                              Text(
-                                dish.description,
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.gray500,
-                                  height: 1.3,
-                                  leadingDistribution:
-                                      TextLeadingDistribution.even,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                maxLines: 2,
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                    '\$${dish.price}',
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                      color: AppColors.primary,
-                                      height: 1.3,
-                                      leadingDistribution:
-                                          TextLeadingDistribution.even,
-                                    ),
-                                  ),
-                                  const Spacer(),
-                                  Container(
-                                    height: 40,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(12),
-                                      border: Border.all(
-                                        color: AppColors.gray400,
-                                      ),
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        SizedBox(
-                                          height: 40,
-                                          width: 40,
-                                          child: TextButton(
-                                            onPressed: () {},
-                                            style: TextButton.styleFrom(
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(12),
-                                              ),
-                                              padding: EdgeInsets.zero,
-                                            ),
-                                            child: SvgPicture.asset(
-                                              'assets/icons/minus.svg',
-                                              height: 20,
-                                              colorFilter:
-                                                  const ColorFilter.mode(
-                                                AppColors.gray600,
-                                                BlendMode.srcIn,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          alignment: Alignment.center,
-                                          width: 20,
-                                          child: const Text(
-                                            '1',
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w500,
-                                              color: AppColors.gray800,
-                                              height: 1.3,
-                                              leadingDistribution:
-                                                  TextLeadingDistribution.even,
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 40,
-                                          width: 40,
-                                          child: TextButton(
-                                            onPressed: () {},
-                                            style: TextButton.styleFrom(
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(12),
-                                              ),
-                                              padding: EdgeInsets.zero,
-                                            ),
-                                            child: SvgPicture.asset(
-                                              'assets/icons/plus.svg',
-                                              height: 20,
-                                              colorFilter:
-                                                  const ColorFilter.mode(
-                                                AppColors.gray600,
-                                                BlendMode.srcIn,
-                                              ),
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 8,
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-              separatorBuilder: (context, index) {
-                return const SizedBox(
-                  height: 16,
-                );
-              },
-              itemCount: dishes.length,
-            ),
+                    return CartDishItem(dish: dish);
+                  },
+                  separatorBuilder: (context, index) {
+                    return const SizedBox(
+                      height: 32,
+                    );
+                  },
+                  itemCount: dishes.length,
+                ),
+              ),
+            ],
           ),
+          const BottomModal(),
         ],
       ),
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 24,
-          vertical: 16,
-        ),
-        child: SafeArea(
-          child: SizedBox(
-            height: 60,
-            child: Row(
-              children: [
-                const Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Total Price',
-                      style: TextStyle(
-                        fontSize: 14,
+    );
+  }
+}
+
+class BottomModal extends StatelessWidget {
+  const BottomModal({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final MediaQueryData screen = MediaQuery.of(context);
+
+    final double heigh =
+        (heightBottomSheet + screen.padding.bottom) / screen.size.height;
+    return DraggableScrollableSheet(
+      initialChildSize: heigh,
+      minChildSize: heigh,
+      maxChildSize: heigh,
+      snap: true,
+      builder: (context, scrollController) {
+        return Container(
+          decoration: const BoxDecoration(
+            color: AppColors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(42),
+              topRight: Radius.circular(42),
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Color.fromRGBO(63, 76, 95, 0.12),
+                offset: Offset(0, -4),
+                blurRadius: 20,
+                spreadRadius: 0,
+              ),
+            ],
+          ),
+          child: SafeArea(
+            child: Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 24,
+              ),
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 28,
+                  ),
+                  SizedBox(
+                    height: 60,
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            color: AppColors.inputBorder,
+                          ),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            color: AppColors.primary,
+                          ),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        hintText: 'Promo Code',
+                        hintStyle: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: Color(0xffBEBEBE),
+                          height: 1,
+                        ),
+                        prefix: const SizedBox(width: 10),
+                        suffixIcon: Container(
+                          padding: const EdgeInsets.only(right: 8),
+                          child: CustomButton(
+                            width: 96,
+                            height: 44,
+                            onPressed: () {},
+                            text: 'Apply',
+                            boxShadow: BoxShadowType.none,
+                          ),
+                        ),
+                      ),
+                      cursorHeight: 16,
+                      style: const TextStyle(
+                        fontSize: 16,
                         fontWeight: FontWeight.w400,
-                        color: AppColors.gray600,
-                        height: 1.5,
-                        leadingDistribution: TextLeadingDistribution.even,
-                      ),
-                    ),
-                    Text(
-                      '\$131.99',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w800,
-                        color: AppColors.gray800,
-                        height: 1.5,
-                        leadingDistribution: TextLeadingDistribution.even,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  width: 24,
-                ),
-                const Spacer(),
-                SizedBox(
-                  width: 150,
-                  height: 51,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      context.push('/checkout');
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primary,
-                      elevation: 3,
-                    ),
-                    child: const Text(
-                      'Checkout',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.white,
-                        height: 1.5,
-                        leadingDistribution: TextLeadingDistribution.even,
+                        color: AppColors.gray900,
+                        height: 1,
                       ),
                     ),
                   ),
-                ),
-              ],
+                  const SizedBox(
+                    height: 14,
+                  ),
+                  const Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Subtotal',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.black,
+                          height: 1,
+                          leadingDistribution: TextLeadingDistribution.even,
+                        ),
+                      ),
+                      Spacer(),
+                      Text(
+                        '\$27.30',
+                        style: TextStyle(
+                          fontSize: 19,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.gray800,
+                          height: 1,
+                          leadingDistribution: TextLeadingDistribution.even,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Divider(
+                    color: Color(0xffF1F2F3),
+                    height: 32,
+                  ),
+                  const Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Tax and Fees',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.black,
+                          height: 1,
+                          leadingDistribution: TextLeadingDistribution.even,
+                        ),
+                      ),
+                      Spacer(),
+                      Text(
+                        '\$5.30',
+                        style: TextStyle(
+                          fontSize: 19,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.gray800,
+                          height: 1,
+                          leadingDistribution: TextLeadingDistribution.even,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Divider(
+                    color: Color(0xffF1F2F3),
+                    height: 32,
+                  ),
+                  const Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Delivery',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.black,
+                          height: 1,
+                          leadingDistribution: TextLeadingDistribution.even,
+                        ),
+                      ),
+                      Spacer(),
+                      Text(
+                        '\$1.00',
+                        style: TextStyle(
+                          fontSize: 19,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.gray800,
+                          height: 1,
+                          leadingDistribution: TextLeadingDistribution.even,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Spacer(),
+                  Row(
+                    children: [
+                      const Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Total',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.label,
+                              height: 1.5,
+                              leadingDistribution: TextLeadingDistribution.even,
+                            ),
+                          ),
+                          Text(
+                            '\$131.99',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w800,
+                              color: AppColors.gray800,
+                              height: 1.5,
+                              leadingDistribution: TextLeadingDistribution.even,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        width: 24,
+                      ),
+                      const Spacer(),
+                      CustomButton(
+                        onPressed: () {
+                          context.push('/checkout');
+                        },
+                        text: 'CHECKOUT',
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

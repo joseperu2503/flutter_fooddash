@@ -1,6 +1,7 @@
 import 'package:delivery_app/config/constants/app_colors.dart';
 import 'package:delivery_app/features/auth/providers/auth_provider.dart';
 import 'package:delivery_app/features/shared/widgets/back_button.dart';
+import 'package:delivery_app/features/shared/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -265,49 +266,14 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                           height: 32,
                         ),
                         Center(
-                          child: Container(
-                            height: 60,
-                            width: 248,
-                            decoration: const BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Color.fromRGBO(122, 129, 190, 0.16),
-                                  offset: Offset(0, 10),
-                                  blurRadius: 40,
-                                  spreadRadius: 0,
-                                ),
-                              ],
-                            ),
-                            child: FilledButton(
-                              onPressed: () {
-                                ref
-                                    .read(authProvider.notifier)
-                                    .setAuthStatus(AuthStatus.authenticated);
-                              },
-                              style: FilledButton.styleFrom(
-                                minimumSize: const Size(
-                                  double.infinity,
-                                  60,
-                                ),
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 16),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(40),
-                                ),
-                                backgroundColor: AppColors.primary,
-                              ),
-                              child: const Text(
-                                'LOGIN',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.white,
-                                  height: 15 / 15,
-                                  leadingDistribution:
-                                      TextLeadingDistribution.even,
-                                ),
-                              ),
-                            ),
+                          child: CustomButton(
+                            onPressed: () {
+                              ref
+                                  .read(authProvider.notifier)
+                                  .setAuthStatus(AuthStatus.authenticated);
+                            },
+                            text: 'LOGIN',
+                            boxShadow: BoxShadowType.gray,
                           ),
                         ),
                         const SizedBox(
