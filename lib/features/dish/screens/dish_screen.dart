@@ -4,6 +4,7 @@ import 'package:delivery_app/features/dish/widgets/dish_info.dart';
 import 'package:delivery_app/features/restaurant/data/menu.dart';
 import 'package:delivery_app/features/restaurant/widgets/restaurant_appbar.dart';
 import 'package:delivery_app/features/shared/widgets/check.dart';
+import 'package:delivery_app/features/shared/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 
 class DishScreen extends StatefulWidget {
@@ -55,20 +56,20 @@ class _DishScreenState extends State<DishScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   SizedBox(
-                    height: 20,
+                    height: 26,
                   ),
                   Text(
                     'Choice of Add On',
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 18,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.gray800,
-                      height: 1.3,
+                      color: AppColors.label2,
+                      height: 1,
                       leadingDistribution: TextLeadingDistribution.even,
                     ),
                   ),
                   SizedBox(
-                    height: 16,
+                    height: 12,
                   ),
                 ],
               ),
@@ -92,8 +93,8 @@ class _DishScreenState extends State<DishScreen> {
                         topping.name,
                         style: const TextStyle(
                           fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.gray800,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.black,
                           height: 16 / 16,
                           leadingDistribution: TextLeadingDistribution.even,
                         ),
@@ -102,10 +103,10 @@ class _DishScreenState extends State<DishScreen> {
                       Text(
                         '+\$${topping.price}',
                         style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.gray800,
-                          height: 16 / 16,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.black,
+                          height: 1,
                           leadingDistribution: TextLeadingDistribution.even,
                         ),
                       ),
@@ -130,101 +131,12 @@ class _DishScreenState extends State<DishScreen> {
         ],
       ),
       bottomNavigationBar: SafeArea(
-        child: Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 24,
-            vertical: 16,
-          ),
-          child: SizedBox(
-            height: 51,
-            child: Row(
-              children: [
-                Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(
-                        width: 51,
-                        height: 51,
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.white,
-                            surfaceTintColor: AppColors.white,
-                            padding: EdgeInsets.zero,
-                          ),
-                          child: const Text(
-                            '-',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.gray800,
-                              height: 1.5,
-                              leadingDistribution: TextLeadingDistribution.even,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const Text(
-                        '1',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.gray800,
-                          height: 1.5,
-                          leadingDistribution: TextLeadingDistribution.even,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 51,
-                        height: 51,
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.white,
-                            surfaceTintColor: AppColors.white,
-                            padding: EdgeInsets.zero,
-                          ),
-                          child: const Text(
-                            '+',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.gray800,
-                              height: 1.5,
-                              leadingDistribution: TextLeadingDistribution.even,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  width: 24,
-                ),
-                Expanded(
-                  child: SizedBox(
-                    height: 51,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primary,
-                      ),
-                      child: Text(
-                        'Add \$${dish.price}',
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.white,
-                          height: 1.5,
-                          leadingDistribution: TextLeadingDistribution.even,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+        child: SizedBox(
+          height: 70,
+          child: Center(
+            child: CustomButton(
+              onPressed: () {},
+              text: 'ADD TO CART',
             ),
           ),
         ),

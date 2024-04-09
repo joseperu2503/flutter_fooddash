@@ -9,9 +9,11 @@ class ImageAppBar extends StatefulWidget {
     required this.title,
     required this.image,
     required this.scrollController,
+    this.logoImage,
   });
   final String title;
   final String image;
+  final String? logoImage;
   final ScrollController scrollController;
 
   @override
@@ -116,24 +118,25 @@ class _ImageAppBarState extends State<ImageAppBar> {
               ),
             ),
           ),
-          Positioned(
-            bottom: -50,
-            left: deviceWidth / 2 - 50,
-            child: Opacity(
-              opacity: opacityLogo,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(50),
-                child: SizedBox(
-                  height: 100,
-                  width: 100,
-                  child: Image.network(
-                    'https://logowik.com/content/uploads/images/130_pizzahut.jpg',
-                    fit: BoxFit.cover,
+          if (widget.logoImage != null)
+            Positioned(
+              bottom: -50,
+              left: deviceWidth / 2 - 50,
+              child: Opacity(
+                opacity: opacityLogo,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(50),
+                  child: SizedBox(
+                    height: 100,
+                    width: 100,
+                    child: Image.network(
+                      'https://logowik.com/content/uploads/images/130_pizzahut.jpg',
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
         ],
       ),
     );

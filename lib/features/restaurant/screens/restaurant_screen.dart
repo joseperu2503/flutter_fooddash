@@ -168,6 +168,8 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
             title: restaurant.name,
             image: restaurant.image,
             scrollController: verticalScrollController,
+            logoImage:
+                'https://logowik.com/content/uploads/images/130_pizzahut.jpg',
           ),
           RestaurantInfo(restaurant: restaurant),
           SliverPersistentHeader(

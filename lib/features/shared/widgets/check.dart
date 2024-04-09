@@ -28,6 +28,14 @@ class Check extends StatelessWidget {
                 decoration: const BoxDecoration(
                   color: AppColors.primary,
                   shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color.fromRGBO(254, 114, 76, 0.4),
+                      offset: Offset(0, 4),
+                      blurRadius: 4,
+                      spreadRadius: 0,
+                    ),
+                  ],
                 ),
               ),
             )
