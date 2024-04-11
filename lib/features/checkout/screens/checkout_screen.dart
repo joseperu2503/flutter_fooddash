@@ -1,6 +1,7 @@
 import 'package:delivery_app/config/constants/app_colors.dart';
 import 'package:delivery_app/features/shared/widgets/back_button.dart';
 import 'package:delivery_app/features/shared/widgets/check.dart';
+import 'package:delivery_app/features/shared/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -308,66 +309,6 @@ class CheckoutScreen extends StatelessWidget {
                   const SizedBox(
                     height: 24,
                   ),
-                  const Text(
-                    'Promo Code',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.gray900,
-                      height: 1.5,
-                      leadingDistribution: TextLeadingDistribution.even,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                          color: AppColors.primary,
-                        ),
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                          color: AppColors.gray400,
-                        ),
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                          color: AppColors.primary,
-                        ),
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      hintText: 'Enter promo code',
-                      hintStyle: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.gray400,
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 30,
-                        vertical: 20,
-                      ),
-                      prefixIcon: SvgPicture.asset(
-                        'assets/icons/coupon.svg',
-                        width: 25,
-                      ),
-                      prefixIconConstraints: const BoxConstraints(
-                        minWidth: 60,
-                      ),
-                    ),
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.gray900,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 24,
-                  ),
                   const Row(
                     children: [
                       Text(
@@ -472,25 +413,68 @@ class CheckoutScreen extends StatelessWidget {
         child: SafeArea(
           child: SizedBox(
             height: 60,
-            child: SizedBox(
-              height: 51,
-              child: ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  elevation: 3,
-                ),
-                child: const Text(
-                  'Confirm',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.white,
-                    height: 1.5,
-                    leadingDistribution: TextLeadingDistribution.even,
-                  ),
-                ),
-              ),
+            child: CustomButton(
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  builder: (context) {
+                    return Container(
+                      height: 400,
+                      width: double.infinity,
+                      child: SafeArea(
+                        child: Column(
+                          children: [
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            SvgPicture.asset(
+                              'assets/icons/success.svg',
+                            ),
+                            const Text(
+                              'Order Succesfully',
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.w700,
+                                color: Color(0xff323643),
+                                height: 1,
+                                leadingDistribution:
+                                    TextLeadingDistribution.even,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            const Text(
+                              'Happy! Your food will be made immediately and\nwe will send it after it\'s finished by the courier, please\nwait a moment.',
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
+                                color: AppColors.gray500,
+                                height: 1.4,
+                                leadingDistribution:
+                                    TextLeadingDistribution.even,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            const Spacer(),
+                            CustomButton(
+                              onPressed: () {},
+                              text: 'ORDER TRACKING',
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+              text: 'CONFIRM',
             ),
           ),
         ),
