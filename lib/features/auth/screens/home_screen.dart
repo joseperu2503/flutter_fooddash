@@ -1,4 +1,5 @@
 import 'package:delivery_app/config/constants/app_colors.dart';
+import 'package:delivery_app/features/shared/widgets/custom_button.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -56,59 +57,40 @@ class HomeScreen extends ConsumerWidget {
                     const SizedBox(
                       height: 30,
                     ),
-                    FilledButton(
+                    CustomButton(
+                      width: double.infinity,
                       onPressed: () {},
-                      style: FilledButton.styleFrom(
-                        minimumSize: const Size(
-                          double.infinity,
-                          60,
-                        ),
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40),
-                        ),
-                        backgroundColor: AppColors.primary,
-                      ),
-                      child: const Text(
-                        'Create account',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.white,
-                          height: 19 / 16,
-                          leadingDistribution: TextLeadingDistribution.even,
-                        ),
-                      ),
+                      text: 'CREATE ACCOUNT',
                     ),
                     const SizedBox(
                       height: 22,
                     ),
-                    OutlinedButton(
-                      onPressed: () {
-                        context.push('/login');
-                      },
-                      style: OutlinedButton.styleFrom(
-                        minimumSize: const Size(
-                          double.infinity,
-                          60,
+                    SizedBox(
+                      height: 60,
+                      width: double.infinity,
+                      child: OutlinedButton(
+                        onPressed: () {
+                          context.push('/login');
+                        },
+                        style: OutlinedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40),
+                          ),
+                          side: const BorderSide(
+                            color: AppColors.primary,
+                          ),
+                          // backgroundColor: AppColors.primaryGreen,
                         ),
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40),
-                        ),
-                        side: const BorderSide(
-                          color: AppColors.primary,
-                        ),
-                        // backgroundColor: AppColors.primaryGreen,
-                      ),
-                      child: const Text(
-                        'Login',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.primary,
-                          height: 19 / 16,
-                          leadingDistribution: TextLeadingDistribution.even,
+                        child: const Text(
+                          'LOGIN',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.primary,
+                            height: 19 / 16,
+                            leadingDistribution: TextLeadingDistribution.even,
+                          ),
                         ),
                       ),
                     ),
@@ -162,6 +144,9 @@ class HomeScreen extends ConsumerWidget {
                           ),
                         ],
                       ),
+                    ),
+                    const SizedBox(
+                      height: 30,
                     ),
                   ],
                 ),
