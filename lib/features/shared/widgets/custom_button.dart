@@ -40,6 +40,7 @@ class CustomButton extends StatelessWidget {
     this.boxShadow = BoxShadowType.orange,
     this.width = 248,
     this.height = 60,
+    this.fontWeight = FontWeight.w600,
   });
 
   final void Function() onPressed;
@@ -47,6 +48,7 @@ class CustomButton extends StatelessWidget {
   final BoxShadowType boxShadow;
   final double? width;
   final double? height;
+  final FontWeight fontWeight;
 
   @override
   Widget build(BuildContext context) {
@@ -59,11 +61,11 @@ class CustomButton extends StatelessWidget {
       decoration: BoxDecoration(
         boxShadow: boxShadowStyle.boxShadow,
       ),
-      child: FilledButton(
+      child: TextButton(
         onPressed: () {
           onPressed();
         },
-        style: FilledButton.styleFrom(
+        style: TextButton.styleFrom(
           minimumSize: const Size(
             double.infinity,
             60,
@@ -76,9 +78,9 @@ class CustomButton extends StatelessWidget {
         ),
         child: Text(
           text,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 15,
-            fontWeight: FontWeight.w600,
+            fontWeight: fontWeight,
             color: AppColors.white,
             height: 15 / 15,
             leadingDistribution: TextLeadingDistribution.even,
