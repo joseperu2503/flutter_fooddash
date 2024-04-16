@@ -5,6 +5,7 @@ import 'package:delivery_app/features/cart/screens/cart_screen.dart';
 import 'package:delivery_app/features/checkout/screens/checkout_screen.dart';
 import 'package:delivery_app/features/dashboard/screens/dashboard_screen.dart';
 import 'package:delivery_app/features/dish/screens/dish_screen.dart';
+import 'package:delivery_app/features/favorites/screens/favorites_screen.dart';
 import 'package:delivery_app/features/order/screens/order_screen.dart';
 import 'package:delivery_app/features/restaurant/screens/restaurant_screen.dart';
 import 'package:delivery_app/features/shared/widgets/tabs.dart';
@@ -72,7 +73,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: '/favorites',
-                builder: (context, state) => const DashboardScreen(),
+                builder: (context, state) => const FavoriteScreen(),
               ),
             ],
           ),

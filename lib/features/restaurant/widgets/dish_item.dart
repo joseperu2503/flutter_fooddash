@@ -138,6 +138,67 @@ class DishItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const Text(
+                      '4.5',
+                      style: TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.black,
+                        height: 1,
+                        leadingDistribution: TextLeadingDistribution.even,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 2,
+                    ),
+                    SvgPicture.asset(
+                      'assets/icons/star.svg',
+                      width: 10,
+                      colorFilter: const ColorFilter.mode(
+                        AppColors.yellow,
+                        BlendMode.srcIn,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 2,
+                    ),
+                    const Text(
+                      '(25+)',
+                      style: TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.label,
+                        height: 1,
+                        leadingDistribution: TextLeadingDistribution.even,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+              top: 10,
+              left: 11,
+              child: Container(
+                height: 29,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 8,
+                ),
+                decoration: BoxDecoration(
+                  color: AppColors.white,
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Color.fromRGBO(254, 114, 76, 0.2),
+                      offset: Offset(0, 5.85),
+                      blurRadius: 23.39,
+                      spreadRadius: 0,
+                    ),
+                  ],
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
                       '\$',
                       style: TextStyle(
                         fontSize: 10,
@@ -150,7 +211,7 @@ class DishItem extends StatelessWidget {
                     Text(
                       '${dish.price}',
                       style: const TextStyle(
-                        fontSize: 16,
+                        fontSize: 20,
                         fontWeight: FontWeight.w600,
                         color: AppColors.black,
                         height: 1,
