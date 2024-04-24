@@ -130,7 +130,7 @@ class CartDishItem extends StatelessWidget {
                           onPressed: () {},
                           style: TextButton.styleFrom(
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(15),
                             ),
                             padding: EdgeInsets.zero,
                           ),
@@ -180,7 +180,7 @@ class CartDishItem extends StatelessWidget {
                           onPressed: () {},
                           style: TextButton.styleFrom(
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(15),
                             ),
                             padding: EdgeInsets.zero,
                           ),

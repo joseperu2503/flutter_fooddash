@@ -6,6 +6,7 @@ import 'package:delivery_app/features/checkout/screens/checkout_screen.dart';
 import 'package:delivery_app/features/dashboard/screens/dashboard_screen.dart';
 import 'package:delivery_app/features/dish/screens/dish_screen.dart';
 import 'package:delivery_app/features/favorites/screens/favorites_screen.dart';
+import 'package:delivery_app/features/order/screens/my_orders_screen.dart';
 import 'package:delivery_app/features/order/screens/order_screen.dart';
 import 'package:delivery_app/features/restaurant/screens/restaurant_screen.dart';
 import 'package:delivery_app/features/shared/widgets/tabs.dart';
@@ -17,6 +18,7 @@ import 'app_router_notifier.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
 final GlobalKey<NavigatorState> _tabNavigatorKey = GlobalKey<NavigatorState>();
+final GlobalKey<NavigatorState> _tabOrderKey = GlobalKey<NavigatorState>();
 
 final goRouterProvider = Provider<GoRouter>((ref) {
   final goRouterNotifier = ref.read(goRouterNotifierProvider);
@@ -64,8 +66,8 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           StatefulShellBranch(
             routes: [
               GoRoute(
-                path: '/order',
-                builder: (context, state) => const OrderScreen(),
+                path: '/my-orders',
+                builder: (context, state) => const MyOrdersScreen(),
               ),
             ],
           ),
@@ -116,6 +118,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/login',
         builder: (context, state) => const LoginScreen(),
+        parentNavigatorKey: _rootNavigatorKey,
+      ),
+      GoRoute(
+        path: '/order',
+        builder: (context, state) => const OrderScreen(),
         parentNavigatorKey: _rootNavigatorKey,
       ),
     ],

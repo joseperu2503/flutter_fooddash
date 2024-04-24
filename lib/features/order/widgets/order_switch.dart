@@ -1,5 +1,5 @@
 import 'package:delivery_app/config/constants/app_colors.dart';
-import 'package:delivery_app/features/order/screens/order_screen.dart';
+import 'package:delivery_app/features/order/screens/my_orders_screen.dart';
 import 'package:flutter/material.dart';
 
 class OrderSwitch extends StatelessWidget {

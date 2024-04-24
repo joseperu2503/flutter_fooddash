@@ -118,198 +118,205 @@ class BottomModal extends StatelessWidget {
               ),
             ],
           ),
-          child: SafeArea(
-            child: Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 24,
-              ),
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 28,
-                  ),
-                  SizedBox(
-                    height: 60,
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
+          child: CustomScrollView(
+            slivers: [
+              SliverFillRemaining(
+                hasScrollBody: false,
+                child: SafeArea(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                    ),
+                    child: Column(
+                      children: [
+                        const SizedBox(
+                          height: 28,
                         ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                            color: AppColors.inputBorder,
+                        SizedBox(
+                          height: 60,
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                  color: AppColors.inputBorder,
+                                ),
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                  color: AppColors.primary,
+                                ),
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              hintText: 'Promo Code',
+                              hintStyle: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                color: Color(0xffBEBEBE),
+                                height: 1,
+                              ),
+                              prefix: const SizedBox(width: 10),
+                              suffixIcon: Container(
+                                padding: const EdgeInsets.only(right: 8),
+                                child: CustomButton(
+                                  width: 96,
+                                  height: 44,
+                                  onPressed: () {},
+                                  text: 'Apply',
+                                  boxShadow: BoxShadowType.none,
+                                ),
+                              ),
+                            ),
+                            cursorHeight: 16,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.gray900,
+                              height: 1,
+                            ),
                           ),
-                          borderRadius: BorderRadius.circular(30),
                         ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                            color: AppColors.primary,
-                          ),
-                          borderRadius: BorderRadius.circular(30),
+                        const SizedBox(
+                          height: 14,
                         ),
-                        hintText: 'Promo Code',
-                        hintStyle: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: Color(0xffBEBEBE),
-                          height: 1,
+                        const Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Subtotal',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                color: AppColors.black,
+                                height: 1,
+                                leadingDistribution: TextLeadingDistribution.even,
+                              ),
+                            ),
+                            Spacer(),
+                            Text(
+                              '\$27.30',
+                              style: TextStyle(
+                                fontSize: 19,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.gray800,
+                                height: 1,
+                                leadingDistribution: TextLeadingDistribution.even,
+                              ),
+                            ),
+                          ],
                         ),
-                        prefix: const SizedBox(width: 10),
-                        suffixIcon: Container(
-                          padding: const EdgeInsets.only(right: 8),
-                          child: CustomButton(
-                            width: 96,
-                            height: 44,
-                            onPressed: () {},
-                            text: 'Apply',
-                            boxShadow: BoxShadowType.none,
-                          ),
+                        const Divider(
+                          color: Color(0xffF1F2F3),
+                          height: 32,
                         ),
-                      ),
-                      cursorHeight: 16,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.gray900,
-                        height: 1,
-                      ),
+                        const Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Tax and Fees',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                color: AppColors.black,
+                                height: 1,
+                                leadingDistribution: TextLeadingDistribution.even,
+                              ),
+                            ),
+                            Spacer(),
+                            Text(
+                              '\$5.30',
+                              style: TextStyle(
+                                fontSize: 19,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.gray800,
+                                height: 1,
+                                leadingDistribution: TextLeadingDistribution.even,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const Divider(
+                          color: Color(0xffF1F2F3),
+                          height: 32,
+                        ),
+                        const Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Delivery',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                color: AppColors.black,
+                                height: 1,
+                                leadingDistribution: TextLeadingDistribution.even,
+                              ),
+                            ),
+                            Spacer(),
+                            Text(
+                              '\$1.00',
+                              style: TextStyle(
+                                fontSize: 19,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.gray800,
+                                height: 1,
+                                leadingDistribution: TextLeadingDistribution.even,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const Spacer(),
+                        Row(
+                          children: [
+                            const Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Total',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColors.label,
+                                    height: 1.5,
+                                    leadingDistribution: TextLeadingDistribution.even,
+                                  ),
+                                ),
+                                Text(
+                                  '\$131.99',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w800,
+                                    color: AppColors.gray800,
+                                    height: 1.5,
+                                    leadingDistribution: TextLeadingDistribution.even,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              width: 24,
+                            ),
+                            const Spacer(),
+                            CustomButton(
+                              onPressed: () {
+                                context.push('/checkout');
+                              },
+                              text: 'CHECKOUT',
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 12,
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 14,
-                  ),
-                  const Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Subtotal',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.black,
-                          height: 1,
-                          leadingDistribution: TextLeadingDistribution.even,
-                        ),
-                      ),
-                      Spacer(),
-                      Text(
-                        '\$27.30',
-                        style: TextStyle(
-                          fontSize: 19,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.gray800,
-                          height: 1,
-                          leadingDistribution: TextLeadingDistribution.even,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const Divider(
-                    color: Color(0xffF1F2F3),
-                    height: 32,
-                  ),
-                  const Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Tax and Fees',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.black,
-                          height: 1,
-                          leadingDistribution: TextLeadingDistribution.even,
-                        ),
-                      ),
-                      Spacer(),
-                      Text(
-                        '\$5.30',
-                        style: TextStyle(
-                          fontSize: 19,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.gray800,
-                          height: 1,
-                          leadingDistribution: TextLeadingDistribution.even,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const Divider(
-                    color: Color(0xffF1F2F3),
-                    height: 32,
-                  ),
-                  const Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Delivery',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.black,
-                          height: 1,
-                          leadingDistribution: TextLeadingDistribution.even,
-                        ),
-                      ),
-                      Spacer(),
-                      Text(
-                        '\$1.00',
-                        style: TextStyle(
-                          fontSize: 19,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.gray800,
-                          height: 1,
-                          leadingDistribution: TextLeadingDistribution.even,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const Spacer(),
-                  Row(
-                    children: [
-                      const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Total',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.label,
-                              height: 1.5,
-                              leadingDistribution: TextLeadingDistribution.even,
-                            ),
-                          ),
-                          Text(
-                            '\$131.99',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w800,
-                              color: AppColors.gray800,
-                              height: 1.5,
-                              leadingDistribution: TextLeadingDistribution.even,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        width: 24,
-                      ),
-                      const Spacer(),
-                      CustomButton(
-                        onPressed: () {
-                          context.push('/checkout');
-                        },
-                        text: 'CHECKOUT',
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                ],
+                ),
               ),
-            ),
+            ],
           ),
         );
       },
