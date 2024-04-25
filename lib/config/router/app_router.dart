@@ -1,3 +1,4 @@
+import 'package:delivery_app/features/address/screens/search_address_screen.dart';
 import 'package:delivery_app/features/auth/providers/auth_provider.dart';
 import 'package:delivery_app/features/auth/screens/home_screen.dart';
 import 'package:delivery_app/features/auth/screens/login_screen.dart';
@@ -16,9 +17,8 @@ import 'package:go_router/go_router.dart';
 
 import 'app_router_notifier.dart';
 
-final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
+final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
 final GlobalKey<NavigatorState> _tabNavigatorKey = GlobalKey<NavigatorState>();
-final GlobalKey<NavigatorState> _tabOrderKey = GlobalKey<NavigatorState>();
 
 final goRouterProvider = Provider<GoRouter>((ref) {
   final goRouterNotifier = ref.read(goRouterNotifierProvider);
@@ -40,13 +40,13 @@ final goRouterProvider = Provider<GoRouter>((ref) {
   }
 
   return GoRouter(
-    navigatorKey: _rootNavigatorKey,
+    navigatorKey: rootNavigatorKey,
     initialLocation: '/home',
     refreshListenable: goRouterNotifier,
     // redirect: redirect,
     routes: [
       StatefulShellRoute.indexedStack(
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         builder: (context, state, navigationShell) {
           return Tabs(
             navigationShell: navigationShell,
@@ -92,38 +92,43 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/restaurant',
         builder: (context, state) => const RestaurantScreen(),
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
       ),
       GoRoute(
         path: '/dish',
         builder: (context, state) => const DishScreen(),
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
       ),
       GoRoute(
         path: '/cart',
         builder: (context, state) => const CartScreen(),
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
       ),
       GoRoute(
         path: '/checkout',
         builder: (context, state) => const CheckoutScreen(),
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
       ),
       GoRoute(
         path: '/home',
         builder: (context, state) => const HomeScreen(),
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         redirect: redirect,
       ),
       GoRoute(
         path: '/login',
         builder: (context, state) => const LoginScreen(),
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
       ),
       GoRoute(
         path: '/order',
         builder: (context, state) => const OrderScreen(),
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
+      ),
+      GoRoute(
+        path: '/search-address',
+        builder: (context, state) => const SearchAddressScreen(),
+        parentNavigatorKey: rootNavigatorKey,
       ),
     ],
   );
