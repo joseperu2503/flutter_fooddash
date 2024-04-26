@@ -197,11 +197,11 @@ class Country {
 }
 
 class Locality {
-  final String id;
+  final String? id;
   final String name;
 
   Locality({
-    required this.id,
+    this.id,
     required this.name,
   });
 

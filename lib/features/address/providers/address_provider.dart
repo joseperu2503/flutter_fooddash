@@ -14,14 +14,6 @@ class SearchNotifier extends StateNotifier<SearchState> {
   SearchNotifier(this.ref) : super(SearchState());
   final StateNotifierProviderRef ref;
 
-  initState() {
-    state = state.copyWith(
-      search: '',
-      loadingAddresses: false,
-      addressResults: [],
-    );
-  }
-
   Future<void> searchProducts() async {
     state = state.copyWith(
       loadingAddresses: true,
