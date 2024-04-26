@@ -5,7 +5,7 @@ import 'package:delivery_app/features/core/models/service_exception.dart';
 import 'package:delivery_app/features/core/services/snackbar_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final searchProvider =
+final searchAddressProvider =
     StateNotifierProvider<SearchNotifier, SearchState>((ref) {
   return SearchNotifier(ref);
 });

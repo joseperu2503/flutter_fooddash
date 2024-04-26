@@ -2,6 +2,7 @@ import 'package:delivery_app/config/constants/app_colors.dart';
 import 'package:delivery_app/features/address/providers/address_provider.dart';
 import 'package:delivery_app/features/address/widgets/input_search_address.dart';
 import 'package:delivery_app/features/shared/widgets/back_button.dart';
+import 'package:delivery_app/features/shared/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -16,8 +17,31 @@ class SearchAddressScreen extends ConsumerStatefulWidget {
 
 class SearchAddressScreenState extends ConsumerState<SearchAddressScreen> {
   @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      ref.invalidate(searchAddressProvider);
+      _focusNode.requestFocus();
+    });
+  }
+
+  @override
+  void deactivate() {
+    ref.invalidate(searchAddressProvider);
+    super.deactivate();
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  final FocusNode _focusNode = FocusNode();
+
+  @override
   Widget build(BuildContext context) {
-    final searchAddressState = ref.watch(searchProvider);
+    final searchAddressState = ref.watch(searchAddressProvider);
     final showResults = searchAddressState.addressResults.isNotEmpty;
     final noResults = !searchAddressState.loadingAddresses &&
         searchAddressState.addressResults.isEmpty &&
@@ -42,8 +66,11 @@ class SearchAddressScreenState extends ConsumerState<SearchAddressScreen> {
                   child: InputSearchAddress(
                     value: searchAddressState.search,
                     onChanged: (value) {
-                      ref.read(searchProvider.notifier).changeSearch(value);
+                      ref
+                          .read(searchAddressProvider.notifier)
+                          .changeSearch(value);
                     },
+                    focusNode: _focusNode,
                   ),
                 ),
               ],
@@ -112,7 +139,7 @@ class SearchAddressScreenState extends ConsumerState<SearchAddressScreen> {
                                 ),
                                 Text(
                                   result.properties.placeFormatted,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
                                     color: AppColors.label,
@@ -142,13 +169,12 @@ class SearchAddressScreenState extends ConsumerState<SearchAddressScreen> {
               ),
             ),
           if (noResults)
-            const SliverFillRemaining(
-              hasScrollBody: false,
+            const SliverToBoxAdapter(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: 80,
+                    height: 40,
                   ),
                   Icon(
                     Icons.search,
@@ -168,9 +194,27 @@ class SearchAddressScreenState extends ConsumerState<SearchAddressScreen> {
                       leadingDistribution: TextLeadingDistribution.even,
                     ),
                   ),
+                  SizedBox(
+                    height: 40,
+                  ),
                 ],
               ),
             ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.only(
+                left: 24,
+                right: 24,
+                top: 20,
+                bottom: 40,
+              ),
+              child: CustomButton(
+                width: double.infinity,
+                onPressed: () {},
+                text: 'SEARCH ADDRESS OVER THE MAP',
+              ),
+            ),
+          )
         ],
       ),
     );
