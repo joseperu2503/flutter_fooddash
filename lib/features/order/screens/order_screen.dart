@@ -1,5 +1,5 @@
 import 'package:delivery_app/config/constants/app_colors.dart';
-import 'package:delivery_app/features/address/providers/address_provider.dart';
+import 'package:delivery_app/features/address/screens/address_map_screen.dart';
 import 'package:delivery_app/features/order/widgets/order_dish_item.dart';
 import 'package:delivery_app/features/restaurant/data/menu.dart';
 import 'package:delivery_app/features/shared/widgets/back_button.dart';
@@ -18,8 +18,6 @@ class OrderScreen extends ConsumerStatefulWidget {
 class OrderScreenState extends ConsumerState<OrderScreen> {
   @override
   Widget build(BuildContext context) {
-    final searchAddressState = ref.watch(searchAddressProvider);
-
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 60,
@@ -55,20 +53,16 @@ class OrderScreenState extends ConsumerState<OrderScreen> {
         automaticallyImplyLeading: false,
         scrolledUnderElevation: 0,
       ),
-      body: Stack(
+      body: const Stack(
         children: [
           Column(
             children: [
-              if (searchAddressState.currentPosition != null)
-                Expanded(
-                  child: _MapView(
-                    initalLat: searchAddressState.currentPosition!.latitude,
-                    initialLng: searchAddressState.currentPosition!.longitude,
-                  ),
-                )
+              Expanded(
+                child: MapView(),
+              )
             ],
           ),
-          const BottomModal(),
+          BottomModal(),
         ],
       ),
     );

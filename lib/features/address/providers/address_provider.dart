@@ -70,18 +70,16 @@ class SearchNotifier extends StateNotifier<SearchState> {
     );
   }
 
-  LatLng? cameraPosition;
-
-  Future<void> searchLocality(LatLng newCameraPosition) async {
+  Future<void> searchLocality() async {
+    LatLng? cameraPosition = state.cameraPosition;
+    if (cameraPosition == null) return;
     try {
-      cameraPosition = newCameraPosition;
-
       final MapboxResponse response = await MapBoxService.geocode(
-        latitude: newCameraPosition.latitude,
-        longitude: newCameraPosition.longitude,
+        latitude: cameraPosition.latitude,
+        longitude: cameraPosition.longitude,
       );
 
-      if (newCameraPosition == cameraPosition) {
+      if (cameraPosition == state.cameraPosition) {
         if (response.features.isNotEmpty &&
             response.features[0].properties.namePreferred != null &&
             response.features[0].properties.context.country?.name != null) {
@@ -98,7 +96,7 @@ class SearchNotifier extends StateNotifier<SearchState> {
         }
       }
     } on ServiceException catch (_) {
-      if (newCameraPosition == cameraPosition) {
+      if (cameraPosition == state.cameraPosition) {
         state = state.copyWith(
           district: () => null,
         );
@@ -106,42 +104,9 @@ class SearchNotifier extends StateNotifier<SearchState> {
     }
   }
 
-  Future<void> getCurrentPosition() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    // Test if location services are enabled.
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      // Location services are not enabled don't continue
-      // accessing the position and request users of the
-      // App to enable the location services.
-      throw 'Location services are disabled.';
-    }
-
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        // Permissions are denied, next time you could try
-        // requesting permissions again (this is also where
-        // Android's shouldShowRequestPermissionRationale
-        // returned true. According to Android guidelines
-        // your App should show an explanatory UI now.
-        throw 'Location permissions are denied';
-      }
-    }
-
-    if (permission == LocationPermission.deniedForever) {
-      // Permissions are denied forever, handle appropriately.
-      throw 'Location permissions are permanently denied, we cannot request permissions.';
-    }
-
-    // When we reach here, permissions are granted and we can
-    // continue accessing the position of the device.
-    final location = await Geolocator.getCurrentPosition();
+  void changeCameraPosition(LatLng newCameraPosition) {
     state = state.copyWith(
-      currentPosition: () => location,
+      cameraPosition: () => newCameraPosition,
     );
   }
 }
@@ -151,14 +116,14 @@ class SearchState {
   final String search;
   final bool loadingAddresses;
   final District? district;
-  final Position? currentPosition;
+  final LatLng? cameraPosition;
 
   SearchState({
     this.addressResults = const [],
     this.search = '',
     this.loadingAddresses = false,
     this.district,
-    this.currentPosition,
+    this.cameraPosition,
   });
 
   SearchState copyWith({
@@ -167,14 +132,15 @@ class SearchState {
     bool? loadingAddresses,
     ValueGetter<District?>? district,
     ValueGetter<Position?>? currentPosition,
+    ValueGetter<LatLng?>? cameraPosition,
   }) =>
       SearchState(
         addressResults: addressResults ?? this.addressResults,
         search: search ?? this.search,
         loadingAddresses: loadingAddresses ?? this.loadingAddresses,
         district: district != null ? district() : this.district,
-        currentPosition:
-            currentPosition != null ? currentPosition() : this.currentPosition,
+        cameraPosition:
+            cameraPosition != null ? cameraPosition() : this.cameraPosition,
       );
 }
 

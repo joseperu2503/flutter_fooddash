@@ -1,12 +1,16 @@
 import 'package:delivery_app/config/constants/app_colors.dart';
 import 'package:delivery_app/features/address/providers/address_provider.dart';
+import 'package:delivery_app/features/address/services/location_service.dart';
 import 'package:delivery_app/features/shared/providers/map_controller_provider.dart';
 import 'package:delivery_app/features/shared/widgets/back_button.dart';
 import 'package:delivery_app/features/shared/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+const double sizeMarker = 60;
 
 class AddressMapScreen extends ConsumerStatefulWidget {
   const AddressMapScreen({super.key});
@@ -18,7 +22,6 @@ class AddressMapScreen extends ConsumerStatefulWidget {
 class OrderScreenState extends ConsumerState<AddressMapScreen> {
   @override
   Widget build(BuildContext context) {
-    final searchAddressState = ref.watch(searchAddressProvider);
     final MediaQueryData screen = MediaQuery.of(context);
 
     return Scaffold(
@@ -63,13 +66,7 @@ class OrderScreenState extends ConsumerState<AddressMapScreen> {
               Expanded(
                 child: Stack(
                   children: [
-                    if (searchAddressState.currentPosition != null)
-                      _MapView(
-                        initialCameraPosition: LatLng(
-                          searchAddressState.currentPosition!.latitude,
-                          searchAddressState.currentPosition!.longitude,
-                        ),
-                      ),
+                    const MapView(),
                     Center(
                       child: SizedBox(
                         width: 0,
@@ -78,12 +75,12 @@ class OrderScreenState extends ConsumerState<AddressMapScreen> {
                           clipBehavior: Clip.none,
                           children: [
                             Positioned(
-                              top: -40,
-                              left: -20,
+                              top: -sizeMarker,
+                              left: -sizeMarker / 2,
                               child: SvgPicture.asset(
                                 'assets/icons/map_pin_solid.svg',
-                                height: 40,
-                                width: 40,
+                                height: sizeMarker,
+                                width: sizeMarker,
                                 colorFilter: const ColorFilter.mode(
                                   AppColors.primary,
                                   BlendMode.srcIn,
@@ -114,46 +111,34 @@ class OrderScreenState extends ConsumerState<AddressMapScreen> {
   }
 }
 
-class _MapView extends ConsumerStatefulWidget {
-  const _MapView({
-    required this.initialCameraPosition,
-  });
-
-  final LatLng initialCameraPosition;
+class MapView extends ConsumerStatefulWidget {
+  const MapView({super.key});
 
   @override
-  __MapViewState createState() => __MapViewState();
+  MapViewState createState() => MapViewState();
 }
 
-class __MapViewState extends ConsumerState<_MapView> {
-  late LatLng cameraPosition;
-
-  @override
-  void initState() {
-    super.initState();
-    cameraPosition = widget.initialCameraPosition;
-  }
-
+class MapViewState extends ConsumerState<MapView> {
   @override
   Widget build(BuildContext context) {
+    final searchAddressState = ref.watch(searchAddressProvider);
+    if (searchAddressState.cameraPosition == null) return Container();
     return GoogleMap(
       mapType: MapType.normal,
       initialCameraPosition: CameraPosition(
-        target: cameraPosition,
+        target: searchAddressState.cameraPosition!,
         zoom: 18,
       ),
       myLocationEnabled: true,
       myLocationButtonEnabled: false,
       onCameraMove: (position) {
-        setState(() {
-          cameraPosition = LatLng(
-            position.target.latitude,
-            position.target.longitude,
-          );
-        });
+        ref.read(searchAddressProvider.notifier).changeCameraPosition(LatLng(
+              position.target.latitude,
+              position.target.longitude,
+            ));
       },
       onCameraIdle: () {
-        ref.read(searchAddressProvider.notifier).searchLocality(cameraPosition);
+        ref.read(searchAddressProvider.notifier).searchLocality();
       },
       onMapCreated: (GoogleMapController controller) {
         ref.read(mapControllerProvider.notifier).setMapController(controller);
@@ -244,14 +229,14 @@ class BottomModal extends ConsumerWidget {
                   ),
                   child: TextButton(
                     onPressed: () async {
-                      await ref
-                          .read(searchAddressProvider.notifier)
-                          .getCurrentPosition();
-                      if (searchAddressState.currentPosition == null) return;
-                      ref.read(mapControllerProvider.notifier).goToLocation(
-                            searchAddressState.currentPosition!.latitude,
-                            searchAddressState.currentPosition!.longitude,
-                          );
+                      try {
+                        Position location =
+                            await LocationService.getCurrentPosition();
+                        ref.read(mapControllerProvider.notifier).goToLocation(
+                              location.latitude,
+                              location.longitude,
+                            );
+                      } catch (_) {}
                     },
                     style: TextButton.styleFrom(
                       padding: const EdgeInsets.symmetric(horizontal: 8),

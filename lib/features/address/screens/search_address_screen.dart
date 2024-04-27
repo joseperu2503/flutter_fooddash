@@ -1,11 +1,14 @@
 import 'package:delivery_app/config/constants/app_colors.dart';
 import 'package:delivery_app/features/address/providers/address_provider.dart';
+import 'package:delivery_app/features/address/services/location_service.dart';
 import 'package:delivery_app/features/address/widgets/input_search_address.dart';
 import 'package:delivery_app/features/shared/widgets/back_button.dart';
 import 'package:delivery_app/features/shared/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 const double heightBottomSheet = 380;
 
@@ -113,7 +116,16 @@ class SearchAddressScreenState extends ConsumerState<SearchAddressScreen> {
                     height: 80,
                     child: TextButton(
                       onPressed: () {
-                        context.push('/address-map');
+                        if (result.properties.coordinates?.latitude != null &&
+                            result.properties.coordinates?.longitude != null) {
+                          ref
+                              .read(searchAddressProvider.notifier)
+                              .changeCameraPosition(LatLng(
+                                result.properties.coordinates!.latitude!,
+                                result.properties.coordinates!.longitude!,
+                              ));
+                          context.push('/address-map');
+                        }
                       },
                       style: TextButton.styleFrom(
                         padding: const EdgeInsets.symmetric(
@@ -215,11 +227,18 @@ class SearchAddressScreenState extends ConsumerState<SearchAddressScreen> {
                 width: double.infinity,
                 onPressed: () async {
                   try {
+                    Position location =
+                        await LocationService.getCurrentPosition();
+
                     ref
                         .read(searchAddressProvider.notifier)
-                        .getCurrentPosition();
-                    await context.push('/address-map');
-                  } catch (e) {}
+                        .changeCameraPosition(LatLng(
+                          location.latitude,
+                          location.longitude,
+                        ));
+                    if (!context.mounted) return;
+                    context.push('/address-map');
+                  } catch (_) {}
                 },
                 text: 'SEARCH ADDRESS OVER THE MAP',
               ),
