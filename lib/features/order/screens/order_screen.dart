@@ -1,7 +1,7 @@
 import 'package:delivery_app/config/constants/app_colors.dart';
+import 'package:delivery_app/features/address/providers/address_provider.dart';
 import 'package:delivery_app/features/order/widgets/order_dish_item.dart';
 import 'package:delivery_app/features/restaurant/data/menu.dart';
-import 'package:delivery_app/features/shared/providers/user_location_provider.dart';
 import 'package:delivery_app/features/shared/widgets/back_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,8 +18,7 @@ class OrderScreen extends ConsumerStatefulWidget {
 class OrderScreenState extends ConsumerState<OrderScreen> {
   @override
   Widget build(BuildContext context) {
-    final dish = menu[0].dishes[0];
-    final currentPosition = ref.watch(userLocationProvider);
+    final searchAddressState = ref.watch(searchAddressProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -60,24 +59,13 @@ class OrderScreenState extends ConsumerState<OrderScreen> {
         children: [
           Column(
             children: [
-              Expanded(
-                child: currentPosition.when(
-                  data: (data) {
-                    return _MapView(
-                      initalLat: data.$1,
-                      initialLng: data.$2,
-                    );
-                  },
-                  error: (error, stackTrace) {
-                    return Text('$error');
-                  },
-                  loading: () {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  },
-                ),
-              )
+              if (searchAddressState.currentPosition != null)
+                Expanded(
+                  child: _MapView(
+                    initalLat: searchAddressState.currentPosition!.latitude,
+                    initialLng: searchAddressState.currentPosition!.longitude,
+                  ),
+                )
             ],
           ),
           const BottomModal(),

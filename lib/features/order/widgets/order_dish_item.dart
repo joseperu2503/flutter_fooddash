@@ -1,7 +1,6 @@
 import 'package:delivery_app/config/constants/app_colors.dart';
 import 'package:delivery_app/features/restaurant/models/dish_category.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 const double heightItem = 90;
 

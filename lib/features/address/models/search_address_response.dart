@@ -1,19 +1,18 @@
-class SearchAddressResponse {
-  final String type;
-  final List<AddressResult> features;
-  final String attribution;
+class MapboxResponse {
+  final String? type;
+  final List<Feature> features;
+  final String? attribution;
 
-  SearchAddressResponse({
-    required this.type,
+  MapboxResponse({
+    this.type,
     required this.features,
-    required this.attribution,
+    this.attribution,
   });
 
-  factory SearchAddressResponse.fromJson(Map<String, dynamic> json) =>
-      SearchAddressResponse(
+  factory MapboxResponse.fromJson(Map<String, dynamic> json) => MapboxResponse(
         type: json["type"],
-        features: List<AddressResult>.from(
-            json["features"].map((x) => AddressResult.fromJson(x))),
+        features: List<Feature>.from(
+            json["features"]!.map((x) => Feature.fromJson(x))),
         attribution: json["attribution"],
       );
 
@@ -24,74 +23,79 @@ class SearchAddressResponse {
       };
 }
 
-class AddressResult {
-  final String type;
-  final Geometry geometry;
+class Feature {
+  final String? type;
+  final Geometry? geometry;
   final Properties properties;
 
-  AddressResult({
-    required this.type,
-    required this.geometry,
+  Feature({
+    this.type,
+    this.geometry,
     required this.properties,
   });
 
-  factory AddressResult.fromJson(Map<String, dynamic> json) => AddressResult(
+  factory Feature.fromJson(Map<String, dynamic> json) => Feature(
         type: json["type"],
-        geometry: Geometry.fromJson(json["geometry"]),
+        geometry: json["geometry"] == null
+            ? null
+            : Geometry.fromJson(json["geometry"]),
         properties: Properties.fromJson(json["properties"]),
       );
 
   Map<String, dynamic> toJson() => {
         "type": type,
-        "geometry": geometry.toJson(),
+        "geometry": geometry?.toJson(),
         "properties": properties.toJson(),
       };
 }
 
 class Geometry {
-  final List<double> coordinates;
-  final String type;
+  final List<double>? coordinates;
+  final String? type;
 
   Geometry({
-    required this.coordinates,
-    required this.type,
+    this.coordinates,
+    this.type,
   });
 
   factory Geometry.fromJson(Map<String, dynamic> json) => Geometry(
-        coordinates:
-            List<double>.from(json["coordinates"].map((x) => x?.toDouble())),
+        coordinates: json["coordinates"] == null
+            ? []
+            : List<double>.from(json["coordinates"]!.map((x) => x?.toDouble())),
         type: json["type"],
       );
 
   Map<String, dynamic> toJson() => {
-        "coordinates": List<dynamic>.from(coordinates.map((x) => x)),
+        "coordinates": coordinates == null
+            ? []
+            : List<dynamic>.from(coordinates!.map((x) => x)),
         "type": type,
       };
 }
 
 class Properties {
-  final String name;
-  final String mapboxId;
-  final String featureType;
-  final String placeFormatted;
+  final String? name;
+  final String? mapboxId;
+  final String? featureType;
+  final String? placeFormatted;
   final Context context;
-  final Coordinates coordinates;
-  final String language;
-  final String maki;
-  final Metadata metadata;
+  final Coordinates? coordinates;
+  final String? language;
+  final String? maki;
+  final Metadata? metadata;
   final String? namePreferred;
   final List<double>? bbox;
 
   Properties({
-    required this.name,
-    required this.mapboxId,
-    required this.featureType,
-    required this.placeFormatted,
+    this.name,
+    this.mapboxId,
+    this.featureType,
+    this.placeFormatted,
     required this.context,
-    required this.coordinates,
-    required this.language,
-    required this.maki,
-    required this.metadata,
+    this.coordinates,
+    this.language,
+    this.maki,
+    this.metadata,
     this.namePreferred,
     this.bbox,
   });
@@ -102,10 +106,14 @@ class Properties {
         featureType: json["feature_type"],
         placeFormatted: json["place_formatted"],
         context: Context.fromJson(json["context"]),
-        coordinates: Coordinates.fromJson(json["coordinates"]),
+        coordinates: json["coordinates"] == null
+            ? null
+            : Coordinates.fromJson(json["coordinates"]),
         language: json["language"],
         maki: json["maki"],
-        metadata: Metadata.fromJson(json["metadata"]),
+        metadata: json["metadata"] == null
+            ? null
+            : Metadata.fromJson(json["metadata"]),
         namePreferred: json["name_preferred"],
         bbox: json["bbox"] == null
             ? []
@@ -118,26 +126,26 @@ class Properties {
         "feature_type": featureType,
         "place_formatted": placeFormatted,
         "context": context.toJson(),
-        "coordinates": coordinates.toJson(),
+        "coordinates": coordinates?.toJson(),
         "language": language,
         "maki": maki,
-        "metadata": metadata.toJson(),
+        "metadata": metadata?.toJson(),
         "name_preferred": namePreferred,
         "bbox": bbox == null ? [] : List<dynamic>.from(bbox!.map((x) => x)),
       };
 }
 
 class Context {
-  final Country country;
-  final Region region;
+  final Country? country;
+  final Region? region;
   final Locality? postcode;
   final Locality? place;
   final Locality? street;
   final Locality? locality;
 
   Context({
-    required this.country,
-    required this.region,
+    this.country,
+    this.region,
     this.postcode,
     this.place,
     this.street,
@@ -145,8 +153,9 @@ class Context {
   });
 
   factory Context.fromJson(Map<String, dynamic> json) => Context(
-        country: Country.fromJson(json["country"]),
-        region: Region.fromJson(json["region"]),
+        country:
+            json["country"] == null ? null : Country.fromJson(json["country"]),
+        region: json["region"] == null ? null : Region.fromJson(json["region"]),
         postcode: json["postcode"] == null
             ? null
             : Locality.fromJson(json["postcode"]),
@@ -159,8 +168,8 @@ class Context {
       );
 
   Map<String, dynamic> toJson() => {
-        "country": country.toJson(),
-        "region": region.toJson(),
+        "country": country?.toJson(),
+        "region": region?.toJson(),
         "postcode": postcode?.toJson(),
         "place": place?.toJson(),
         "street": street?.toJson(),
@@ -169,16 +178,16 @@ class Context {
 }
 
 class Country {
-  final String id;
-  final String name;
-  final String countryCode;
-  final String countryCodeAlpha3;
+  final String? id;
+  final String? name;
+  final String? countryCode;
+  final String? countryCodeAlpha3;
 
   Country({
-    required this.id,
-    required this.name,
-    required this.countryCode,
-    required this.countryCodeAlpha3,
+    this.id,
+    this.name,
+    this.countryCode,
+    this.countryCodeAlpha3,
   });
 
   factory Country.fromJson(Map<String, dynamic> json) => Country(
@@ -198,11 +207,11 @@ class Country {
 
 class Locality {
   final String? id;
-  final String name;
+  final String? name;
 
   Locality({
     this.id,
-    required this.name,
+    this.name,
   });
 
   factory Locality.fromJson(Map<String, dynamic> json) => Locality(
@@ -217,16 +226,16 @@ class Locality {
 }
 
 class Region {
-  final String id;
-  final String name;
-  final String regionCode;
-  final String regionCodeFull;
+  final String? id;
+  final String? name;
+  final String? regionCode;
+  final String? regionCodeFull;
 
   Region({
-    required this.id,
-    required this.name,
-    required this.regionCode,
-    required this.regionCodeFull,
+    this.id,
+    this.name,
+    this.regionCode,
+    this.regionCodeFull,
   });
 
   factory Region.fromJson(Map<String, dynamic> json) => Region(
@@ -245,13 +254,13 @@ class Region {
 }
 
 class Coordinates {
-  final double latitude;
-  final double longitude;
+  final double? latitude;
+  final double? longitude;
   final String? accuracy;
 
   Coordinates({
-    required this.latitude,
-    required this.longitude,
+    this.latitude,
+    this.longitude,
     this.accuracy,
   });
 

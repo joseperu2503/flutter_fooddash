@@ -1,3 +1,4 @@
+import 'package:delivery_app/features/address/screens/address_map_screen.dart';
 import 'package:delivery_app/features/address/screens/search_address_screen.dart';
 import 'package:delivery_app/features/auth/providers/auth_provider.dart';
 import 'package:delivery_app/features/auth/screens/home_screen.dart';
@@ -128,6 +129,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/search-address',
         builder: (context, state) => const SearchAddressScreen(),
+        parentNavigatorKey: rootNavigatorKey,
+      ),
+      GoRoute(
+        path: '/address-map',
+        builder: (context, state) => const AddressMapScreen(),
         parentNavigatorKey: rootNavigatorKey,
       ),
     ],

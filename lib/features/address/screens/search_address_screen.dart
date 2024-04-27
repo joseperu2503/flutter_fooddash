@@ -5,6 +5,7 @@ import 'package:delivery_app/features/shared/widgets/back_button.dart';
 import 'package:delivery_app/features/shared/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 const double heightBottomSheet = 380;
 
@@ -111,7 +112,9 @@ class SearchAddressScreenState extends ConsumerState<SearchAddressScreen> {
                   return SizedBox(
                     height: 80,
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        context.push('/address-map');
+                      },
                       style: TextButton.styleFrom(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 24,
@@ -128,7 +131,7 @@ class SearchAddressScreenState extends ConsumerState<SearchAddressScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  result.properties.name,
+                                  result.properties.name ?? '',
                                   style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600,
@@ -138,7 +141,7 @@ class SearchAddressScreenState extends ConsumerState<SearchAddressScreen> {
                                   ),
                                 ),
                                 Text(
-                                  result.properties.placeFormatted,
+                                  result.properties.placeFormatted ?? '',
                                   style: const TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
@@ -210,7 +213,14 @@ class SearchAddressScreenState extends ConsumerState<SearchAddressScreen> {
               ),
               child: CustomButton(
                 width: double.infinity,
-                onPressed: () {},
+                onPressed: () async {
+                  try {
+                    ref
+                        .read(searchAddressProvider.notifier)
+                        .getCurrentPosition();
+                    await context.push('/address-map');
+                  } catch (e) {}
+                },
                 text: 'SEARCH ADDRESS OVER THE MAP',
               ),
             ),
