@@ -24,7 +24,7 @@ class HomeScreen extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     SvgPicture.asset(
-                      'assets/icons/home.svg',
+                      'assets/illustrations/home.svg',
                       fit: BoxFit.fitWidth,
                     ),
                     const SizedBox(

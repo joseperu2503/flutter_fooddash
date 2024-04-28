@@ -1,23 +1,24 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:delivery_app/features/address/models/search_address_response.dart';
 import 'package:delivery_app/features/address/services/mapbox_service.dart';
 import 'package:delivery_app/features/core/models/service_exception.dart';
 import 'package:delivery_app/features/core/services/snackbar_service.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:reactive_forms/reactive_forms.dart';
 
-final searchAddressProvider =
-    StateNotifierProvider<SearchNotifier, SearchState>((ref) {
-  return SearchNotifier(ref);
+final addressProvider =
+    StateNotifierProvider<AddressNotifier, AddressState>((ref) {
+  return AddressNotifier(ref);
 });
 
-class SearchNotifier extends StateNotifier<SearchState> {
-  SearchNotifier(this.ref) : super(SearchState());
+class AddressNotifier extends StateNotifier<AddressState> {
+  AddressNotifier(this.ref)
+      : super(AddressState(
+          address: FormControl<String>(value: ''),
+        ));
   final StateNotifierProviderRef ref;
 
   Future<void> searchProducts() async {
@@ -84,21 +85,21 @@ class SearchNotifier extends StateNotifier<SearchState> {
             response.features[0].properties.namePreferred != null &&
             response.features[0].properties.context.country?.name != null) {
           state = state.copyWith(
-            district: () => District(
-              name: response.features[0].properties.namePreferred!,
+            locality: () => Locality(
+              city: response.features[0].properties.namePreferred!,
               country: response.features[0].properties.context.country!.name!,
             ),
           );
         } else {
           state = state.copyWith(
-            district: () => null,
+            locality: () => null,
           );
         }
       }
     } on ServiceException catch (_) {
       if (cameraPosition == state.cameraPosition) {
         state = state.copyWith(
-          district: () => null,
+          locality: () => null,
         );
       }
     }
@@ -109,47 +110,127 @@ class SearchNotifier extends StateNotifier<SearchState> {
       cameraPosition: () => newCameraPosition,
     );
   }
+
+  void changeAddress(FormControl<String> address) {
+    state = state.copyWith(
+      address: address,
+    );
+  }
+
+  void changeTag(Tag tag) {
+    state = state.copyWith(
+      tag: () => tag,
+    );
+  }
+
+  void changeDelivery(DeliveryDetail deliveryDetail) {
+    state = state.copyWith(
+      deliveryDetail: () => deliveryDetail,
+    );
+  }
 }
 
-class SearchState {
+class AddressState {
   final List<Feature> addressResults;
   final String search;
   final bool loadingAddresses;
-  final District? district;
+  final Locality? locality;
   final LatLng? cameraPosition;
+  final FormControl<String> address;
+  final Tag? tag;
+  final DeliveryDetail? deliveryDetail;
 
-  SearchState({
+  AddressState({
     this.addressResults = const [],
     this.search = '',
     this.loadingAddresses = false,
-    this.district,
+    this.locality,
     this.cameraPosition,
+    required this.address,
+    this.tag,
+    this.deliveryDetail,
   });
 
-  SearchState copyWith({
+  AddressState copyWith({
     List<Feature>? addressResults,
     String? search,
     bool? loadingAddresses,
-    ValueGetter<District?>? district,
+    ValueGetter<Locality?>? locality,
     ValueGetter<Position?>? currentPosition,
     ValueGetter<LatLng?>? cameraPosition,
+    FormControl<String>? address,
+    ValueGetter<Tag?>? tag,
+    ValueGetter<DeliveryDetail?>? deliveryDetail,
   }) =>
-      SearchState(
+      AddressState(
         addressResults: addressResults ?? this.addressResults,
         search: search ?? this.search,
         loadingAddresses: loadingAddresses ?? this.loadingAddresses,
-        district: district != null ? district() : this.district,
+        locality: locality != null ? locality() : this.locality,
         cameraPosition:
             cameraPosition != null ? cameraPosition() : this.cameraPosition,
+        address: address ?? this.address,
+        tag: tag != null ? tag() : this.tag,
+        deliveryDetail:
+            deliveryDetail != null ? deliveryDetail() : this.deliveryDetail,
       );
 }
 
-class District {
-  String name;
+class Locality {
+  String city;
   String country;
 
-  District({
-    required this.name,
+  Locality({
+    required this.city,
     required this.country,
+  });
+}
+
+List<Tag> tags = [
+  Tag(
+    id: 1,
+    name: 'Home',
+    icon: 'assets/icons/tabs/home_outlined.svg',
+  ),
+  Tag(
+    id: 2,
+    name: 'Office',
+    icon: 'assets/icons/suitcase.svg',
+  ),
+  Tag(
+    id: 3,
+    name: 'Partner',
+    icon: 'assets/icons/tabs/heart_outlined.svg',
+  ),
+];
+
+List<DeliveryDetail> deliveryDetails = [
+  DeliveryDetail(
+    id: 1,
+    name: 'Personal',
+  ),
+  DeliveryDetail(
+    id: 2,
+    name: 'Lobby',
+  ),
+];
+
+class Tag {
+  int id;
+  String name;
+  String icon;
+  Tag({
+    required this.id,
+    required this.name,
+    required this.icon,
+  });
+}
+
+class DeliveryDetail {
+  int id;
+  String name;
+  DeliveryDetail({
+    required this.id,
+    required this.name,
   });
 }

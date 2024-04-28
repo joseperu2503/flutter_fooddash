@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 const double sizeMarker = 60;
@@ -121,24 +122,24 @@ class MapView extends ConsumerStatefulWidget {
 class MapViewState extends ConsumerState<MapView> {
   @override
   Widget build(BuildContext context) {
-    final searchAddressState = ref.watch(searchAddressProvider);
-    if (searchAddressState.cameraPosition == null) return Container();
+    final addressState = ref.watch(addressProvider);
+    if (addressState.cameraPosition == null) return Container();
     return GoogleMap(
       mapType: MapType.normal,
       initialCameraPosition: CameraPosition(
-        target: searchAddressState.cameraPosition!,
+        target: addressState.cameraPosition!,
         zoom: 18,
       ),
       myLocationEnabled: true,
       myLocationButtonEnabled: false,
       onCameraMove: (position) {
-        ref.read(searchAddressProvider.notifier).changeCameraPosition(LatLng(
+        ref.read(addressProvider.notifier).changeCameraPosition(LatLng(
               position.target.latitude,
               position.target.longitude,
             ));
       },
       onCameraIdle: () {
-        ref.read(searchAddressProvider.notifier).searchLocality();
+        ref.read(addressProvider.notifier).searchLocality();
       },
       onMapCreated: (GoogleMapController controller) {
         ref.read(mapControllerProvider.notifier).setMapController(controller);
@@ -156,7 +157,7 @@ class BottomModal extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final MediaQueryData screen = MediaQuery.of(context);
-    final searchAddressState = ref.watch(searchAddressProvider);
+    final searchAddressState = ref.watch(addressProvider);
 
     return Container(
       width: screen.size.width,
@@ -194,7 +195,7 @@ class BottomModal extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        searchAddressState.district?.name ?? '',
+                        searchAddressState.locality?.city ?? '',
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
@@ -203,7 +204,7 @@ class BottomModal extends ConsumerWidget {
                         ),
                       ),
                       Text(
-                        searchAddressState.district?.country ?? '',
+                        searchAddressState.locality?.country ?? '',
                         style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
@@ -276,7 +277,9 @@ class BottomModal extends ConsumerWidget {
             ),
             CustomButton(
               width: double.infinity,
-              onPressed: () {},
+              onPressed: () {
+                context.push('/confirm-address');
+              },
               text: 'CONFIRM ADDRESS',
             )
           ],

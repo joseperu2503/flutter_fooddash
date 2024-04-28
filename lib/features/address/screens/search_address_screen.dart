@@ -24,14 +24,14 @@ class SearchAddressScreenState extends ConsumerState<SearchAddressScreen> {
   void initState() {
     super.initState();
     Future.microtask(() {
-      ref.invalidate(searchAddressProvider);
+      ref.invalidate(addressProvider);
       _focusNode.requestFocus();
     });
   }
 
   @override
   void deactivate() {
-    ref.invalidate(searchAddressProvider);
+    ref.invalidate(addressProvider);
     super.deactivate();
   }
 
@@ -45,7 +45,7 @@ class SearchAddressScreenState extends ConsumerState<SearchAddressScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final searchAddressState = ref.watch(searchAddressProvider);
+    final searchAddressState = ref.watch(addressProvider);
     final showResults = searchAddressState.addressResults.isNotEmpty;
     final noResults = !searchAddressState.loadingAddresses &&
         searchAddressState.addressResults.isEmpty &&
@@ -71,7 +71,7 @@ class SearchAddressScreenState extends ConsumerState<SearchAddressScreen> {
                     value: searchAddressState.search,
                     onChanged: (value) {
                       ref
-                          .read(searchAddressProvider.notifier)
+                          .read(addressProvider.notifier)
                           .changeSearch(value);
                     },
                     focusNode: _focusNode,
@@ -119,7 +119,7 @@ class SearchAddressScreenState extends ConsumerState<SearchAddressScreen> {
                         if (result.properties.coordinates?.latitude != null &&
                             result.properties.coordinates?.longitude != null) {
                           ref
-                              .read(searchAddressProvider.notifier)
+                              .read(addressProvider.notifier)
                               .changeCameraPosition(LatLng(
                                 result.properties.coordinates!.latitude!,
                                 result.properties.coordinates!.longitude!,
@@ -231,7 +231,7 @@ class SearchAddressScreenState extends ConsumerState<SearchAddressScreen> {
                         await LocationService.getCurrentPosition();
 
                     ref
-                        .read(searchAddressProvider.notifier)
+                        .read(addressProvider.notifier)
                         .changeCameraPosition(LatLng(
                           location.latitude,
                           location.longitude,

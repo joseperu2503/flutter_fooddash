@@ -192,7 +192,8 @@ class BottomModal extends StatelessWidget {
                                 fontWeight: FontWeight.w400,
                                 color: AppColors.black,
                                 height: 1,
-                                leadingDistribution: TextLeadingDistribution.even,
+                                leadingDistribution:
+                                    TextLeadingDistribution.even,
                               ),
                             ),
                             Spacer(),
@@ -203,7 +204,8 @@ class BottomModal extends StatelessWidget {
                                 fontWeight: FontWeight.w500,
                                 color: AppColors.gray800,
                                 height: 1,
-                                leadingDistribution: TextLeadingDistribution.even,
+                                leadingDistribution:
+                                    TextLeadingDistribution.even,
                               ),
                             ),
                           ],
@@ -222,7 +224,8 @@ class BottomModal extends StatelessWidget {
                                 fontWeight: FontWeight.w400,
                                 color: AppColors.black,
                                 height: 1,
-                                leadingDistribution: TextLeadingDistribution.even,
+                                leadingDistribution:
+                                    TextLeadingDistribution.even,
                               ),
                             ),
                             Spacer(),
@@ -233,7 +236,8 @@ class BottomModal extends StatelessWidget {
                                 fontWeight: FontWeight.w500,
                                 color: AppColors.gray800,
                                 height: 1,
-                                leadingDistribution: TextLeadingDistribution.even,
+                                leadingDistribution:
+                                    TextLeadingDistribution.even,
                               ),
                             ),
                           ],
@@ -252,7 +256,8 @@ class BottomModal extends StatelessWidget {
                                 fontWeight: FontWeight.w400,
                                 color: AppColors.black,
                                 height: 1,
-                                leadingDistribution: TextLeadingDistribution.even,
+                                leadingDistribution:
+                                    TextLeadingDistribution.even,
                               ),
                             ),
                             Spacer(),
@@ -263,7 +268,8 @@ class BottomModal extends StatelessWidget {
                                 fontWeight: FontWeight.w500,
                                 color: AppColors.gray800,
                                 height: 1,
-                                leadingDistribution: TextLeadingDistribution.even,
+                                leadingDistribution:
+                                    TextLeadingDistribution.even,
                               ),
                             ),
                           ],
@@ -281,7 +287,8 @@ class BottomModal extends StatelessWidget {
                                     fontWeight: FontWeight.w400,
                                     color: AppColors.label,
                                     height: 1.5,
-                                    leadingDistribution: TextLeadingDistribution.even,
+                                    leadingDistribution:
+                                        TextLeadingDistribution.even,
                                   ),
                                 ),
                                 Text(
@@ -291,7 +298,8 @@ class BottomModal extends StatelessWidget {
                                     fontWeight: FontWeight.w800,
                                     color: AppColors.gray800,
                                     height: 1.5,
-                                    leadingDistribution: TextLeadingDistribution.even,
+                                    leadingDistribution:
+                                        TextLeadingDistribution.even,
                                   ),
                                 ),
                               ],

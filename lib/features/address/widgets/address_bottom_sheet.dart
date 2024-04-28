@@ -33,8 +33,12 @@ showAddressBottomSheet(BuildContext context) {
             child: CustomScrollView(
               controller: scrollController,
               slivers: [
-                SliverToBoxAdapter(
-                  child: Container(
+                SliverAppBar(
+                  automaticallyImplyLeading: false,
+                  pinned: true,
+                  toolbarHeight: 180,
+                  scrolledUnderElevation: 0,
+                  flexibleSpace: Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 24,
                     ),
@@ -105,6 +109,18 @@ showAddressBottomSheet(BuildContext context) {
                         const SizedBox(
                           height: 18,
                         ),
+                      ],
+                    ),
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
                         Row(
                           children: [
                             Container(
@@ -236,6 +252,9 @@ showAddressBottomSheet(BuildContext context) {
                     );
                   },
                   itemCount: 14,
+                ),
+                const SliverToBoxAdapter(
+                  child: SizedBox(height: 30),
                 )
               ],
             ),
