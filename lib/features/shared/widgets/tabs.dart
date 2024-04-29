@@ -1,3 +1,4 @@
+import 'package:delivery_app/features/address/widgets/address_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -114,36 +115,47 @@ class TabsState extends State<Tabs> {
               ),
             ),
             SliverPadding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
+              padding: const EdgeInsets.symmetric(horizontal: 0),
               sliver: SliverList.separated(
                 itemBuilder: (context, index) {
                   final menuItem = menuItems[index];
-                  return Row(
-                    children: [
-                      SvgPicture.asset(
-                        menuItem.icon,
-                        width: 24,
-                        height: 24,
+                  return Container(
+                    height: 57,
+                    child: TextButton(
+                      onPressed: () {
+                        menuItem.onPress(context);
+                      },
+                      style: TextButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
                       ),
-                      const SizedBox(
-                        width: 14,
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(
+                            menuItem.icon,
+                            width: 24,
+                            height: 24,
+                          ),
+                          const SizedBox(
+                            width: 14,
+                          ),
+                          Text(
+                            menuItem.label,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.black,
+                              height: 1,
+                              leadingDistribution: TextLeadingDistribution.even,
+                            ),
+                          ),
+                        ],
                       ),
-                      Text(
-                        menuItem.label,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.black,
-                          height: 1,
-                          leadingDistribution: TextLeadingDistribution.even,
-                        ),
-                      ),
-                    ],
+                    ),
                   );
                 },
                 separatorBuilder: (context, index) {
                   return const SizedBox(
-                    height: 33,
+                    height: 0,
                   );
                 },
                 itemCount: menuItems.length,
@@ -328,39 +340,41 @@ class TabsState extends State<Tabs> {
 List<MenuItem> menuItems = [
   MenuItem(
     label: 'My Profile',
-    onPress: () {},
+    onPress: (context) {},
     icon: 'assets/icons/drawer/profile.svg',
   ),
   MenuItem(
     label: 'Addresses',
-    onPress: () {},
+    onPress: (context) {
+      showAddressBottomSheet(context);
+    },
     icon: 'assets/icons/map_pin_solid.svg',
   ),
   MenuItem(
     label: 'Payment Methods',
-    onPress: () {},
+    onPress: (context) {},
     icon: 'assets/icons/drawer/payment.svg',
   ),
   MenuItem(
     label: 'Contact Us',
-    onPress: () {},
+    onPress: (context) {},
     icon: 'assets/icons/drawer/contact.svg',
   ),
   MenuItem(
     label: 'Settings',
-    onPress: () {},
+    onPress: (context) {},
     icon: 'assets/icons/drawer/settings.svg',
   ),
   MenuItem(
     label: 'Helps & FAQs',
-    onPress: () {},
+    onPress: (context) {},
     icon: 'assets/icons/drawer/help.svg',
   ),
 ];
 
 class MenuItem {
   String label;
-  void Function() onPress;
+  void Function(BuildContext context) onPress;
   String icon;
   MenuItem({
     required this.label,

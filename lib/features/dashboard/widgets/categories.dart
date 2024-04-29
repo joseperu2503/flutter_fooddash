@@ -29,7 +29,7 @@ class CategoriesDashboard extends StatelessWidget {
             ),
           ),
           const SizedBox(
-            height: 16,
+            height: 24,
           ),
           SizedBox(
             height: 110,
@@ -45,17 +45,17 @@ class CategoriesDashboard extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
                         child: SizedBox(
-                          width: 80,
-                          height: 80,
+                          width: 60,
+                          height: 60,
                           child: Image.network(
                             category.image,
-                            fit: BoxFit.cover,
+                            fit: BoxFit.contain,
                           ),
                         ),
                       ),
                     ),
                     const SizedBox(
-                      height: 8,
+                      height: 12,
                     ),
                     Text(
                       category.name,
@@ -72,7 +72,7 @@ class CategoriesDashboard extends StatelessWidget {
               },
               separatorBuilder: (context, index) {
                 return const SizedBox(
-                  width: 10,
+                  width: 24,
                 );
               },
               itemCount: categories.length,

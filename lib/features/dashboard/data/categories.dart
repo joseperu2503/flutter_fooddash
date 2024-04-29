@@ -4,31 +4,36 @@ final List<Category> categories = [
   Category(
     name: 'Pizza',
     image:
-        'https://files.joseperezgil.com/images/delivery/categories/pizza.jpeg',
+        'https://files.joseperezgil.com/images/delivery/categories/pizza_3d.png',
   ),
   Category(
-    name: 'Burgers',
+    name: 'Burger',
     image:
-        'https://files.joseperezgil.com/images/delivery/categories/burger.jpeg',
+        'https://files.joseperezgil.com/images/delivery/categories/burger_3d.png',
   ),
   Category(
-    name: 'Tacos',
+    name: 'Taco',
     image:
-        'https://files.joseperezgil.com/images/delivery/categories/taco.jpeg',
+        'https://files.joseperezgil.com/images/delivery/categories/taco_3d.png',
   ),
   Category(
     name: 'Sushi',
     image:
-        'https://files.joseperezgil.com/images/delivery/categories/sushi.jpeg',
+        'https://files.joseperezgil.com/images/delivery/categories/sushi_3d.png',
   ),
   Category(
     name: 'Coffee',
     image:
-        'https://files.joseperezgil.com/images/delivery/categories/cafe.jpeg',
+        'https://files.joseperezgil.com/images/delivery/categories/coffee_3d.png',
   ),
   Category(
     name: 'Fried Chicken',
     image:
-        'https://files.joseperezgil.com/images/delivery/categories/chicken.jpeg',
+        'https://files.joseperezgil.com/images/delivery/categories/fried_chicken_3d.png',
+  ),
+  Category(
+    name: 'Dessert',
+    image:
+        'https://files.joseperezgil.com/images/delivery/categories/cake_3d.png',
   ),
 ];
