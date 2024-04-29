@@ -30,7 +30,8 @@ flutter:
   assets:
     - .env
     - assets/icons/
-    - assets/icons/tabs/    
+    - assets/icons/tabs/       
+    - assets/icons/drawer/    
     - assets/illustrations/
     - assets/images_prueba/
 

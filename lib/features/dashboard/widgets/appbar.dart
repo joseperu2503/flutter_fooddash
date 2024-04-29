@@ -1,4 +1,5 @@
 import 'package:delivery_app/config/constants/app_colors.dart';
+import 'package:delivery_app/config/router/app_router.dart';
 import 'package:delivery_app/features/address/widgets/address_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -40,7 +41,10 @@ class AppbarDashboard extends StatelessWidget {
                   ],
                 ),
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    if (tabKey.currentState == null) return;
+                    tabKey.currentState!.handleMenuButtonPressed();
+                  },
                   style: TextButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(14),

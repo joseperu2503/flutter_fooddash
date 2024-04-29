@@ -21,6 +21,7 @@ import 'app_router_notifier.dart';
 
 final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
 final GlobalKey<NavigatorState> _tabNavigatorKey = GlobalKey<NavigatorState>();
+final GlobalKey<TabsState> tabKey = GlobalKey<TabsState>();
 
 final goRouterProvider = Provider<GoRouter>((ref) {
   final goRouterNotifier = ref.read(goRouterNotifierProvider);
@@ -51,6 +52,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         parentNavigatorKey: rootNavigatorKey,
         builder: (context, state, navigationShell) {
           return Tabs(
+            key: tabKey,
             navigationShell: navigationShell,
           );
         },

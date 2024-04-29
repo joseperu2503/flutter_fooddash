@@ -47,7 +47,7 @@ class CustomButton extends StatelessWidget {
   final String text;
   final BoxShadowType boxShadow;
   final double? width;
-  final double? height;
+  final double height;
   final FontWeight fontWeight;
 
   @override
@@ -66,9 +66,9 @@ class CustomButton extends StatelessWidget {
           onPressed();
         },
         style: TextButton.styleFrom(
-          minimumSize: const Size(
+          minimumSize: Size(
             double.infinity,
-            60,
+            height,
           ),
           padding: const EdgeInsets.symmetric(horizontal: 16),
           shape: RoundedRectangleBorder(
