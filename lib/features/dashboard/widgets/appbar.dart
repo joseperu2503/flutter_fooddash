@@ -118,6 +118,14 @@ class AppbarDashboard extends StatelessWidget {
               height: 42,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(19),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.orange.withOpacity(0.3),
+                    offset: const Offset(0, 4),
+                    blurRadius: 15,
+                    spreadRadius: 0,
+                  )
+                ],
               ),
               child: TextButton(
                 style: TextButton.styleFrom(
