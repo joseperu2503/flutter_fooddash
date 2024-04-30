@@ -12,24 +12,6 @@ import 'package:delivery_app/features/shared/widgets/custom_input.dart';
 
 const double heightBottomSheet = 380;
 
-List<Tag> tags = [
-  Tag(
-    id: 1,
-    name: 'Home',
-    icon: 'assets/icons/tabs/home_outlined.svg',
-  ),
-  Tag(
-    id: 2,
-    name: 'Office',
-    icon: 'assets/icons/suitcase.svg',
-  ),
-  Tag(
-    id: 3,
-    name: 'Partner',
-    icon: 'assets/icons/tabs/heart_outlined.svg',
-  ),
-];
-
 class ConfirmAddressScreen extends ConsumerWidget {
   const ConfirmAddressScreen({super.key});
 

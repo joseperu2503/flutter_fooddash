@@ -352,7 +352,9 @@ List<MenuItem> menuItems = [
   ),
   MenuItem(
     label: 'Payment Methods',
-    onPress: (context) {},
+    onPress: (context) {
+      context.push('/card-form');
+    },
     icon: 'assets/icons/drawer/payment.svg',
   ),
   MenuItem(

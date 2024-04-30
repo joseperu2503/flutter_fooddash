@@ -1,5 +1,6 @@
 import 'package:delivery_app/config/constants/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
 class CustomInput extends StatefulWidget {
@@ -8,11 +9,14 @@ class CustomInput extends StatefulWidget {
     required this.value,
     required this.onChanged,
     this.hintText,
+    this.focusNode,
+    this.inputFormatters,
   });
 
   final FormControl<String> value;
   final String? hintText;
-
+  final FocusNode? focusNode;
+  final List<TextInputFormatter>? inputFormatters;
   final void Function(FormControl<String> value) onChanged;
 
   @override
@@ -21,11 +25,14 @@ class CustomInput extends StatefulWidget {
 
 class _CustomInputState extends State<CustomInput> {
   final TextEditingController controller = TextEditingController();
-  final FocusNode _focusNode = FocusNode();
+  FocusNode _focusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
+    if (widget.focusNode != null) {
+      _focusNode = widget.focusNode!;
+    }
 
     _focusNode.addListener(() {
       if (!_focusNode.hasFocus) {
@@ -109,6 +116,7 @@ class _CustomInputState extends State<CustomInput> {
           );
         },
         focusNode: _focusNode,
+        inputFormatters: widget.inputFormatters,
       ),
     );
   }
