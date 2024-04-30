@@ -1,8 +1,10 @@
 import 'package:delivery_app/config/constants/app_colors.dart';
 import 'package:delivery_app/features/payment_methods/data/cards.dart';
-import 'package:delivery_app/features/shared/widgets/check.dart';
+import 'package:delivery_app/features/payment_methods/widgets/card_item.dart';
+import 'package:delivery_app/features/payment_methods/widgets/cash_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 
 class PaymentModal extends StatelessWidget {
   const PaymentModal({super.key});
@@ -18,25 +20,69 @@ class PaymentModal extends StatelessWidget {
             padding: const EdgeInsets.symmetric(
               horizontal: 24,
             ),
-            child: const Column(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                SizedBox(
-                  height: 36,
+                const SizedBox(
+                  height: 30,
                 ),
-                Text(
-                  'Payment method',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.label2,
-                    height: 1,
-                    leadingDistribution: TextLeadingDistribution.even,
-                  ),
+                Row(
+                  children: [
+                    const Expanded(
+                      child: Text(
+                        'Payment method',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.label2,
+                          height: 1,
+                          leadingDistribution: TextLeadingDistribution.even,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: AppColors.primary,
+                        ),
+                        color: AppColors.primary,
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.orange.withOpacity(0.4),
+                            offset: const Offset(0, 7),
+                            blurRadius: 15,
+                            spreadRadius: 0,
+                          )
+                        ],
+                      ),
+                      height: 36,
+                      width: 36,
+                      child: TextButton(
+                        onPressed: () {
+                          context.push('/card-form');
+                        },
+                        style: TextButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          padding: EdgeInsets.zero,
+                        ),
+                        child: SvgPicture.asset(
+                          'assets/icons/plus.svg',
+                          height: 28,
+                          colorFilter: const ColorFilter.mode(
+                            AppColors.white,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                Divider(
+                const Divider(
                   color: AppColors.gray100,
-                  height: 40,
+                  height: 34,
                 ),
               ],
             ),
@@ -51,59 +97,9 @@ class PaymentModal extends StatelessWidget {
                       left: 24,
                       bottom: 16,
                     ),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: AppColors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: const Color(0xffD3D1D8).withOpacity(0.45),
-                            offset: const Offset(6, 8),
-                            blurRadius: 22.96,
-                            spreadRadius: 0,
-                          ),
-                        ],
-                      ),
-                      height: 80,
-                      child: TextButton(
-                        onPressed: () {},
-                        style: TextButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                              10,
-                            ),
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 24,
-                          ),
-                        ),
-                        child: Row(
-                          children: [
-                            SvgPicture.asset(
-                              'assets/icons/cash.svg',
-                              height: 40,
-                            ),
-                            const SizedBox(
-                              width: 12,
-                            ),
-                            const Text(
-                              'Cash',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                color: AppColors.gray800,
-                                height: 16 / 16,
-                                leadingDistribution:
-                                    TextLeadingDistribution.even,
-                              ),
-                            ),
-                            const Spacer(),
-                            const Check(
-                              isSelected: true,
-                            ),
-                          ],
-                        ),
-                      ),
+                    child: CashItem(
+                      isSelected: true,
+                      onPress: () {},
                     ),
                   ),
                 ),
@@ -113,80 +109,11 @@ class PaymentModal extends StatelessWidget {
                   ),
                   sliver: SliverList.separated(
                     itemBuilder: (context, index) {
-                      return Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: AppColors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: const Color(0xffD3D1D8).withOpacity(0.45),
-                              offset: const Offset(6, 8),
-                              blurRadius: 22.96,
-                              spreadRadius: 0,
-                            ),
-                          ],
-                        ),
-                        height: 80,
-                        child: TextButton(
-                          onPressed: () {},
-                          style: TextButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                10,
-                              ),
-                            ),
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 24,
-                            ),
-                          ),
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(
-                                'assets/icons/visa.svg',
-                                height: 60,
-                              ),
-                              const SizedBox(
-                                width: 12,
-                              ),
-                              const Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'Debit card',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                        color: AppColors.gray900,
-                                        height: 1,
-                                        leadingDistribution:
-                                            TextLeadingDistribution.even,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                    Text(
-                                      '4929 **** **** 1976',
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500,
-                                        color: AppColors.gray600,
-                                        height: 1,
-                                        leadingDistribution:
-                                            TextLeadingDistribution.even,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const Check(
-                                isSelected: false,
-                              ),
-                            ],
-                          ),
-                        ),
+                      final card = cards[index];
+                      return CardItem(
+                        onPress: () {},
+                        card: card,
+                        isSelected: false,
                       );
                     },
                     separatorBuilder: (context, index) {

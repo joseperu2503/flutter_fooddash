@@ -11,6 +11,8 @@ class CheckoutScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final MediaQueryData screen = MediaQuery.of(context);
+
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 60,
@@ -320,25 +322,20 @@ class CheckoutScreen extends StatelessWidget {
         ],
       ),
       bottomNavigationBar: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 24,
-          vertical: 16,
-        ),
-        child: SafeArea(
-          child: SizedBox(
-            height: 60,
-            child: CustomButton(
-              onPressed: () {
-                showModalBottomSheet(
-                  context: context,
-                  elevation: 0,
-                  builder: (context) {
-                    return const OrderSuccessfully();
-                  },
-                );
-              },
-              text: 'CONFIRM',
-            ),
+        padding: EdgeInsets.only(bottom: screen.padding.bottom),
+        height: 110,
+        child: Center(
+          child: CustomButton(
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                elevation: 0,
+                builder: (context) {
+                  return const OrderSuccessfully();
+                },
+              );
+            },
+            text: 'CONFIRM',
           ),
         ),
       ),

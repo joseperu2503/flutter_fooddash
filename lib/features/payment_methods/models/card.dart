@@ -1,4 +1,4 @@
-class Card {
+class BankCard {
   final String cardNumber;
   final String name;
   final String expired;
@@ -6,7 +6,7 @@ class Card {
   final CardBrand cardBrand;
   final CardType cardType;
 
-  Card({
+  BankCard({
     required this.cardNumber,
     required this.name,
     required this.expired,

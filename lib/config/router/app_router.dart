@@ -12,6 +12,7 @@ import 'package:delivery_app/features/favorites/screens/favorites_screen.dart';
 import 'package:delivery_app/features/order/screens/my_orders_screen.dart';
 import 'package:delivery_app/features/order/screens/order_screen.dart';
 import 'package:delivery_app/features/payment_methods/screens/card_form_screen.dart';
+import 'package:delivery_app/features/payment_methods/screens/payment_methods_screen.dart';
 import 'package:delivery_app/features/restaurant/screens/restaurant_screen.dart';
 import 'package:delivery_app/features/shared/widgets/tabs.dart';
 import 'package:flutter/material.dart';
@@ -148,6 +149,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/card-form',
         builder: (context, state) => const CardFormScreen(),
+        parentNavigatorKey: rootNavigatorKey,
+      ),
+      GoRoute(
+        path: '/payment-methods',
+        builder: (context, state) => const PaymentMethodsScreen(),
         parentNavigatorKey: rootNavigatorKey,
       ),
     ],
