@@ -49,7 +49,7 @@ showAddressBottomSheet(BuildContext context) {
                           height: 36,
                         ),
                         const Text(
-                          'Add o choose a address',
+                          'Add o choose an address',
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.w700,

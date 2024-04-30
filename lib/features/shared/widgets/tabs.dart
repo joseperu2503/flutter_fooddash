@@ -75,7 +75,7 @@ class TabsState extends State<Tabs> {
                           'assets/icons/drawer/profile.svg',
                           width: 60,
                           colorFilter: const ColorFilter.mode(
-                            AppColors.label,
+                            AppColors.white,
                             BlendMode.srcIn,
                           ),
                         ),
@@ -119,7 +119,7 @@ class TabsState extends State<Tabs> {
               sliver: SliverList.separated(
                 itemBuilder: (context, index) {
                   final menuItem = menuItems[index];
-                  return Container(
+                  return SizedBox(
                     height: 57,
                     child: TextButton(
                       onPressed: () {

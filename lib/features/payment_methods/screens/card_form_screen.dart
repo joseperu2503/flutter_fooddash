@@ -112,7 +112,7 @@ class CardFormScreenState extends ConsumerState<CardFormScreen> {
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
                       color: AppColors.label,
-                      height: 16 / 16,
+                      height: 1,
                       leadingDistribution: TextLeadingDistribution.even,
                     ),
                   ),

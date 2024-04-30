@@ -75,7 +75,7 @@ class CartScreen extends StatelessWidget {
                       height: 32,
                     );
                   },
-                  itemCount: dishes.length,
+                  itemCount: 2,
                 ),
               ),
             ],

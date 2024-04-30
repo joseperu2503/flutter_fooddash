@@ -1,6 +1,7 @@
 import 'package:delivery_app/config/constants/app_colors.dart';
+import 'package:delivery_app/features/checkout/widgets/order_successfully.dart';
+import 'package:delivery_app/features/checkout/widgets/payment_modal.dart';
 import 'package:delivery_app/features/shared/widgets/back_button.dart';
-import 'package:delivery_app/features/shared/widgets/check.dart';
 import 'package:delivery_app/features/shared/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -47,7 +48,8 @@ class CheckoutScreen extends StatelessWidget {
       ),
       body: CustomScrollView(
         slivers: [
-          SliverToBoxAdapter(
+          SliverFillRemaining(
+            hasScrollBody: false,
             child: Container(
               padding: const EdgeInsets.symmetric(
                 horizontal: 24,
@@ -61,10 +63,63 @@ class CheckoutScreen extends StatelessWidget {
                   const Text(
                     'Address',
                     style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.gray900,
-                      height: 1.5,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.label,
+                      height: 1,
+                      leadingDistribution: TextLeadingDistribution.even,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  Container(
+                    height: 65,
+                    decoration: BoxDecoration(
+                      color: AppColors.white,
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color.fromRGBO(233, 233, 233, 0.25),
+                          offset: Offset(15, 20),
+                          blurRadius: 45,
+                          spreadRadius: 0,
+                        ),
+                      ],
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        color: AppColors.inputBorder,
+                      ),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                    ),
+                    child: const Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            'Jl. Soekarno Hatta 15A Malang',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.gray800,
+                              height: 1.5,
+                              leadingDistribution: TextLeadingDistribution.even,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 28,
+                  ),
+                  const Text(
+                    'Payment Method',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.label,
+                      height: 1,
                       leadingDistribution: TextLeadingDistribution.even,
                     ),
                   ),
@@ -73,69 +128,40 @@ class CheckoutScreen extends StatelessWidget {
                   ),
                   Container(
                     decoration: BoxDecoration(
+                      color: AppColors.white,
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color.fromRGBO(233, 233, 233, 0.25),
+                          offset: Offset(15, 20),
+                          blurRadius: 45,
+                          spreadRadius: 0,
+                        ),
+                      ],
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(
-                        color: AppColors.gray300,
+                        color: AppColors.inputBorder,
                       ),
                     ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 24,
-                    ),
-                    height: 60,
-                    child: Row(
-                      children: [
-                        const Text(
-                          'Jl. Soekarno Hatta 15A Malang',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.gray800,
-                            height: 1.5,
-                            leadingDistribution: TextLeadingDistribution.even,
+                    height: 80,
+                    child: TextButton(
+                      onPressed: () {
+                        showModalBottomSheet(
+                          context: context,
+                          elevation: 0,
+                          builder: (context) {
+                            return const PaymentModal();
+                          },
+                        );
+                      },
+                      style: TextButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                            10,
                           ),
                         ),
-                        const Spacer(),
-                        SvgPicture.asset(
-                          'assets/icons/arrow_down.svg',
-                          width: 16,
-                        )
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 24,
-                  ),
-                  const Text(
-                    'Payment Method',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.gray900,
-                      height: 1.5,
-                      leadingDistribution: TextLeadingDistribution.even,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  ListTile(
-                    contentPadding: EdgeInsets.zero,
-                    minVerticalPadding: 0,
-                    dense: true,
-                    onTap: () {},
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    title: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: AppColors.gray300,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 24,
                         ),
-                      ),
-                      height: 80,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
                       ),
                       child: Row(
                         children: [
@@ -157,238 +183,126 @@ class CheckoutScreen extends StatelessWidget {
                             ),
                           ),
                           const Spacer(),
-                          const Check(
-                            isSelected: true,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  ListTile(
-                    contentPadding: EdgeInsets.zero,
-                    minVerticalPadding: 0,
-                    dense: true,
-                    onTap: () {},
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    title: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: AppColors.gray300,
-                        ),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                      ),
-                      height: 80,
-                      child: Row(
-                        children: [
                           SvgPicture.asset(
-                            'assets/icons/visa.svg',
-                            height: 60,
-                          ),
-                          const SizedBox(
-                            width: 12,
-                          ),
-                          const Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Debit card',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                    color: AppColors.gray900,
-                                    height: 1,
-                                    leadingDistribution:
-                                        TextLeadingDistribution.even,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 8,
-                                ),
-                                Text(
-                                  '4929 **** **** 1976',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColors.gray600,
-                                    height: 1,
-                                    leadingDistribution:
-                                        TextLeadingDistribution.even,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const Check(
-                            isSelected: true,
-                          ),
+                            'assets/icons/arrow_forward.svg',
+                            width: 16,
+                          )
                         ],
                       ),
                     ),
                   ),
                   const SizedBox(
-                    height: 12,
-                  ),
-                  ListTile(
-                    contentPadding: EdgeInsets.zero,
-                    minVerticalPadding: 0,
-                    dense: true,
-                    onTap: () {},
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    title: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: AppColors.gray300,
-                        ),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                      ),
-                      height: 80,
-                      child: Row(
-                        children: [
-                          SvgPicture.asset(
-                            'assets/icons/mastercard.svg',
-                            height: 60,
-                          ),
-                          const SizedBox(
-                            width: 12,
-                          ),
-                          const Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Debit card',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                    color: AppColors.gray900,
-                                    height: 1,
-                                    leadingDistribution:
-                                        TextLeadingDistribution.even,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 8,
-                                ),
-                                Text(
-                                  '4929 **** **** 1976',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColors.gray600,
-                                    height: 1,
-                                    leadingDistribution:
-                                        TextLeadingDistribution.even,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const Check(
-                            isSelected: true,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 24,
+                    height: 60,
                   ),
                   const Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        'Shipping cost',
+                        'Subtotal',
                         style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.gray500,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.black,
                           height: 1,
                           leadingDistribution: TextLeadingDistribution.even,
                         ),
                       ),
                       Spacer(),
                       Text(
-                        '\$5.99',
+                        '\$27.30',
                         style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.gray800,
-                          height: 1,
-                          leadingDistribution: TextLeadingDistribution.even,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  const Row(
-                    children: [
-                      Text(
-                        'Sub total',
-                        style: TextStyle(
-                          fontSize: 14,
+                          fontSize: 19,
                           fontWeight: FontWeight.w500,
-                          color: AppColors.gray500,
-                          height: 1,
-                          leadingDistribution: TextLeadingDistribution.even,
-                        ),
-                      ),
-                      Spacer(),
-                      Text(
-                        '\$16.99',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
                           color: AppColors.gray800,
                           height: 1,
                           leadingDistribution: TextLeadingDistribution.even,
                         ),
                       ),
                     ],
-                  ),
-                  const SizedBox(
-                    height: 16,
                   ),
                   const Divider(
-                    color: AppColors.gray300,
-                  ),
-                  const SizedBox(
-                    height: 16,
+                    color: Color(0xffF1F2F3),
+                    height: 32,
                   ),
                   const Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Tax and Fees',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.black,
+                          height: 1,
+                          leadingDistribution: TextLeadingDistribution.even,
+                        ),
+                      ),
+                      Spacer(),
+                      Text(
+                        '\$5.30',
+                        style: TextStyle(
+                          fontSize: 19,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.gray800,
+                          height: 1,
+                          leadingDistribution: TextLeadingDistribution.even,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Divider(
+                    color: Color(0xffF1F2F3),
+                    height: 32,
+                  ),
+                  const Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Delivery',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.black,
+                          height: 1,
+                          leadingDistribution: TextLeadingDistribution.even,
+                        ),
+                      ),
+                      Spacer(),
+                      Text(
+                        '\$1.00',
+                        style: TextStyle(
+                          fontSize: 19,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.gray800,
+                          height: 1,
+                          leadingDistribution: TextLeadingDistribution.even,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Divider(
+                    color: Color(0xffF1F2F3),
+                    height: 32,
+                  ),
+                  const Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
                         'Total',
                         style: TextStyle(
                           fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.gray500,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.black,
                           height: 1,
                           leadingDistribution: TextLeadingDistribution.even,
                         ),
                       ),
                       Spacer(),
                       Text(
-                        '\$21.99',
+                        '\$33.60',
                         style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
+                          fontSize: 19,
+                          fontWeight: FontWeight.w500,
                           color: AppColors.gray800,
                           height: 1,
                           leadingDistribution: TextLeadingDistribution.even,
@@ -417,60 +331,9 @@ class CheckoutScreen extends StatelessWidget {
               onPressed: () {
                 showModalBottomSheet(
                   context: context,
+                  elevation: 0,
                   builder: (context) {
-                    return Container(
-                      height: 400,
-                      width: double.infinity,
-                      child: SafeArea(
-                        child: Column(
-                          children: [
-                            const SizedBox(
-                              height: 16,
-                            ),
-                            SvgPicture.asset(
-                              'assets/icons/success.svg',
-                            ),
-                            const Text(
-                              'Order Succesfully',
-                              style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.w700,
-                                color: Color(0xff323643),
-                                height: 1,
-                                leadingDistribution:
-                                    TextLeadingDistribution.even,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 16,
-                            ),
-                            const Text(
-                              'Happy! Your food will be made immediately and\nwe will send it after it\'s finished by the courier, please\nwait a moment.',
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w400,
-                                color: AppColors.gray500,
-                                height: 1.4,
-                                leadingDistribution:
-                                    TextLeadingDistribution.even,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                            const SizedBox(
-                              height: 16,
-                            ),
-                            const Spacer(),
-                            CustomButton(
-                              onPressed: () {},
-                              text: 'ORDER TRACKING',
-                            ),
-                            const SizedBox(
-                              height: 8,
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
+                    return const OrderSuccessfully();
                   },
                 );
               },
