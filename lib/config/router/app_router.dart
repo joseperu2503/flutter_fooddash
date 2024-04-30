@@ -9,6 +9,7 @@ import 'package:delivery_app/features/checkout/screens/checkout_screen.dart';
 import 'package:delivery_app/features/dashboard/screens/dashboard_screen.dart';
 import 'package:delivery_app/features/dish/screens/dish_screen.dart';
 import 'package:delivery_app/features/favorites/screens/favorites_screen.dart';
+import 'package:delivery_app/features/notifications/screens/notifications_screen.dart';
 import 'package:delivery_app/features/order/screens/my_orders_screen.dart';
 import 'package:delivery_app/features/order/screens/order_screen.dart';
 import 'package:delivery_app/features/payment_methods/screens/card_form_screen.dart';
@@ -88,8 +89,8 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           StatefulShellBranch(
             routes: [
               GoRoute(
-                path: '/profile',
-                builder: (context, state) => const DashboardScreen(),
+                path: '/notifications',
+                builder: (context, state) => const NotificationsScreen(),
               ),
             ],
           ),

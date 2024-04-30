@@ -248,20 +248,14 @@ class TabsState extends State<Tabs> {
               onTap: (value) {
                 _onTap(context, value);
               },
-              unselectedLabelStyle: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-              ),
-              selectedLabelStyle: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-              ),
+              showSelectedLabels: false,
+              showUnselectedLabels: false,
               unselectedItemColor: AppColors.gray400,
               selectedItemColor: AppColors.primary,
               type: BottomNavigationBarType.fixed,
               items: [
                 BottomNavigationBarItem(
-                  label: 'Home',
+                  label: '',
                   icon: SvgPicture.asset(
                     'assets/icons/tabs/home_outlined.svg',
                     colorFilter: const ColorFilter.mode(
@@ -278,7 +272,7 @@ class TabsState extends State<Tabs> {
                   ),
                 ),
                 BottomNavigationBarItem(
-                  label: 'My Order',
+                  label: '',
                   icon: SvgPicture.asset(
                     'assets/icons/tabs/cart_outlined.svg',
                     colorFilter: const ColorFilter.mode(
@@ -295,7 +289,7 @@ class TabsState extends State<Tabs> {
                   ),
                 ),
                 BottomNavigationBarItem(
-                  label: 'Favorite',
+                  label: '',
                   icon: SvgPicture.asset(
                     'assets/icons/tabs/heart_outlined.svg',
                     colorFilter: const ColorFilter.mode(
@@ -312,16 +306,16 @@ class TabsState extends State<Tabs> {
                   ),
                 ),
                 BottomNavigationBarItem(
-                  label: 'Profile',
+                  label: '',
                   icon: SvgPicture.asset(
-                    'assets/icons/tabs/profile_outlined.svg',
+                    'assets/icons/tabs/notification_outlined.svg',
                     colorFilter: const ColorFilter.mode(
                       AppColors.gray400,
                       BlendMode.srcIn,
                     ),
                   ),
                   activeIcon: SvgPicture.asset(
-                    'assets/icons/tabs/profile_solid.svg',
+                    'assets/icons/tabs/notification_solid.svg',
                     colorFilter: const ColorFilter.mode(
                       AppColors.primary,
                       BlendMode.srcIn,
