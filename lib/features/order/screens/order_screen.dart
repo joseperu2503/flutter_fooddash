@@ -1,11 +1,13 @@
 import 'package:delivery_app/config/constants/app_colors.dart';
-import 'package:delivery_app/features/address/screens/address_map_screen.dart';
+import 'package:delivery_app/features/address/providers/address_provider.dart';
+import 'package:delivery_app/features/address/services/location_service.dart';
 import 'package:delivery_app/features/order/widgets/order_dish_item.dart';
 import 'package:delivery_app/features/restaurant/data/menu.dart';
 import 'package:delivery_app/features/shared/widgets/back_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class OrderScreen extends ConsumerStatefulWidget {
@@ -58,7 +60,7 @@ class OrderScreenState extends ConsumerState<OrderScreen> {
           Column(
             children: [
               Expanded(
-                child: MapView(),
+                child: _MapView(),
               )
             ],
           ),
@@ -69,30 +71,37 @@ class OrderScreenState extends ConsumerState<OrderScreen> {
   }
 }
 
-class _MapView extends StatefulWidget {
-  const _MapView({
-    required this.initalLat,
-    required this.initialLng,
-  });
-
-  final double initalLat;
-  final double initialLng;
+class _MapView extends ConsumerStatefulWidget {
+  const _MapView();
 
   @override
-  State<_MapView> createState() => __MapViewState();
+  _MapViewState createState() => _MapViewState();
 }
 
-class __MapViewState extends State<_MapView> {
+class _MapViewState extends ConsumerState<_MapView> {
+  @override
+  void initState() {
+    Future.microtask(() async {
+      Position location = await LocationService.getCurrentPosition();
+
+      ref.read(addressProvider.notifier).changeCameraPosition(LatLng(
+            location.latitude,
+            location.longitude,
+          ));
+    });
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final addressState = ref.watch(addressProvider);
+    if (addressState.cameraPosition == null) return Container();
     return GoogleMap(
       mapType: MapType.normal,
       initialCameraPosition: CameraPosition(
-        target: LatLng(
-          widget.initalLat,
-          widget.initialLng,
-        ),
-        zoom: 12,
+        target: addressState.cameraPosition!,
+        zoom: 18,
       ),
       myLocationEnabled: true,
       myLocationButtonEnabled: false,
