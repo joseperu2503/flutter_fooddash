@@ -19,7 +19,6 @@ import 'package:delivery_app/features/shared/widgets/tabs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
 import 'app_router_notifier.dart';
 
 final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -29,16 +28,20 @@ final GlobalKey<TabsState> tabKey = GlobalKey<TabsState>();
 final goRouterProvider = Provider<GoRouter>((ref) {
   final goRouterNotifier = ref.read(goRouterNotifierProvider);
 
-  redirect(BuildContext context, GoRouterState state) {
+  unprotectedRoute(BuildContext context, GoRouterState state) {
     final authStatus = goRouterNotifier.authStatus;
-    final isGoingTo = state.fullPath;
 
     if (authStatus == AuthStatus.authenticated) {
       return '/dashboard';
     }
 
+    return null;
+  }
+
+  protectedRoute(BuildContext context, GoRouterState state) {
+    final authStatus = goRouterNotifier.authStatus;
+
     if (authStatus == AuthStatus.notAuthenticated) {
-      if (isGoingTo == '/login' || isGoingTo == '/home') return null;
       return '/home';
     }
 
@@ -49,7 +52,6 @@ final goRouterProvider = Provider<GoRouter>((ref) {
     navigatorKey: rootNavigatorKey,
     initialLocation: '/home',
     refreshListenable: goRouterNotifier,
-    // redirect: redirect,
     routes: [
       StatefulShellRoute.indexedStack(
         parentNavigatorKey: rootNavigatorKey,
@@ -67,6 +69,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                 path: '/dashboard',
                 builder: (context, state) => const DashboardScreen(),
                 parentNavigatorKey: _tabNavigatorKey,
+                redirect: protectedRoute,
               ),
             ],
           ),
@@ -75,6 +78,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 path: '/my-orders',
                 builder: (context, state) => const MyOrdersScreen(),
+                redirect: protectedRoute,
               ),
             ],
           ),
@@ -83,6 +87,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 path: '/favorites',
                 builder: (context, state) => const FavoriteScreen(),
+                redirect: protectedRoute,
               ),
             ],
           ),
@@ -91,6 +96,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 path: '/notifications',
                 builder: (context, state) => const NotificationsScreen(),
+                redirect: protectedRoute,
               ),
             ],
           ),
@@ -102,61 +108,72 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           id: state.pathParameters['id'] ?? 'no-id',
         ),
         parentNavigatorKey: rootNavigatorKey,
+        redirect: protectedRoute,
       ),
       GoRoute(
         path: '/dish',
         builder: (context, state) => const DishScreen(),
+        redirect: protectedRoute,
         parentNavigatorKey: rootNavigatorKey,
       ),
       GoRoute(
         path: '/cart',
         builder: (context, state) => const CartScreen(),
+        redirect: protectedRoute,
         parentNavigatorKey: rootNavigatorKey,
       ),
       GoRoute(
         path: '/checkout',
         builder: (context, state) => const CheckoutScreen(),
+        redirect: protectedRoute,
         parentNavigatorKey: rootNavigatorKey,
       ),
       GoRoute(
         path: '/home',
         builder: (context, state) => const HomeScreen(),
         parentNavigatorKey: rootNavigatorKey,
-        redirect: redirect,
+        redirect: unprotectedRoute,
       ),
       GoRoute(
         path: '/login',
         builder: (context, state) => const LoginScreen(),
         parentNavigatorKey: rootNavigatorKey,
+        redirect: unprotectedRoute,
       ),
       GoRoute(
         path: '/order',
         builder: (context, state) => const OrderScreen(),
+        redirect: protectedRoute,
         parentNavigatorKey: rootNavigatorKey,
       ),
       GoRoute(
         path: '/search-address',
         builder: (context, state) => const SearchAddressScreen(),
+        redirect: protectedRoute,
         parentNavigatorKey: rootNavigatorKey,
       ),
       GoRoute(
         path: '/address-map',
         builder: (context, state) => const AddressMapScreen(),
+        redirect: protectedRoute,
         parentNavigatorKey: rootNavigatorKey,
       ),
       GoRoute(
         path: '/confirm-address',
         builder: (context, state) => const ConfirmAddressScreen(),
+        redirect: protectedRoute,
         parentNavigatorKey: rootNavigatorKey,
       ),
       GoRoute(
         path: '/card-form',
         builder: (context, state) => const CardFormScreen(),
+        redirect: protectedRoute,
         parentNavigatorKey: rootNavigatorKey,
       ),
       GoRoute(
         path: '/payment-methods',
         builder: (context, state) => const PaymentMethodsScreen(),
+        redirect: protectedRoute,
         parentNavigatorKey: rootNavigatorKey,
       ),
     ],
