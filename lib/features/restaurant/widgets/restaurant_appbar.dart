@@ -130,7 +130,7 @@ class _ImageAppBarState extends State<ImageAppBar> {
                     height: 100,
                     width: 100,
                     child: Image.network(
-                      'https://logowik.com/content/uploads/images/130_pizzahut.jpg',
+                      widget.logoImage!,
                       fit: BoxFit.cover,
                     ),
                   ),

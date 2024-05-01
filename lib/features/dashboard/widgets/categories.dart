@@ -1,5 +1,6 @@
 import 'package:delivery_app/config/constants/app_colors.dart';
 import 'package:delivery_app/features/dashboard/data/categories.dart';
+import 'package:delivery_app/features/dashboard/models/category.dart';
 import 'package:flutter/material.dart';
 
 class CategoriesDashboard extends StatelessWidget {
@@ -32,47 +33,20 @@ class CategoriesDashboard extends StatelessWidget {
             height: 24,
           ),
           SizedBox(
-            height: 110,
+            height: 120,
             child: ListView.separated(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
                 final category = categories[index];
-                return Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: SizedBox(
-                          width: 60,
-                          height: 60,
-                          child: Image.network(
-                            category.image,
-                            fit: BoxFit.contain,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    Text(
-                      category.name,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.gray800,
-                        height: 1,
-                        leadingDistribution: TextLeadingDistribution.even,
-                      ),
-                    ),
-                  ],
+                return CategoryItem(
+                  category: category,
+                  isSelected: index == 2,
                 );
               },
               separatorBuilder: (context, index) {
                 return const SizedBox(
-                  width: 24,
+                  width: 16,
                 );
               },
               itemCount: categories.length,
@@ -80,6 +54,70 @@ class CategoriesDashboard extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class CategoryItem extends StatelessWidget {
+  const CategoryItem({
+    super.key,
+    required this.category,
+    required this.isSelected,
+  });
+
+  final Category category;
+  final bool isSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          width: 88,
+          height: 88,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(14),
+            color: isSelected
+                ? AppColors.primary.withOpacity(0.1)
+                : AppColors.white,
+            border: Border.all(
+              color: isSelected ? AppColors.primary : const Color(0xffEFEFEF),
+            ),
+          ),
+          child: TextButton(
+            onPressed: () {},
+            style: TextButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(14),
+              ),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: SizedBox(
+                width: 42,
+                height: 42,
+                child: Image.network(
+                  category.image,
+                  fit: BoxFit.contain,
+                ),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 12,
+        ),
+        Text(
+          category.name,
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+            color: isSelected ? AppColors.primary : AppColors.gray800,
+            height: 1,
+            leadingDistribution: TextLeadingDistribution.even,
+          ),
+        ),
+      ],
     );
   }
 }

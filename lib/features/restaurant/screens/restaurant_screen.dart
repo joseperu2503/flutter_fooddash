@@ -1,6 +1,7 @@
 import 'package:delivery_app/features/dashboard/data/restaurants.dart';
+import 'package:delivery_app/features/dashboard/models/restaurant.dart';
 import 'package:delivery_app/features/restaurant/data/constants.dart';
-import 'package:delivery_app/features/restaurant/data/menu.dart';
+import 'package:delivery_app/features/restaurant/models/dish_category.dart';
 import 'package:delivery_app/features/restaurant/widgets/menu_categories.dart';
 import 'package:delivery_app/features/restaurant/widgets/menu_category_item.dart';
 import 'package:delivery_app/features/restaurant/widgets/restaurant_appbar.dart';
@@ -10,7 +11,12 @@ import 'package:flutter/material.dart';
 enum ScrollType { tap, scroll }
 
 class RestaurantScreen extends StatefulWidget {
-  const RestaurantScreen({super.key});
+  const RestaurantScreen({
+    super.key,
+    required this.id,
+  });
+
+  final String id;
 
   @override
   State<RestaurantScreen> createState() => _RestaurantScreenState();
@@ -25,8 +31,24 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
 
   int selectedCategoryIndex = 0;
 
+  late Restaurant restaurant;
+
+  List<DishCategory> get menu {
+    return restaurant.menu;
+  }
+
   @override
   void initState() {
+    setState(() {
+      try {
+        restaurant = restaurantsRecommended
+            .firstWhere((element) => element.id.toString() == widget.id);
+      } catch (_) {}
+      try {
+        restaurant = restaurantsTop
+            .firstWhere((element) => element.id.toString() == widget.id);
+      } catch (_) {}
+    });
     createBreakPoints();
     createHeightsCategories();
 
@@ -158,8 +180,6 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final restaurant = restaurants[0];
-
     return Scaffold(
       body: CustomScrollView(
         controller: verticalScrollController,
@@ -168,8 +188,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
             title: restaurant.name,
             image: restaurant.image,
             scrollController: verticalScrollController,
-            logoImage:
-                'https://logowik.com/content/uploads/images/130_pizzahut.jpg',
+            logoImage: restaurant.logo,
           ),
           RestaurantInfo(restaurant: restaurant),
           SliverPersistentHeader(
@@ -178,6 +197,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                 scrollToCategory(value);
               },
               selectedIndex: selectedCategoryIndex,
+              menu: menu,
             ),
             pinned: true,
           ),

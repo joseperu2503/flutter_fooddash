@@ -114,8 +114,8 @@ class AppbarDashboard extends StatelessWidget {
               ),
             ),
             Container(
-              width: 70,
-              height: 42,
+              width: 60,
+              height: 38,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(19),
                 boxShadow: [
@@ -129,8 +129,13 @@ class AppbarDashboard extends StatelessWidget {
               ),
               child: TextButton(
                 style: TextButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                ),
+                    backgroundColor: AppColors.primary,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadiusDirectional.circular(
+                        16,
+                      ),
+                    ),
+                    padding: EdgeInsets.zero),
                 onPressed: () {
                   context.push('/cart');
                 },
@@ -139,6 +144,7 @@ class AppbarDashboard extends StatelessWidget {
                   children: [
                     SvgPicture.asset(
                       'assets/icons/tabs/cart_outlined.svg',
+                      width: 20,
                       colorFilter: const ColorFilter.mode(
                         AppColors.white,
                         BlendMode.srcIn,
@@ -150,7 +156,7 @@ class AppbarDashboard extends StatelessWidget {
                     const Text(
                       '1',
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 17,
                         fontWeight: FontWeight.w600,
                         color: AppColors.white,
                         height: 1,

@@ -3,6 +3,8 @@ import 'package:delivery_app/features/dashboard/data/restaurants.dart';
 import 'package:delivery_app/features/dashboard/widgets/appbar.dart';
 import 'package:delivery_app/features/dashboard/widgets/categories.dart';
 import 'package:delivery_app/features/dashboard/widgets/input_search.dart';
+import 'package:delivery_app/features/dashboard/widgets/message.dart';
+import 'package:delivery_app/features/dashboard/widgets/most_popular.dart';
 import 'package:delivery_app/features/dashboard/widgets/restaurant_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,28 +25,10 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
         child: CustomScrollView(
           slivers: [
             const AppbarDashboard(),
-            SliverToBoxAdapter(
-              child: Container(
-                padding: const EdgeInsets.only(
-                  left: 24,
-                  right: 24,
-                  top: 20,
-                ),
-                child: const Text(
-                  'What would you like to order',
-                  style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.label2,
-                    height: 1,
-                    leadingDistribution: TextLeadingDistribution.even,
-                  ),
-                ),
-              ),
-            ),
+            const MesageDashboard(),
             const InputSearchDashboard(),
-            // const BannerDashboard(),
             const CategoriesDashboard(),
+            const MostPopular(),
             SliverToBoxAdapter(
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -55,7 +39,7 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
                       height: 18,
                     ),
                     Text(
-                      'Recommended',
+                      'Recommended for you',
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
@@ -77,7 +61,7 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
               ),
               sliver: SliverList.separated(
                 itemBuilder: (context, index) {
-                  final restaurant = restaurants[index];
+                  final restaurant = restaurantsRecommended[index];
                   return RestaurantItem(restaurant: restaurant);
                 },
                 separatorBuilder: (context, index) {
@@ -85,7 +69,7 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
                     height: 28,
                   );
                 },
-                itemCount: restaurants.length,
+                itemCount: restaurantsRecommended.length,
               ),
             ),
             const SliverToBoxAdapter(

@@ -1,15 +1,17 @@
 import 'package:delivery_app/config/constants/app_colors.dart';
 import 'package:delivery_app/features/restaurant/data/constants.dart';
-import 'package:delivery_app/features/restaurant/data/menu.dart';
+import 'package:delivery_app/features/restaurant/models/dish_category.dart';
 import 'package:flutter/material.dart';
 
 class MenuCategories extends SliverPersistentHeaderDelegate {
   final ValueChanged<int> onChanged;
   final int selectedIndex;
+  final List<DishCategory> menu;
 
   MenuCategories({
     required this.onChanged,
     required this.selectedIndex,
+    required this.menu,
   });
 
   @override
@@ -28,6 +30,7 @@ class MenuCategories extends SliverPersistentHeaderDelegate {
       child: Categories(
         onChanged: onChanged,
         selectedIndex: selectedIndex,
+        menu: menu,
       ),
     );
   }
@@ -49,10 +52,12 @@ class Categories extends StatefulWidget {
     super.key,
     required this.onChanged,
     required this.selectedIndex,
+    required this.menu,
   });
 
   final ValueChanged<int> onChanged;
   final int selectedIndex;
+  final List<DishCategory> menu;
 
   @override
   State<Categories> createState() => _CategoriesState();
@@ -61,10 +66,12 @@ class Categories extends StatefulWidget {
 class _CategoriesState extends State<Categories> {
   late ScrollController controller;
   final double paddingHorizontal = 24;
+  List<GlobalKey<State>> _keys = [];
 
   @override
   void initState() {
     controller = ScrollController();
+    _keys = List.generate(widget.menu.length, (_) => GlobalKey());
     super.initState();
   }
 
@@ -72,10 +79,10 @@ class _CategoriesState extends State<Categories> {
   void didUpdateWidget(covariant Categories oldWidget) {
     final anchoPantalla = MediaQuery.of(context).size.width;
 
-    double scrollRestante =
-        48 + (menu.length - widget.selectedIndex) * widthSeparateCategories;
+    double scrollRestante = 48 +
+        (widget.menu.length - widget.selectedIndex) * widthSeparateCategories;
 
-    for (var i = widget.selectedIndex; i < menu.length; i++) {
+    for (var i = widget.selectedIndex; i < widget.menu.length; i++) {
       if (_keys[i].currentContext == null) return;
       final RenderBox renderBox =
           _keys[i].currentContext!.findRenderObject() as RenderBox;
@@ -108,9 +115,6 @@ class _CategoriesState extends State<Categories> {
     super.dispose();
   }
 
-  final List<GlobalKey<State>> _keys =
-      List.generate(menu.length, (_) => GlobalKey());
-
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
@@ -140,7 +144,7 @@ class _CategoriesState extends State<Categories> {
                   isSelected ? AppColors.primary : Colors.transparent,
             ),
             child: Text(
-              menu[index].name,
+              widget.menu[index].name,
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
@@ -157,7 +161,7 @@ class _CategoriesState extends State<Categories> {
           width: widthSeparateCategories,
         );
       },
-      itemCount: menu.length,
+      itemCount: widget.menu.length,
     );
   }
 }

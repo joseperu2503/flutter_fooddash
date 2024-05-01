@@ -26,11 +26,11 @@ class RestaurantInfo extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(
-                  height: 50,
+                  height: 70,
                 ),
-                const Text(
-                  'Sabor Mexicano Grill',
-                  style: TextStyle(
+                Text(
+                  restaurant.name,
+                  style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
                     color: AppColors.gray900,
@@ -41,9 +41,9 @@ class RestaurantInfo extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                const Text(
-                  '4102 Pretty View Lanonda',
-                  style: TextStyle(
+                Text(
+                  restaurant.address,
+                  style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
                     color: AppColors.label,

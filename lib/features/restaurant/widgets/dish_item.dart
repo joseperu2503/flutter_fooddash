@@ -106,7 +106,7 @@ class DishItem extends StatelessWidget {
                           leadingDistribution: TextLeadingDistribution.even,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        maxLines: 2,
+                        maxLines: 1,
                       ),
                     ],
                   ),
