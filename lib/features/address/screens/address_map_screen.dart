@@ -99,7 +99,7 @@ class OrderScreenState extends ConsumerState<AddressMapScreen> {
                 height: (heightBottomSheet +
                     screen.padding.bottom -
                     radiusBottomSheet),
-              )
+              ),
             ],
           ),
           const Positioned(
