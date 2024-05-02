@@ -68,9 +68,17 @@ class TabsState extends ConsumerState<Tabs> {
                     Container(
                       height: 90,
                       width: 90,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: AppColors.yellow,
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.yellow.withOpacity(0.25),
+                            offset: const Offset(0, 8),
+                            blurRadius: 40,
+                            spreadRadius: 0,
+                          ),
+                        ],
                       ),
                       child: Center(
                         child: SvgPicture.asset(
@@ -340,7 +348,9 @@ class TabsState extends ConsumerState<Tabs> {
 List<MenuItem> menuItems = [
   MenuItem(
     label: 'My Profile',
-    onPress: (context) {},
+    onPress: (context) {
+      context.push('/profile');
+    },
     icon: 'assets/icons/drawer/profile.svg',
   ),
   MenuItem(

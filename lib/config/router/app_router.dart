@@ -14,6 +14,7 @@ import 'package:delivery_app/features/order/screens/my_orders_screen.dart';
 import 'package:delivery_app/features/order/screens/order_screen.dart';
 import 'package:delivery_app/features/payment_methods/screens/card_form_screen.dart';
 import 'package:delivery_app/features/payment_methods/screens/payment_methods_screen.dart';
+import 'package:delivery_app/features/profile/screens/profile_screen.dart';
 import 'package:delivery_app/features/restaurant/screens/restaurant_screen.dart';
 import 'package:delivery_app/features/shared/widgets/tabs.dart';
 import 'package:flutter/material.dart';
@@ -173,6 +174,12 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/payment-methods',
         builder: (context, state) => const PaymentMethodsScreen(),
+        redirect: protectedRoute,
+        parentNavigatorKey: rootNavigatorKey,
+      ),
+      GoRoute(
+        path: '/profile',
+        builder: (context, state) => const ProfileScreen(),
         redirect: protectedRoute,
         parentNavigatorKey: rootNavigatorKey,
       ),
