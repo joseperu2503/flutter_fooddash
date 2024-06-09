@@ -48,7 +48,7 @@ class RestaurantItem extends StatelessWidget {
                     Image.network(
                       width: double.infinity,
                       height: double.infinity,
-                      restaurant.image,
+                      restaurant.backdrop,
                       fit: BoxFit.cover,
                     ),
                     Positioned(
@@ -173,9 +173,9 @@ class RestaurantItem extends StatelessWidget {
                                 width: 6,
                               ),
                               Text(
-                                restaurant.sheeping == 0
+                                restaurant.delivery == 0
                                     ? 'Free delivery'
-                                    : '\$${Utils.formatCurrency(restaurant.sheeping)}',
+                                    : '\$${Utils.formatCurrency(restaurant.delivery)}',
                                 style: const TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w400,

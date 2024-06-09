@@ -35,7 +35,7 @@ class _DishScreenState extends State<DishScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final dish = menu[0].dishes[0];
+    final dish = staticMenu[0].dishes[0];
 
     return Scaffold(
       body: CustomScrollView(

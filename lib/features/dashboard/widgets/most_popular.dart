@@ -1,10 +1,14 @@
 import 'package:delivery_app/config/constants/app_colors.dart';
-import 'package:delivery_app/features/dashboard/data/restaurants.dart';
+import 'package:delivery_app/features/dashboard/models/restaurant.dart';
 import 'package:delivery_app/features/dashboard/widgets/restaurant_item.dart';
 import 'package:flutter/material.dart';
 
 class MostPopular extends StatelessWidget {
-  const MostPopular({super.key});
+  const MostPopular({
+    super.key,
+    required this.restaurants,
+  });
+  final List<Restaurant> restaurants;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +42,7 @@ class MostPopular extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 24),
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
-                final restaurant = restaurantsTop[index];
+                final restaurant = restaurants[index];
                 return Container(
                   width: 300,
                   alignment: Alignment.topCenter,
@@ -53,7 +57,7 @@ class MostPopular extends StatelessWidget {
                   width: 28,
                 );
               },
-              itemCount: restaurantsTop.length,
+              itemCount: restaurants.length,
             ),
           )
         ],

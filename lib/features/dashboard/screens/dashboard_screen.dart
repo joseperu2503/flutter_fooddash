@@ -1,5 +1,5 @@
 import 'package:delivery_app/config/constants/app_colors.dart';
-import 'package:delivery_app/features/dashboard/data/restaurants.dart';
+import 'package:delivery_app/features/dashboard/providers/restaurants_provider.dart';
 import 'package:delivery_app/features/dashboard/widgets/appbar.dart';
 import 'package:delivery_app/features/dashboard/widgets/categories.dart';
 import 'package:delivery_app/features/dashboard/widgets/input_search.dart';
@@ -18,7 +18,19 @@ class DashboardScreen extends ConsumerStatefulWidget {
 
 class DashboardScreenState extends ConsumerState<DashboardScreen> {
   @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(restaurantsProvider.notifier).initData();
+      ref.read(restaurantsProvider.notifier).getRestaurants();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final restaurantsState = ref.watch(restaurantsProvider);
+
     return Scaffold(
       body: SafeArea(
         bottom: false,
@@ -28,7 +40,9 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
             const MesageDashboard(),
             const InputSearchDashboard(),
             const CategoriesDashboard(),
-            const MostPopular(),
+            MostPopular(
+              restaurants: restaurantsState.restaurants,
+            ),
             SliverToBoxAdapter(
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -61,7 +75,7 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
               ),
               sliver: SliverList.separated(
                 itemBuilder: (context, index) {
-                  final restaurant = restaurantsRecommended[index];
+                  final restaurant = restaurantsState.restaurants[index];
                   return RestaurantItem(restaurant: restaurant);
                 },
                 separatorBuilder: (context, index) {
@@ -69,7 +83,7 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
                     height: 28,
                   );
                 },
-                itemCount: restaurantsRecommended.length,
+                itemCount: restaurantsState.restaurants.length,
               ),
             ),
             const SliverToBoxAdapter(

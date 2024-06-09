@@ -17,7 +17,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final dishes = menu[0].dishes;
+    final dishes = staticMenu[0].dishes;
     double deviceWidth = MediaQuery.of(context).size.width;
     final widthGridItem =
         (deviceWidth - 24 * 2 - crossAxisSpacing) / crossAxisCount;

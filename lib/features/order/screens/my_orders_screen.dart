@@ -17,7 +17,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final dishes = menu[0].dishes;
+    final dishes = staticMenu[0].dishes;
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(

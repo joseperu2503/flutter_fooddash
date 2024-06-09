@@ -13,7 +13,7 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dishes = menu[0].dishes;
+    final dishes = staticMenu[0].dishes;
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 60,

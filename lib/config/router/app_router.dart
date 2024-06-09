@@ -51,7 +51,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
 
   return GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: '/home',
+    initialLocation: '/dashboard',
     refreshListenable: goRouterNotifier,
     routes: [
       StatefulShellRoute.indexedStack(

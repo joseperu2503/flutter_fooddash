@@ -19,7 +19,7 @@ class BottomModal extends StatelessWidget {
   final MediaQueryData screen;
   @override
   Widget build(BuildContext context) {
-    final dishes = menu[0].dishes;
+    final dishes = staticMenu[0].dishes;
 
     final double minHeight = (heightBottomSheet + screen.padding.bottom) /
         (screen.size.height - toolbarHeight - screen.padding.top);

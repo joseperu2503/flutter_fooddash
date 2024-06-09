@@ -1,16 +1,18 @@
-import 'package:delivery_app/features/dashboard/data/restaurants.dart';
 import 'package:delivery_app/features/dashboard/models/restaurant.dart';
+import 'package:delivery_app/features/dashboard/providers/restaurants_provider.dart';
 import 'package:delivery_app/features/restaurant/data/constants.dart';
+import 'package:delivery_app/features/restaurant/data/menu.dart';
 import 'package:delivery_app/features/restaurant/models/dish_category.dart';
 import 'package:delivery_app/features/restaurant/widgets/menu_categories.dart';
 import 'package:delivery_app/features/restaurant/widgets/menu_category_item.dart';
 import 'package:delivery_app/features/restaurant/widgets/restaurant_appbar.dart';
 import 'package:delivery_app/features/restaurant/widgets/restaurant_info.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 enum ScrollType { tap, scroll }
 
-class RestaurantScreen extends StatefulWidget {
+class RestaurantScreen extends ConsumerStatefulWidget {
   const RestaurantScreen({
     super.key,
     required this.id,
@@ -19,10 +21,10 @@ class RestaurantScreen extends StatefulWidget {
   final String id;
 
   @override
-  State<RestaurantScreen> createState() => _RestaurantScreenState();
+  RestaurantScreenState createState() => RestaurantScreenState();
 }
 
-class _RestaurantScreenState extends State<RestaurantScreen> {
+class RestaurantScreenState extends ConsumerState<RestaurantScreen> {
   final ScrollController verticalScrollController = ScrollController();
   ScrollType scrollType = ScrollType.scroll;
 
@@ -31,23 +33,16 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
 
   int selectedCategoryIndex = 0;
 
-  late Restaurant restaurant;
+  Restaurant? restaurant;
 
-  List<DishCategory> get menu {
-    return restaurant.menu;
-  }
+  List<DishCategory> menu = staticMenu;
 
   @override
   void initState() {
+    final restaurants = ref.read(restaurantsProvider).restaurants;
     setState(() {
-      try {
-        restaurant = restaurantsRecommended
-            .firstWhere((element) => element.id.toString() == widget.id);
-      } catch (_) {}
-      try {
-        restaurant = restaurantsTop
-            .firstWhere((element) => element.id.toString() == widget.id);
-      } catch (_) {}
+      restaurant = restaurants
+          .firstWhere((element) => element.id.toString() == widget.id);
     });
     createBreakPoints();
     createHeightsCategories();
@@ -181,51 +176,53 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        controller: verticalScrollController,
-        slivers: [
-          ImageAppBar(
-            title: restaurant.name,
-            image: restaurant.image,
-            scrollController: verticalScrollController,
-            logoImage: restaurant.logo,
-          ),
-          RestaurantInfo(restaurant: restaurant),
-          SliverPersistentHeader(
-            delegate: MenuCategories(
-              onChanged: (value) {
-                scrollToCategory(value);
-              },
-              selectedIndex: selectedCategoryIndex,
-              menu: menu,
-            ),
-            pinned: true,
-          ),
-          SliverPadding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            sliver: SliverList.separated(
-              itemCount: menu.length,
-              itemBuilder: (context, index) {
-                final category = menu[index];
+      body: restaurant != null
+          ? CustomScrollView(
+              controller: verticalScrollController,
+              slivers: [
+                ImageAppBar(
+                  title: restaurant!.name,
+                  image: restaurant!.backdrop,
+                  scrollController: verticalScrollController,
+                  logoImage: restaurant!.logo,
+                ),
+                RestaurantInfo(restaurant: restaurant!),
+                SliverPersistentHeader(
+                  delegate: MenuCategories(
+                    onChanged: (value) {
+                      scrollToCategory(value);
+                    },
+                    selectedIndex: selectedCategoryIndex,
+                    menu: menu,
+                  ),
+                  pinned: true,
+                ),
+                SliverPadding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  sliver: SliverList.separated(
+                    itemCount: menu.length,
+                    itemBuilder: (context, index) {
+                      final category = menu[index];
 
-                return MenuCategoryItem(
-                  category: category,
-                );
-              },
-              separatorBuilder: (context, index) {
-                return const SizedBox(
-                  height: heightCategorySpace,
-                );
-              },
-            ),
-          ),
-          const SliverToBoxAdapter(
-            child: SizedBox(
-              height: heightEnd,
-            ),
-          )
-        ],
-      ),
+                      return MenuCategoryItem(
+                        category: category,
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(
+                        height: heightCategorySpace,
+                      );
+                    },
+                  ),
+                ),
+                const SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: heightEnd,
+                  ),
+                )
+              ],
+            )
+          : Container(),
     );
   }
 }
