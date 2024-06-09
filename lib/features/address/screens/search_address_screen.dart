@@ -10,8 +10,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-const double heightBottomSheet = 380;
-
 class SearchAddressScreen extends ConsumerStatefulWidget {
   const SearchAddressScreen({super.key});
 
@@ -70,9 +68,7 @@ class SearchAddressScreenState extends ConsumerState<SearchAddressScreen> {
                   child: InputSearchAddress(
                     value: searchAddressState.search,
                     onChanged: (value) {
-                      ref
-                          .read(addressProvider.notifier)
-                          .changeSearch(value);
+                      ref.read(addressProvider.notifier).changeSearch(value);
                     },
                     focusNode: _focusNode,
                   ),
