@@ -1,4 +1,5 @@
 import 'package:delivery_app/config/api/api.dart';
+import 'package:delivery_app/features/dashboard/models/category.dart';
 import 'package:delivery_app/features/dashboard/models/restaurant.dart';
 
 class RestaurantsService {
@@ -9,7 +10,18 @@ class RestaurantsService {
       return List<Restaurant>.from(
           response.data.map((x) => Restaurant.fromJson(x)));
     } catch (e) {
-      throw 'An error occurred while loading the products.';
+      throw 'An error occurred while loading the restaurants.';
+    }
+  }
+
+  static Future<List<Category>> getCategories() async {
+    try {
+      final response = await Api.get('/categories');
+
+      return List<Category>.from(
+          response.data.map((x) => Category.fromJson(x)));
+    } catch (e) {
+      throw 'An error occurred while loading the categories.';
     }
   }
 }

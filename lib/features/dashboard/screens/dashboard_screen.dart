@@ -24,6 +24,7 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(restaurantsProvider.notifier).initData();
       ref.read(restaurantsProvider.notifier).getRestaurants();
+      ref.read(restaurantsProvider.notifier).getCategories();
     });
   }
 
@@ -39,7 +40,9 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
             const AppbarDashboard(),
             const MesageDashboard(),
             const InputSearchDashboard(),
-            const CategoriesDashboard(),
+            CategoriesDashboard(
+              categories: restaurantsState.categories,
+            ),
             MostPopular(
               restaurants: restaurantsState.restaurants,
             ),

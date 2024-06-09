@@ -1,5 +1,7 @@
+import 'package:delivery_app/features/dashboard/models/category.dart';
+
 class Restaurant {
-  String id;
+  int id;
   String name;
   String address;
   String logo;
@@ -9,12 +11,16 @@ class Restaurant {
   bool isActive;
   String openTime;
   String closeTime;
+  String createdAt;
+  String updatedAt;
+  Category category;
   int distance;
   int time;
   double record;
   int recordPeople;
   List<String> tags;
   double delivery;
+  String date;
 
   Restaurant({
     required this.id,
@@ -27,12 +33,16 @@ class Restaurant {
     required this.isActive,
     required this.openTime,
     required this.closeTime,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.category,
     required this.distance,
     required this.time,
     required this.record,
     required this.recordPeople,
     required this.tags,
     required this.delivery,
+    required this.date,
   });
 
   factory Restaurant.fromJson(Map<String, dynamic> json) => Restaurant(
@@ -46,12 +56,16 @@ class Restaurant {
         isActive: json["isActive"],
         openTime: json["openTime"],
         closeTime: json["closeTime"],
+        createdAt: json["createdAt"],
+        updatedAt: json["updatedAt"],
+        category: Category.fromJson(json["category"]),
         distance: json["distance"],
         time: json["time"],
         record: json["record"]?.toDouble(),
         recordPeople: json["recordPeople"],
         tags: List<String>.from(json["tags"].map((x) => x)),
         delivery: json["delivery"]?.toDouble(),
+        date: json["date"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -65,11 +79,15 @@ class Restaurant {
         "isActive": isActive,
         "openTime": openTime,
         "closeTime": closeTime,
+        "createdAt": createdAt,
+        "updatedAt": updatedAt,
+        "category": category.toJson(),
         "distance": distance,
         "time": time,
         "record": record,
         "recordPeople": recordPeople,
         "tags": List<dynamic>.from(tags.map((x) => x)),
         "delivery": delivery,
+        "date": date,
       };
 }

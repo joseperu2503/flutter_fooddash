@@ -1,3 +1,4 @@
+import 'package:delivery_app/features/dashboard/models/category.dart';
 import 'package:delivery_app/features/dashboard/models/restaurant.dart';
 import 'package:delivery_app/features/dashboard/services/restaurants_services.dart';
 import 'package:delivery_app/features/shared/models/loading_status.dart';
@@ -17,16 +18,17 @@ class RestaurantsNotifier extends StateNotifier<RestaurantState> {
       restaurants: [],
       page: 1,
       totalPages: 1,
-      dashboardStatus: LoadingStatus.none,
+      restaurantsStatus: LoadingStatus.none,
+      categories: [],
     );
   }
 
   Future<void> getRestaurants() async {
     if (state.page > state.totalPages ||
-        state.dashboardStatus == LoadingStatus.loading) return;
+        state.restaurantsStatus == LoadingStatus.loading) return;
 
     state = state.copyWith(
-      dashboardStatus: LoadingStatus.loading,
+      restaurantsStatus: LoadingStatus.loading,
     );
 
     try {
@@ -36,11 +38,33 @@ class RestaurantsNotifier extends StateNotifier<RestaurantState> {
         restaurants: [...state.restaurants, ...response],
         totalPages: 1,
         page: state.page + 1,
-        dashboardStatus: LoadingStatus.success,
+        restaurantsStatus: LoadingStatus.success,
       );
     } catch (e) {
       state = state.copyWith(
-        dashboardStatus: LoadingStatus.error,
+        restaurantsStatus: LoadingStatus.error,
+      );
+      rethrow;
+    }
+  }
+
+  Future<void> getCategories() async {
+    if (state.page > state.totalPages ||
+        state.categoriesStatus == LoadingStatus.loading) return;
+
+    state = state.copyWith(
+      categoriesStatus: LoadingStatus.loading,
+    );
+
+    try {
+      final List<Category> response = await RestaurantsService.getCategories();
+      state = state.copyWith(
+        categories: [...state.categories, ...response],
+        categoriesStatus: LoadingStatus.success,
+      );
+    } catch (e) {
+      state = state.copyWith(
+        categoriesStatus: LoadingStatus.error,
       );
       rethrow;
     }
@@ -51,25 +75,33 @@ class RestaurantState {
   final List<Restaurant> restaurants;
   final int page;
   final int totalPages;
-  final LoadingStatus dashboardStatus;
+  final LoadingStatus restaurantsStatus;
+  final List<Category> categories;
+  final LoadingStatus categoriesStatus;
 
   RestaurantState({
     this.restaurants = const [],
     this.page = 1,
     this.totalPages = 1,
-    this.dashboardStatus = LoadingStatus.none,
+    this.restaurantsStatus = LoadingStatus.none,
+    this.categories = const [],
+    this.categoriesStatus = LoadingStatus.none,
   });
 
   RestaurantState copyWith({
     List<Restaurant>? restaurants,
     int? page,
     int? totalPages,
-    LoadingStatus? dashboardStatus,
+    LoadingStatus? restaurantsStatus,
+    List<Category>? categories,
+    LoadingStatus? categoriesStatus,
   }) =>
       RestaurantState(
         restaurants: restaurants ?? this.restaurants,
         page: page ?? this.page,
         totalPages: totalPages ?? this.totalPages,
-        dashboardStatus: dashboardStatus ?? this.dashboardStatus,
+        restaurantsStatus: restaurantsStatus ?? this.restaurantsStatus,
+        categories: categories ?? this.categories,
+        categoriesStatus: categoriesStatus ?? this.categoriesStatus,
       );
 }

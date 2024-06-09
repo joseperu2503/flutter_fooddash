@@ -1,10 +1,14 @@
 import 'package:delivery_app/config/constants/app_colors.dart';
-import 'package:delivery_app/features/dashboard/data/categories.dart';
 import 'package:delivery_app/features/dashboard/models/category.dart';
 import 'package:flutter/material.dart';
 
 class CategoriesDashboard extends StatelessWidget {
-  const CategoriesDashboard({super.key});
+  const CategoriesDashboard({
+    super.key,
+    required this.categories,
+  });
+
+  final List<Category> categories;
 
   @override
   Widget build(BuildContext context) {
