@@ -47,9 +47,11 @@ class MenuCategoryItem extends StatelessWidget {
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
+            final dish = category.dishes[index];
+            print(dish.id);
             return DishItem(
               widthGridItem: widthGridItem,
-              dish: category.dishes[index],
+              dish: dish,
             );
           },
           itemCount: category.dishes.length,
