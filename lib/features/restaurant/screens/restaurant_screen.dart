@@ -1,8 +1,7 @@
-import 'package:delivery_app/features/dashboard/models/restaurant.dart';
 import 'package:delivery_app/features/dashboard/providers/restaurants_provider.dart';
 import 'package:delivery_app/features/restaurant/data/constants.dart';
-import 'package:delivery_app/features/restaurant/data/menu.dart';
-import 'package:delivery_app/features/restaurant/models/dish_category.dart';
+import 'package:delivery_app/features/restaurant/models/restaurant_detail.dart';
+import 'package:delivery_app/features/restaurant/services/restaurant_services.dart';
 import 'package:delivery_app/features/restaurant/widgets/menu_categories.dart';
 import 'package:delivery_app/features/restaurant/widgets/menu_category_item.dart';
 import 'package:delivery_app/features/restaurant/widgets/restaurant_appbar.dart';
@@ -15,47 +14,69 @@ enum ScrollType { tap, scroll }
 class RestaurantScreen extends ConsumerStatefulWidget {
   const RestaurantScreen({
     super.key,
-    required this.id,
+    required this.restaurantId,
   });
 
-  final String id;
+  final String restaurantId;
 
   @override
   RestaurantScreenState createState() => RestaurantScreenState();
 }
 
 class RestaurantScreenState extends ConsumerState<RestaurantScreen> {
-  final ScrollController verticalScrollController = ScrollController();
+  final ScrollController _verticalScrollController = ScrollController();
   ScrollType scrollType = ScrollType.scroll;
-
-  double restaurantInfoHeight =
-      expandedHeightAppbar + heightRestaurantInfo - collapsedHeightAppbar;
+  RestaurantDetail? restaurantDetail;
 
   int selectedCategoryIndex = 0;
+  bool loading = false;
 
-  Restaurant? restaurant;
-
-  List<DishCategory> menu = staticMenu;
+  // double heightRestaurantInfo = 0;
 
   @override
   void initState() {
-    final restaurants = ref.read(restaurantsProvider).restaurants;
-    setState(() {
-      restaurant = restaurants
-          .firstWhere((element) => element.id.toString() == widget.id);
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await getRestaurant();
+      _createHeightsCategories();
     });
-    createBreakPoints();
-    createHeightsCategories();
-
-    verticalScrollController.addListener(() {
-      updateCategoryIndexOnScroll(verticalScrollController.offset);
-
-      // print('scroll actual ${verticalScrollController.offset}');
-    });
+    _verticalScrollController.addListener(_updateCategoryIndexOnScroll);
     super.initState();
   }
 
-  void scrollToCategory(int index) async {
+  getRestaurant() async {
+    //obtiene el restaurant temporal del provider
+    final restaurantsState = ref.read(restaurantsProvider);
+    final RestaurantDetail? termporalRestaurant =
+        restaurantsState.termporalRestaurant;
+    if (termporalRestaurant != null) {
+      //TODO:DESCOMENTAR
+      setState(() {
+        restaurantDetail = termporalRestaurant;
+      });
+    } else {
+      setState(() {
+        loading = true;
+      });
+    }
+
+    try {
+      final RestaurantDetail response = await RestaurantService.getRestaurant(
+        restaurantId: widget.restaurantId,
+      );
+      setState(() {
+        restaurantDetail = response;
+      });
+    } catch (e) {
+      throw Exception(e);
+    }
+    setState(() {
+      loading = false;
+    });
+  }
+
+  List<DishCategory> get menu => restaurantDetail?.dishCategories ?? [];
+
+  void _scrollToCategory(int index) async {
     final altoPantalla = MediaQuery.of(context).size.height;
 
     if (selectedCategoryIndex != index) {
@@ -65,7 +86,7 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen> {
       });
 
       double totalScroll = (expandedHeightAppbar - collapsedHeightAppbar) +
-          heightRestaurantInfo -
+          220 -
           (altoPantalla -
               heightCategories -
               kToolbarHeight -
@@ -92,7 +113,7 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen> {
               kToolbarHeight -
               collapsedHeightAppbar -
               heightCategories) {
-        await verticalScrollController.animateTo(
+        await _verticalScrollController.animateTo(
           totalScroll,
           duration: const Duration(milliseconds: 500),
           curve: Curves.ease,
@@ -106,8 +127,8 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen> {
 
       // print('scroll vertical hasta ${breakPoints[index]}');
 
-      await verticalScrollController.animateTo(
-        breakPoints[index],
+      await _verticalScrollController.animateTo(
+        verticalBreakPoints[index],
         duration: const Duration(milliseconds: 500),
         curve: Curves.ease,
       );
@@ -117,29 +138,37 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen> {
     }
   }
 
-  List<double> breakPoints = [];
+  double categoryScroll = 0;
+
+  List<double> verticalBreakPoints = [];
   List<double> heightsCategories = [];
 
-  void createBreakPoints() {
-    double firstBreakPoint = restaurantInfoHeight;
+  double _firstVerticalBreakPoint = 0;
 
-    breakPoints.add(firstBreakPoint);
+  void _setVerticalBreakPoints() {
+    double firstBreakPoint = _firstVerticalBreakPoint;
+
+    verticalBreakPoints.add(firstBreakPoint);
 
     for (var i = 0; i < menu.length; i++) {
-      double breakPoint = breakPoints.last +
+      int numDishes = menu[i].dishes.length;
+      int numRows = _rowsPerDishes(numDishes);
+
+      double breakPoint = verticalBreakPoints.last +
           (heightCategorySpace +
               heightCategoryTitle +
               heightCategoryTitleSpace) +
-          (heightDish * rowsPerDishes(menu[i].dishes.length)) +
-          (rowsPerDishes(menu[i].dishes.length) - 1) * mainAxisSpacing;
-      breakPoints.add(breakPoint);
+          (numRows * heightDish) +
+          (numRows - 1) * mainAxisSpacing;
+      verticalBreakPoints.add(breakPoint);
     }
   }
 
-  void createHeightsCategories() {
+  //** calcular altura de cada dish category */
+  void _createHeightsCategories() {
     for (var i = 0; i < menu.length; i++) {
       int numDishes = menu[i].dishes.length;
-      int numRows = rowsPerDishes(numDishes);
+      int numRows = _rowsPerDishes(numDishes);
       double height = numRows * heightDish +
           (numRows - 1) * mainAxisSpacing +
           (heightCategoryTitle + heightCategoryTitleSpace);
@@ -148,12 +177,14 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen> {
     }
   }
 
-  void updateCategoryIndexOnScroll(double offset) {
+  //** Actualiza el index  de la categoria actual segun el scroll */
+  void _updateCategoryIndexOnScroll() {
     if (scrollType == ScrollType.tap) return;
 
     for (var i = 0; i < menu.length; i++) {
-      if (breakPoints[i] <= offset + heightCategorySpace &&
-          offset < breakPoints[i + 1]) {
+      if (verticalBreakPoints[i] <=
+              _verticalScrollController.offset + heightCategorySpace &&
+          _verticalScrollController.offset < verticalBreakPoints[i + 1]) {
         if (selectedCategoryIndex != i) {
           setState(() {
             selectedCategoryIndex = i;
@@ -163,66 +194,90 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen> {
     }
   }
 
-  int rowsPerDishes(int numDishes) {
+  int _rowsPerDishes(int numDishes) {
     return (numDishes / crossAxisCount).ceil();
   }
 
   @override
   void dispose() {
-    verticalScrollController.dispose();
+    _verticalScrollController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final screen = MediaQuery.of(context);
+
+    if (restaurantDetail == null) {
+      return const Scaffold();
+    }
+
     return Scaffold(
-      body: restaurant != null
-          ? CustomScrollView(
-              controller: verticalScrollController,
-              slivers: [
-                ImageAppBar(
-                  title: restaurant!.name,
-                  image: restaurant!.backdrop,
-                  scrollController: verticalScrollController,
-                  logoImage: restaurant!.logo,
-                ),
-                RestaurantInfo(restaurant: restaurant!),
-                SliverPersistentHeader(
+      body: CustomScrollView(
+        controller: _verticalScrollController,
+        slivers: [
+          ImageAppBar(
+            title: restaurantDetail!.name,
+            image: restaurantDetail!.backdrop,
+            scrollController: _verticalScrollController,
+            logoImage: restaurantDetail?.logo,
+          ),
+          SliverLayoutBuilder(
+            builder: (context, constraints) {
+              return RestaurantInfo(restaurant: restaurantDetail!);
+            },
+          ),
+          if (menu.isNotEmpty)
+            SliverLayoutBuilder(
+              builder: (context, constraints) {
+                double firstVerticalBreakPoint =
+                    constraints.precedingScrollExtent -
+                        (collapsedHeightAppbar + screen.padding.top);
+                if (firstVerticalBreakPoint != _firstVerticalBreakPoint) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    setState(() {
+                      _firstVerticalBreakPoint = firstVerticalBreakPoint;
+                    });
+                    _setVerticalBreakPoints();
+                  });
+                }
+                return SliverPersistentHeader(
                   delegate: MenuCategories(
                     onChanged: (value) {
-                      scrollToCategory(value);
+                      _scrollToCategory(value);
                     },
                     selectedIndex: selectedCategoryIndex,
                     menu: menu,
                   ),
                   pinned: true,
-                ),
-                SliverPadding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  sliver: SliverList.separated(
-                    itemCount: menu.length,
-                    itemBuilder: (context, index) {
-                      final category = menu[index];
+                );
+              },
+            ),
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            sliver: SliverList.separated(
+              itemCount: menu.length,
+              itemBuilder: (context, index) {
+                final category = menu[index];
 
-                      return MenuCategoryItem(
-                        category: category,
-                      );
-                    },
-                    separatorBuilder: (context, index) {
-                      return const SizedBox(
-                        height: heightCategorySpace,
-                      );
-                    },
-                  ),
-                ),
-                const SliverToBoxAdapter(
-                  child: SizedBox(
-                    height: heightEnd,
-                  ),
-                )
-              ],
-            )
-          : Container(),
+                return MenuCategoryItem(
+                  category: category,
+                );
+              },
+              separatorBuilder: (context, index) {
+                return const SizedBox(
+                  height: heightCategorySpace,
+                );
+              },
+            ),
+          ),
+          const SliverToBoxAdapter(
+            child: SizedBox(
+              height: heightEnd,
+            ),
+          )
+        ],
+      ),
     );
   }
 }

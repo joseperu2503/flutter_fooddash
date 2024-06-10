@@ -1,24 +1,26 @@
-class Restaurant {
-  int id;
-  String name;
-  String address;
-  String logo;
-  String backdrop;
-  double latitude;
-  double longitude;
-  bool isActive;
-  String openTime;
-  String closeTime;
+import 'package:delivery_app/features/dashboard/models/restaurant.dart';
 
-  RestaurantCategory restaurantCategory;
-  int distance;
-  int time;
-  double record;
-  int recordPeople;
-  List<String> tags;
-  double delivery;
+class RestaurantDetail {
+  final int id;
+  final String name;
+  final String address;
+  final String logo;
+  final String backdrop;
+  final double latitude;
+  final double longitude;
+  final bool isActive;
+  final String openTime;
+  final String closeTime;
+  final List<DishCategory> dishCategories;
+  final RestaurantCategory restaurantCategory;
+  final int distance;
+  final int time;
+  final double record;
+  final int recordPeople;
+  final List<String> tags;
+  final double delivery;
 
-  Restaurant({
+  RestaurantDetail({
     required this.id,
     required this.name,
     required this.address,
@@ -29,6 +31,7 @@ class Restaurant {
     required this.isActive,
     required this.openTime,
     required this.closeTime,
+    required this.dishCategories,
     required this.restaurantCategory,
     required this.distance,
     required this.time,
@@ -38,7 +41,8 @@ class Restaurant {
     required this.delivery,
   });
 
-  factory Restaurant.fromJson(Map<String, dynamic> json) => Restaurant(
+  factory RestaurantDetail.fromJson(Map<String, dynamic> json) =>
+      RestaurantDetail(
         id: json["id"],
         name: json["name"],
         address: json["address"],
@@ -49,6 +53,8 @@ class Restaurant {
         isActive: json["isActive"],
         openTime: json["openTime"],
         closeTime: json["closeTime"],
+        dishCategories: List<DishCategory>.from(
+            json["dishCategories"].map((x) => DishCategory.fromJson(x))),
         restaurantCategory:
             RestaurantCategory.fromJson(json["restaurantCategory"]),
         distance: json["distance"],
@@ -70,6 +76,8 @@ class Restaurant {
         "isActive": isActive,
         "openTime": openTime,
         "closeTime": closeTime,
+        "dishCategories":
+            List<dynamic>.from(dishCategories.map((x) => x.toJson())),
         "restaurantCategory": restaurantCategory.toJson(),
         "distance": distance,
         "time": time,
@@ -80,24 +88,60 @@ class Restaurant {
       };
 }
 
-class RestaurantCategory {
-  int id;
-  String name;
-  String image;
-  bool isActive;
+class DishCategory {
+  final int id;
+  final String name;
+  final bool isActive;
+  final List<Dish> dishes;
 
-  RestaurantCategory({
+  DishCategory({
+    required this.id,
+    required this.name,
+    required this.isActive,
+    required this.dishes,
+  });
+
+  factory DishCategory.fromJson(Map<String, dynamic> json) => DishCategory(
+        id: json["id"],
+        name: json["name"],
+        isActive: json["isActive"],
+        dishes: List<Dish>.from(json["dishes"]!.map((x) => Dish.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "isActive": isActive,
+        "dishes": List<dynamic>.from(dishes.map((x) => x.toJson())),
+      };
+}
+
+class Dish {
+  final int id;
+  final String name;
+  final String image;
+  final String description;
+  final double price;
+  final int stock;
+  final bool isActive;
+
+  Dish({
     required this.id,
     required this.name,
     required this.image,
+    required this.description,
+    required this.price,
+    required this.stock,
     required this.isActive,
   });
 
-  factory RestaurantCategory.fromJson(Map<String, dynamic> json) =>
-      RestaurantCategory(
+  factory Dish.fromJson(Map<String, dynamic> json) => Dish(
         id: json["id"],
         name: json["name"],
         image: json["image"],
+        description: json["description"],
+        price: json["price"]?.toDouble(),
+        stock: json["stock"],
         isActive: json["isActive"],
       );
 
@@ -105,6 +149,9 @@ class RestaurantCategory {
         "id": id,
         "name": name,
         "image": image,
+        "description": description,
+        "price": price,
+        "stock": stock,
         "isActive": isActive,
       };
 }

@@ -1,11 +1,13 @@
 import 'package:delivery_app/config/constants/app_colors.dart';
 import 'package:delivery_app/features/dashboard/models/restaurant.dart';
+import 'package:delivery_app/features/dashboard/providers/restaurants_provider.dart';
 import 'package:delivery_app/features/shared/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
-class RestaurantItem extends StatelessWidget {
+class RestaurantItem extends ConsumerWidget {
   const RestaurantItem({
     super.key,
     required this.restaurant,
@@ -16,9 +18,12 @@ class RestaurantItem extends StatelessWidget {
   final bool showLogo;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
       onTap: () {
+        ref
+            .read(restaurantsProvider.notifier)
+            .setTemporalRestaurant(restaurant);
         context.push('/restaurant/${restaurant.id}');
       },
       child: Container(

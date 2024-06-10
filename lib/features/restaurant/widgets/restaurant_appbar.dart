@@ -63,12 +63,10 @@ class _ImageAppBarState extends State<ImageAppBar> {
 
     return SliverAppBar(
       titleSpacing: 0,
-      toolbarHeight: collapsedHeightAppbar,
       title: Container(
         padding: const EdgeInsets.symmetric(
           horizontal: 24,
         ),
-        height: collapsedHeightAppbar,
         child: Row(
           children: [
             const CustomBackButton(),
@@ -92,9 +90,9 @@ class _ImageAppBarState extends State<ImageAppBar> {
       scrolledUnderElevation: 0,
       automaticallyImplyLeading: false,
       pinned: true,
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: AppColors.background,
       expandedHeight: expandedHeightAppbar,
-      foregroundColor: Colors.white,
+      foregroundColor: AppColors.background,
       collapsedHeight: collapsedHeightAppbar,
       excludeHeaderSemantics: true,
       flexibleSpace: Stack(
@@ -109,7 +107,7 @@ class _ImageAppBarState extends State<ImageAppBar> {
               ),
               child: Container(
                 width: double.infinity,
-                color: AppColors.white,
+                color: AppColors.background,
                 child: Image.network(
                   widget.image,
                   fit: BoxFit.cover,

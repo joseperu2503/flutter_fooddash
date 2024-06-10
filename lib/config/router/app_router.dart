@@ -106,7 +106,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/restaurant/:id',
         builder: (context, state) => RestaurantScreen(
-          id: state.pathParameters['id'] ?? 'no-id',
+          restaurantId: state.pathParameters['id'] ?? 'no-id',
         ),
         parentNavigatorKey: rootNavigatorKey,
         redirect: protectedRoute,
