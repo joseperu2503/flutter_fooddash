@@ -1,9 +1,10 @@
+import 'package:delivery_app/config/constants/app_colors.dart';
 import 'package:delivery_app/features/dashboard/providers/restaurants_provider.dart';
 import 'package:delivery_app/features/restaurant/data/constants.dart';
 import 'package:delivery_app/features/restaurant/models/restaurant_detail.dart';
 import 'package:delivery_app/features/restaurant/services/restaurant_services.dart';
+import 'package:delivery_app/features/restaurant/widgets/dish_item.dart';
 import 'package:delivery_app/features/restaurant/widgets/menu_categories.dart';
-import 'package:delivery_app/features/restaurant/widgets/menu_category_item.dart';
 import 'package:delivery_app/features/restaurant/widgets/restaurant_appbar.dart';
 import 'package:delivery_app/features/restaurant/widgets/restaurant_info.dart';
 import 'package:flutter/material.dart';
@@ -29,15 +30,12 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen> {
   RestaurantDetail? restaurantDetail;
 
   int selectedCategoryIndex = 0;
-  bool loading = false;
-
-  // double heightRestaurantInfo = 0;
+  bool _loading = false;
 
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await getRestaurant();
-      _createHeightsCategories();
     });
     _verticalScrollController.addListener(_updateCategoryIndexOnScroll);
     super.initState();
@@ -49,13 +47,12 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen> {
     final RestaurantDetail? termporalRestaurant =
         restaurantsState.termporalRestaurant;
     if (termporalRestaurant != null) {
-      //TODO:DESCOMENTAR
       setState(() {
         restaurantDetail = termporalRestaurant;
       });
     } else {
       setState(() {
-        loading = true;
+        _loading = true;
       });
     }
 
@@ -70,110 +67,59 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen> {
       throw Exception(e);
     }
     setState(() {
-      loading = false;
+      _loading = false;
     });
   }
 
   List<DishCategory> get menu => restaurantDetail?.dishCategories ?? [];
 
   void _scrollToCategory(int index) async {
-    final altoPantalla = MediaQuery.of(context).size.height;
-
     if (selectedCategoryIndex != index) {
       setState(() {
         scrollType = ScrollType.tap;
         selectedCategoryIndex = index;
       });
 
-      double totalScroll = (expandedHeightAppbar - collapsedHeightAppbar) +
-          220 -
-          (altoPantalla -
-              heightCategories -
-              kToolbarHeight -
-              collapsedHeightAppbar);
-
-      totalScroll += heightCategorySpace * (menu.length - 1);
-      totalScroll += 3;
-      totalScroll += heightEnd;
-
-      for (var i = 0; i < menu.length; i++) {
-        totalScroll += heightsCategories[i];
-      }
-
-      // print('totalscroll $totalScroll');
-
-      double scrollRestante = heightCategorySpace * (menu.length - index - 1);
-      for (var i = index; i < menu.length; i++) {
-        scrollRestante += heightsCategories[i];
-      }
-      scrollRestante += heightEnd;
-
-      if (scrollRestante <
-          altoPantalla -
-              kToolbarHeight -
-              collapsedHeightAppbar -
-              heightCategories) {
-        await _verticalScrollController.animateTo(
-          totalScroll,
-          duration: const Duration(milliseconds: 500),
-          curve: Curves.ease,
-        );
-        setState(() {
-          scrollType = ScrollType.scroll;
-        });
-
-        return;
-      }
-
-      // print('scroll vertical hasta ${breakPoints[index]}');
-
-      await _verticalScrollController.animateTo(
-        verticalBreakPoints[index],
+      if (categoryKeys[index].currentContext == null) return;
+      await Scrollable.ensureVisible(
+        categoryKeys[index].currentContext!,
+        alignment: 0.0,
         duration: const Duration(milliseconds: 500),
         curve: Curves.ease,
       );
+
       setState(() {
         scrollType = ScrollType.scroll;
       });
     }
   }
 
-  double categoryScroll = 0;
-
-  List<double> verticalBreakPoints = [];
-  List<double> heightsCategories = [];
+  final List<double> _verticalBreakPoints = [];
+  List<GlobalObjectKey> get categoryKeys {
+    return menu
+        .map((dishCategory) => GlobalObjectKey(dishCategory.id))
+        .toList();
+  }
 
   double _firstVerticalBreakPoint = 0;
 
+  //** calcula el scroll por cada categoria */
   void _setVerticalBreakPoints() {
     double firstBreakPoint = _firstVerticalBreakPoint;
 
-    verticalBreakPoints.add(firstBreakPoint);
+    _verticalBreakPoints.add(firstBreakPoint);
 
     for (var i = 0; i < menu.length; i++) {
       int numDishes = menu[i].dishes.length;
       int numRows = _rowsPerDishes(numDishes);
 
-      double breakPoint = verticalBreakPoints.last +
+      double breakPoint = _verticalBreakPoints.last +
           (heightCategorySpace +
               heightCategoryTitle +
               heightCategoryTitleSpace) +
           (numRows * heightDish) +
           (numRows - 1) * mainAxisSpacing;
-      verticalBreakPoints.add(breakPoint);
-    }
-  }
-
-  //** calcular altura de cada dish category */
-  void _createHeightsCategories() {
-    for (var i = 0; i < menu.length; i++) {
-      int numDishes = menu[i].dishes.length;
-      int numRows = _rowsPerDishes(numDishes);
-      double height = numRows * heightDish +
-          (numRows - 1) * mainAxisSpacing +
-          (heightCategoryTitle + heightCategoryTitleSpace);
-
-      heightsCategories.add(height);
+      _verticalBreakPoints.add(breakPoint);
     }
   }
 
@@ -182,9 +128,9 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen> {
     if (scrollType == ScrollType.tap) return;
 
     for (var i = 0; i < menu.length; i++) {
-      if (verticalBreakPoints[i] <=
+      if (_verticalBreakPoints[i] <=
               _verticalScrollController.offset + heightCategorySpace &&
-          _verticalScrollController.offset < verticalBreakPoints[i + 1]) {
+          _verticalScrollController.offset < _verticalBreakPoints[i + 1]) {
         if (selectedCategoryIndex != i) {
           setState(() {
             selectedCategoryIndex = i;
@@ -207,7 +153,9 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen> {
   @override
   Widget build(BuildContext context) {
     final screen = MediaQuery.of(context);
-
+    ;
+    final widthGridItem =
+        (screen.size.width - 24 * 2 - crossAxisSpacing) / crossAxisCount;
     if (restaurantDetail == null) {
       return const Scaffold();
     }
@@ -230,6 +178,7 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen> {
           if (menu.isNotEmpty)
             SliverLayoutBuilder(
               builder: (context, constraints) {
+                // print(constraints.viewportMainAxisExtent);
                 double firstVerticalBreakPoint =
                     constraints.precedingScrollExtent -
                         (collapsedHeightAppbar + screen.padding.top);
@@ -253,24 +202,62 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen> {
                 );
               },
             ),
-          SliverPadding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            sliver: SliverList.separated(
-              itemCount: menu.length,
-              itemBuilder: (context, index) {
-                final category = menu[index];
-
-                return MenuCategoryItem(
-                  category: category,
-                );
-              },
-              separatorBuilder: (context, index) {
-                return const SizedBox(
-                  height: heightCategorySpace,
-                );
-              },
-            ),
-          ),
+          if (menu.isNotEmpty)
+            ...menu
+                .map((dishCategory) {
+                  int index = menu.indexOf(dishCategory);
+                  return [
+                    SliverPadding(
+                      key: categoryKeys[index],
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      sliver: SliverToBoxAdapter(
+                        child: Container(
+                          height: heightCategoryTitle,
+                          margin: const EdgeInsets.only(
+                            bottom: heightCategoryTitleSpace,
+                          ),
+                          child: Text(
+                            dishCategory.name,
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.gray900,
+                              height: 1.5,
+                              leadingDistribution: TextLeadingDistribution.even,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SliverPadding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      sliver: SliverGrid.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: crossAxisCount,
+                          mainAxisSpacing: mainAxisSpacing,
+                          crossAxisSpacing: crossAxisSpacing,
+                          childAspectRatio: widthGridItem / heightDish,
+                        ),
+                        itemBuilder: (context, index) {
+                          final dish = dishCategory.dishes[index];
+                          // print(dish.id);
+                          return DishItem(
+                            widthGridItem: widthGridItem,
+                            dish: dish,
+                          );
+                        },
+                        itemCount: dishCategory.dishes.length,
+                      ),
+                    ),
+                    const SliverToBoxAdapter(
+                      child: SizedBox(
+                        height: heightCategorySpace,
+                      ),
+                    ),
+                  ];
+                })
+                .toList()
+                .reduce((value, element) => [...value, ...element]),
           const SliverToBoxAdapter(
             child: SizedBox(
               height: heightEnd,

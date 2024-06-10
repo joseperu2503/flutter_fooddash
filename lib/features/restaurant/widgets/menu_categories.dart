@@ -103,7 +103,7 @@ class _CategoriesState extends State<Categories> {
 
     controller.animateTo(
       scrollDistance,
-      duration: const Duration(milliseconds: 200),
+      duration: const Duration(milliseconds: 500),
       curve: Curves.ease,
     );
     super.didUpdateWidget(oldWidget);
