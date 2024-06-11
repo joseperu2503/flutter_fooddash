@@ -110,7 +110,9 @@ class _DishCategoriesState extends State<DishCategories> {
                     style: TextButton.styleFrom(
                       foregroundColor:
                           isSelected ? AppColors.white : Colors.black38,
-                      side: const BorderSide(color: AppColors.gray300),
+                      side: isSelected
+                          ? null
+                          : const BorderSide(color: AppColors.gray300),
                       padding: const EdgeInsets.symmetric(
                         vertical: 0,
                         horizontal: 18,

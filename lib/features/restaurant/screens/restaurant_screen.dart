@@ -30,7 +30,6 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen> {
   RestaurantDetail? restaurantDetail;
 
   int selectedCategoryIndex = 0;
-  bool _loading = false;
 
   @override
   void initState() {
@@ -51,10 +50,6 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen> {
       setState(() {
         restaurantDetail = termporalRestaurant;
       });
-    } else {
-      setState(() {
-        _loading = true;
-      });
     }
 
     try {
@@ -67,9 +62,6 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen> {
     } catch (e) {
       throw Exception(e);
     }
-    setState(() {
-      _loading = false;
-    });
   }
 
   List<DishCategory> get menu => restaurantDetail?.dishCategories ?? [];
