@@ -36,6 +36,7 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await getRestaurant();
+      _setVerticalBreakPoints();
     });
     _verticalScrollController.addListener(_updateCategoryIndexOnScroll);
     super.initState();
@@ -80,9 +81,9 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen> {
         selectedCategoryIndex = index;
       });
 
-      if (categoryKeys[index].currentContext == null) return;
+      if (_categoryKeys[index].currentContext == null) return;
       await Scrollable.ensureVisible(
-        categoryKeys[index].currentContext!,
+        _categoryKeys[index].currentContext!,
         alignment: 0.0,
         duration: const Duration(milliseconds: 500),
         curve: Curves.ease,
@@ -94,8 +95,9 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen> {
     }
   }
 
-  final List<double> _verticalBreakPoints = [];
-  List<GlobalObjectKey> get categoryKeys {
+  final GlobalKey _sliverKey = GlobalKey();
+
+  List<GlobalObjectKey> get _categoryKeys {
     return menu
         .map((dishCategory) => GlobalObjectKey(dishCategory.id))
         .toList();
@@ -103,12 +105,12 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen> {
 
   double _firstVerticalBreakPoint = 0;
 
-  //** calcula el scroll por cada categoria */
+  final List<double> _verticalBreakPoints = [];
+
+  //** calcula los scrollbreakpoints de las categorias */
   void _setVerticalBreakPoints() {
-    double firstBreakPoint = _firstVerticalBreakPoint;
-
+    final double firstBreakPoint = _firstVerticalBreakPoint;
     _verticalBreakPoints.add(firstBreakPoint);
-
     for (var i = 0; i < menu.length; i++) {
       int numDishes = menu[i].dishes.length;
       int numRows = _rowsPerDishes(numDishes);
@@ -123,14 +125,14 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen> {
     }
   }
 
-  //** Actualiza el index  de la categoria actual segun el scroll */
+  //** Actualiza el index  de la categoria actual segun el scroll (optimizado)*/
   void _updateCategoryIndexOnScroll() {
     if (scrollType == ScrollType.tap) return;
-
     for (var i = 0; i < menu.length; i++) {
       if (_verticalBreakPoints[i] <=
               _verticalScrollController.offset + heightCategorySpace &&
-          _verticalScrollController.offset < _verticalBreakPoints[i + 1]) {
+          _verticalScrollController.offset + heightCategorySpace <
+              _verticalBreakPoints[i + 1]) {
         if (selectedCategoryIndex != i) {
           setState(() {
             selectedCategoryIndex = i;
@@ -153,7 +155,7 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen> {
   @override
   Widget build(BuildContext context) {
     final screen = MediaQuery.of(context);
-    ;
+
     final widthGridItem =
         (screen.size.width - 24 * 2 - crossAxisSpacing) / crossAxisCount;
     if (restaurantDetail == null) {
@@ -170,45 +172,43 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen> {
             scrollController: _verticalScrollController,
             logoImage: restaurantDetail?.logo,
           ),
+          RestaurantInfo(restaurant: restaurantDetail!),
           SliverLayoutBuilder(
+            key: _sliverKey,
             builder: (context, constraints) {
-              return RestaurantInfo(restaurant: restaurantDetail!);
+              double firstVerticalBreakPoint =
+                  constraints.precedingScrollExtent -
+                      (collapsedHeightAppbar + screen.padding.top);
+              if (firstVerticalBreakPoint != _firstVerticalBreakPoint) {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  setState(() {
+                    _firstVerticalBreakPoint = firstVerticalBreakPoint;
+                  });
+                });
+              }
+              return SliverAppBar(
+                flexibleSpace: DishCategories(
+                  onChanged: (value) {
+                    _scrollToCategory(value);
+                  },
+                  selectedIndex: selectedCategoryIndex,
+                  menu: menu,
+                ),
+                primary: false,
+                toolbarHeight: heightCategories,
+                scrolledUnderElevation: 0,
+                automaticallyImplyLeading: false,
+                pinned: true,
+              );
             },
           ),
-          if (menu.isNotEmpty)
-            SliverLayoutBuilder(
-              builder: (context, constraints) {
-                // print(constraints.viewportMainAxisExtent);
-                double firstVerticalBreakPoint =
-                    constraints.precedingScrollExtent -
-                        (collapsedHeightAppbar + screen.padding.top);
-                if (firstVerticalBreakPoint != _firstVerticalBreakPoint) {
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    setState(() {
-                      _firstVerticalBreakPoint = firstVerticalBreakPoint;
-                    });
-                    _setVerticalBreakPoints();
-                  });
-                }
-                return SliverPersistentHeader(
-                  delegate: MenuCategories(
-                    onChanged: (value) {
-                      _scrollToCategory(value);
-                    },
-                    selectedIndex: selectedCategoryIndex,
-                    menu: menu,
-                  ),
-                  pinned: true,
-                );
-              },
-            ),
           if (menu.isNotEmpty)
             ...menu
                 .map((dishCategory) {
                   int index = menu.indexOf(dishCategory);
                   return [
                     SliverPadding(
-                      key: categoryKeys[index],
+                      key: _categoryKeys[index],
                       padding: const EdgeInsets.symmetric(horizontal: 24),
                       sliver: SliverToBoxAdapter(
                         child: Container(
