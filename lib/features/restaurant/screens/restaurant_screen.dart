@@ -3,9 +3,9 @@ import 'package:delivery_app/features/dashboard/providers/restaurants_provider.d
 import 'package:delivery_app/features/restaurant/data/constants.dart';
 import 'package:delivery_app/features/restaurant/models/restaurant_detail.dart';
 import 'package:delivery_app/features/restaurant/services/restaurant_services.dart';
-import 'package:delivery_app/features/restaurant/widgets/dish_item.dart';
-import 'package:delivery_app/features/restaurant/widgets/menu_categories.dart';
-import 'package:delivery_app/features/restaurant/widgets/restaurant_appbar.dart';
+import 'package:delivery_app/features/dish/widgets/dish_item.dart';
+import 'package:delivery_app/features/restaurant/widgets/dish_categories.dart';
+import 'package:delivery_app/features/shared/widgets/image_app_bar.dart';
 import 'package:delivery_app/features/restaurant/widgets/restaurant_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

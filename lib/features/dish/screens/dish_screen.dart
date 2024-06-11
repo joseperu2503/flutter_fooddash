@@ -1,31 +1,59 @@
 import 'package:delivery_app/config/constants/app_colors.dart';
 import 'package:delivery_app/features/dish/data/toppings.dart';
+import 'package:delivery_app/features/dish/models/dish_detail.dart';
+import 'package:delivery_app/features/dish/providers/dish_provider.dart';
+import 'package:delivery_app/features/dish/services/dish_service.dart';
 import 'package:delivery_app/features/dish/widgets/dish_info.dart';
-import 'package:delivery_app/features/restaurant/data/menu.dart';
-import 'package:delivery_app/features/restaurant/widgets/restaurant_appbar.dart';
+import 'package:delivery_app/features/shared/widgets/image_app_bar.dart';
 import 'package:delivery_app/features/shared/widgets/check.dart';
 import 'package:delivery_app/features/shared/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class DishScreen extends StatefulWidget {
-  const DishScreen({super.key});
+class DishScreen extends ConsumerStatefulWidget {
+  const DishScreen({
+    super.key,
+    required this.dishId,
+  });
+
+  final String dishId;
 
   @override
-  State<DishScreen> createState() => _DishScreenState();
+  DishScreenState createState() => DishScreenState();
 }
 
-class _DishScreenState extends State<DishScreen> {
+class DishScreenState extends ConsumerState<DishScreen> {
   final ScrollController verticalScrollController = ScrollController();
 
   @override
   void initState() {
-    verticalScrollController.addListener(() {
-      print('scroll actual ${verticalScrollController.offset}');
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await getDish();
     });
     super.initState();
   }
 
-  List<double> breakPoints = [];
+  getDish() async {
+    final DishDetail? termporalDish = ref.read(dishProvider).termporalDish;
+    if (termporalDish != null) {
+      setState(() {
+        dishDetail = termporalDish;
+      });
+    }
+
+    try {
+      final DishDetail response = await DishService.getDish(
+        dishId: widget.dishId,
+      );
+      setState(() {
+        dishDetail = response;
+      });
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  DishDetail? dishDetail;
 
   @override
   void dispose() {
@@ -35,18 +63,20 @@ class _DishScreenState extends State<DishScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final dish = staticMenu[0].dishes[0];
+    if (dishDetail == null) {
+      return const Scaffold();
+    }
 
     return Scaffold(
       body: CustomScrollView(
         controller: verticalScrollController,
         slivers: [
           ImageAppBar(
-            title: dish.name,
-            image: dish.image,
+            title: dishDetail!.name,
+            image: dishDetail!.image,
             scrollController: verticalScrollController,
           ),
-          DishInfo(dish: dish),
+          DishInfo(dish: dishDetail!),
           SliverToBoxAdapter(
             child: Container(
               padding: const EdgeInsets.symmetric(

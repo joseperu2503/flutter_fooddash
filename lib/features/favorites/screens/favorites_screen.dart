@@ -2,7 +2,7 @@ import 'package:delivery_app/config/constants/app_colors.dart';
 import 'package:delivery_app/features/favorites/widgets/favorite_switch.dart';
 import 'package:delivery_app/features/restaurant/data/constants.dart';
 import 'package:delivery_app/features/restaurant/data/menu.dart';
-import 'package:delivery_app/features/restaurant/widgets/dish_item.dart';
+import 'package:delivery_app/features/dish/widgets/dish_item.dart';
 import 'package:flutter/material.dart';
 
 class FavoriteScreen extends StatefulWidget {
@@ -74,7 +74,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
               child: CustomScrollView(
                 slivers: [
                   SliverPadding(
-                    padding: EdgeInsets.only(
+                    padding: const EdgeInsets.only(
                       left: 24,
                       right: 24,
                       top: 24,

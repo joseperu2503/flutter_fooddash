@@ -20,7 +20,7 @@ class DishCategories extends StatefulWidget {
 }
 
 class _DishCategoriesState extends State<DishCategories> {
-  late ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
   final double paddingHorizontal = 24;
   List<GlobalKey<State>> _keys = [];
 

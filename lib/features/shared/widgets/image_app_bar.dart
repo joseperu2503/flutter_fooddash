@@ -73,14 +73,16 @@ class _ImageAppBarState extends State<ImageAppBar> {
             const SizedBox(
               width: 20,
             ),
-            Opacity(
-              opacity: opacity,
-              child: Text(
-                widget.title,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.gray800,
+            Expanded(
+              child: Opacity(
+                opacity: opacity,
+                child: Text(
+                  widget.title,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.gray800,
+                  ),
                 ),
               ),
             )

@@ -40,7 +40,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
             ),
           ),
         ),
-        body: CustomScrollView(
+        body: const CustomScrollView(
           slivers: [],
         ),
       ),

@@ -1,5 +1,5 @@
 import 'package:delivery_app/config/constants/app_colors.dart';
-import 'package:delivery_app/features/restaurant/models/restaurant_detail.dart';
+import 'package:delivery_app/features/dish/models/dish_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -8,7 +8,7 @@ class DishInfo extends StatelessWidget {
     super.key,
     required this.dish,
   });
-  final Dish dish;
+  final DishDetail dish;
 
   @override
   Widget build(BuildContext context) {

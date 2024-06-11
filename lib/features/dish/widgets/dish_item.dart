@@ -1,10 +1,12 @@
 import 'package:delivery_app/config/constants/app_colors.dart';
+import 'package:delivery_app/features/dish/providers/dish_provider.dart';
 import 'package:delivery_app/features/restaurant/models/restaurant_detail.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
-class DishItem extends StatelessWidget {
+class DishItem extends ConsumerWidget {
   const DishItem({
     super.key,
     required this.widthGridItem,
@@ -15,7 +17,7 @@ class DishItem extends StatelessWidget {
   final Dish dish;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return SizedBox(
       width: widthGridItem,
       child: ListTile(
@@ -23,7 +25,8 @@ class DishItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
         ),
         onTap: () {
-          context.push('/dish');
+          ref.read(dishProvider.notifier).setTemporalDish(dish);
+          context.push('/dish/${dish.id}');
         },
         contentPadding: EdgeInsets.zero,
         dense: true,
