@@ -20,6 +20,7 @@ class MainApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final appRouter = ref.watch(goRouterProvider);
     return MaterialApp.router(
+      title: 'FoodDash',
       routerConfig: appRouter,
       theme: AppTheme.getTheme(),
       debugShowCheckedModeBanner: false,
