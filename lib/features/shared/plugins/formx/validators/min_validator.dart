@@ -8,7 +8,7 @@ class MinValidator<T> extends Validator<dynamic> {
   /// Constructs the instance of the validator.
   ///
   /// The argument [min] must not be null.
-  const MinValidator(this.min) : super();
+  const MinValidator(this.min);
 
   @override
   String? validate(dynamic value) {

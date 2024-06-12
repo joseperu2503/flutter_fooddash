@@ -1,7 +1,8 @@
 import 'package:delivery_app/config/constants/app_colors.dart';
-import 'package:delivery_app/features/auth/providers/auth_provider.dart';
+import 'package:delivery_app/features/auth/providers/login_provider.dart';
 import 'package:delivery_app/features/shared/widgets/back_button.dart';
 import 'package:delivery_app/features/shared/widgets/custom_button.dart';
+import 'package:delivery_app/features/shared/widgets/custom_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,7 +16,17 @@ class LoginScreen extends ConsumerStatefulWidget {
 
 class LoginScreenState extends ConsumerState<LoginScreen> {
   @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(loginProvider.notifier).initData();
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final loginState = ref.watch(loginProvider);
+
     return Container(
       color: AppColors.background,
       child: Stack(
@@ -126,53 +137,14 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                         const SizedBox(
                           height: 12,
                         ),
-                        Container(
-                          height: 65,
-                          decoration: const BoxDecoration(
-                            color: AppColors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                color: Color.fromRGBO(233, 233, 233, 0.25),
-                                offset: Offset(15, 20),
-                                blurRadius: 45,
-                                spreadRadius: 0,
-                              ),
-                            ],
-                          ),
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                  color: AppColors.inputBorder,
-                                ),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                  color: AppColors.primary,
-                                ),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              hintText: 'Your email',
-                              hintStyle: const TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.w400,
-                                color: AppColors.inputHint,
-                              ),
-                              contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 20,
-                                vertical: 20,
-                              ),
-                            ),
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.input,
-                            ),
-                          ),
+                        CustomTextField(
+                          hintText: 'Your email',
+                          value: loginState.email,
+                          onChanged: (value) {
+                            ref.read(loginProvider.notifier).changeEmail(value);
+                          },
+                          textInputAction: TextInputAction.next,
+                          keyboardType: TextInputType.emailAddress,
                         ),
                         const SizedBox(
                           height: 29,
@@ -190,53 +162,18 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                         const SizedBox(
                           height: 12,
                         ),
-                        Container(
-                          height: 65,
-                          decoration: const BoxDecoration(
-                            color: AppColors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                color: Color.fromRGBO(233, 233, 233, 0.25),
-                                offset: Offset(15, 20),
-                                blurRadius: 45,
-                                spreadRadius: 0,
-                              ),
-                            ],
-                          ),
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                  color: AppColors.inputBorder,
-                                ),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                  color: AppColors.primary,
-                                ),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              hintText: 'Your password',
-                              hintStyle: const TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.w400,
-                                color: AppColors.inputHint,
-                              ),
-                              contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 20,
-                                vertical: 20,
-                              ),
-                            ),
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.input,
-                            ),
-                          ),
+                        CustomTextField(
+                          hintText: 'Your password',
+                          value: loginState.password,
+                          onChanged: (value) {
+                            ref
+                                .read(loginProvider.notifier)
+                                .changePassword(value);
+                          },
+                          textInputAction: TextInputAction.done,
+                          onFieldSubmitted: (value) {
+                            ref.read(loginProvider.notifier).login();
+                          },
                         ),
                         const SizedBox(
                           height: 32,
@@ -259,9 +196,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                         Center(
                           child: CustomButton(
                             onPressed: () {
-                              ref
-                                  .read(authProvider.notifier)
-                                  .setAuthStatus(AuthStatus.authenticated);
+                              ref.read(loginProvider.notifier).login();
                             },
                             text: 'LOGIN',
                             boxShadow: BoxShadowType.gray,

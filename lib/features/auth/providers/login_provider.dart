@@ -4,6 +4,7 @@ import 'package:delivery_app/features/auth/providers/auth_provider.dart';
 import 'package:delivery_app/features/auth/services/auth_service.dart';
 import 'package:delivery_app/features/core/services/storage_service.dart';
 import 'package:delivery_app/features/shared/plugins/formx/formx.dart';
+import 'package:delivery_app/features/shared/plugins/formx/validators/validators.dart';
 import 'package:delivery_app/features/shared/services/snackbar_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -22,11 +23,16 @@ class LoginNotifier extends StateNotifier<LoginState> {
         await StorageService.get<bool>(StorageKeys.rememberMe) ?? false;
 
     state = state.copyWith(
-      email:
-          rememberMe ? FormxInput(value: email) : const FormxInput(value: ''),
-      password: const FormxInput(value: ''),
+      email: FormxInput(value: '', validators: [Validators.required()]),
+      password: FormxInput(value: '', validators: [Validators.required()]),
       rememberMe: rememberMe,
     );
+
+    if (rememberMe) {
+      state = state.copyWith(
+        email: state.email.updateValue(email),
+      );
+    }
   }
 
   login() async {
@@ -69,13 +75,13 @@ class LoginNotifier extends StateNotifier<LoginState> {
     await StorageService.set<bool>(StorageKeys.rememberMe, state.rememberMe);
   }
 
-  changeEmail(FormxInput email) {
+  changeEmail(FormxInput<String> email) {
     state = state.copyWith(
       email: email,
     );
   }
 
-  changePassword(FormxInput password) {
+  changePassword(FormxInput<String> password) {
     state = state.copyWith(
       password: password,
     );
@@ -89,8 +95,8 @@ class LoginNotifier extends StateNotifier<LoginState> {
 }
 
 class LoginState {
-  final FormxInput email;
-  final FormxInput password;
+  final FormxInput<String> email;
+  final FormxInput<String> password;
   final bool loading;
   final bool rememberMe;
 
@@ -102,8 +108,8 @@ class LoginState {
   });
 
   LoginState copyWith({
-    FormxInput? email,
-    FormxInput? password,
+    FormxInput<String>? email,
+    FormxInput<String>? password,
     bool? loading,
     bool? rememberMe,
   }) =>
