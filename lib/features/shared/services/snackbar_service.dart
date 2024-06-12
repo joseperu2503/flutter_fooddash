@@ -1,4 +1,4 @@
-import 'package:flutter_fooddash/config/router/app_router.dart';
+import 'package:fooddash/config/router/app_router.dart';
 import 'package:flutter/material.dart';
 
 class SnackBarService {

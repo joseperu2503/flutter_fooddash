@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "flutter_fooddash" "\0"
+            VALUE "FileDescription", "fooddash" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "flutter_fooddash" "\0"
+            VALUE "InternalName", "fooddash" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2024 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "flutter_fooddash.exe" "\0"
-            VALUE "ProductName", "flutter_fooddash" "\0"
+            VALUE "OriginalFilename", "fooddash.exe" "\0"
+            VALUE "ProductName", "fooddash" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

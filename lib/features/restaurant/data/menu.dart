@@ -1,4 +1,4 @@
-import 'package:flutter_fooddash/features/restaurant/models/restaurant_detail.dart';
+import 'package:fooddash/features/restaurant/models/restaurant_detail.dart';
 
 const String urlImages = 'https://files.joseperezgil.com/images/delivery';
 

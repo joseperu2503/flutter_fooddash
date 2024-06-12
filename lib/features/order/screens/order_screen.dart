@@ -1,14 +1,14 @@
 import 'dart:async';
 
-import 'package:flutter_fooddash/config/constants/app_colors.dart';
-import 'package:flutter_fooddash/config/constants/environment.dart';
-import 'package:flutter_fooddash/config/constants/sizes.dart';
-import 'package:flutter_fooddash/features/address/providers/address_provider.dart';
-import 'package:flutter_fooddash/features/address/services/location_service.dart';
-import 'package:flutter_fooddash/features/order/widgets/bottom_modal.dart';
-import 'package:flutter_fooddash/features/shared/providers/map_controller_provider.dart';
-import 'package:flutter_fooddash/features/shared/utils/utils.dart';
-import 'package:flutter_fooddash/features/shared/widgets/back_button.dart';
+import 'package:fooddash/config/constants/app_colors.dart';
+import 'package:fooddash/config/constants/environment.dart';
+import 'package:fooddash/config/constants/sizes.dart';
+import 'package:fooddash/features/address/providers/address_provider.dart';
+import 'package:fooddash/features/address/services/location_service.dart';
+import 'package:fooddash/features/order/widgets/bottom_modal.dart';
+import 'package:fooddash/features/shared/providers/map_controller_provider.dart';
+import 'package:fooddash/features/shared/utils/utils.dart';
+import 'package:fooddash/features/shared/widgets/back_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';

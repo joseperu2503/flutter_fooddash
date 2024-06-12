@@ -1,5 +1,5 @@
-import 'package:flutter_fooddash/config/constants/app_colors.dart';
-import 'package:flutter_fooddash/features/shared/widgets/check.dart';
+import 'package:fooddash/config/constants/app_colors.dart';
+import 'package:fooddash/features/shared/widgets/check.dart';
 import 'package:flutter/material.dart';
 
 class CashItem extends StatelessWidget {

@@ -1,4 +1,4 @@
-import 'package:flutter_fooddash/features/dashboard/models/restaurant.dart';
+import 'package:fooddash/features/dashboard/models/restaurant.dart';
 
 class RestaurantDetail {
   final int id;

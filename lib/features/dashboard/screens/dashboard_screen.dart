@@ -1,11 +1,11 @@
-import 'package:flutter_fooddash/config/constants/app_colors.dart';
-import 'package:flutter_fooddash/features/dashboard/providers/restaurants_provider.dart';
-import 'package:flutter_fooddash/features/dashboard/widgets/appbar.dart';
-import 'package:flutter_fooddash/features/dashboard/widgets/categories.dart';
-import 'package:flutter_fooddash/features/dashboard/widgets/input_search.dart';
-import 'package:flutter_fooddash/features/dashboard/widgets/message.dart';
-import 'package:flutter_fooddash/features/dashboard/widgets/most_popular.dart';
-import 'package:flutter_fooddash/features/dashboard/widgets/restaurant_item.dart';
+import 'package:fooddash/config/constants/app_colors.dart';
+import 'package:fooddash/features/dashboard/providers/restaurants_provider.dart';
+import 'package:fooddash/features/dashboard/widgets/appbar.dart';
+import 'package:fooddash/features/dashboard/widgets/categories.dart';
+import 'package:fooddash/features/dashboard/widgets/input_search.dart';
+import 'package:fooddash/features/dashboard/widgets/message.dart';
+import 'package:fooddash/features/dashboard/widgets/most_popular.dart';
+import 'package:fooddash/features/dashboard/widgets/restaurant_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

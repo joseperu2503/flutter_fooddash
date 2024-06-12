@@ -1,10 +1,10 @@
-import 'package:flutter_fooddash/features/payment_methods/data/cards.dart';
-import 'package:flutter_fooddash/features/payment_methods/widgets/card_item.dart';
-import 'package:flutter_fooddash/features/payment_methods/widgets/cash_item.dart';
+import 'package:fooddash/features/payment_methods/data/cards.dart';
+import 'package:fooddash/features/payment_methods/widgets/card_item.dart';
+import 'package:fooddash/features/payment_methods/widgets/cash_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_fooddash/config/constants/app_colors.dart';
-import 'package:flutter_fooddash/features/shared/widgets/back_button.dart';
+import 'package:fooddash/config/constants/app_colors.dart';
+import 'package:fooddash/features/shared/widgets/back_button.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 

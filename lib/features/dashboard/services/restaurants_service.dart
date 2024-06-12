@@ -1,6 +1,6 @@
-import 'package:flutter_fooddash/config/api/api.dart';
-import 'package:flutter_fooddash/features/dashboard/models/category.dart';
-import 'package:flutter_fooddash/features/dashboard/models/restaurant.dart';
+import 'package:fooddash/config/api/api.dart';
+import 'package:fooddash/features/dashboard/models/category.dart';
+import 'package:fooddash/features/dashboard/models/restaurant.dart';
 
 class RestaurantsService {
   static Future<List<Restaurant>> getRestaurants() async {

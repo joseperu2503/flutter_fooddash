@@ -1,11 +1,11 @@
-import 'package:flutter_fooddash/config/constants/app_colors.dart';
-import 'package:flutter_fooddash/config/constants/sizes.dart';
-import 'package:flutter_fooddash/features/order/widgets/delivery_info.dart';
-import 'package:flutter_fooddash/features/order/widgets/order_dish_item.dart';
-import 'package:flutter_fooddash/features/order/widgets/order_id.dart';
-import 'package:flutter_fooddash/features/order/widgets/price_info.dart';
-import 'package:flutter_fooddash/features/order/widgets/progress_order.dart';
-import 'package:flutter_fooddash/features/restaurant/data/menu.dart';
+import 'package:fooddash/config/constants/app_colors.dart';
+import 'package:fooddash/config/constants/sizes.dart';
+import 'package:fooddash/features/order/widgets/delivery_info.dart';
+import 'package:fooddash/features/order/widgets/order_dish_item.dart';
+import 'package:fooddash/features/order/widgets/order_id.dart';
+import 'package:fooddash/features/order/widgets/price_info.dart';
+import 'package:fooddash/features/order/widgets/progress_order.dart';
+import 'package:fooddash/features/restaurant/data/menu.dart';
 import 'package:flutter/material.dart';
 
 const double heightBottomSheet = 260;

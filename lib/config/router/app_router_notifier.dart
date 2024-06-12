@@ -1,4 +1,4 @@
-import 'package:flutter_fooddash/features/auth/providers/auth_provider.dart';
+import 'package:fooddash/features/auth/providers/auth_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

@@ -1,6 +1,6 @@
-import 'package:flutter_fooddash/config/constants/environment.dart';
-import 'package:flutter_fooddash/config/router/app_router.dart';
-import 'package:flutter_fooddash/config/theme/app_theme.dart';
+import 'package:fooddash/config/constants/environment.dart';
+import 'package:fooddash/config/router/app_router.dart';
+import 'package:fooddash/config/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';

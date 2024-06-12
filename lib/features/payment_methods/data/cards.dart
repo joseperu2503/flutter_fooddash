@@ -1,4 +1,4 @@
-import 'package:flutter_fooddash/features/payment_methods/models/card.dart';
+import 'package:fooddash/features/payment_methods/models/card.dart';
 
 List<BankCard> cards = [
   BankCard(

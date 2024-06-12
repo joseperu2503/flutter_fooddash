@@ -1,4 +1,4 @@
-# flutter_fooddash
+# fooddash
 
 A new Flutter project.
 

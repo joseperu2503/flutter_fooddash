@@ -1,6 +1,6 @@
-import 'package:flutter_fooddash/config/constants/app_colors.dart';
-import 'package:flutter_fooddash/features/dashboard/models/restaurant.dart';
-import 'package:flutter_fooddash/features/dashboard/widgets/restaurant_item.dart';
+import 'package:fooddash/config/constants/app_colors.dart';
+import 'package:fooddash/features/dashboard/models/restaurant.dart';
+import 'package:fooddash/features/dashboard/widgets/restaurant_item.dart';
 import 'package:flutter/material.dart';
 
 class MostPopular extends StatelessWidget {

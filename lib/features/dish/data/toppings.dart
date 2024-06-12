@@ -1,4 +1,4 @@
-import 'package:flutter_fooddash/features/dish/models/topping.dart';
+import 'package:fooddash/features/dish/models/topping.dart';
 
 List<Topping> toppings = [
   Topping(name: 'Onions', price: 2.5),

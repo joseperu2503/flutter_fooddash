@@ -1,5 +1,5 @@
-import 'package:flutter_fooddash/config/api/api.dart';
-import 'package:flutter_fooddash/features/dish/models/dish_detail.dart';
+import 'package:fooddash/config/api/api.dart';
+import 'package:fooddash/features/dish/models/dish_detail.dart';
 
 class DishService {
   static Future<DishDetail> getDish({

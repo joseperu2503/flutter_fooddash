@@ -1,7 +1,7 @@
-import 'package:flutter_fooddash/config/constants/app_colors.dart';
-import 'package:flutter_fooddash/features/dashboard/models/restaurant.dart';
-import 'package:flutter_fooddash/features/dashboard/providers/restaurants_provider.dart';
-import 'package:flutter_fooddash/features/shared/utils/utils.dart';
+import 'package:fooddash/config/constants/app_colors.dart';
+import 'package:fooddash/features/dashboard/models/restaurant.dart';
+import 'package:fooddash/features/dashboard/providers/restaurants_provider.dart';
+import 'package:fooddash/features/shared/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';

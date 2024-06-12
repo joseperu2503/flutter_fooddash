@@ -1,4 +1,4 @@
-import 'package:flutter_fooddash/config/constants/app_colors.dart';
+import 'package:fooddash/config/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class AppTheme {

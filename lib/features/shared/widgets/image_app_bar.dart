@@ -1,6 +1,6 @@
-import 'package:flutter_fooddash/config/constants/app_colors.dart';
-import 'package:flutter_fooddash/features/restaurant/data/constants.dart';
-import 'package:flutter_fooddash/features/shared/widgets/back_button.dart';
+import 'package:fooddash/config/constants/app_colors.dart';
+import 'package:fooddash/features/restaurant/data/constants.dart';
+import 'package:fooddash/features/shared/widgets/back_button.dart';
 import 'package:flutter/material.dart';
 
 class ImageAppBar extends StatefulWidget {

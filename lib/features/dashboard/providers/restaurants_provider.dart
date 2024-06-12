@@ -1,8 +1,8 @@
-import 'package:flutter_fooddash/features/dashboard/models/category.dart';
-import 'package:flutter_fooddash/features/dashboard/models/restaurant.dart';
-import 'package:flutter_fooddash/features/dashboard/services/restaurants_service.dart';
-import 'package:flutter_fooddash/features/restaurant/models/restaurant_detail.dart';
-import 'package:flutter_fooddash/features/shared/models/loading_status.dart';
+import 'package:fooddash/features/dashboard/models/category.dart';
+import 'package:fooddash/features/dashboard/models/restaurant.dart';
+import 'package:fooddash/features/dashboard/services/restaurants_service.dart';
+import 'package:fooddash/features/restaurant/models/restaurant_detail.dart';
+import 'package:fooddash/features/shared/models/loading_status.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final restaurantsProvider =

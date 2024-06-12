@@ -1,4 +1,4 @@
-import 'package:flutter_fooddash/config/constants/environment.dart';
+import 'package:fooddash/config/constants/environment.dart';
 
 import 'package:dio/dio.dart';
 

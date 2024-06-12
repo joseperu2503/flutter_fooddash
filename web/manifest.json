@@ -1,6 +1,6 @@
 {
-    "name": "flutter_fooddash",
-    "short_name": "flutter_fooddash",
+    "name": "fooddash",
+    "short_name": "fooddash",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
