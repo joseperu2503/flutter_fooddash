@@ -9,12 +9,12 @@ class Validators {
   /// or equal to [min] value.
   ///
   /// The argument [min] must not be null.
-  static Validator<dynamic> min<T>(T min) => MinValidator<T>(min);
+  static Validator<T> min<T>(T min) => MinValidator<T>(min);
 
   /// Creates a validator that requires the control have a non-empty value.
-  static Validator<dynamic> required<T>({String? errorMessage}) =>
-      RequiredValidator(errorMessage: errorMessage);
+  static Validator<T> required<T>({String? errorMessage}) =>
+      RequiredValidator<T>(errorMessage: errorMessage);
 
-  static Validator<dynamic> email<T>({String? errorMessage}) =>
-      EmailValidator(errorMessage: errorMessage);
+  static Validator<T> email<T>({String? errorMessage}) =>
+      EmailValidator<T>(errorMessage: errorMessage);
 }

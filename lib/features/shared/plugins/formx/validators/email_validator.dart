@@ -1,7 +1,7 @@
 import './validator.dart';
 
 /// Validator that requires the control's value pass an email validation test.
-class EmailValidator<T> extends Validator<dynamic> {
+class EmailValidator<T> extends Validator<T> {
   static final RegExp emailRegex = RegExp(
       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
 
@@ -10,7 +10,7 @@ class EmailValidator<T> extends Validator<dynamic> {
   final String? errorMessage;
 
   @override
-  String? validate(dynamic value) {
+  String? validate(T value) {
     final String error = errorMessage ?? 'Invalid email format';
 
     return (value == null ||

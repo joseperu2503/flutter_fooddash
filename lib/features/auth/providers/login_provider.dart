@@ -24,7 +24,9 @@ class LoginNotifier extends StateNotifier<LoginState> {
         await StorageService.get<bool>(StorageKeys.rememberMe) ?? false;
 
     state = state.copyWith(
-      email: FormxInput(value: '', validators: [Validators.required(), Validators.email()]),
+      email: FormxInput<String>(
+          value: '',
+          validators: [Validators.required<String>(), Validators.email()]),
       password: FormxInput(value: '', validators: [Validators.required()]),
       rememberMe: rememberMe,
     );

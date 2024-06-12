@@ -37,7 +37,7 @@ class Formx {
 class FormxInput<T> {
   const FormxInput({
     value,
-    List<Validator<dynamic>> validators = const [],
+    List<Validator<T>> validators = const [],
     List<TextInputFormatter> formatters = const [],
     bool touched = false,
   })  : _value = value,
@@ -46,7 +46,7 @@ class FormxInput<T> {
         _touched = touched;
 
   final T _value;
-  final List<Validator<dynamic>> _validators;
+  final List<Validator<T>> _validators;
   final List<TextInputFormatter> _formatters;
   final bool _touched;
 
