@@ -43,7 +43,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
     final authStatus = goRouterNotifier.authStatus;
 
     if (authStatus == AuthStatus.notAuthenticated) {
-      return '/home';
+      return '/';
     }
 
     return null;
@@ -51,7 +51,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
 
   return GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: '/dashboard',
+    initialLocation: '/',
     refreshListenable: goRouterNotifier,
     routes: [
       StatefulShellRoute.indexedStack(
@@ -132,7 +132,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         parentNavigatorKey: rootNavigatorKey,
       ),
       GoRoute(
-        path: '/home',
+        path: '/',
         builder: (context, state) => const HomeScreen(),
         parentNavigatorKey: rootNavigatorKey,
         redirect: unprotectedRoute,
