@@ -1,6 +1,6 @@
-import 'package:delivery_app/config/constants/environment.dart';
-import 'package:delivery_app/config/constants/storage_keys.dart';
-import 'package:delivery_app/features/core/services/storage_service.dart';
+import 'package:flutter_fooddash/config/constants/environment.dart';
+import 'package:flutter_fooddash/config/constants/storage_keys.dart';
+import 'package:flutter_fooddash/features/core/services/storage_service.dart';
 import 'package:dio/dio.dart';
 
 class Api {

@@ -1,8 +1,8 @@
-import 'package:delivery_app/config/constants/app_colors.dart';
-import 'package:delivery_app/features/cart/widgets/cart_dish_item.dart';
-import 'package:delivery_app/features/restaurant/data/menu.dart';
-import 'package:delivery_app/features/shared/widgets/back_button.dart';
-import 'package:delivery_app/features/shared/widgets/custom_button.dart';
+import 'package:flutter_fooddash/config/constants/app_colors.dart';
+import 'package:flutter_fooddash/features/cart/widgets/cart_dish_item.dart';
+import 'package:flutter_fooddash/features/restaurant/data/menu.dart';
+import 'package:flutter_fooddash/features/shared/widgets/back_button.dart';
+import 'package:flutter_fooddash/features/shared/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

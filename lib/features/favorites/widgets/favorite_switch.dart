@@ -1,5 +1,5 @@
-import 'package:delivery_app/config/constants/app_colors.dart';
-import 'package:delivery_app/features/favorites/screens/favorites_screen.dart';
+import 'package:flutter_fooddash/config/constants/app_colors.dart';
+import 'package:flutter_fooddash/features/favorites/screens/favorites_screen.dart';
 import 'package:flutter/material.dart';
 
 class FavoriteSwitch extends StatelessWidget {

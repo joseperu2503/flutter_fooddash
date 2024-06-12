@@ -1,7 +1,7 @@
-import 'package:delivery_app/config/api/api_mapbox.dart';
-import 'package:delivery_app/config/constants/environment.dart';
-import 'package:delivery_app/features/address/models/search_address_response.dart';
-import 'package:delivery_app/features/core/models/service_exception.dart';
+import 'package:flutter_fooddash/config/api/api_mapbox.dart';
+import 'package:flutter_fooddash/config/constants/environment.dart';
+import 'package:flutter_fooddash/features/address/models/search_address_response.dart';
+import 'package:flutter_fooddash/features/core/models/service_exception.dart';
 
 class MapBoxService {
   static Future<MapboxResponse> searchbox(

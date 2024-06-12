@@ -1,6 +1,6 @@
-import 'package:delivery_app/config/constants/app_colors.dart';
-import 'package:delivery_app/config/router/app_router.dart';
-import 'package:delivery_app/features/address/widgets/address_bottom_sheet.dart';
+import 'package:flutter_fooddash/config/constants/app_colors.dart';
+import 'package:flutter_fooddash/config/router/app_router.dart';
+import 'package:flutter_fooddash/features/address/widgets/address_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';

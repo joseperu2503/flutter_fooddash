@@ -1,5 +1,5 @@
-import 'package:delivery_app/features/shared/plugins/formx/validators/email_validator.dart';
-import 'package:delivery_app/features/shared/plugins/formx/validators/required_validator.dart';
+import 'package:flutter_fooddash/features/shared/plugins/formx/validators/email_validator.dart';
+import 'package:flutter_fooddash/features/shared/plugins/formx/validators/required_validator.dart';
 
 import './min_validator.dart';
 import './validator.dart';

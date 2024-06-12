@@ -1,12 +1,12 @@
-import 'package:delivery_app/config/constants/app_colors.dart';
-import 'package:delivery_app/features/dashboard/providers/restaurants_provider.dart';
-import 'package:delivery_app/features/restaurant/data/constants.dart';
-import 'package:delivery_app/features/restaurant/models/restaurant_detail.dart';
-import 'package:delivery_app/features/restaurant/services/restaurant_services.dart';
-import 'package:delivery_app/features/dish/widgets/dish_item.dart';
-import 'package:delivery_app/features/restaurant/widgets/dish_categories.dart';
-import 'package:delivery_app/features/shared/widgets/image_app_bar.dart';
-import 'package:delivery_app/features/restaurant/widgets/restaurant_info.dart';
+import 'package:flutter_fooddash/config/constants/app_colors.dart';
+import 'package:flutter_fooddash/features/dashboard/providers/restaurants_provider.dart';
+import 'package:flutter_fooddash/features/restaurant/data/constants.dart';
+import 'package:flutter_fooddash/features/restaurant/models/restaurant_detail.dart';
+import 'package:flutter_fooddash/features/restaurant/services/restaurant_services.dart';
+import 'package:flutter_fooddash/features/dish/widgets/dish_item.dart';
+import 'package:flutter_fooddash/features/restaurant/widgets/dish_categories.dart';
+import 'package:flutter_fooddash/features/shared/widgets/image_app_bar.dart';
+import 'package:flutter_fooddash/features/restaurant/widgets/restaurant_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

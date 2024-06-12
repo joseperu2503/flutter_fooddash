@@ -1,4 +1,4 @@
-import 'package:delivery_app/config/router/app_router.dart';
+import 'package:flutter_fooddash/config/router/app_router.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
 class LoaderService {

@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:delivery_app/config/constants/storage_keys.dart';
-import 'package:delivery_app/features/auth/services/auth_service.dart';
-import 'package:delivery_app/features/core/services/storage_service.dart';
+import 'package:flutter_fooddash/config/constants/storage_keys.dart';
+import 'package:flutter_fooddash/features/auth/services/auth_service.dart';
+import 'package:flutter_fooddash/features/core/services/storage_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final authProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {

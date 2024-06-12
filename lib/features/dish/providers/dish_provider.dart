@@ -1,5 +1,5 @@
-import 'package:delivery_app/features/dish/models/dish_detail.dart';
-import 'package:delivery_app/features/restaurant/models/restaurant_detail.dart';
+import 'package:flutter_fooddash/features/dish/models/dish_detail.dart';
+import 'package:flutter_fooddash/features/restaurant/models/restaurant_detail.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final dishProvider = StateNotifierProvider<DishNotifier, DishState>((ref) {

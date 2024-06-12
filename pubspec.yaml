@@ -1,4 +1,4 @@
-name: delivery_app
+name: flutter_fooddash
 description: "A new Flutter project."
 publish_to: "none"
 version: 0.1.0
@@ -26,6 +26,7 @@ dependencies:
   shared_preferences: ^2.2.3
 
 dev_dependencies:
+  change_app_package_name: ^1.2.0
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter

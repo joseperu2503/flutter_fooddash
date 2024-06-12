@@ -1,6 +1,6 @@
-import 'package:delivery_app/config/constants/app_colors.dart';
-import 'package:delivery_app/features/restaurant/data/constants.dart';
-import 'package:delivery_app/features/restaurant/models/restaurant_detail.dart';
+import 'package:flutter_fooddash/config/constants/app_colors.dart';
+import 'package:flutter_fooddash/features/restaurant/data/constants.dart';
+import 'package:flutter_fooddash/features/restaurant/models/restaurant_detail.dart';
 import 'package:flutter/material.dart';
 
 class DishCategories extends StatefulWidget {

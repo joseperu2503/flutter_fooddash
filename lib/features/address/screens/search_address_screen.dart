@@ -1,9 +1,9 @@
-import 'package:delivery_app/config/constants/app_colors.dart';
-import 'package:delivery_app/features/address/providers/address_provider.dart';
-import 'package:delivery_app/features/address/services/location_service.dart';
-import 'package:delivery_app/features/address/widgets/input_search_address.dart';
-import 'package:delivery_app/features/shared/widgets/back_button.dart';
-import 'package:delivery_app/features/shared/widgets/custom_button.dart';
+import 'package:flutter_fooddash/config/constants/app_colors.dart';
+import 'package:flutter_fooddash/features/address/providers/address_provider.dart';
+import 'package:flutter_fooddash/features/address/services/location_service.dart';
+import 'package:flutter_fooddash/features/address/widgets/input_search_address.dart';
+import 'package:flutter_fooddash/features/shared/widgets/back_button.dart';
+import 'package:flutter_fooddash/features/shared/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';

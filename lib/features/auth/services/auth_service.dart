@@ -1,7 +1,7 @@
-import 'package:delivery_app/config/api/api.dart';
-import 'package:delivery_app/config/constants/storage_keys.dart';
-import 'package:delivery_app/features/auth/models/login_response.dart';
-import 'package:delivery_app/features/core/services/storage_service.dart';
+import 'package:flutter_fooddash/config/api/api.dart';
+import 'package:flutter_fooddash/config/constants/storage_keys.dart';
+import 'package:flutter_fooddash/features/auth/models/login_response.dart';
+import 'package:flutter_fooddash/features/core/services/storage_service.dart';
 import 'package:dio/dio.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
