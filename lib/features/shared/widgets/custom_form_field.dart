@@ -45,9 +45,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
     _effectiveFocusNode.addListener(() {
       if (!_effectiveFocusNode.hasFocus) {
-        FormxInput<String> formControl = widget.value;
-        formControl.touch();
-        widget.onChanged(formControl);
+        widget.onChanged(widget.value.touch());
       }
     });
   }

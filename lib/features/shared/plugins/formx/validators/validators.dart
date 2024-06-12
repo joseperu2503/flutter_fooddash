@@ -1,3 +1,4 @@
+import 'package:delivery_app/features/shared/plugins/formx/validators/email_validator.dart';
 import 'package:delivery_app/features/shared/plugins/formx/validators/required_validator.dart';
 
 import './min_validator.dart';
@@ -12,5 +13,8 @@ class Validators {
 
   /// Creates a validator that requires the control have a non-empty value.
   static Validator<dynamic> required<T>({String? errorMessage}) =>
-      const RequiredValidator();
+      RequiredValidator(errorMessage: errorMessage);
+
+  static Validator<dynamic> email<T>({String? errorMessage}) =>
+      EmailValidator(errorMessage: errorMessage);
 }

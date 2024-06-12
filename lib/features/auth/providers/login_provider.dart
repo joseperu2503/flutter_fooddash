@@ -5,6 +5,7 @@ import 'package:delivery_app/features/auth/services/auth_service.dart';
 import 'package:delivery_app/features/core/services/storage_service.dart';
 import 'package:delivery_app/features/shared/plugins/formx/formx.dart';
 import 'package:delivery_app/features/shared/plugins/formx/validators/validators.dart';
+import 'package:delivery_app/features/shared/services/loader_service.dart';
 import 'package:delivery_app/features/shared/services/snackbar_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,7 +24,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
         await StorageService.get<bool>(StorageKeys.rememberMe) ?? false;
 
     state = state.copyWith(
-      email: FormxInput(value: '', validators: [Validators.required()]),
+      email: FormxInput(value: '', validators: [Validators.required(), Validators.email()]),
       password: FormxInput(value: '', validators: [Validators.required()]),
       rememberMe: rememberMe,
     );
@@ -37,7 +38,6 @@ class LoginNotifier extends StateNotifier<LoginState> {
 
   login() async {
     FocusManager.instance.primaryFocus?.unfocus();
-
     state = state.copyWith(
       email: state.email.touch(),
       password: state.password.touch(),
@@ -45,9 +45,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
 
     if (!Formx.validate([state.email, state.email])) return;
 
-    state = state.copyWith(
-      loading: true,
-    );
+    LoaderService.show();
 
     try {
       final LoginResponse loginResponse = await AuthService.login(
@@ -63,9 +61,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
       SnackBarService.show(e);
     }
 
-    state = state.copyWith(
-      loading: false,
-    );
+    LoaderService.hide();
   }
 
   setRemember() async {
@@ -97,26 +93,22 @@ class LoginNotifier extends StateNotifier<LoginState> {
 class LoginState {
   final FormxInput<String> email;
   final FormxInput<String> password;
-  final bool loading;
   final bool rememberMe;
 
   LoginState({
     this.email = const FormxInput(value: ''),
     this.password = const FormxInput(value: ''),
-    this.loading = false,
     this.rememberMe = false,
   });
 
   LoginState copyWith({
     FormxInput<String>? email,
     FormxInput<String>? password,
-    bool? loading,
     bool? rememberMe,
   }) =>
       LoginState(
         email: email ?? this.email,
         password: password ?? this.password,
-        loading: loading ?? this.loading,
         rememberMe: rememberMe ?? this.rememberMe,
       );
 }

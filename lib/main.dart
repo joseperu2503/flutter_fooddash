@@ -3,6 +3,7 @@ import 'package:delivery_app/config/router/app_router.dart';
 import 'package:delivery_app/config/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 void main() async {
   await Environment.initEnvironment();
@@ -22,6 +23,9 @@ class MainApp extends ConsumerWidget {
       routerConfig: appRouter,
       theme: AppTheme.getTheme(),
       debugShowCheckedModeBanner: false,
+      builder: (context, child) {
+        return LoaderOverlay(child: child!);
+      },
     );
   }
 }

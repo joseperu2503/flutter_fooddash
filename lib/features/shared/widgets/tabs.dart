@@ -197,9 +197,7 @@ class TabsState extends ConsumerState<Tabs> {
                       ),
                       child: TextButton(
                         onPressed: () {
-                          ref
-                              .read(authProvider.notifier)
-                              .setAuthStatus(AuthStatus.notAuthenticated);
+                          ref.read(authProvider.notifier).logout();
                         },
                         style: TextButton.styleFrom(
                           padding: const EdgeInsets.symmetric(horizontal: 9),

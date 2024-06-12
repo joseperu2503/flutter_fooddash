@@ -14,17 +14,17 @@ class AuthNotifier extends StateNotifier<AuthState> {
     _checkAuthStatus();
   }
 
-  setAuthStatus(AuthStatus authStatus) {
-    state = state.copyWith(
-      authStatus: authStatus,
-    );
-
+  setAuthStatus(AuthStatus authStatus) async {
     if (authStatus == AuthStatus.authenticated) {
       _initAutoLogout();
     }
     if (authStatus == AuthStatus.notAuthenticated) {
+      await StorageService.remove(StorageKeys.token);
       _cancelTimer();
     }
+    state = state.copyWith(
+      authStatus: authStatus,
+    );
   }
 
   _checkAuthStatus() async {
@@ -32,7 +32,6 @@ class AuthNotifier extends StateNotifier<AuthState> {
     if (validToken) {
       setAuthStatus(AuthStatus.authenticated);
     } else {
-      await StorageService.remove(StorageKeys.token);
       setAuthStatus(AuthStatus.notAuthenticated);
     }
   }
@@ -58,9 +57,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
   }
 
   logout() async {
-    state = state.copyWith(
-      authStatus: AuthStatus.notAuthenticated,
-    );
+    setAuthStatus(AuthStatus.notAuthenticated);
   }
 }
 
