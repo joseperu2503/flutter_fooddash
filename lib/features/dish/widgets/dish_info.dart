@@ -226,10 +226,13 @@ class DishInfo extends StatelessWidget {
               style: const TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w400,
-                color: Color(0xff898992),
+                color: AppColors.gray600,
                 height: 23 / 15,
                 leadingDistribution: TextLeadingDistribution.even,
               ),
+            ),
+            const SizedBox(
+              height: 30,
             ),
           ],
         ),

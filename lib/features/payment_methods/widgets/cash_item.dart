@@ -1,5 +1,5 @@
 import 'package:fooddash/config/constants/app_colors.dart';
-import 'package:fooddash/features/shared/widgets/check.dart';
+import 'package:fooddash/features/shared/widgets/custom_check.dart';
 import 'package:flutter/material.dart';
 
 class CashItem extends StatelessWidget {
@@ -62,7 +62,7 @@ class CashItem extends StatelessWidget {
             ),
             const Spacer(),
             if (isSelected != null)
-              Check(
+              CustomCheck(
                 isSelected: isSelected!,
               ),
           ],

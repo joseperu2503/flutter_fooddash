@@ -20,6 +20,7 @@ class DishNotifier extends StateNotifier<DishState> {
         price: dish.price,
         stock: dish.stock,
         isActive: dish.isActive,
+        toppingCategories: [],
       ),
     );
   }

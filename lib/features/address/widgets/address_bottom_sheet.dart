@@ -1,5 +1,5 @@
 import 'package:fooddash/config/constants/app_colors.dart';
-import 'package:fooddash/features/shared/widgets/check.dart';
+import 'package:fooddash/features/shared/widgets/custom_check.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -236,7 +236,9 @@ showAddressBottomSheet(BuildContext context) {
                                 ],
                               ),
                             ),
-                            const Check(isSelected: true),
+                            const CustomCheck(
+                              isSelected: true,
+                            ),
                           ],
                         ),
                       ),

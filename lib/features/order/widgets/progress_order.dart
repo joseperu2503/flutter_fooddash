@@ -70,7 +70,7 @@ class ProgressOrder extends StatelessWidget {
             SizedBox(
               width: 60,
               child: SvgPicture.asset(
-                'assets/icons/check.svg',
+                'assets/icons/check_circle.svg',
                 width: 24,
                 colorFilter: const ColorFilter.mode(
                   AppColors.label,

@@ -1,11 +1,10 @@
 import 'package:fooddash/config/constants/app_colors.dart';
-import 'package:fooddash/features/dish/data/toppings.dart';
 import 'package:fooddash/features/dish/models/dish_detail.dart';
 import 'package:fooddash/features/dish/providers/dish_provider.dart';
 import 'package:fooddash/features/dish/services/dish_service.dart';
 import 'package:fooddash/features/dish/widgets/dish_info.dart';
+import 'package:fooddash/features/dish/widgets/topping_category_item.dart';
 import 'package:fooddash/features/shared/widgets/image_app_bar.dart';
-import 'package:fooddash/features/shared/widgets/check.dart';
 import 'package:fooddash/features/shared/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -77,86 +76,20 @@ class DishScreenState extends ConsumerState<DishScreen> {
             scrollController: verticalScrollController,
           ),
           DishInfo(dish: dishDetail!),
-          SliverToBoxAdapter(
-            child: Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 24,
-              ),
-              child: const Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  SizedBox(
-                    height: 26,
-                  ),
-                  Text(
-                    'Choice of Add On',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.label2,
-                      height: 1,
-                      leadingDistribution: TextLeadingDistribution.even,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 12,
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SliverPadding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 24,
-            ),
-            sliver: SliverList.separated(
-              itemBuilder: (context, index) {
-                final topping = toppings[index];
-                return ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  minVerticalPadding: 0,
-                  dense: true,
-                  onTap: () {},
-                  title: Row(
-                    children: [
-                      Text(
-                        topping.name,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.black,
-                          height: 16 / 16,
-                          leadingDistribution: TextLeadingDistribution.even,
-                        ),
-                      ),
-                      const Spacer(),
-                      Text(
-                        '+\$${topping.price}',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.black,
-                          height: 1,
-                          leadingDistribution: TextLeadingDistribution.even,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 12,
-                      ),
-                      const Check(
-                        isSelected: true,
-                      ),
-                    ],
-                  ),
-                );
-              },
-              separatorBuilder: (context, index) {
-                return const SizedBox(
-                  height: 0,
-                );
-              },
-              itemCount: toppings.length,
-            ),
+          SliverList.separated(
+            itemBuilder: (context, index) {
+              final toppingCategory = dishDetail!.toppingCategories[index];
+              return ToppingCategoryItem(
+                toppingCategory: toppingCategory,
+              );
+            },
+            separatorBuilder: (context, index) {
+              return Container(
+                color: AppColors.inputBorder,
+                height: 1.0,
+              );
+            },
+            itemCount: dishDetail!.toppingCategories.length,
           ),
         ],
       ),
