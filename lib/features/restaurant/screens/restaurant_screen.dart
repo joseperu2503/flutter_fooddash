@@ -4,7 +4,6 @@ import 'package:fooddash/features/restaurant/data/constants.dart';
 import 'package:fooddash/features/restaurant/models/restaurant_detail.dart';
 import 'package:fooddash/features/restaurant/services/restaurant_services.dart';
 import 'package:fooddash/features/dish/widgets/dish_item.dart';
-import 'package:fooddash/features/restaurant/widgets/dish_categories.dart';
 import 'package:fooddash/features/shared/widgets/image_app_bar.dart';
 import 'package:fooddash/features/restaurant/widgets/restaurant_info.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +23,8 @@ class RestaurantScreen extends ConsumerStatefulWidget {
   RestaurantScreenState createState() => RestaurantScreenState();
 }
 
-class RestaurantScreenState extends ConsumerState<RestaurantScreen> {
+class RestaurantScreenState extends ConsumerState<RestaurantScreen>
+    with SingleTickerProviderStateMixin {
   final ScrollController _verticalScrollController = ScrollController();
   ScrollType scrollType = ScrollType.scroll;
   RestaurantDetail? restaurantDetail;
@@ -58,6 +58,8 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen> {
       );
       setState(() {
         restaurantDetail = response;
+        _tabController = TabController(
+            length: restaurantDetail?.dishCategories.length ?? 0, vsync: this);
       });
     } catch (e) {
       throw Exception(e);
@@ -74,9 +76,15 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen> {
       });
 
       if (_categoryKeys[index].currentContext == null) return;
-      await Scrollable.ensureVisible(
-        _categoryKeys[index].currentContext!,
-        alignment: 0.0,
+      // await Scrollable.ensureVisible(
+      //   _categoryKeys[index].currentContext!,
+      //   alignment: 0.0,
+      //   duration: const Duration(milliseconds: 500),
+      //   curve: Curves.ease,
+      // );
+
+      await _verticalScrollController.animateTo(
+        _verticalBreakPoints[index],
         duration: const Duration(milliseconds: 500),
         curve: Curves.ease,
       );
@@ -129,10 +137,15 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen> {
           setState(() {
             selectedCategoryIndex = i;
           });
+          setState(() {
+            _tabController.animateTo(i);
+          });
         }
       }
     }
   }
+
+  late TabController _tabController;
 
   int _rowsPerDishes(int numDishes) {
     return (numDishes / crossAxisCount).ceil();
@@ -179,12 +192,54 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen> {
                 });
               }
               return SliverAppBar(
-                flexibleSpace: DishCategories(
-                  onChanged: (value) {
-                    _scrollToCategory(value);
-                  },
-                  selectedIndex: selectedCategoryIndex,
-                  menu: menu,
+                flexibleSpace: Container(
+                  alignment: Alignment.bottomCenter,
+                  height: heightCategories,
+                  child: (menu.isNotEmpty)
+                      ? TabBar(
+                          controller: _tabController,
+                          isScrollable: true,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 24,
+                          ),
+                          labelPadding: EdgeInsets.zero,
+                          onTap: (value) {
+                            _scrollToCategory(value);
+                          },
+                          tabAlignment: TabAlignment.start,
+                          indicatorColor: AppColors.primary,
+                          indicatorWeight: 4,
+                          overlayColor:
+                              MaterialStateProperty.resolveWith<Color?>(
+                                  (Set<MaterialState> states) {
+                            if (states.contains(MaterialState.pressed)) {
+                              return AppColors.white.withOpacity(0.3);
+                            }
+
+                            return null;
+                          }),
+                          tabs: menu.map((dishCategory) {
+                            return Container(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 10,
+                                horizontal: 16,
+                              ),
+                              child: Text(
+                                dishCategory.name,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: AppColors.dark,
+                                  height: 19.5 / 16,
+                                  letterSpacing: 0.12,
+                                  leadingDistribution:
+                                      TextLeadingDistribution.even,
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                        )
+                      : null,
                 ),
                 primary: false,
                 toolbarHeight: heightCategories,
@@ -193,6 +248,11 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen> {
                 pinned: true,
               );
             },
+          ),
+          const SliverToBoxAdapter(
+            child: SizedBox(
+              height: heightCategorySpace,
+            ),
           ),
           if (menu.isNotEmpty)
             ...menu
@@ -212,7 +272,7 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen> {
                             dishCategory.name,
                             style: const TextStyle(
                               fontSize: 20,
-                              fontWeight: FontWeight.w600,
+                              fontWeight: FontWeight.w700,
                               color: AppColors.gray900,
                               height: 1.5,
                               leadingDistribution: TextLeadingDistribution.even,

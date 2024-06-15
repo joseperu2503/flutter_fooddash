@@ -35,4 +35,6 @@ class AppColors {
   static const Color label = Color(0xFF9796A1);
 
   static const Color label2 = Color(0xFF323643);
+
+  static const Color dark = Color(0xFF1A1D26);
 }
