@@ -50,8 +50,7 @@ class ToppingCategory {
   final bool isActive;
   final int maxToppings;
   final int minToppings;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  final String subtitle;
   final List<Topping> toppings;
 
   ToppingCategory({
@@ -60,8 +59,7 @@ class ToppingCategory {
     required this.isActive,
     required this.maxToppings,
     required this.minToppings,
-    required this.createdAt,
-    required this.updatedAt,
+    required this.subtitle,
     required this.toppings,
   });
 
@@ -72,8 +70,7 @@ class ToppingCategory {
         isActive: json["isActive"],
         maxToppings: json["maxToppings"],
         minToppings: json["minToppings"],
-        createdAt: DateTime.parse(json["createdAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
+        subtitle: json["subtitle"],
         toppings: List<Topping>.from(
             json["toppings"].map((x) => Topping.fromJson(x))),
       );
@@ -84,8 +81,7 @@ class ToppingCategory {
         "isActive": isActive,
         "maxToppings": maxToppings,
         "minToppings": minToppings,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
+        "subtitle": subtitle,
         "toppings": List<dynamic>.from(toppings.map((x) => x.toJson())),
       };
 }
@@ -96,8 +92,6 @@ class Topping {
   final bool isActive;
   final int maxLimit;
   final double price;
-  final DateTime createdAt;
-  final DateTime updatedAt;
 
   Topping({
     required this.id,
@@ -105,8 +99,6 @@ class Topping {
     required this.isActive,
     required this.maxLimit,
     required this.price,
-    required this.createdAt,
-    required this.updatedAt,
   });
 
   factory Topping.fromJson(Map<String, dynamic> json) => Topping(
@@ -115,8 +107,6 @@ class Topping {
         isActive: json["isActive"],
         maxLimit: json["maxLimit"],
         price: json["price"]?.toDouble(),
-        createdAt: DateTime.parse(json["createdAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -125,7 +115,5 @@ class Topping {
         "isActive": isActive,
         "maxLimit": maxLimit,
         "price": price,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
       };
 }

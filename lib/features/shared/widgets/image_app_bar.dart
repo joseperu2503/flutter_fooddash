@@ -63,6 +63,7 @@ class _ImageAppBarState extends State<ImageAppBar> {
 
     return SliverAppBar(
       titleSpacing: 0,
+      clipBehavior: Clip.none,
       title: Container(
         padding: const EdgeInsets.symmetric(
           horizontal: 24,

@@ -25,51 +25,54 @@ class CustomCheck extends StatelessWidget {
         }
       },
       child: Container(
-        width: 24,
-        height: 24,
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: isSelected ? AppColors.primary : AppColors.gray400,
-            width: 1.5,
+        padding: const EdgeInsets.all(10),
+        child: Container(
+          width: 24,
+          height: 24,
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: isSelected ? AppColors.primary : AppColors.gray800,
+              width: 1.5,
+            ),
+            borderRadius: BorderRadius.circular(
+              type == CheckType.single ? 12 : 8,
+            ),
+            color: isSelected && type == CheckType.multiple
+                ? AppColors.primary
+                : null,
           ),
-          borderRadius: BorderRadius.circular(
-            type == CheckType.single ? 12 : 8,
-          ),
-          color: isSelected && type == CheckType.multiple
-              ? AppColors.primary
+          child: isSelected
+              ? type == CheckType.single
+                  ? Center(
+                      child: Container(
+                        width: 13,
+                        height: 13,
+                        decoration: const BoxDecoration(
+                          color: AppColors.primary,
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Color.fromRGBO(254, 114, 76, 0.4),
+                              offset: Offset(0, 4),
+                              blurRadius: 4,
+                              spreadRadius: 0,
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  : Center(
+                      child: SvgPicture.asset(
+                        'assets/icons/check.svg',
+                        width: 24,
+                        colorFilter: const ColorFilter.mode(
+                          AppColors.white,
+                          BlendMode.srcIn,
+                        ),
+                      ),
+                    )
               : null,
         ),
-        child: isSelected
-            ? type == CheckType.single
-                ? Center(
-                    child: Container(
-                      width: 13,
-                      height: 13,
-                      decoration: const BoxDecoration(
-                        color: AppColors.primary,
-                        shape: BoxShape.circle,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color.fromRGBO(254, 114, 76, 0.4),
-                            offset: Offset(0, 4),
-                            blurRadius: 4,
-                            spreadRadius: 0,
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
-                : Center(
-                    child: SvgPicture.asset(
-                      'assets/icons/check.svg',
-                      width: 24,
-                      colorFilter: const ColorFilter.mode(
-                        AppColors.white,
-                        BlendMode.srcIn,
-                      ),
-                    ),
-                  )
-            : null,
       ),
     );
   }

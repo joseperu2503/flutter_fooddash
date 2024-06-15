@@ -1,8 +1,6 @@
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fooddash/config/constants/app_colors.dart';
-import 'package:fooddash/features/dish/models/dish_detail.dart';
 import 'package:fooddash/features/dish/providers/dish_provider.dart';
-import 'package:fooddash/features/dish/services/dish_service.dart';
 import 'package:fooddash/features/dish/widgets/dish_info.dart';
 import 'package:fooddash/features/dish/widgets/topping_category_item.dart';
 import 'package:fooddash/features/shared/widgets/image_app_bar.dart';
@@ -28,32 +26,10 @@ class DishScreenState extends ConsumerState<DishScreen> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await getDish();
+      await ref.read(dishProvider.notifier).getDish(widget.dishId);
     });
     super.initState();
   }
-
-  getDish() async {
-    final DishDetail? termporalDish = ref.read(dishProvider).termporalDish;
-    if (termporalDish != null) {
-      setState(() {
-        dishDetail = termporalDish;
-      });
-    }
-
-    try {
-      final DishDetail response = await DishService.getDish(
-        dishId: widget.dishId,
-      );
-      setState(() {
-        dishDetail = response;
-      });
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
-
-  DishDetail? dishDetail;
 
   @override
   void dispose() {
@@ -63,7 +39,8 @@ class DishScreenState extends ConsumerState<DishScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (dishDetail == null) {
+    final dishState = ref.watch(dishProvider);
+    if (dishState.dishDetail == null) {
       return const Scaffold();
     }
 
@@ -72,16 +49,25 @@ class DishScreenState extends ConsumerState<DishScreen> {
         controller: verticalScrollController,
         slivers: [
           ImageAppBar(
-            title: dishDetail!.name,
-            image: dishDetail!.image,
+            title: dishState.dishDetail!.name,
+            image: dishState.dishDetail!.image,
             scrollController: verticalScrollController,
           ),
-          DishInfo(dish: dishDetail!),
+          DishInfo(dish: dishState.dishDetail!),
           SliverList.separated(
             itemBuilder: (context, index) {
-              final toppingCategory = dishDetail!.toppingCategories[index];
+              final toppingCategory =
+                  dishState.dishDetail!.toppingCategories[index];
               return ToppingCategoryItem(
                 toppingCategory: toppingCategory,
+                onPressTopping: (topping, quantity) {
+                  ref.read(dishProvider.notifier).onPressTopping(
+                        toppingCategory: toppingCategory,
+                        topping: topping,
+                        newQuantity: quantity,
+                      );
+                },
+                selectedToppings: dishState.selectedToppings,
               );
             },
             separatorBuilder: (context, index) {
@@ -90,7 +76,7 @@ class DishScreenState extends ConsumerState<DishScreen> {
                 height: 1.0,
               );
             },
-            itemCount: dishDetail!.toppingCategories.length,
+            itemCount: dishState.dishDetail!.toppingCategories.length,
           ),
         ],
       ),

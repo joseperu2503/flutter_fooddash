@@ -1,25 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'dart:math' as math;
-
 import 'package:fooddash/config/constants/app_colors.dart';
 import 'package:fooddash/features/dish/models/dish_detail.dart';
+import 'package:fooddash/features/dish/providers/dish_provider.dart';
+import 'package:fooddash/features/shared/widgets/button_stepper.dart';
 import 'package:fooddash/features/shared/widgets/custom_check.dart';
 
-class ToppingCategoryItem extends ConsumerStatefulWidget {
+class ToppingCategoryItem extends StatefulWidget {
   const ToppingCategoryItem({
     super.key,
     required this.toppingCategory,
+    required this.onPressTopping,
+    required this.selectedToppings,
   });
 
   final ToppingCategory toppingCategory;
+  final void Function(Topping topping, int quantity) onPressTopping;
+  final List<SelectedTopping> selectedToppings;
 
   @override
-  TermDesplegableState createState() => TermDesplegableState();
+  State<ToppingCategoryItem> createState() => _TermDesplegableState();
 }
 
-class TermDesplegableState extends ConsumerState<ToppingCategoryItem> {
+class _TermDesplegableState extends State<ToppingCategoryItem> {
   bool isExpanded = true;
   final GlobalKey _key = GlobalKey();
 
@@ -45,6 +49,15 @@ class TermDesplegableState extends ConsumerState<ToppingCategoryItem> {
   @override
   Widget build(BuildContext context) {
     final toppings = widget.toppingCategory.toppings;
+    int numSelectedToppings = 0;
+
+    for (SelectedTopping selectedTopping in widget.selectedToppings) {
+      if (selectedTopping.toppingCategoryId == widget.toppingCategory.id) {
+        numSelectedToppings = numSelectedToppings + selectedTopping.quantity;
+      }
+    }
+
+    final bool isMandatory = widget.toppingCategory.minToppings > 0;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -67,21 +80,37 @@ class TermDesplegableState extends ConsumerState<ToppingCategoryItem> {
           child: Row(
             children: [
               Expanded(
-                child: Text(
-                  widget.toppingCategory.description,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.label2,
-                    height: 1,
-                    leadingDistribution: TextLeadingDistribution.even,
-                  ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      widget.toppingCategory.description,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.label2,
+                        height: 1.3,
+                        leadingDistribution: TextLeadingDistribution.even,
+                      ),
+                    ),
+                    if (widget.toppingCategory.subtitle.isNotEmpty)
+                      Text(
+                        widget.toppingCategory.subtitle,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.gray700,
+                          height: 1,
+                          leadingDistribution: TextLeadingDistribution.even,
+                        ),
+                      ),
+                  ],
                 ),
               ),
               const SizedBox(
                 width: 12,
               ),
-              if (widget.toppingCategory.minToppings > 0)
+              if (isMandatory)
                 Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 4,
@@ -111,8 +140,8 @@ class TermDesplegableState extends ConsumerState<ToppingCategoryItem> {
                 angle: isExpanded ? math.pi : 0,
                 child: SvgPicture.asset(
                   'assets/icons/arrow_down.svg',
-                  width: 12,
-                  height: 12,
+                  width: 14,
+                  height: 14,
                   colorFilter: const ColorFilter.mode(
                     AppColors.input,
                     BlendMode.srcIn,
@@ -147,46 +176,94 @@ class TermDesplegableState extends ConsumerState<ToppingCategoryItem> {
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       final topping = toppings[index];
+                      final int selectedToppingIndex = widget.selectedToppings
+                          .indexWhere((selectedTopping) =>
+                              selectedTopping.toppingId == topping.id);
+
+                      final bool isSelectedTopping = selectedToppingIndex >= 0;
+                      final int quantity = isSelectedTopping
+                          ? widget
+                              .selectedToppings[selectedToppingIndex].quantity
+                          : 0;
+
                       return Container(
                         height: 60,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 24,
+                        padding: const EdgeInsets.only(
+                          left: 24,
+                          right: 14,
                         ),
                         child: Row(
                           children: [
-                            Text(
-                              topping.description,
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                                color: AppColors.label2,
-                                height: 16 / 16,
-                                leadingDistribution:
-                                    TextLeadingDistribution.even,
-                              ),
-                            ),
-                            const Spacer(),
-                            Text(
-                              '+\$${topping.price}',
-                              style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                color: AppColors.black,
-                                height: 1,
-                                leadingDistribution:
-                                    TextLeadingDistribution.even,
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    topping.description,
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                      color: AppColors.label2,
+                                      height: 1.5,
+                                      leadingDistribution:
+                                          TextLeadingDistribution.even,
+                                    ),
+                                  ),
+                                  Text(
+                                    '+ \$${topping.price}',
+                                    style: const TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColors.black,
+                                      height: 1,
+                                      leadingDistribution:
+                                          TextLeadingDistribution.even,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                             const SizedBox(
                               width: 12,
                             ),
-                            CustomCheck(
-                              isSelected: index == 1,
-                              onChange: (isSelected) {},
-                              type: (widget.toppingCategory.maxToppings == 1)
-                                  ? CheckType.single
-                                  : CheckType.multiple,
-                            ),
+                            if (topping.maxLimit == 1)
+                              CustomCheck(
+                                isSelected: isSelectedTopping,
+                                onChange: (isSelected) {
+                                  if (!isSelectedTopping) {
+                                    setState(() {
+                                      isExpanded = false;
+                                    });
+                                  }
+                                  widget.onPressTopping(
+                                      topping, isSelectedTopping ? 0 : 1);
+                                },
+                                type: (widget.toppingCategory.maxToppings == 1)
+                                    ? CheckType.single
+                                    : CheckType.multiple,
+                              ),
+                            if (topping.maxLimit > 1)
+                              Container(
+                                padding: const EdgeInsets.only(right: 6),
+                                child: ButtonStepper(
+                                  value: quantity,
+                                  onAdd: quantity == topping.maxLimit ||
+                                          numSelectedToppings ==
+                                              widget.toppingCategory.maxToppings
+                                      ? null
+                                      : () {
+                                          widget.onPressTopping(
+                                              topping, quantity + 1);
+                                        },
+                                  onRemove: quantity == 0
+                                      ? null
+                                      : () {
+                                          widget.onPressTopping(
+                                              topping, quantity - 1);
+                                        },
+                                ),
+                              )
                           ],
                         ),
                       );
