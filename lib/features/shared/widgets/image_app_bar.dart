@@ -10,11 +10,13 @@ class ImageAppBar extends StatefulWidget {
     required this.image,
     required this.scrollController,
     this.logoImage,
+    this.expandedHeightAppbar = expandedHeightAppbarRestaurant,
   });
   final String title;
   final String image;
   final String? logoImage;
   final ScrollController scrollController;
+  final double expandedHeightAppbar;
 
   @override
   State<ImageAppBar> createState() => _ImageAppBarState();
@@ -29,15 +31,16 @@ class _ImageAppBarState extends State<ImageAppBar> {
     widget.scrollController.addListener(() {
       final offsset = widget.scrollController.offset;
       setState(() {
-        if (offsset < 200) {
+        if (offsset < widget.expandedHeightAppbar) {
           opacity = 0;
         }
 
-        if (offsset > 228) {
+        if (offsset > widget.expandedHeightAppbar + 28) {
           opacity = 1;
         }
-        if (offsset >= 200 && offsset <= 228) {
-          opacity = (offsset - 200) / (228 - 200);
+        if (offsset >= widget.expandedHeightAppbar &&
+            offsset <= widget.expandedHeightAppbar + 28) {
+          opacity = (offsset - widget.expandedHeightAppbar) / (28);
         }
       });
 
@@ -94,7 +97,7 @@ class _ImageAppBarState extends State<ImageAppBar> {
       automaticallyImplyLeading: false,
       pinned: true,
       backgroundColor: AppColors.background,
-      expandedHeight: expandedHeightAppbar,
+      expandedHeight: widget.expandedHeightAppbar,
       foregroundColor: AppColors.background,
       collapsedHeight: collapsedHeightAppbar,
       excludeHeaderSemantics: true,
@@ -114,7 +117,6 @@ class _ImageAppBarState extends State<ImageAppBar> {
                 child: Image.network(
                   widget.image,
                   fit: BoxFit.cover,
-                  height: double.infinity,
                 ),
               ),
             ),
