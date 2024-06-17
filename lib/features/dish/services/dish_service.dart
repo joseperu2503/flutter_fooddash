@@ -6,7 +6,7 @@ class DishService {
     required String dishId,
   }) async {
     try {
-      final response = await Api.get('/dishes/$dishId');
+      final response = await Api().get('/dishes/$dishId');
 
       return DishDetail.fromJson(response.data);
     } catch (e) {

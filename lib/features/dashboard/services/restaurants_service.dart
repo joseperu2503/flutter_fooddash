@@ -5,7 +5,7 @@ import 'package:fooddash/features/dashboard/models/restaurant.dart';
 class RestaurantsService {
   static Future<List<Restaurant>> getRestaurants() async {
     try {
-      final response = await Api.get('/restaurants');
+      final response = await Api().get('/restaurants');
 
       return List<Restaurant>.from(
           response.data.map((x) => Restaurant.fromJson(x)));
@@ -16,7 +16,7 @@ class RestaurantsService {
 
   static Future<List<Category>> getCategories() async {
     try {
-      final response = await Api.get('/categories');
+      final response = await Api().get('/categories');
 
       return List<Category>.from(
           response.data.map((x) => Category.fromJson(x)));

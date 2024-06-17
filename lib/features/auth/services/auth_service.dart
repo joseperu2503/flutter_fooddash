@@ -16,7 +16,7 @@ class AuthService {
         "password": password,
       };
 
-      final response = await Api.post('/auth/login', data: form);
+      final response = await Api().post('/auth/login', data: form);
 
       return LoginResponse.fromJson(response.data);
     } catch (e) {

@@ -1,6 +1,7 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fooddash/config/constants/app_colors.dart';
+import 'package:fooddash/features/cart/providers/cart_provider.dart';
 import 'package:fooddash/features/cart/widgets/cart_dish_item.dart';
-import 'package:fooddash/features/restaurant/data/menu.dart';
 import 'package:fooddash/features/shared/widgets/back_button.dart';
 import 'package:fooddash/features/shared/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
@@ -8,12 +9,30 @@ import 'package:go_router/go_router.dart';
 
 const double heightBottomSheet = 380;
 
-class CartScreen extends StatelessWidget {
+class CartScreen extends ConsumerStatefulWidget {
   const CartScreen({super.key});
 
   @override
+  CartScreenState createState() => CartScreenState();
+}
+
+class CartScreenState extends ConsumerState<CartScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      ref.read(cartProvider.notifier).getMyCart();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final dishes = staticMenu[0].dishes;
+    final cartState = ref.watch(cartProvider);
+
+    if (cartState.cartResponse == null) {
+      return const Scaffold();
+    }
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 60,
@@ -66,22 +85,99 @@ class CartScreen extends StatelessWidget {
                 ),
                 sliver: SliverList.separated(
                   itemBuilder: (context, index) {
-                    final dish = dishes[index];
+                    final dish = cartState.cartResponse!.dishCarts[index];
 
-                    return CartDishItem(dish: dish);
+                    return CartDishItem(dishCart: dish);
                   },
                   separatorBuilder: (context, index) {
                     return const SizedBox(
                       height: 32,
                     );
                   },
-                  itemCount: 2,
+                  itemCount: cartState.cartResponse!.dishCarts.length,
                 ),
               ),
             ],
           ),
-          const BottomModal(),
         ],
+      ),
+      bottomSheet: const BottomModal2(),
+    );
+  }
+}
+
+class BottomModal2 extends StatelessWidget {
+  const BottomModal2({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 120,
+      padding: const EdgeInsets.only(
+        top: 16,
+        left: 24,
+        right: 24,
+      ),
+      decoration: const BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(42),
+          topRight: Radius.circular(42),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Color.fromRGBO(63, 76, 95, 0.12),
+            offset: Offset(0, -4),
+            blurRadius: 20,
+            spreadRadius: 0,
+          ),
+        ],
+      ),
+      child: SafeArea(
+        child: Column(
+          children: [
+            Row(
+              children: [
+                const Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Subtotal',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.label,
+                        height: 1.5,
+                        leadingDistribution: TextLeadingDistribution.even,
+                      ),
+                    ),
+                    Text(
+                      '\$131.99',
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.gray800,
+                        height: 1.5,
+                        leadingDistribution: TextLeadingDistribution.even,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  width: 24,
+                ),
+                const Spacer(),
+                CustomButton(
+                  width: 200,
+                  onPressed: () {
+                    context.push('/checkout');
+                  },
+                  text: 'CHECKOUT',
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -285,7 +381,7 @@ class BottomModal extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400,
-                                    color: AppColors.label,
+                                    color: AppColors.gray500,
                                     height: 1.5,
                                     leadingDistribution:
                                         TextLeadingDistribution.even,

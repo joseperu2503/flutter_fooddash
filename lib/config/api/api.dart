@@ -21,14 +21,14 @@ class Api {
     _dioBase.interceptors.add(interceptor);
   }
 
-  static Future<Response> get(
+  Future<Response> get(
     String path, {
     Map<String, dynamic>? queryParameters,
   }) async {
     return _dioBase.get(path, queryParameters: queryParameters);
   }
 
-  static Future<Response> post(String path, {Object? data}) async {
+  Future<Response> post(String path, {Object? data}) async {
     return _dioBase.post(path, data: data);
   }
 }

@@ -1,206 +1,104 @@
 import 'package:fooddash/config/constants/app_colors.dart';
-import 'package:fooddash/features/restaurant/models/restaurant_detail.dart';
+import 'package:fooddash/features/cart/models/cart_response.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fooddash/features/shared/utils/utils.dart';
+import 'package:fooddash/features/shared/widgets/button_stepper_2.dart';
 
 const double heightItem = 90;
 
 class CartDishItem extends StatelessWidget {
   const CartDishItem({
     super.key,
-    required this.dish,
+    required this.dishCart,
   });
-  final Dish dish;
+  final DishCart dishCart;
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      contentPadding: EdgeInsets.zero,
-      dense: true,
-      minVerticalPadding: 0,
-      title: SizedBox(
-        height: heightItem,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: Image.network(
-                dish.image,
-                fit: BoxFit.cover,
-                height: heightItem,
-                width: heightItem,
-              ),
+    String toppingsDescription = '';
+    for (var topping in dishCart.toppingDishCarts) {
+      if (toppingsDescription.isEmpty) {
+        toppingsDescription = '${topping.description}.';
+      } else {
+        toppingsDescription = '$toppingsDescription ${topping.description}.';
+      }
+    }
+
+    return SizedBox(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Image.network(
+              dishCart.image,
+              fit: BoxFit.cover,
+              height: heightItem,
+              width: heightItem,
             ),
-            const SizedBox(
-              width: 10,
-            ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 4,
+          ),
+          const SizedBox(
+            width: 10,
+          ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 4,
+                ),
+                Text(
+                  dishCart.name,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.black,
+                    height: 1,
+                    leadingDistribution: TextLeadingDistribution.even,
                   ),
-                  Text(
-                    dish.name,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.black,
-                      height: 1,
-                      leadingDistribution: TextLeadingDistribution.even,
-                    ),
+                ),
+                const SizedBox(
+                  height: 4,
+                ),
+                Text(
+                  toppingsDescription,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.gray500,
+                    height: 1.2,
+                    leadingDistribution: TextLeadingDistribution.even,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(
-                    height: 2,
-                  ),
-                  Text(
-                    dish.description,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w300,
-                      color: Color(0xff8C8A9D),
-                      height: 1.3,
-                      leadingDistribution: TextLeadingDistribution.even,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    maxLines: 2,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const Spacer(),
-                  Row(
-                    children: [
-                      Text(
-                        '\$${dish.price}',
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.primary,
-                          height: 1,
-                          leadingDistribution: TextLeadingDistribution.even,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  SizedBox(
-                    height: 30,
-                    width: 30,
-                    child: IconButton(
-                      padding: EdgeInsetsDirectional.zero,
-                      onPressed: () {},
-                      icon: SvgPicture.asset(
-                        'assets/icons/close.svg',
+                  maxLines: 2,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    Text(
+                      Utils.formatCurrency(dishCart.price),
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.gray900,
+                        height: 1,
+                        leadingDistribution: TextLeadingDistribution.even,
                       ),
                     ),
-                  ),
-                  const Spacer(),
-                  Row(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: AppColors.primary,
-                          ),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Color(0xffEEF0F2),
-                              offset: Offset(0, 20),
-                              blurRadius: 30,
-                              spreadRadius: 0,
-                            )
-                          ],
-                        ),
-                        height: 30,
-                        width: 30,
-                        child: TextButton(
-                          onPressed: () {},
-                          style: TextButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            padding: EdgeInsets.zero,
-                          ),
-                          child: SvgPicture.asset(
-                            'assets/icons/minus.svg',
-                            height: 20,
-                            colorFilter: const ColorFilter.mode(
-                              AppColors.primary,
-                              BlendMode.srcIn,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        alignment: Alignment.center,
-                        width: 32,
-                        child: const Text(
-                          '1',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.black,
-                            height: 1,
-                            leadingDistribution: TextLeadingDistribution.even,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: AppColors.primary,
-                          ),
-                          color: AppColors.primary,
-                          boxShadow: [
-                            BoxShadow(
-                              color: AppColors.orange.withOpacity(0.4),
-                              offset: const Offset(0, 7),
-                              blurRadius: 15,
-                              spreadRadius: 0,
-                            )
-                          ],
-                        ),
-                        height: 30,
-                        width: 30,
-                        child: TextButton(
-                          onPressed: () {},
-                          style: TextButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            padding: EdgeInsets.zero,
-                          ),
-                          child: SvgPicture.asset(
-                            'assets/icons/plus.svg',
-                            height: 20,
-                            colorFilter: const ColorFilter.mode(
-                              AppColors.white,
-                              BlendMode.srcIn,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    const Spacer(),
+                    ButtonStepper2(value: dishCart.units),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

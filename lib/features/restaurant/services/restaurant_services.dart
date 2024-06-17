@@ -6,7 +6,7 @@ class RestaurantService {
     required String restaurantId,
   }) async {
     try {
-      final response = await Api.get('/restaurants/$restaurantId');
+      final response = await Api().get('/restaurants/$restaurantId');
 
       return RestaurantDetail.fromJson(response.data);
     } catch (e) {

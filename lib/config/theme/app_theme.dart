@@ -28,6 +28,12 @@ class AppTheme {
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.transparent,
       ),
+      bottomSheetTheme: const BottomSheetThemeData(
+        modalBackgroundColor: Colors.white,
+        showDragHandle: true,
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.white,
+      ),
     );
   }
 }
