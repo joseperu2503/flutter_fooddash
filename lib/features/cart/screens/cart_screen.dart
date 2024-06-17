@@ -146,7 +146,7 @@ class BottomModal2 extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
-                        color: AppColors.label,
+                        color: AppColors.gray500,
                         height: 1.5,
                         leadingDistribution: TextLeadingDistribution.even,
                       ),
