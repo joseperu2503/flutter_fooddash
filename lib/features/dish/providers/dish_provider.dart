@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import 'package:fooddash/features/cart/models/cart_request.dart';
+import 'package:fooddash/features/cart/providers/cart_provider.dart';
 import 'package:fooddash/features/dish/models/dish_detail.dart';
 import 'package:fooddash/features/dish/services/dish_service.dart';
 import 'package:fooddash/features/restaurant/models/restaurant_detail.dart';
@@ -25,7 +26,9 @@ class DishNotifier extends StateNotifier<DishState> {
         stock: dish.stock,
         isActive: dish.isActive,
         toppingCategories: [],
+        dishCategory: null,
       ),
+      units: 1,
     );
   }
 
@@ -69,7 +72,7 @@ class DishNotifier extends StateNotifier<DishState> {
         selectedToppings.add(SelectedTopping(
           toppingId: topping.id,
           toppingCategoryId: toppingCategory.id,
-          quantity: 1,
+          units: 1,
         ));
       }
     } else {
@@ -85,13 +88,13 @@ class DishNotifier extends StateNotifier<DishState> {
           selectedToppings.add(SelectedTopping(
             toppingCategoryId: toppingCategory.id,
             toppingId: topping.id,
-            quantity: newQuantity,
+            units: newQuantity,
           ));
         } else {
           selectedToppings[selectedToppingIndex] = SelectedTopping(
             toppingCategoryId: toppingCategory.id,
             toppingId: topping.id,
-            quantity: newQuantity,
+            units: newQuantity,
           );
         }
       } else {
@@ -101,7 +104,7 @@ class DishNotifier extends StateNotifier<DishState> {
         selectedToppings[selectedToppingIndex] = SelectedTopping(
           toppingCategoryId: toppingCategory.id,
           toppingId: topping.id,
-          quantity: newQuantity,
+          units: newQuantity,
         );
       }
     }
@@ -110,26 +113,71 @@ class DishNotifier extends StateNotifier<DishState> {
       selectedToppings: selectedToppings,
     );
   }
+
+  Future<void> addDishToCart() async {
+    if (state.dishDetail == null || state.dishDetail?.dishCategory == null) {
+      return;
+    }
+
+    List<ToppingDishCartRequest> toppings = [];
+
+    for (var selectedTopping in state.selectedToppings) {
+      ToppingDishCartRequest toppingDishCart = ToppingDishCartRequest(
+        toppingId: selectedTopping.toppingId,
+        units: selectedTopping.units,
+      );
+
+      toppings.add(toppingDishCart);
+    }
+
+    DishCartRequest dishCart = DishCartRequest(
+      dishId: state.dishDetail!.id,
+      units: state.units,
+      toppings: toppings,
+    );
+
+    ref
+        .read(cartProvider.notifier)
+        .addDishToCart(dishCart, state.dishDetail!.dishCategory!.restaurant.id);
+  }
+
+  addUnits() {
+    state = state.copyWith(
+      units: state.units + 1,
+    );
+  }
+
+  removeUnits() {
+    if (state.units == 1) return;
+
+    state = state.copyWith(
+      units: state.units - 1,
+    );
+  }
 }
 
 class DishState {
   final DishDetail? dishDetail;
+  final int units;
   final List<SelectedTopping> selectedToppings;
   final LoadingStatus loading;
 
   DishState({
     this.dishDetail,
+    this.units = 1,
     this.selectedToppings = const [],
     this.loading = LoadingStatus.none,
   });
 
   DishState copyWith({
     DishDetail? dishDetail,
+    int? units,
     List<SelectedTopping>? selectedToppings,
     LoadingStatus? loading,
   }) =>
       DishState(
         dishDetail: dishDetail ?? this.dishDetail,
+        units: units ?? this.units,
         selectedToppings: selectedToppings ?? this.selectedToppings,
         loading: loading ?? this.loading,
       );
@@ -138,10 +186,10 @@ class DishState {
 class SelectedTopping {
   int toppingId;
   int toppingCategoryId;
-  int quantity;
+  int units;
   SelectedTopping({
     required this.toppingId,
     required this.toppingCategoryId,
-    required this.quantity,
+    required this.units,
   });
 }

@@ -10,7 +10,6 @@ class Restaurant {
   String openTime;
   String closeTime;
 
-  RestaurantCategory restaurantCategory;
   int distance;
   int time;
   double record;
@@ -29,7 +28,6 @@ class Restaurant {
     required this.isActive,
     required this.openTime,
     required this.closeTime,
-    required this.restaurantCategory,
     required this.distance,
     required this.time,
     required this.record,
@@ -49,8 +47,7 @@ class Restaurant {
         isActive: json["isActive"],
         openTime: json["openTime"],
         closeTime: json["closeTime"],
-        restaurantCategory:
-            RestaurantCategory.fromJson(json["restaurantCategory"]),
+       
         distance: json["distance"],
         time: json["time"],
         record: json["record"]?.toDouble(),
@@ -70,7 +67,6 @@ class Restaurant {
         "isActive": isActive,
         "openTime": openTime,
         "closeTime": closeTime,
-        "restaurantCategory": restaurantCategory.toJson(),
         "distance": distance,
         "time": time,
         "record": record,
@@ -80,31 +76,4 @@ class Restaurant {
       };
 }
 
-class RestaurantCategory {
-  int id;
-  String name;
-  String image;
-  bool isActive;
 
-  RestaurantCategory({
-    required this.id,
-    required this.name,
-    required this.image,
-    required this.isActive,
-  });
-
-  factory RestaurantCategory.fromJson(Map<String, dynamic> json) =>
-      RestaurantCategory(
-        id: json["id"],
-        name: json["name"],
-        image: json["image"],
-        isActive: json["isActive"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "image": image,
-        "isActive": isActive,
-      };
-}

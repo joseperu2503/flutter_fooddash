@@ -85,7 +85,6 @@ class RestaurantsNotifier extends StateNotifier<RestaurantsState> {
         openTime: restaurant.openTime,
         closeTime: restaurant.closeTime,
         dishCategories: [],
-        restaurantCategory: restaurant.restaurantCategory,
         delivery: restaurant.delivery,
         distance: restaurant.distance,
         record: restaurant.record,

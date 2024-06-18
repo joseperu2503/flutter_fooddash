@@ -2,7 +2,7 @@ import 'package:fooddash/config/constants/app_colors.dart';
 import 'package:fooddash/features/auth/providers/login_provider.dart';
 import 'package:fooddash/features/shared/widgets/back_button.dart';
 import 'package:fooddash/features/shared/widgets/custom_button.dart';
-import 'package:fooddash/features/shared/widgets/custom_form_field.dart';
+import 'package:fooddash/features/shared/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

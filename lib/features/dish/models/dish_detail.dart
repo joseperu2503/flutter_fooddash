@@ -6,6 +6,7 @@ class DishDetail {
   final double price;
   final int stock;
   final bool isActive;
+  final DishCategory? dishCategory;
   final List<ToppingCategory> toppingCategories;
 
   DishDetail({
@@ -16,6 +17,7 @@ class DishDetail {
     required this.price,
     required this.stock,
     required this.isActive,
+    required this.dishCategory,
     required this.toppingCategories,
   });
 
@@ -27,6 +29,9 @@ class DishDetail {
         price: json["price"]?.toDouble(),
         stock: json["stock"],
         isActive: json["isActive"],
+        dishCategory: json["dishCategory"] == null
+            ? null
+            : DishCategory.fromJson(json["dishCategory"]),
         toppingCategories: List<ToppingCategory>.from(
             json["toppingCategories"].map((x) => ToppingCategory.fromJson(x))),
       );
@@ -39,8 +44,105 @@ class DishDetail {
         "price": price,
         "stock": stock,
         "isActive": isActive,
+        "dishCategory": dishCategory?.toJson(),
         "toppingCategories":
             List<dynamic>.from(toppingCategories.map((x) => x.toJson())),
+      };
+}
+
+class DishCategory {
+  final int id;
+  final String name;
+  final bool isActive;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final Restaurant restaurant;
+
+  DishCategory({
+    required this.id,
+    required this.name,
+    required this.isActive,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.restaurant,
+  });
+
+  factory DishCategory.fromJson(Map<String, dynamic> json) => DishCategory(
+        id: json["id"],
+        name: json["name"],
+        isActive: json["isActive"],
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
+        restaurant: Restaurant.fromJson(json["restaurant"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "isActive": isActive,
+        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt.toIso8601String(),
+        "restaurant": restaurant.toJson(),
+      };
+}
+
+class Restaurant {
+  final int id;
+  final String name;
+  final String address;
+  final String logo;
+  final String backdrop;
+  final double latitude;
+  final double longitude;
+  final bool isActive;
+  final String openTime;
+  final String closeTime;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+
+  Restaurant({
+    required this.id,
+    required this.name,
+    required this.address,
+    required this.logo,
+    required this.backdrop,
+    required this.latitude,
+    required this.longitude,
+    required this.isActive,
+    required this.openTime,
+    required this.closeTime,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+
+  factory Restaurant.fromJson(Map<String, dynamic> json) => Restaurant(
+        id: json["id"],
+        name: json["name"],
+        address: json["address"],
+        logo: json["logo"],
+        backdrop: json["backdrop"],
+        latitude: json["latitude"]?.toDouble(),
+        longitude: json["longitude"]?.toDouble(),
+        isActive: json["isActive"],
+        openTime: json["openTime"],
+        closeTime: json["closeTime"],
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "address": address,
+        "logo": logo,
+        "backdrop": backdrop,
+        "latitude": latitude,
+        "longitude": longitude,
+        "isActive": isActive,
+        "openTime": openTime,
+        "closeTime": closeTime,
+        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt.toIso8601String(),
       };
 }
 

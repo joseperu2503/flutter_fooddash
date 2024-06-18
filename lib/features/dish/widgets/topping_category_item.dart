@@ -53,7 +53,7 @@ class _TermDesplegableState extends State<ToppingCategoryItem> {
 
     for (SelectedTopping selectedTopping in widget.selectedToppings) {
       if (selectedTopping.toppingCategoryId == widget.toppingCategory.id) {
-        numSelectedToppings = numSelectedToppings + selectedTopping.quantity;
+        numSelectedToppings = numSelectedToppings + selectedTopping.units;
       }
     }
 
@@ -183,7 +183,7 @@ class _TermDesplegableState extends State<ToppingCategoryItem> {
                       final bool isSelectedTopping = selectedToppingIndex >= 0;
                       final int quantity = isSelectedTopping
                           ? widget
-                              .selectedToppings[selectedToppingIndex].quantity
+                              .selectedToppings[selectedToppingIndex].units
                           : 0;
 
                       return Container(

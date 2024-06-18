@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fooddash/config/constants/app_colors.dart';
+import 'package:fooddash/features/dish/providers/dish_provider.dart';
 import 'package:fooddash/features/shared/widgets/custom_button.dart';
 
-class BottomDish extends StatelessWidget {
+class BottomDish extends ConsumerWidget {
   const BottomDish({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final dishState = ref.watch(dishProvider);
+
     return SafeArea(
       child: Container(
         padding: const EdgeInsets.symmetric(
@@ -38,7 +42,9 @@ class BottomDish extends StatelessWidget {
                   height: 40,
                   width: 40,
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      ref.read(dishProvider.notifier).removeUnits();
+                    },
                     style: TextButton.styleFrom(
                       shape: const OvalBorder(),
                       padding: EdgeInsets.zero,
@@ -56,9 +62,9 @@ class BottomDish extends StatelessWidget {
                 Container(
                   alignment: Alignment.center,
                   width: 32,
-                  child: const Text(
-                    '1',
-                    style: TextStyle(
+                  child: Text(
+                    dishState.units.toString(),
+                    style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
                       color: AppColors.black,
@@ -85,7 +91,9 @@ class BottomDish extends StatelessWidget {
                   height: 40,
                   width: 40,
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      ref.read(dishProvider.notifier).addUnits();
+                    },
                     style: TextButton.styleFrom(
                       shape: const OvalBorder(),
                       padding: EdgeInsets.zero,

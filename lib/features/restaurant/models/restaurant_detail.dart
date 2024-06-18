@@ -1,5 +1,3 @@
-import 'package:fooddash/features/dashboard/models/restaurant.dart';
-
 class RestaurantDetail {
   final int id;
   final String name;
@@ -12,7 +10,6 @@ class RestaurantDetail {
   final String openTime;
   final String closeTime;
   final List<DishCategory> dishCategories;
-  final RestaurantCategory restaurantCategory;
   final int distance;
   final int time;
   final double record;
@@ -32,7 +29,6 @@ class RestaurantDetail {
     required this.openTime,
     required this.closeTime,
     required this.dishCategories,
-    required this.restaurantCategory,
     required this.distance,
     required this.time,
     required this.record,
@@ -55,8 +51,6 @@ class RestaurantDetail {
         closeTime: json["closeTime"],
         dishCategories: List<DishCategory>.from(
             json["dishCategories"].map((x) => DishCategory.fromJson(x))),
-        restaurantCategory:
-            RestaurantCategory.fromJson(json["restaurantCategory"]),
         distance: json["distance"],
         time: json["time"],
         record: json["record"]?.toDouble(),
@@ -78,7 +72,6 @@ class RestaurantDetail {
         "closeTime": closeTime,
         "dishCategories":
             List<dynamic>.from(dishCategories.map((x) => x.toJson())),
-        "restaurantCategory": restaurantCategory.toJson(),
         "distance": distance,
         "time": time,
         "record": record,
