@@ -1,4 +1,5 @@
 import 'package:fooddash/config/constants/storage_keys.dart';
+import 'package:fooddash/config/router/app_router.dart';
 import 'package:fooddash/features/auth/models/login_response.dart';
 import 'package:fooddash/features/auth/providers/auth_provider.dart';
 import 'package:fooddash/features/auth/services/auth_service.dart';
@@ -58,7 +59,8 @@ class LoginNotifier extends StateNotifier<LoginState> {
       await StorageService.set<String>(StorageKeys.token, loginResponse.token);
 
       setRemember();
-      ref.read(authProvider.notifier).setAuthStatus(AuthStatus.authenticated);
+      appRouter.go('/dashboard');
+      ref.read(authProvider.notifier).initAutoLogout();
     } catch (e) {
       SnackBarService.show(e);
     }
