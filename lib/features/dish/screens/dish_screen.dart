@@ -56,8 +56,7 @@ class DishScreenState extends ConsumerState<DishScreen> {
           DishInfo(dish: dishState.dishDetail!),
           SliverList.separated(
             itemBuilder: (context, index) {
-              final toppingCategory =
-                  dishState.dishDetail!.toppingCategories[index];
+              final toppingCategory = dishState.toppingCategoriesStatus[index];
               return ToppingCategoryItem(
                 toppingCategory: toppingCategory,
                 onPressTopping: (topping, quantity) {
@@ -67,7 +66,6 @@ class DishScreenState extends ConsumerState<DishScreen> {
                         newQuantity: quantity,
                       );
                 },
-                selectedToppings: dishState.selectedToppings,
               );
             },
             separatorBuilder: (context, index) {

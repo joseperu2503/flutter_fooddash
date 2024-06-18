@@ -37,29 +37,45 @@ class CustomButton extends StatelessWidget {
     super.key,
     required this.onPressed,
     required this.text,
-    this.boxShadow = BoxShadowType.orange,
+    this.boxShadowType = BoxShadowType.orange,
     this.width = 248,
     this.height = 60,
     this.fontWeight = FontWeight.w600,
+    this.disabled = false,
   });
 
   final void Function() onPressed;
   final String text;
-  final BoxShadowType boxShadow;
+  final BoxShadowType boxShadowType;
   final double? width;
   final double height;
   final FontWeight fontWeight;
+  final bool disabled;
+
+  Color get backgroundColor {
+    if (disabled) {
+      return AppColors.gray400;
+    }
+    return AppColors.primary;
+  }
+
+  List<BoxShadow>? get boxShadow {
+    if (disabled) {
+      return null;
+    }
+
+    final boxShadowStyle =
+        boxShadows.firstWhere((b) => b.boxShadowType == boxShadowType);
+    return boxShadowStyle.boxShadow;
+  }
 
   @override
   Widget build(BuildContext context) {
-    final boxShadowStyle =
-        boxShadows.firstWhere((b) => b.boxShadowType == boxShadow);
-
     return Container(
       height: height,
       width: width,
       decoration: BoxDecoration(
-        boxShadow: boxShadowStyle.boxShadow,
+        boxShadow: boxShadow,
       ),
       child: TextButton(
         onPressed: () {
@@ -74,7 +90,7 @@ class CustomButton extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(40),
           ),
-          backgroundColor: AppColors.primary,
+          backgroundColor: backgroundColor,
         ),
         child: Text(
           text,

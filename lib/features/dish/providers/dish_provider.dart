@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:fooddash/config/router/app_router.dart';
 import 'package:fooddash/features/cart/models/cart_request.dart';
 import 'package:fooddash/features/cart/providers/cart_provider.dart';
 import 'package:fooddash/features/dish/models/dish_detail.dart';
@@ -28,6 +30,7 @@ class DishNotifier extends StateNotifier<DishState> {
         toppingCategories: [],
         dishCategory: null,
       ),
+      selectedToppings: [],
       units: 1,
     );
   }
@@ -139,6 +142,8 @@ class DishNotifier extends StateNotifier<DishState> {
     ref
         .read(cartProvider.notifier)
         .addDishToCart(dishCart, state.dishDetail!.dishCategory!.restaurant.id);
+
+    appRouter.pop();
   }
 
   addUnits() {
@@ -169,6 +174,33 @@ class DishState {
     this.loading = LoadingStatus.none,
   });
 
+  List<ToppingCategoryForm> get toppingCategoriesStatus {
+    if (dishDetail == null) return [];
+    List<ToppingCategoryForm> statuses = [];
+
+    for (ToppingCategory toppingCategory in dishDetail!.toppingCategories) {
+      statuses.add(
+        ToppingCategoryForm(
+          toppingCategory: toppingCategory,
+          selectedToppings: selectedToppings,
+        ),
+      );
+    }
+    return statuses;
+  }
+
+  bool get isDone {
+    if (dishDetail == null) return false;
+    if (loading == LoadingStatus.loading) return false;
+
+    for (ToppingCategoryForm toppingCategoryForm in toppingCategoriesStatus) {
+      if (toppingCategoryForm.isMandatory && !toppingCategoryForm.isDone) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   DishState copyWith({
     DishDetail? dishDetail,
     int? units,
@@ -192,4 +224,36 @@ class SelectedTopping {
     required this.toppingCategoryId,
     required this.units,
   });
+}
+
+class ToppingCategoryForm extends ToppingCategory {
+  ToppingCategory toppingCategory;
+  List<SelectedTopping> selectedToppings;
+
+  int get numSelectedToppings {
+    int num = 0;
+
+    for (SelectedTopping selectedTopping in selectedToppings) {
+      if (selectedTopping.toppingCategoryId == toppingCategory.id) {
+        num = num + selectedTopping.units;
+      }
+    }
+    return num;
+  }
+
+  bool get isMandatory => toppingCategory.minToppings > 0;
+  bool get isDone => numSelectedToppings == toppingCategory.maxToppings;
+
+  ToppingCategoryForm({
+    required this.toppingCategory,
+    required this.selectedToppings,
+  }) : super(
+          id: toppingCategory.id,
+          description: toppingCategory.description,
+          isActive: toppingCategory.isActive,
+          maxToppings: toppingCategory.maxToppings,
+          minToppings: toppingCategory.minToppings,
+          subtitle: toppingCategory.subtitle,
+          toppings: toppingCategory.toppings,
+        );
 }

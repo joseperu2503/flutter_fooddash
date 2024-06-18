@@ -221,7 +221,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                           ref.read(loginProvider.notifier).login();
                         },
                         text: 'LOGIN',
-                        boxShadow: BoxShadowType.gray,
+                        boxShadowType: BoxShadowType.gray,
                       ),
                     ),
                     const SizedBox(

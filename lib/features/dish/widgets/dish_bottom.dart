@@ -115,7 +115,10 @@ class BottomDish extends ConsumerWidget {
             ),
             Expanded(
               child: CustomButton(
-                onPressed: () {},
+                onPressed: () {
+                  ref.read(dishProvider.notifier).addDishToCart();
+                },
+                disabled: !dishState.isDone,
                 text: 'ADD TO CART',
               ),
             ),

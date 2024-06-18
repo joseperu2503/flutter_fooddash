@@ -12,12 +12,10 @@ class ToppingCategoryItem extends StatefulWidget {
     super.key,
     required this.toppingCategory,
     required this.onPressTopping,
-    required this.selectedToppings,
   });
 
-  final ToppingCategory toppingCategory;
+  final ToppingCategoryForm toppingCategory;
   final void Function(Topping topping, int quantity) onPressTopping;
-  final List<SelectedTopping> selectedToppings;
 
   @override
   State<ToppingCategoryItem> createState() => _TermDesplegableState();
@@ -46,18 +44,23 @@ class _TermDesplegableState extends State<ToppingCategoryItem> {
     return 60.0 * widget.toppingCategory.toppings.length;
   }
 
+  List<Topping> get toppings => widget.toppingCategory.toppings;
+
+  @override
+  void didUpdateWidget(covariant ToppingCategoryItem oldWidget) {
+    if (widget.toppingCategory.isDone != oldWidget.toppingCategory.isDone) {
+      setState(() {
+        isExpanded = !widget.toppingCategory.isDone;
+      });
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  bool get isMandatory => widget.toppingCategory.isMandatory;
+  bool get isDone => widget.toppingCategory.isDone;
+
   @override
   Widget build(BuildContext context) {
-    final toppings = widget.toppingCategory.toppings;
-    int numSelectedToppings = 0;
-
-    for (SelectedTopping selectedTopping in widget.selectedToppings) {
-      if (selectedTopping.toppingCategoryId == widget.toppingCategory.id) {
-        numSelectedToppings = numSelectedToppings + selectedTopping.units;
-      }
-    }
-
-    final bool isMandatory = widget.toppingCategory.minToppings > 0;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -110,11 +113,11 @@ class _TermDesplegableState extends State<ToppingCategoryItem> {
               const SizedBox(
                 width: 12,
               ),
-              if (isMandatory)
+              if (isMandatory && !isDone)
                 Container(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 4,
-                    vertical: 4,
+                    horizontal: 6,
+                    vertical: 6,
                   ),
                   decoration: BoxDecoration(
                     border: Border.all(
@@ -126,8 +129,29 @@ class _TermDesplegableState extends State<ToppingCategoryItem> {
                     'Mandatory',
                     style: TextStyle(
                       fontSize: 12,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w600,
                       color: AppColors.label2,
+                      height: 12 / 12,
+                      leadingDistribution: TextLeadingDistribution.even,
+                    ),
+                  ),
+                ),
+              if (isMandatory && isDone)
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: AppColors.yellow,
+                    borderRadius: BorderRadiusDirectional.circular(8),
+                  ),
+                  child: const Text(
+                    'Done',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.white,
                       height: 12 / 12,
                       leadingDistribution: TextLeadingDistribution.even,
                     ),
@@ -176,13 +200,14 @@ class _TermDesplegableState extends State<ToppingCategoryItem> {
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       final topping = toppings[index];
-                      final int selectedToppingIndex = widget.selectedToppings
+                      final int selectedToppingIndex = widget
+                          .toppingCategory.selectedToppings
                           .indexWhere((selectedTopping) =>
                               selectedTopping.toppingId == topping.id);
 
                       final bool isSelectedTopping = selectedToppingIndex >= 0;
                       final int quantity = isSelectedTopping
-                          ? widget
+                          ? widget.toppingCategory
                               .selectedToppings[selectedToppingIndex].units
                           : 0;
 
@@ -231,11 +256,6 @@ class _TermDesplegableState extends State<ToppingCategoryItem> {
                               CustomCheck(
                                 isSelected: isSelectedTopping,
                                 onChange: (isSelected) {
-                                  if (!isSelectedTopping) {
-                                    setState(() {
-                                      isExpanded = false;
-                                    });
-                                  }
                                   widget.onPressTopping(
                                       topping, isSelectedTopping ? 0 : 1);
                                 },
@@ -249,7 +269,8 @@ class _TermDesplegableState extends State<ToppingCategoryItem> {
                                 child: ButtonStepper(
                                   value: quantity,
                                   onAdd: quantity == topping.maxLimit ||
-                                          numSelectedToppings ==
+                                          widget.toppingCategory
+                                                  .numSelectedToppings ==
                                               widget.toppingCategory.maxToppings
                                       ? null
                                       : () {

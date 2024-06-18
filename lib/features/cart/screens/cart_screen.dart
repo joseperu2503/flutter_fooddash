@@ -262,7 +262,7 @@ class BottomModal extends StatelessWidget {
                                   height: 44,
                                   onPressed: () {},
                                   text: 'Apply',
-                                  boxShadow: BoxShadowType.none,
+                                  boxShadowType: BoxShadowType.none,
                                 ),
                               ),
                             ),
