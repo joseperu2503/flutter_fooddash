@@ -9,6 +9,17 @@ class CartResponse {
     required this.restaurant,
   });
 
+  CartResponse copyWith({
+    int? id,
+    List<DishCart>? dishCarts,
+    Restaurant? restaurant,
+  }) =>
+      CartResponse(
+        id: id ?? this.id,
+        dishCarts: dishCarts ?? this.dishCarts,
+        restaurant: restaurant ?? this.restaurant,
+      );
+
   factory CartResponse.fromJson(Map<String, dynamic> json) => CartResponse(
         id: json["id"],
         dishCarts: List<DishCart>.from(
@@ -49,6 +60,33 @@ class DishCart {
     required this.units,
     required this.toppingDishCarts,
   });
+
+  DishCart copyWith({
+    int? id,
+    String? name,
+    String? image,
+    String? description,
+    double? price,
+    int? stock,
+    bool? isActive,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    int? units,
+    List<ToppingDishCart>? toppingDishCarts,
+  }) =>
+      DishCart(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        image: image ?? this.image,
+        description: description ?? this.description,
+        price: price ?? this.price,
+        stock: stock ?? this.stock,
+        isActive: isActive ?? this.isActive,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+        units: units ?? this.units,
+        toppingDishCarts: toppingDishCarts ?? this.toppingDishCarts,
+      );
 
   factory DishCart.fromJson(Map<String, dynamic> json) => DishCart(
         id: json["id"],
@@ -102,6 +140,27 @@ class ToppingDishCart {
     required this.units,
   });
 
+  ToppingDishCart copyWith({
+    int? id,
+    String? description,
+    bool? isActive,
+    int? maxLimit,
+    double? price,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    int? units,
+  }) =>
+      ToppingDishCart(
+        id: id ?? this.id,
+        description: description ?? this.description,
+        isActive: isActive ?? this.isActive,
+        maxLimit: maxLimit ?? this.maxLimit,
+        price: price ?? this.price,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+        units: units ?? this.units,
+      );
+
   factory ToppingDishCart.fromJson(Map<String, dynamic> json) =>
       ToppingDishCart(
         id: json["id"],
@@ -154,6 +213,35 @@ class Restaurant {
     required this.createdAt,
     required this.updatedAt,
   });
+
+  Restaurant copyWith({
+    int? id,
+    String? name,
+    String? address,
+    String? logo,
+    String? backdrop,
+    double? latitude,
+    double? longitude,
+    bool? isActive,
+    String? openTime,
+    String? closeTime,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) =>
+      Restaurant(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        address: address ?? this.address,
+        logo: logo ?? this.logo,
+        backdrop: backdrop ?? this.backdrop,
+        latitude: latitude ?? this.latitude,
+        longitude: longitude ?? this.longitude,
+        isActive: isActive ?? this.isActive,
+        openTime: openTime ?? this.openTime,
+        closeTime: closeTime ?? this.closeTime,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+      );
 
   factory Restaurant.fromJson(Map<String, dynamic> json) => Restaurant(
         id: json["id"],

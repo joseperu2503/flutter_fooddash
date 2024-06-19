@@ -70,13 +70,17 @@ class CartNotifier extends StateNotifier<CartState> {
       loading: LoadingStatus.loading,
     );
 
+    List<DishCartRequest> dishes = [dishCartRequest, ...state.dishesForRequest];
+
     CartRequest cartRequest = CartRequest(
       restaurantId: restaurantId,
-      dishes: [
-        dishCartRequest,
-      ],
+      dishes: dishes,
     );
 
+    updateCart(cartRequest);
+  }
+
+  updateCart(CartRequest cartRequest) async {
     try {
       final CartResponse response = await CartService.updateMyCart(cartRequest);
       state = state.copyWith(
@@ -90,6 +94,61 @@ class CartNotifier extends StateNotifier<CartState> {
       rethrow;
     }
   }
+
+  addUnitDish(int dishId) {
+    if (state.cartResponse == null) return;
+
+    state = state.copyWith(
+      cartResponse: () => state.cartResponse!.copyWith(
+        dishCarts: state.cartResponse!.dishCarts.map((dishCart) {
+          if (dishCart.id == dishId) {
+            return dishCart.copyWith(units: dishCart.units + 1);
+          }
+
+          return dishCart;
+        }).toList(),
+      ),
+    );
+
+    CartRequest cartRequest = CartRequest(
+      restaurantId: state.cartResponse!.restaurant.id,
+      dishes: state.dishesForRequest,
+    );
+
+    updateCart(cartRequest);
+  }
+
+  removeUnitDish(int dishId) async {
+    if (state.cartResponse == null) return;
+
+    List<DishCart> dishCarts = state.cartResponse!.dishCarts.map((dishCart) {
+      if (dishCart.id == dishId) {
+        return dishCart.copyWith(units: dishCart.units - 1);
+      }
+
+      return dishCart;
+    }).toList();
+
+    dishCarts = dishCarts.where((dishCart) => dishCart.units > 0).toList();
+
+    state = state.copyWith(
+      cartResponse: () => state.cartResponse!.copyWith(
+        dishCarts: dishCarts,
+      ),
+    );
+
+    if (dishCarts.isEmpty) {
+      await deleteMyCart();
+      return;
+    }
+
+    CartRequest cartRequest = CartRequest(
+      restaurantId: state.cartResponse!.restaurant.id,
+      dishes: state.dishesForRequest,
+    );
+
+    updateCart(cartRequest);
+  }
 }
 
 class CartState {
@@ -98,15 +157,43 @@ class CartState {
 
   int? get numDishes {
     if (cartResponse != null) {
-      return cartResponse!.dishCarts
-          .map((e) => e.units)
-          .toList()
-          .reduce((value, element) => value + element);
+      if (cartResponse!.dishCarts.isNotEmpty) {
+        return cartResponse!.dishCarts
+            .map((e) => e.units)
+            .toList()
+            .reduce((value, element) => value + element);
+      }
+      return 0;
     } else if (loading == LoadingStatus.success) {
       return 0;
     }
 
     return null;
+  }
+
+  List<DishCartRequest> get dishesForRequest {
+    if (cartResponse == null) return [];
+
+    List<DishCartRequest> dishes = [];
+
+    for (var dishCart in cartResponse!.dishCarts) {
+      dishes.add(
+        DishCartRequest(
+          dishId: dishCart.id,
+          units: dishCart.units,
+          toppings: dishCart.toppingDishCarts
+              .map(
+                (toppingDishCart) => ToppingDishCartRequest(
+                  toppingId: toppingDishCart.id,
+                  units: toppingDishCart.units,
+                ),
+              )
+              .toList(),
+        ),
+      );
+    }
+
+    return dishes;
   }
 
   CartState({

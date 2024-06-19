@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 class CartRequest {
   final int restaurantId;
   final List<DishCartRequest> dishes;
@@ -43,6 +44,18 @@ class DishCartRequest {
         "units": units,
         "toppings": List<dynamic>.from(toppings.map((x) => x.toJson())),
       };
+
+  DishCartRequest copyWith({
+    int? dishId,
+    int? units,
+    List<ToppingDishCartRequest>? toppings,
+  }) {
+    return DishCartRequest(
+      dishId: dishId ?? this.dishId,
+      units: units ?? this.units,
+      toppings: toppings ?? this.toppings,
+    );
+  }
 }
 
 class ToppingDishCartRequest {

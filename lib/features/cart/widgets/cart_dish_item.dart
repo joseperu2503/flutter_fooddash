@@ -1,12 +1,14 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fooddash/config/constants/app_colors.dart';
 import 'package:fooddash/features/cart/models/cart_response.dart';
 import 'package:flutter/material.dart';
+import 'package:fooddash/features/cart/providers/cart_provider.dart';
 import 'package:fooddash/features/shared/utils/utils.dart';
 import 'package:fooddash/features/shared/widgets/button_stepper_2.dart';
 
 const double heightItem = 90;
 
-class CartDishItem extends StatelessWidget {
+class CartDishItem extends ConsumerWidget {
   const CartDishItem({
     super.key,
     required this.dishCart,
@@ -14,7 +16,7 @@ class CartDishItem extends StatelessWidget {
   final DishCart dishCart;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     String toppingsDescription = '';
     for (var topping in dishCart.toppingDishCarts) {
       if (toppingsDescription.isEmpty) {
@@ -92,7 +94,19 @@ class CartDishItem extends StatelessWidget {
                 Row(
                   children: [
                     const Spacer(),
-                    ButtonStepper2(value: dishCart.units),
+                    ButtonStepper2(
+                      value: dishCart.units,
+                      onAdd: () {
+                        ref
+                            .read(cartProvider.notifier)
+                            .addUnitDish(dishCart.id);
+                      },
+                      onRemove: () {
+                        ref
+                            .read(cartProvider.notifier)
+                            .removeUnitDish(dishCart.id);
+                      },
+                    ),
                   ],
                 ),
               ],

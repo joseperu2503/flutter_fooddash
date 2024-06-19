@@ -17,7 +17,7 @@ class ButtonStepper2 extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Container(
+    return SizedBox(
       height: 30,
       width: 200,
       child: Row(
@@ -42,7 +42,7 @@ class ButtonStepper2 extends ConsumerWidget {
             width: 30,
             child: TextButton(
               onPressed: () {
-                if (onRemove == null) return;
+                if (onRemove == null || value == 0) return;
                 onRemove!();
               },
               style: TextButton.styleFrom(
