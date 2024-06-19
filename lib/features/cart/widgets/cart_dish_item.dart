@@ -53,34 +53,35 @@ class CartDishItem extends ConsumerWidget {
                   dishCart.name,
                   style: const TextStyle(
                     fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.black,
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.gray900,
                     height: 1,
                     leadingDistribution: TextLeadingDistribution.even,
                   ),
                 ),
-                const SizedBox(
-                  height: 4,
-                ),
-                Text(
-                  toppingsDescription,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400,
-                    color: AppColors.gray500,
-                    height: 1.2,
-                    leadingDistribution: TextLeadingDistribution.even,
-                    overflow: TextOverflow.ellipsis,
+                if (toppingsDescription != '')
+                  Padding(
+                    padding: const EdgeInsets.only(top: 4),
+                    child: Text(
+                      toppingsDescription,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.gray500,
+                        height: 1.2,
+                        leadingDistribution: TextLeadingDistribution.even,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      maxLines: 2,
+                    ),
                   ),
-                  maxLines: 2,
-                ),
                 const SizedBox(
                   height: 10,
                 ),
                 Row(
                   children: [
                     Text(
-                      Utils.formatCurrency(dishCart.price),
+                      Utils.formatCurrency(dishCart.price * dishCart.units),
                       style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w700,

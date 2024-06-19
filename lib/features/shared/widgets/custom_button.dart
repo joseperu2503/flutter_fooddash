@@ -1,5 +1,6 @@
 import 'package:fooddash/config/constants/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:fooddash/features/shared/widgets/custom_progress_indicator.dart';
 
 enum BoxShadowType { orange, gray, none }
 
@@ -42,6 +43,7 @@ class CustomButton extends StatelessWidget {
     this.height = 60,
     this.fontWeight = FontWeight.w600,
     this.disabled = false,
+    this.loading = false,
   });
 
   final void Function() onPressed;
@@ -51,6 +53,7 @@ class CustomButton extends StatelessWidget {
   final double height;
   final FontWeight fontWeight;
   final bool disabled;
+  final bool loading;
 
   Color get backgroundColor {
     if (disabled) {
@@ -92,16 +95,21 @@ class CustomButton extends StatelessWidget {
           ),
           backgroundColor: backgroundColor,
         ),
-        child: Text(
-          text,
-          style: TextStyle(
-            fontSize: 15,
-            fontWeight: fontWeight,
-            color: AppColors.white,
-            height: 15 / 15,
-            leadingDistribution: TextLeadingDistribution.even,
-          ),
-        ),
+        child: loading
+            ? const CustomProgressIndicator(
+                color: AppColors.white,
+                size: 24,
+              )
+            : Text(
+                text,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: fontWeight,
+                  color: AppColors.white,
+                  height: 16 / 16,
+                  leadingDistribution: TextLeadingDistribution.even,
+                ),
+              ),
       ),
     );
   }

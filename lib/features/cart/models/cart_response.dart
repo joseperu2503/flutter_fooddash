@@ -2,22 +2,26 @@ class CartResponse {
   final int id;
   final List<DishCart> dishCarts;
   final Restaurant restaurant;
+  final double subtotal;
 
   CartResponse({
     required this.id,
     required this.dishCarts,
     required this.restaurant,
+    required this.subtotal,
   });
 
   CartResponse copyWith({
     int? id,
     List<DishCart>? dishCarts,
     Restaurant? restaurant,
+    double? subtotal,
   }) =>
       CartResponse(
         id: id ?? this.id,
         dishCarts: dishCarts ?? this.dishCarts,
         restaurant: restaurant ?? this.restaurant,
+        subtotal: subtotal ?? this.subtotal,
       );
 
   factory CartResponse.fromJson(Map<String, dynamic> json) => CartResponse(
@@ -25,12 +29,14 @@ class CartResponse {
         dishCarts: List<DishCart>.from(
             json["dishCarts"].map((x) => DishCart.fromJson(x))),
         restaurant: Restaurant.fromJson(json["restaurant"]),
+        subtotal: json["subtotal"]?.toDouble(),
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "dishCarts": List<dynamic>.from(dishCarts.map((x) => x.toJson())),
         "restaurant": restaurant.toJson(),
+        "subtotal": subtotal,
       };
 }
 

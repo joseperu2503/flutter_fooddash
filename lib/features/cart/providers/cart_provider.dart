@@ -66,10 +66,6 @@ class CartNotifier extends StateNotifier<CartState> {
     DishCartRequest dishCartRequest,
     int restaurantId,
   ) async {
-    state = state.copyWith(
-      loading: LoadingStatus.loading,
-    );
-
     List<DishCartRequest> dishes = [dishCartRequest, ...state.dishesForRequest];
 
     CartRequest cartRequest = CartRequest(
@@ -82,6 +78,9 @@ class CartNotifier extends StateNotifier<CartState> {
 
   updateCart(CartRequest cartRequest) async {
     try {
+      state = state.copyWith(
+        loading: LoadingStatus.loading,
+      );
       final CartResponse response = await CartService.updateMyCart(cartRequest);
       state = state.copyWith(
         cartResponse: () => response,

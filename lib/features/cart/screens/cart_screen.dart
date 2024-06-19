@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fooddash/config/constants/app_colors.dart';
 import 'package:fooddash/features/cart/providers/cart_provider.dart';
 import 'package:fooddash/features/cart/widgets/cart_dish_item.dart';
+import 'package:fooddash/features/shared/models/loading_status.dart';
 import 'package:fooddash/features/shared/utils/utils.dart';
 import 'package:fooddash/features/shared/widgets/back_button.dart';
 import 'package:fooddash/features/shared/widgets/custom_button.dart';
@@ -243,7 +244,7 @@ class BottomModal extends ConsumerWidget {
                       ),
                     ),
                     Text(
-                      Utils.formatCurrency(0),
+                      Utils.formatCurrency(cartState.cartResponse!.subtotal),
                       style: const TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.w800,
@@ -263,8 +264,9 @@ class BottomModal extends ConsumerWidget {
                   onPressed: () {
                     context.push('/checkout');
                   },
+                  loading: cartState.loading == LoadingStatus.loading,
                   disabled: cartState.cartResponse == null,
-                  text: 'CHECKOUT',
+                  text: 'Go to pay',
                 ),
               ],
             ),
