@@ -254,87 +254,100 @@ class TabsState extends ConsumerState<Tabs> {
           ),
           child: Scaffold(
             body: widget.navigationShell,
-            bottomNavigationBar: BottomNavigationBar(
-              backgroundColor: AppColors.white,
-              currentIndex: widget.navigationShell.currentIndex,
-              onTap: (value) {
-                _onTap(context, value);
-              },
-              showSelectedLabels: false,
-              showUnselectedLabels: false,
-              unselectedItemColor: AppColors.gray400,
-              selectedItemColor: AppColors.primary,
-              type: BottomNavigationBarType.fixed,
-              items: [
-                BottomNavigationBarItem(
-                  label: '',
-                  icon: SvgPicture.asset(
-                    'assets/icons/tabs/home_outlined.svg',
-                    colorFilter: const ColorFilter.mode(
-                      AppColors.gray400,
-                      BlendMode.srcIn,
+            bottomNavigationBar: Container(
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xff3F4C5F).withOpacity(0.12),
+                    offset: const Offset(0, -4),
+                    blurRadius: 20,
+                    spreadRadius: 0,
+                  ),
+                ],
+              ),
+              height: 60 + screen.padding.bottom,
+              child: BottomNavigationBar(
+                backgroundColor: AppColors.white,
+                elevation: 0,
+                currentIndex: widget.navigationShell.currentIndex,
+                onTap: (value) {
+                  _onTap(context, value);
+                },
+                showSelectedLabels: false,
+                showUnselectedLabels: false,
+                selectedItemColor: AppColors.primary,
+                type: BottomNavigationBarType.fixed,
+                items: [
+                  BottomNavigationBarItem(
+                    label: '',
+                    icon: SvgPicture.asset(
+                      'assets/icons/tabs/home_outlined.svg',
+                      colorFilter: const ColorFilter.mode(
+                        AppColors.gray600,
+                        BlendMode.srcIn,
+                      ),
+                    ),
+                    activeIcon: SvgPicture.asset(
+                      'assets/icons/tabs/home_solid.svg',
+                      colorFilter: const ColorFilter.mode(
+                        AppColors.primary,
+                        BlendMode.srcIn,
+                      ),
                     ),
                   ),
-                  activeIcon: SvgPicture.asset(
-                    'assets/icons/tabs/home_solid.svg',
-                    colorFilter: const ColorFilter.mode(
-                      AppColors.primary,
-                      BlendMode.srcIn,
+                  BottomNavigationBarItem(
+                    label: '',
+                    icon: SvgPicture.asset(
+                      'assets/icons/tabs/order_outlined.svg',
+                      colorFilter: const ColorFilter.mode(
+                        AppColors.gray600,
+                        BlendMode.srcIn,
+                      ),
+                    ),
+                    activeIcon: SvgPicture.asset(
+                      'assets/icons/tabs/order_outlined.svg',
+                      colorFilter: const ColorFilter.mode(
+                        AppColors.primary,
+                        BlendMode.srcIn,
+                      ),
                     ),
                   ),
-                ),
-                BottomNavigationBarItem(
-                  label: '',
-                  icon: SvgPicture.asset(
-                    'assets/icons/tabs/order_outlined.svg',
-                    colorFilter: const ColorFilter.mode(
-                      AppColors.gray400,
-                      BlendMode.srcIn,
+                  BottomNavigationBarItem(
+                    label: '',
+                    icon: SvgPicture.asset(
+                      'assets/icons/tabs/heart_outlined.svg',
+                      colorFilter: const ColorFilter.mode(
+                        AppColors.gray600,
+                        BlendMode.srcIn,
+                      ),
+                    ),
+                    activeIcon: SvgPicture.asset(
+                      'assets/icons/tabs/heart_solid.svg',
+                      colorFilter: const ColorFilter.mode(
+                        AppColors.primary,
+                        BlendMode.srcIn,
+                      ),
                     ),
                   ),
-                  activeIcon: SvgPicture.asset(
-                    'assets/icons/tabs/order_outlined.svg',
-                    colorFilter: const ColorFilter.mode(
-                      AppColors.primary,
-                      BlendMode.srcIn,
+                  BottomNavigationBarItem(
+                    label: '',
+                    icon: SvgPicture.asset(
+                      'assets/icons/tabs/notification_outlined.svg',
+                      colorFilter: const ColorFilter.mode(
+                        AppColors.gray600,
+                        BlendMode.srcIn,
+                      ),
+                    ),
+                    activeIcon: SvgPicture.asset(
+                      'assets/icons/tabs/notification_solid.svg',
+                      colorFilter: const ColorFilter.mode(
+                        AppColors.primary,
+                        BlendMode.srcIn,
+                      ),
                     ),
                   ),
-                ),
-                BottomNavigationBarItem(
-                  label: '',
-                  icon: SvgPicture.asset(
-                    'assets/icons/tabs/heart_outlined.svg',
-                    colorFilter: const ColorFilter.mode(
-                      AppColors.gray400,
-                      BlendMode.srcIn,
-                    ),
-                  ),
-                  activeIcon: SvgPicture.asset(
-                    'assets/icons/tabs/heart_solid.svg',
-                    colorFilter: const ColorFilter.mode(
-                      AppColors.primary,
-                      BlendMode.srcIn,
-                    ),
-                  ),
-                ),
-                BottomNavigationBarItem(
-                  label: '',
-                  icon: SvgPicture.asset(
-                    'assets/icons/tabs/notification_outlined.svg',
-                    colorFilter: const ColorFilter.mode(
-                      AppColors.gray400,
-                      BlendMode.srcIn,
-                    ),
-                  ),
-                  activeIcon: SvgPicture.asset(
-                    'assets/icons/tabs/notification_solid.svg',
-                    colorFilter: const ColorFilter.mode(
-                      AppColors.primary,
-                      BlendMode.srcIn,
-                    ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
