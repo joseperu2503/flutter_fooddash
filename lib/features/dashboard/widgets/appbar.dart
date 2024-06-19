@@ -78,7 +78,7 @@ class AppbarDashboard extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
-                            color: AppColors.gray500,
+                            color: AppColors.gray800,
                             height: 1.22,
                             leadingDistribution: TextLeadingDistribution.even,
                           ),
@@ -90,7 +90,7 @@ class AppbarDashboard extends StatelessWidget {
                           'assets/icons/arrow_down.svg',
                           width: 10,
                           colorFilter: const ColorFilter.mode(
-                            AppColors.gray500,
+                            AppColors.gray800,
                             BlendMode.srcIn,
                           ),
                         ),
@@ -103,7 +103,7 @@ class AppbarDashboard extends StatelessWidget {
                       '4102  Pretty View Lane ',
                       style: TextStyle(
                         fontSize: 15,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w600,
                         color: AppColors.primary,
                         height: 1.22,
                         leadingDistribution: TextLeadingDistribution.even,

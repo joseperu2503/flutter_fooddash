@@ -18,7 +18,7 @@ class MesageDashboard extends StatelessWidget {
           style: TextStyle(
             fontSize: 30,
             fontWeight: FontWeight.w700,
-            color: AppColors.label2,
+            color: AppColors.gray900,
             height: 1,
             leadingDistribution: TextLeadingDistribution.even,
           ),

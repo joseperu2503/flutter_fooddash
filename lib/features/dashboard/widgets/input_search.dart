@@ -26,8 +26,8 @@ class InputSearchDashboard extends StatelessWidget {
                     horizontal: 18,
                   ),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: const Color(0xffFCFCFD),
+                    borderRadius: BorderRadius.circular(14),
+                    color: AppColors.inputHint.withOpacity(0.1),
                     border: Border.all(
                       color: const Color(0xffEFEFEF),
                     ),
@@ -36,6 +36,10 @@ class InputSearchDashboard extends StatelessWidget {
                     children: [
                       SvgPicture.asset(
                         'assets/icons/search.svg',
+                        colorFilter: const ColorFilter.mode(
+                          AppColors.gray500,
+                          BlendMode.srcIn,
+                        ),
                       ),
                       const SizedBox(
                         width: 8,
@@ -45,8 +49,8 @@ class InputSearchDashboard extends StatelessWidget {
                           'Find for food or restaurant...',
                           style: TextStyle(
                             fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Color(0xff9AA0B4),
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.gray500,
                             height: 14 / 14,
                             leadingDistribution: TextLeadingDistribution.even,
                           ),
