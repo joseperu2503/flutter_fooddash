@@ -12,8 +12,10 @@ class CartDishItem extends ConsumerWidget {
   const CartDishItem({
     super.key,
     required this.dishCart,
+    required this.index,
   });
   final DishCart dishCart;
+  final int index;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -98,14 +100,10 @@ class CartDishItem extends ConsumerWidget {
                     ButtonStepper2(
                       value: dishCart.units,
                       onAdd: () {
-                        ref
-                            .read(cartProvider.notifier)
-                            .addUnitDish(dishCart.id);
+                        ref.read(cartProvider.notifier).addUnitDish(index);
                       },
                       onRemove: () {
-                        ref
-                            .read(cartProvider.notifier)
-                            .removeUnitDish(dishCart.id);
+                        ref.read(cartProvider.notifier).removeUnitDish(index);
                       },
                     ),
                   ],

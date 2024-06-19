@@ -76,12 +76,6 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen>
       });
 
       if (_categoryKeys[index].currentContext == null) return;
-      // await Scrollable.ensureVisible(
-      //   _categoryKeys[index].currentContext!,
-      //   alignment: 0.0,
-      //   duration: const Duration(milliseconds: 500),
-      //   curve: Curves.ease,
-      // );
 
       await _verticalScrollController.animateTo(
         _verticalBreakPoints[index],

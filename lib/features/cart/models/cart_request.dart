@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 class CartRequest {
   final int restaurantId;
@@ -56,6 +58,16 @@ class DishCartRequest {
       toppings: toppings ?? this.toppings,
     );
   }
+
+  @override
+  bool operator ==(covariant DishCartRequest other) {
+    if (identical(this, other)) return true;
+
+    return other.dishId == dishId && listEquals(other.toppings, toppings);
+  }
+
+  @override
+  int get hashCode => dishId.hashCode ^ toppings.hashCode;
 }
 
 class ToppingDishCartRequest {
@@ -77,4 +89,14 @@ class ToppingDishCartRequest {
         "toppingId": toppingId,
         "units": units,
       };
+
+  @override
+  bool operator ==(covariant ToppingDishCartRequest other) {
+    if (identical(this, other)) return true;
+
+    return other.toppingId == toppingId && other.units == units;
+  }
+
+  @override
+  int get hashCode => toppingId.hashCode ^ units.hashCode;
 }

@@ -66,14 +66,24 @@ class CartNotifier extends StateNotifier<CartState> {
     DishCartRequest dishCartRequest,
     int restaurantId,
   ) async {
-    List<DishCartRequest> dishes = [dishCartRequest, ...state.dishesForRequest];
+    final int dishForRequestIndex = state.dishesForRequest
+        .indexWhere((dishForRequest) => dishForRequest == dishCartRequest);
 
-    CartRequest cartRequest = CartRequest(
-      restaurantId: restaurantId,
-      dishes: dishes,
-    );
+    if (dishForRequestIndex >= 0) {
+      addUnitDish(dishForRequestIndex);
+    } else {
+      List<DishCartRequest> dishes = [
+        dishCartRequest,
+        ...state.dishesForRequest
+      ];
 
-    updateCart(cartRequest);
+      CartRequest cartRequest = CartRequest(
+        restaurantId: restaurantId,
+        dishes: dishes,
+      );
+
+      updateCart(cartRequest);
+    }
   }
 
   updateCart(CartRequest cartRequest) async {
@@ -94,13 +104,13 @@ class CartNotifier extends StateNotifier<CartState> {
     }
   }
 
-  addUnitDish(int dishId) {
+  addUnitDish(int index) {
     if (state.cartResponse == null) return;
 
     state = state.copyWith(
       cartResponse: () => state.cartResponse!.copyWith(
         dishCarts: state.cartResponse!.dishCarts.map((dishCart) {
-          if (dishCart.id == dishId) {
+          if (state.cartResponse!.dishCarts.indexOf(dishCart) == index) {
             return dishCart.copyWith(units: dishCart.units + 1);
           }
 
@@ -117,11 +127,11 @@ class CartNotifier extends StateNotifier<CartState> {
     updateCart(cartRequest);
   }
 
-  removeUnitDish(int dishId) async {
+  removeUnitDish(int index) async {
     if (state.cartResponse == null) return;
 
     List<DishCart> dishCarts = state.cartResponse!.dishCarts.map((dishCart) {
-      if (dishCart.id == dishId) {
+      if (state.cartResponse!.dishCarts.indexOf(dishCart) == index) {
         return dishCart.copyWith(units: dishCart.units - 1);
       }
 

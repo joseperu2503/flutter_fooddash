@@ -86,7 +86,10 @@ class CartScreenState extends ConsumerState<CartScreen> {
                     itemBuilder: (context, index) {
                       final dish = cartState.cartResponse!.dishCarts[index];
 
-                      return CartDishItem(dishCart: dish);
+                      return CartDishItem(
+                        dishCart: dish,
+                        index: index,
+                      );
                     },
                     separatorBuilder: (context, index) {
                       return const SizedBox(
@@ -244,7 +247,7 @@ class BottomModal extends ConsumerWidget {
                       ),
                     ),
                     Text(
-                      Utils.formatCurrency(cartState.cartResponse!.subtotal),
+                      Utils.formatCurrency(cartState.cartResponse?.subtotal),
                       style: const TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.w800,
