@@ -1,6 +1,4 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:fooddash/config/router/app_router.dart';
 import 'package:fooddash/features/cart/models/cart_request.dart';
 import 'package:fooddash/features/cart/providers/cart_provider.dart';

@@ -31,4 +31,8 @@ class Api {
   Future<Response> post(String path, {Object? data}) async {
     return _dioBase.post(path, data: data);
   }
+
+  Future<Response> delete(String path) async {
+    return _dioBase.delete(path);
+  }
 }

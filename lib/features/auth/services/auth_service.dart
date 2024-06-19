@@ -21,12 +21,13 @@ class AuthService {
       return LoginResponse.fromJson(response.data);
     } catch (e) {
       String errorMessage = 'An error occurred while trying to log in.';
-
-      if (e is DioException) {
-        if (e.response?.data['message'] != null) {
-          errorMessage = e.response?.data['message'];
+      try {
+        if (e is DioException) {
+          if (e.response?.data['message'] != null) {
+            errorMessage = e.response?.data['message'];
+          }
         }
-      }
+      } catch (_) {}
 
       throw errorMessage;
     }

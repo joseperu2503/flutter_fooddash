@@ -3,7 +3,7 @@ import 'package:fooddash/config/router/app_router.dart';
 import 'package:fooddash/features/address/widgets/address_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
+import 'package:fooddash/features/dashboard/widgets/cart_button.dart';
 
 class AppbarDashboard extends StatelessWidget {
   const AppbarDashboard({super.key});
@@ -113,60 +113,7 @@ class AppbarDashboard extends StatelessWidget {
                 ),
               ),
             ),
-            Container(
-              width: 60,
-              height: 38,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(19),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.orange.withOpacity(0.3),
-                    offset: const Offset(0, 4),
-                    blurRadius: 15,
-                    spreadRadius: 0,
-                  )
-                ],
-              ),
-              child: TextButton(
-                style: TextButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadiusDirectional.circular(
-                        16,
-                      ),
-                    ),
-                    padding: EdgeInsets.zero),
-                onPressed: () {
-                  context.push('/cart');
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SvgPicture.asset(
-                      'assets/icons/tabs/cart_outlined.svg',
-                      width: 20,
-                      colorFilter: const ColorFilter.mode(
-                        AppColors.white,
-                        BlendMode.srcIn,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 6,
-                    ),
-                    const Text(
-                      '1',
-                      style: TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.white,
-                        height: 1,
-                        leadingDistribution: TextLeadingDistribution.even,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            const CartButton(),
           ],
         ),
       ),

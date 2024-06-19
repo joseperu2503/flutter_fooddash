@@ -1,4 +1,5 @@
 import 'package:fooddash/config/constants/app_colors.dart';
+import 'package:fooddash/features/cart/providers/cart_provider.dart';
 import 'package:fooddash/features/dashboard/providers/restaurants_provider.dart';
 import 'package:fooddash/features/dashboard/widgets/appbar.dart';
 import 'package:fooddash/features/dashboard/widgets/categories.dart';
@@ -25,6 +26,7 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
       ref.read(restaurantsProvider.notifier).initData();
       ref.read(restaurantsProvider.notifier).getRestaurants();
       ref.read(restaurantsProvider.notifier).getCategories();
+      ref.read(cartProvider.notifier).getMyCart();
     });
   }
 

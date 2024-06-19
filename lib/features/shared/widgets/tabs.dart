@@ -286,14 +286,14 @@ class TabsState extends ConsumerState<Tabs> {
                 BottomNavigationBarItem(
                   label: '',
                   icon: SvgPicture.asset(
-                    'assets/icons/tabs/cart_outlined.svg',
+                    'assets/icons/tabs/order_outlined.svg',
                     colorFilter: const ColorFilter.mode(
                       AppColors.gray400,
                       BlendMode.srcIn,
                     ),
                   ),
                   activeIcon: SvgPicture.asset(
-                    'assets/icons/tabs/cart_solid.svg',
+                    'assets/icons/tabs/order_outlined.svg',
                     colorFilter: const ColorFilter.mode(
                       AppColors.primary,
                       BlendMode.srcIn,

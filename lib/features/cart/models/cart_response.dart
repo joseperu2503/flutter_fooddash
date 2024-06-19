@@ -1,21 +1,25 @@
 class CartResponse {
   final int id;
   final List<DishCart> dishCarts;
+  final Restaurant restaurant;
 
   CartResponse({
     required this.id,
     required this.dishCarts,
+    required this.restaurant,
   });
 
   factory CartResponse.fromJson(Map<String, dynamic> json) => CartResponse(
         id: json["id"],
         dishCarts: List<DishCart>.from(
             json["dishCarts"].map((x) => DishCart.fromJson(x))),
+        restaurant: Restaurant.fromJson(json["restaurant"]),
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "dishCarts": List<dynamic>.from(dishCarts.map((x) => x.toJson())),
+        "restaurant": restaurant.toJson(),
       };
 }
 
@@ -119,5 +123,65 @@ class ToppingDishCart {
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
         "units": units,
+      };
+}
+
+class Restaurant {
+  final int id;
+  final String name;
+  final String address;
+  final String logo;
+  final String backdrop;
+  final double latitude;
+  final double longitude;
+  final bool isActive;
+  final String openTime;
+  final String closeTime;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+
+  Restaurant({
+    required this.id,
+    required this.name,
+    required this.address,
+    required this.logo,
+    required this.backdrop,
+    required this.latitude,
+    required this.longitude,
+    required this.isActive,
+    required this.openTime,
+    required this.closeTime,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+
+  factory Restaurant.fromJson(Map<String, dynamic> json) => Restaurant(
+        id: json["id"],
+        name: json["name"],
+        address: json["address"],
+        logo: json["logo"],
+        backdrop: json["backdrop"],
+        latitude: json["latitude"]?.toDouble(),
+        longitude: json["longitude"]?.toDouble(),
+        isActive: json["isActive"],
+        openTime: json["openTime"],
+        closeTime: json["closeTime"],
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "address": address,
+        "logo": logo,
+        "backdrop": backdrop,
+        "latitude": latitude,
+        "longitude": longitude,
+        "isActive": isActive,
+        "openTime": openTime,
+        "closeTime": closeTime,
+        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt.toIso8601String(),
       };
 }

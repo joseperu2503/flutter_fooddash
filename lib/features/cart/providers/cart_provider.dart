@@ -28,7 +28,7 @@ class CartNotifier extends StateNotifier<CartState> {
     );
 
     try {
-      final CartResponse response = await CartService.getMyCart();
+      final CartResponse? response = await CartService.getMyCart();
       state = state.copyWith(
         cartResponse: () => response,
         loading: LoadingStatus.success,
@@ -41,8 +41,31 @@ class CartNotifier extends StateNotifier<CartState> {
     }
   }
 
+  Future<void> deleteMyCart() async {
+    if (state.loading == LoadingStatus.loading) return;
+
+    state = state.copyWith(
+      loading: LoadingStatus.loading,
+    );
+
+    try {
+      await CartService.deleteMyCart();
+      state = state.copyWith(
+        cartResponse: () => null,
+        loading: LoadingStatus.success,
+      );
+    } catch (e) {
+      state = state.copyWith(
+        loading: LoadingStatus.error,
+      );
+      rethrow;
+    }
+  }
+
   Future<void> addDishToCart(
-      DishCartRequest dishCartRequest, int restaurantId) async {
+    DishCartRequest dishCartRequest,
+    int restaurantId,
+  ) async {
     state = state.copyWith(
       loading: LoadingStatus.loading,
     );
@@ -72,6 +95,19 @@ class CartNotifier extends StateNotifier<CartState> {
 class CartState {
   final CartResponse? cartResponse;
   final LoadingStatus loading;
+
+  int? get numDishes {
+    if (cartResponse != null) {
+      return cartResponse!.dishCarts
+          .map((e) => e.units)
+          .toList()
+          .reduce((value, element) => value + element);
+    } else if (loading == LoadingStatus.success) {
+      return 0;
+    }
+
+    return null;
+  }
 
   CartState({
     this.cartResponse,
