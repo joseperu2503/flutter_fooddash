@@ -4,10 +4,10 @@ import 'package:intl/intl.dart';
 import 'dart:ui' as ui;
 
 class Utils {
-  static String formatCurrency(double? amount) {
+  static String formatCurrency(double? amount, {bool withSymbol = true}) {
     NumberFormat currencyFormat = NumberFormat.currency(
       locale: 'en',
-      symbol: '\$',
+      symbol: withSymbol ? '\$' : '',
     );
 
     return currencyFormat.format(amount ?? 0);

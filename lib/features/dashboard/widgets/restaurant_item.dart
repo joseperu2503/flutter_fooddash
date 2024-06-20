@@ -180,7 +180,7 @@ class RestaurantItem extends ConsumerWidget {
                               Text(
                                 restaurant.delivery == 0
                                     ? 'Free delivery'
-                                    : '\$${Utils.formatCurrency(restaurant.delivery)}',
+                                    : Utils.formatCurrency(restaurant.delivery),
                                 style: const TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w400,

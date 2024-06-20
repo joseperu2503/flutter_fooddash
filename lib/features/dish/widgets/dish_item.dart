@@ -5,6 +5,7 @@ import 'package:fooddash/features/restaurant/models/restaurant_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fooddash/features/shared/utils/utils.dart';
 import 'package:go_router/go_router.dart';
 
 class DishItem extends ConsumerWidget {
@@ -228,7 +229,7 @@ class DishItem extends ConsumerWidget {
                           ),
                         ),
                         Text(
-                          '${dish.price}',
+                          Utils.formatCurrency(dish.price, withSymbol: false),
                           style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w600,

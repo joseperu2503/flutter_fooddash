@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:fooddash/config/constants/app_colors.dart';
 import 'package:fooddash/features/dish/models/dish_detail.dart';
 import 'package:fooddash/features/dish/providers/dish_provider.dart';
+import 'package:fooddash/features/shared/utils/utils.dart';
 import 'package:fooddash/features/shared/widgets/button_stepper.dart';
 import 'package:fooddash/features/shared/widgets/custom_check.dart';
 
@@ -235,17 +236,18 @@ class _TermDesplegableState extends State<ToppingCategoryItem> {
                                           TextLeadingDistribution.even,
                                     ),
                                   ),
-                                  Text(
-                                    '+ \$${topping.price}',
-                                    style: const TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w600,
-                                      color: AppColors.black,
-                                      height: 1,
-                                      leadingDistribution:
-                                          TextLeadingDistribution.even,
+                                  if (topping.price > 0)
+                                    Text(
+                                      Utils.formatCurrency(topping.price),
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600,
+                                        color: AppColors.black,
+                                        height: 1,
+                                        leadingDistribution:
+                                            TextLeadingDistribution.even,
+                                      ),
                                     ),
-                                  ),
                                 ],
                               ),
                             ),
