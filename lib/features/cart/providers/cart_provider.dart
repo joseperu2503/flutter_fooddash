@@ -70,23 +70,29 @@ class CartNotifier extends StateNotifier<CartState> {
         .indexWhere((dishForRequest) => dishForRequest == dishCartRequest);
 
     if (dishForRequestIndex >= 0) {
-      addUnitDish(dishForRequestIndex);
-    } else {
-      List<DishCartRequest> dishes = [
-        dishCartRequest,
-        ...state.dishesForRequest
-      ];
-
-      CartRequest cartRequest = CartRequest(
-        restaurantId: restaurantId,
-        dishes: dishes,
-      );
-
-      updateCart(cartRequest);
+      //cuando el plato que se va a agregar ya esta en el cart
+      await addUnitDish(dishForRequestIndex);
+      return;
     }
+
+    List<DishCartRequest> dishes = [];
+    if (restaurantId == state.cartResponse?.restaurant.id) {
+      //cuando el plato que se va a agregar pertenece al restaurant del cart
+      dishes = [dishCartRequest, ...state.dishesForRequest];
+    } else {
+      //cuando el plato que se va a agregar no pertenece al restaurant del cart
+      dishes = [dishCartRequest];
+    }
+
+    CartRequest cartRequest = CartRequest(
+      restaurantId: restaurantId,
+      dishes: dishes,
+    );
+
+    await updateCart(cartRequest);
   }
 
-  updateCart(CartRequest cartRequest) async {
+  Future<void> updateCart(CartRequest cartRequest) async {
     try {
       state = state.copyWith(
         loading: LoadingStatus.loading,
@@ -104,7 +110,7 @@ class CartNotifier extends StateNotifier<CartState> {
     }
   }
 
-  addUnitDish(int index) {
+  Future<void> addUnitDish(int index) async {
     if (state.cartResponse == null) return;
 
     state = state.copyWith(
@@ -124,10 +130,10 @@ class CartNotifier extends StateNotifier<CartState> {
       dishes: state.dishesForRequest,
     );
 
-    updateCart(cartRequest);
+    await updateCart(cartRequest);
   }
 
-  removeUnitDish(int index) async {
+  Future<void> removeUnitDish(int index) async {
     if (state.cartResponse == null) return;
 
     List<DishCart> dishCarts = state.cartResponse!.dishCarts.map((dishCart) {

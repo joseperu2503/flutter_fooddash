@@ -21,9 +21,13 @@ class DishItem extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final cartState = ref.watch(cartProvider);
 
-    int unitsInCart = cartState.dishesForRequest
-        .where((dishForRequest) => dishForRequest.dishId == dish.id)
-        .length;
+    int unitsInCart = 0;
+
+    for (var dishForRequest in cartState.dishesForRequest) {
+      if (dishForRequest.dishId == dish.id) {
+        unitsInCart = unitsInCart + dishForRequest.units;
+      }
+    }
 
     return Stack(
       clipBehavior: Clip.none,
