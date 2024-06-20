@@ -1,5 +1,5 @@
 import 'package:fooddash/config/constants/app_colors.dart';
-import 'package:fooddash/config/constants/sizes.dart';
+import 'package:fooddash/config/constants/styles.dart';
 import 'package:fooddash/features/order/widgets/delivery_info.dart';
 import 'package:fooddash/features/order/widgets/order_dish_item.dart';
 import 'package:fooddash/features/order/widgets/order_id.dart';

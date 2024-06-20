@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:fooddash/config/constants/app_colors.dart';
 import 'package:fooddash/config/constants/environment.dart';
-import 'package:fooddash/config/constants/sizes.dart';
+import 'package:fooddash/config/constants/styles.dart';
 import 'package:fooddash/features/address/providers/address_provider.dart';
 import 'package:fooddash/features/address/services/location_service.dart';
 import 'package:fooddash/features/order/widgets/bottom_modal.dart';

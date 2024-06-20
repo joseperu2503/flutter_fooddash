@@ -136,12 +136,11 @@ class DishNotifier extends StateNotifier<DishState> {
       units: state.units,
       toppings: toppings,
     );
+    appRouter.pop();
 
-    ref
+    await ref
         .read(cartProvider.notifier)
         .addDishToCart(dishCart, state.dishDetail!.dishCategory!.restaurant.id);
-
-    appRouter.pop();
   }
 
   addUnits() {

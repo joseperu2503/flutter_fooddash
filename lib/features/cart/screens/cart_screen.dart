@@ -100,32 +100,44 @@ class CartScreenState extends ConsumerState<CartScreen> {
                   ),
                 ),
                 SliverToBoxAdapter(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          ref.read(cartProvider.notifier).deleteMyCart();
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 18,
-                          ),
-                          alignment: Alignment.center,
-                          child: const Text(
-                            'Empty cart',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.error,
-                              height: 1,
-                              leadingDistribution: TextLeadingDistribution.even,
-                            ),
-                          ),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Column(
+                      children: [
+                        const Divider(
+                          color: AppColors.gray100,
+                          height: 30,
                         ),
-                      ),
-                    ],
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                ref.read(cartProvider.notifier).deleteMyCart();
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 18,
+                                ),
+                                alignment: Alignment.center,
+                                child: const Text(
+                                  'Empty cart',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.error,
+                                    height: 1,
+                                    leadingDistribution:
+                                        TextLeadingDistribution.even,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 )
               ],

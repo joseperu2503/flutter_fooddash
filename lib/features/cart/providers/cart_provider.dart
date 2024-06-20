@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fooddash/config/router/app_router.dart';
 import 'package:fooddash/features/cart/models/cart_request.dart';
 import 'package:fooddash/features/cart/models/cart_response.dart';
 import 'package:fooddash/features/cart/services/cart_service.dart';
+import 'package:fooddash/features/cart/widgets/change_order.dart';
 import 'package:fooddash/features/shared/models/loading_status.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -81,6 +83,22 @@ class CartNotifier extends StateNotifier<CartState> {
       dishes = [dishCartRequest, ...state.dishesForRequest];
     } else {
       //cuando el plato que se va a agregar no pertenece al restaurant del cart
+      if (rootNavigatorKey.currentContext == null) return;
+      bool? response = await showModalBottomSheet(
+        context: rootNavigatorKey.currentContext!,
+        elevation: 0,
+        builder: (context) {
+          return const ChangeOrder();
+        },
+      );
+      if (response == null) {
+        return;
+      }
+      if (response == false) {
+        appRouter.push('/cart');
+        return;
+      }
+
       dishes = [dishCartRequest];
     }
 

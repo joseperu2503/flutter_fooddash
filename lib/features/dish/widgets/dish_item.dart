@@ -109,6 +109,8 @@ class DishItem extends ConsumerWidget {
                               height: 1,
                               leadingDistribution: TextLeadingDistribution.even,
                             ),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
                           ),
                           const SizedBox(
                             height: 6,

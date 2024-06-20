@@ -44,6 +44,8 @@ flutter:
   fonts:
     - family: SofiaPro
       fonts:
+        - asset: assets/fonts/sofia-pro/SofiaPro-Black.otf
+          weight: 800
         - asset: assets/fonts/sofia-pro/SofiaPro-Bold.otf
           weight: 700
         - asset: assets/fonts/sofia-pro/SofiaPro-SemiBold.otf

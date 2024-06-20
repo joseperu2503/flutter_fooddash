@@ -1,4 +1,5 @@
 import 'package:fooddash/config/constants/app_colors.dart';
+import 'package:fooddash/config/constants/styles.dart';
 import 'package:fooddash/features/shared/widgets/custom_check.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -45,18 +46,9 @@ showAddressBottomSheet(BuildContext context) {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        const SizedBox(
-                          height: 36,
-                        ),
                         const Text(
                           'Add o choose an address',
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.label2,
-                            height: 1,
-                            leadingDistribution: TextLeadingDistribution.even,
-                          ),
+                          style: modalBottomSheetTitle,
                         ),
                         const Divider(
                           color: AppColors.gray100,
