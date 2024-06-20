@@ -46,16 +46,28 @@ class RestaurantItem extends ConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               SizedBox(
-                width: double.infinity,
                 height: 171,
                 child: Stack(
                   children: [
-                    Image.network(
-                      width: double.infinity,
-                      height: double.infinity,
-                      restaurant.backdrop,
-                      fit: BoxFit.cover,
+                    SizedBox.expand(
+                      child: Center(
+                        child: SvgPicture.asset(
+                          'assets/icons/logo.svg',
+                          width: 52,
+                          height: 52,
+                          colorFilter: const ColorFilter.mode(
+                            AppColors.gray200,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                      ),
                     ),
+                    // Image.network(
+                    //   width: double.infinity,
+                    //   height: double.infinity,
+                    //   restaurant.backdrop,
+                    //   fit: BoxFit.cover,
+                    // ),
                     Positioned(
                       top: 10,
                       left: 11,
