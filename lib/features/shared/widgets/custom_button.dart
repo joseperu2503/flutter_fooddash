@@ -57,7 +57,7 @@ class CustomButton extends StatelessWidget {
 
   Color get backgroundColor {
     if (disabled) {
-      return AppColors.gray400;
+      return AppColors.slate400;
     }
     return AppColors.primary;
   }

@@ -55,7 +55,7 @@ class CashItem extends StatelessWidget {
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
-                color: AppColors.gray800,
+                color: AppColors.slate800,
                 height: 16 / 16,
                 leadingDistribution: TextLeadingDistribution.even,
               ),

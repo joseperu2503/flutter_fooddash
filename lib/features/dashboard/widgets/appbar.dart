@@ -78,7 +78,7 @@ class AppbarDashboard extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
-                            color: AppColors.gray800,
+                            color: AppColors.slate800,
                             height: 1.22,
                             leadingDistribution: TextLeadingDistribution.even,
                           ),
@@ -90,7 +90,7 @@ class AppbarDashboard extends StatelessWidget {
                           'assets/icons/arrow_down.svg',
                           width: 10,
                           colorFilter: const ColorFilter.mode(
-                            AppColors.gray800,
+                            AppColors.slate800,
                             BlendMode.srcIn,
                           ),
                         ),

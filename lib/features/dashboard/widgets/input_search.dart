@@ -37,7 +37,7 @@ class InputSearchDashboard extends StatelessWidget {
                       SvgPicture.asset(
                         'assets/icons/search.svg',
                         colorFilter: const ColorFilter.mode(
-                          AppColors.gray500,
+                          AppColors.slate500,
                           BlendMode.srcIn,
                         ),
                       ),
@@ -50,7 +50,7 @@ class InputSearchDashboard extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
-                            color: AppColors.gray500,
+                            color: AppColors.slate500,
                             height: 14 / 14,
                             leadingDistribution: TextLeadingDistribution.even,
                           ),

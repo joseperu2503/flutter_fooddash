@@ -58,11 +58,32 @@ class DishItem extends ConsumerWidget {
                         children: [
                           ClipRRect(
                             borderRadius: BorderRadius.circular(15),
-                            child: Image.network(
-                              dish.image,
-                              fit: BoxFit.cover,
-                              width: widthGridItem,
-                              height: widthGridItem,
+                            child: Stack(
+                              children: [
+                                SizedBox.expand(
+                                  child: Center(
+                                    child: SvgPicture.asset(
+                                      'assets/icons/logo.svg',
+                                      width: 52,
+                                      height: 52,
+                                      colorFilter: const ColorFilter.mode(
+                                        AppColors.gray100,
+                                        BlendMode.srcIn,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                FadeInImage(
+                                  width: widthGridItem,
+                                  height: widthGridItem,
+                                  image: NetworkImage(
+                                    dish.image,
+                                  ),
+                                  fit: BoxFit.cover,
+                                  placeholder: const AssetImage(
+                                      'assets/images/transparent.png'),
+                                ),
+                              ],
                             ),
                           ),
                           Positioned(

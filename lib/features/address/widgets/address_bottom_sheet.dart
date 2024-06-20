@@ -51,7 +51,7 @@ showAddressBottomSheet(BuildContext context) {
                           style: modalBottomSheetTitle,
                         ),
                         const Divider(
-                          color: AppColors.gray100,
+                          color: AppColors.slate100,
                           height: 40,
                         ),
                         Container(
@@ -165,7 +165,7 @@ showAddressBottomSheet(BuildContext context) {
                           height: 12,
                         ),
                         const Divider(
-                          color: AppColors.gray50,
+                          color: AppColors.slate50,
                           height: 1,
                         ),
                       ],
@@ -242,7 +242,7 @@ showAddressBottomSheet(BuildContext context) {
                       margin: const EdgeInsets.symmetric(
                         horizontal: 24,
                       ),
-                      color: AppColors.gray50,
+                      color: AppColors.slate50,
                     );
                   },
                   itemCount: 14,

@@ -81,7 +81,7 @@ class PaymentModal extends StatelessWidget {
                   ],
                 ),
                 const Divider(
-                  color: AppColors.gray100,
+                  color: AppColors.slate100,
                   height: 34,
                 ),
               ],

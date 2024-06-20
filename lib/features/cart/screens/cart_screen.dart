@@ -104,7 +104,7 @@ class CartScreenState extends ConsumerState<CartScreen> {
                     child: Column(
                       children: [
                         const Divider(
-                          color: AppColors.gray100,
+                          color: AppColors.slate100,
                           height: 30,
                         ),
                         Row(
@@ -154,7 +154,7 @@ class CartScreenState extends ConsumerState<CartScreen> {
                           'assets/icons/cart_outlined.svg',
                           width: 100,
                           colorFilter: const ColorFilter.mode(
-                            AppColors.gray700,
+                            AppColors.slate700,
                             BlendMode.srcIn,
                           ),
                         ),
@@ -166,7 +166,7 @@ class CartScreenState extends ConsumerState<CartScreen> {
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.w700,
-                            color: AppColors.gray900,
+                            color: AppColors.slate900,
                             height: 32 / 24,
                             leadingDistribution: TextLeadingDistribution.even,
                           ),
@@ -179,7 +179,7 @@ class CartScreenState extends ConsumerState<CartScreen> {
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
-                            color: AppColors.gray600,
+                            color: AppColors.slate600,
                             height: 22 / 14,
                             leadingDistribution: TextLeadingDistribution.even,
                           ),
@@ -297,7 +297,7 @@ class BottomModal3 extends StatelessWidget {
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w400,
-                              color: AppColors.gray900,
+                              color: AppColors.slate900,
                               height: 1,
                             ),
                           ),
@@ -325,7 +325,7 @@ class BottomModal3 extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 19,
                                 fontWeight: FontWeight.w500,
-                                color: AppColors.gray800,
+                                color: AppColors.slate800,
                                 height: 1,
                                 leadingDistribution:
                                     TextLeadingDistribution.even,
@@ -357,7 +357,7 @@ class BottomModal3 extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 19,
                                 fontWeight: FontWeight.w500,
-                                color: AppColors.gray800,
+                                color: AppColors.slate800,
                                 height: 1,
                                 leadingDistribution:
                                     TextLeadingDistribution.even,
@@ -389,7 +389,7 @@ class BottomModal3 extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 19,
                                 fontWeight: FontWeight.w500,
-                                color: AppColors.gray800,
+                                color: AppColors.slate800,
                                 height: 1,
                                 leadingDistribution:
                                     TextLeadingDistribution.even,
@@ -408,7 +408,7 @@ class BottomModal3 extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400,
-                                    color: AppColors.gray500,
+                                    color: AppColors.slate500,
                                     height: 1.5,
                                     leadingDistribution:
                                         TextLeadingDistribution.even,
@@ -419,7 +419,7 @@ class BottomModal3 extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.w800,
-                                    color: AppColors.gray800,
+                                    color: AppColors.slate800,
                                     height: 1.5,
                                     leadingDistribution:
                                         TextLeadingDistribution.even,

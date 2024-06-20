@@ -56,18 +56,22 @@ class RestaurantItem extends ConsumerWidget {
                           width: 52,
                           height: 52,
                           colorFilter: const ColorFilter.mode(
-                            AppColors.gray200,
+                            AppColors.gray100,
                             BlendMode.srcIn,
                           ),
                         ),
                       ),
                     ),
-                    // Image.network(
-                    //   width: double.infinity,
-                    //   height: double.infinity,
-                    //   restaurant.backdrop,
-                    //   fit: BoxFit.cover,
-                    // ),
+                    FadeInImage(
+                      width: double.infinity,
+                      height: double.infinity,
+                      image: NetworkImage(
+                        restaurant.backdrop,
+                      ),
+                      fit: BoxFit.cover,
+                      placeholder:
+                          const AssetImage('assets/images/transparent.png'),
+                    ),
                     Positioned(
                       top: 10,
                       left: 11,

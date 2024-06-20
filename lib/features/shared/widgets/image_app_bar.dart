@@ -85,7 +85,7 @@ class _ImageAppBarState extends State<ImageAppBar> {
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.gray800,
+                    color: AppColors.slate800,
                   ),
                 ),
               ),

@@ -34,7 +34,7 @@ class ChangeOrder extends ConsumerWidget {
                     style: modalBottomSheetTitle,
                   ),
                   Divider(
-                    color: AppColors.gray100,
+                    color: AppColors.slate100,
                     height: 30,
                   ),
                 ],
@@ -55,7 +55,7 @@ class ChangeOrder extends ConsumerWidget {
                         style: const TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w400,
-                          color: AppColors.gray700,
+                          color: AppColors.slate700,
                           height: 1.4,
                           leadingDistribution: TextLeadingDistribution.even,
                         ),
@@ -68,7 +68,7 @@ class ChangeOrder extends ConsumerWidget {
                             text: cartState.cartResponse?.restaurant.name,
                             style: const TextStyle(
                               fontWeight: FontWeight.w600,
-                              color: AppColors.gray900,
+                              color: AppColors.slate900,
                             ),
                           ),
                           const TextSpan(
@@ -97,7 +97,7 @@ class ChangeOrder extends ConsumerWidget {
                                 borderRadius: BorderRadius.circular(30),
                               ),
                               side: const BorderSide(
-                                color: AppColors.gray300,
+                                color: AppColors.slate300,
                                 width: 1.5,
                               ),
                             ),
@@ -106,7 +106,7 @@ class ChangeOrder extends ConsumerWidget {
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
-                                color: AppColors.gray900,
+                                color: AppColors.slate900,
                                 height: 16 / 16,
                                 leadingDistribution:
                                     TextLeadingDistribution.even,

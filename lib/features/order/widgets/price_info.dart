@@ -80,7 +80,7 @@ class _PriceInfoState extends State<PriceInfo> {
                                 style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w600,
-                                  color: AppColors.gray800,
+                                  color: AppColors.slate800,
                                   height: 1,
                                   leadingDistribution:
                                       TextLeadingDistribution.even,
@@ -113,7 +113,7 @@ class _PriceInfoState extends State<PriceInfo> {
                               style: TextStyle(
                                 fontSize: 19,
                                 fontWeight: FontWeight.w500,
-                                color: AppColors.gray800,
+                                color: AppColors.slate800,
                                 height: 1,
                                 leadingDistribution:
                                     TextLeadingDistribution.even,
@@ -145,7 +145,7 @@ class _PriceInfoState extends State<PriceInfo> {
                               style: TextStyle(
                                 fontSize: 19,
                                 fontWeight: FontWeight.w500,
-                                color: AppColors.gray800,
+                                color: AppColors.slate800,
                                 height: 1,
                                 leadingDistribution:
                                     TextLeadingDistribution.even,
@@ -177,7 +177,7 @@ class _PriceInfoState extends State<PriceInfo> {
                               style: TextStyle(
                                 fontSize: 19,
                                 fontWeight: FontWeight.w500,
-                                color: AppColors.gray800,
+                                color: AppColors.slate800,
                                 height: 1,
                                 leadingDistribution:
                                     TextLeadingDistribution.even,

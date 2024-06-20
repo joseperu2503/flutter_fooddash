@@ -56,7 +56,7 @@ class CartButton extends ConsumerWidget {
               colorFilter: ColorFilter.mode(
                 (cartState.numDishes != null && cartState.numDishes! > 0)
                     ? AppColors.white
-                    : AppColors.gray600,
+                    : AppColors.slate600,
                 BlendMode.srcIn,
               ),
             ),

@@ -65,7 +65,7 @@ class CardItem extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.gray900,
+                      color: AppColors.slate900,
                       height: 1,
                       leadingDistribution: TextLeadingDistribution.even,
                     ),
@@ -78,7 +78,7 @@ class CardItem extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
-                      color: AppColors.gray600,
+                      color: AppColors.slate600,
                       height: 1,
                       leadingDistribution: TextLeadingDistribution.even,
                     ),

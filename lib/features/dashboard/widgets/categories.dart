@@ -27,7 +27,7 @@ class CategoriesDashboard extends StatelessWidget {
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w700,
-                color: AppColors.gray900,
+                color: AppColors.slate900,
                 height: 1,
                 leadingDistribution: TextLeadingDistribution.even,
               ),
@@ -116,7 +116,7 @@ class CategoryItem extends StatelessWidget {
           style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w600,
-            color: isSelected ? AppColors.primary : AppColors.gray800,
+            color: isSelected ? AppColors.primary : AppColors.slate800,
             height: 1,
             leadingDistribution: TextLeadingDistribution.even,
           ),

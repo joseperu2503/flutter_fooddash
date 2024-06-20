@@ -31,7 +31,7 @@ class CheckoutScreen extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.gray800,
+                    color: AppColors.slate800,
                     height: 1.3,
                     leadingDistribution: TextLeadingDistribution.even,
                   ),
@@ -103,7 +103,7 @@ class CheckoutScreen extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
-                              color: AppColors.gray800,
+                              color: AppColors.slate800,
                               height: 1.5,
                               leadingDistribution: TextLeadingDistribution.even,
                             ),
@@ -179,7 +179,7 @@ class CheckoutScreen extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
-                              color: AppColors.gray800,
+                              color: AppColors.slate800,
                               height: 16 / 16,
                               leadingDistribution: TextLeadingDistribution.even,
                             ),
@@ -215,7 +215,7 @@ class CheckoutScreen extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 19,
                           fontWeight: FontWeight.w500,
-                          color: AppColors.gray800,
+                          color: AppColors.slate800,
                           height: 1,
                           leadingDistribution: TextLeadingDistribution.even,
                         ),
@@ -245,7 +245,7 @@ class CheckoutScreen extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 19,
                           fontWeight: FontWeight.w500,
-                          color: AppColors.gray800,
+                          color: AppColors.slate800,
                           height: 1,
                           leadingDistribution: TextLeadingDistribution.even,
                         ),
@@ -275,7 +275,7 @@ class CheckoutScreen extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 19,
                           fontWeight: FontWeight.w500,
-                          color: AppColors.gray800,
+                          color: AppColors.slate800,
                           height: 1,
                           leadingDistribution: TextLeadingDistribution.even,
                         ),
@@ -305,7 +305,7 @@ class CheckoutScreen extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 19,
                           fontWeight: FontWeight.w500,
-                          color: AppColors.gray800,
+                          color: AppColors.slate800,
                           height: 1,
                           leadingDistribution: TextLeadingDistribution.even,
                         ),

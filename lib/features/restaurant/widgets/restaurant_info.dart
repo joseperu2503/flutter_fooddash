@@ -29,7 +29,7 @@ class RestaurantInfo extends StatelessWidget {
               style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w700,
-                color: AppColors.gray900,
+                color: AppColors.slate900,
                 height: 1,
                 leadingDistribution: TextLeadingDistribution.even,
               ),

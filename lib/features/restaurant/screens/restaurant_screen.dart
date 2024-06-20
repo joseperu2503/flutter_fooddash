@@ -270,7 +270,7 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen>
                             style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w700,
-                              color: AppColors.gray900,
+                              color: AppColors.slate900,
                               height: 1.5,
                               leadingDistribution: TextLeadingDistribution.even,
                             ),

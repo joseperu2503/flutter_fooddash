@@ -283,7 +283,7 @@ class TabsState extends ConsumerState<Tabs> {
                     icon: SvgPicture.asset(
                       'assets/icons/tabs/home_outlined.svg',
                       colorFilter: const ColorFilter.mode(
-                        AppColors.gray600,
+                        AppColors.slate600,
                         BlendMode.srcIn,
                       ),
                     ),
@@ -300,7 +300,7 @@ class TabsState extends ConsumerState<Tabs> {
                     icon: SvgPicture.asset(
                       'assets/icons/tabs/order_outlined.svg',
                       colorFilter: const ColorFilter.mode(
-                        AppColors.gray600,
+                        AppColors.slate600,
                         BlendMode.srcIn,
                       ),
                     ),
@@ -317,7 +317,7 @@ class TabsState extends ConsumerState<Tabs> {
                     icon: SvgPicture.asset(
                       'assets/icons/tabs/heart_outlined.svg',
                       colorFilter: const ColorFilter.mode(
-                        AppColors.gray600,
+                        AppColors.slate600,
                         BlendMode.srcIn,
                       ),
                     ),
@@ -334,7 +334,7 @@ class TabsState extends ConsumerState<Tabs> {
                     icon: SvgPicture.asset(
                       'assets/icons/tabs/notification_outlined.svg',
                       colorFilter: const ColorFilter.mode(
-                        AppColors.gray600,
+                        AppColors.slate600,
                         BlendMode.srcIn,
                       ),
                     ),

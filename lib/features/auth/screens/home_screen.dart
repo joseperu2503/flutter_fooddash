@@ -14,7 +14,7 @@ class HomeScreen extends ConsumerWidget {
       body: Stack(
         children: [
           Container(
-            color: AppColors.gray300,
+            color: AppColors.slate300,
             child: Image.asset(
               'assets/images/background_home.jpeg',
               fit: BoxFit.cover,

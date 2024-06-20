@@ -38,7 +38,7 @@ class OrderSuccessfully extends StatelessWidget {
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w400,
-                color: AppColors.gray500,
+                color: AppColors.slate500,
                 height: 1.4,
                 leadingDistribution: TextLeadingDistribution.even,
               ),

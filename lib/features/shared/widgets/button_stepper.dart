@@ -89,10 +89,10 @@ class ButtonStepper extends ConsumerWidget {
                 height: 20,
                 colorFilter: ColorFilter.mode(
                   onAdd == null
-                      ? AppColors.gray400
+                      ? AppColors.slate400
                       : value > 0
                           ? AppColors.primary
-                          : AppColors.gray800,
+                          : AppColors.slate800,
                   BlendMode.srcIn,
                 ),
               ),

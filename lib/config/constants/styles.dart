@@ -6,7 +6,7 @@ const double toolbarHeight = 60;
 const TextStyle modalBottomSheetTitle = TextStyle(
   fontSize: 26,
   fontWeight: FontWeight.w800,
-  color: AppColors.gray800,
+  color: AppColors.slate800,
   height: 1.3,
   leadingDistribution: TextLeadingDistribution.even,
 );

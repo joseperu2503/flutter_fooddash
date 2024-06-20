@@ -173,7 +173,7 @@ class SearchAddressScreenState extends ConsumerState<SearchAddressScreen> {
                     margin: const EdgeInsets.symmetric(
                       horizontal: 24,
                     ),
-                    color: AppColors.gray50,
+                    color: AppColors.slate50,
                   );
                 },
                 itemCount: searchAddressState.addressResults.length,

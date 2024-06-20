@@ -31,7 +31,7 @@ class CustomCheck extends StatelessWidget {
           height: 24,
           decoration: BoxDecoration(
             border: Border.all(
-              color: isSelected ? AppColors.primary : AppColors.gray800,
+              color: isSelected ? AppColors.primary : AppColors.slate800,
               width: 1.5,
             ),
             borderRadius: BorderRadius.circular(

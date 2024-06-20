@@ -103,7 +103,7 @@ class _TermDesplegableState extends State<ToppingCategoryItem> {
                         style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
-                          color: AppColors.gray700,
+                          color: AppColors.slate700,
                           height: 1,
                           leadingDistribution: TextLeadingDistribution.even,
                         ),

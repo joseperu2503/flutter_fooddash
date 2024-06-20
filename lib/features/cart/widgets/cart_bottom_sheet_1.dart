@@ -49,7 +49,7 @@ class CartBottomSheet1 extends ConsumerWidget {
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
-                        color: AppColors.gray500,
+                        color: AppColors.slate500,
                         height: 1.5,
                         leadingDistribution: TextLeadingDistribution.even,
                       ),
@@ -59,7 +59,7 @@ class CartBottomSheet1 extends ConsumerWidget {
                       style: const TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.w800,
-                        color: AppColors.gray800,
+                        color: AppColors.slate800,
                         height: 1.5,
                         leadingDistribution: TextLeadingDistribution.even,
                       ),

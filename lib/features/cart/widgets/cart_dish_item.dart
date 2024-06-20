@@ -56,7 +56,7 @@ class CartDishItem extends ConsumerWidget {
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w400,
-                    color: AppColors.gray900,
+                    color: AppColors.slate900,
                     height: 1,
                     leadingDistribution: TextLeadingDistribution.even,
                   ),
@@ -69,7 +69,7 @@ class CartDishItem extends ConsumerWidget {
                       style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
-                        color: AppColors.gray500,
+                        color: AppColors.slate500,
                         height: 1.2,
                         leadingDistribution: TextLeadingDistribution.even,
                         overflow: TextOverflow.ellipsis,
@@ -87,7 +87,7 @@ class CartDishItem extends ConsumerWidget {
                       style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.gray900,
+                        color: AppColors.slate900,
                         height: 1,
                         leadingDistribution: TextLeadingDistribution.even,
                       ),
