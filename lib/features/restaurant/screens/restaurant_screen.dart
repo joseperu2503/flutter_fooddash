@@ -1,4 +1,6 @@
 import 'package:fooddash/config/constants/app_colors.dart';
+import 'package:fooddash/features/cart/providers/cart_provider.dart';
+import 'package:fooddash/features/cart/widgets/cart_bottom_sheet_2.dart';
 import 'package:fooddash/features/dashboard/providers/restaurants_provider.dart';
 import 'package:fooddash/features/restaurant/data/constants.dart';
 import 'package:fooddash/features/restaurant/models/restaurant_detail.dart';
@@ -160,6 +162,7 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen>
     if (restaurantDetail == null) {
       return const Scaffold();
     }
+    final cartState = ref.watch(cartProvider);
 
     return Scaffold(
       body: CustomScrollView(
@@ -311,6 +314,8 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen>
           )
         ],
       ),
+      bottomSheet:
+          (cartState.cartResponse != null) ? const CartBottomSheet2() : null,
     );
   }
 }
