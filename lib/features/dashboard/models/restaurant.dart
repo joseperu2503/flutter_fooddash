@@ -1,21 +1,44 @@
-class Restaurant {
-  int id;
-  String name;
-  String address;
-  String logo;
-  String backdrop;
-  double latitude;
-  double longitude;
-  bool isActive;
-  String openTime;
-  String closeTime;
+class RestaurantsResponse {
+  final List<Restaurant> items;
+  final Meta meta;
 
-  int distance;
-  int time;
-  double record;
-  int recordPeople;
-  List<String> tags;
-  double delivery;
+  RestaurantsResponse({
+    required this.items,
+    required this.meta,
+  });
+
+  factory RestaurantsResponse.fromJson(Map<String, dynamic> json) =>
+      RestaurantsResponse(
+        items: List<Restaurant>.from(
+            json["items"].map((x) => Restaurant.fromJson(x))),
+        meta: Meta.fromJson(json["meta"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "items": List<dynamic>.from(items.map((x) => x.toJson())),
+        "meta": meta.toJson(),
+      };
+}
+
+class Restaurant {
+  final int id;
+  final String name;
+  final String address;
+  final String logo;
+  final String backdrop;
+  final double latitude;
+  final double longitude;
+  final bool isActive;
+  final String openTime;
+  final String closeTime;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final int distance;
+  final double time;
+  final double record;
+  final int recordPeople;
+  final List<String> tags;
+  final double delivery;
 
   Restaurant({
     required this.id,
@@ -28,6 +51,8 @@ class Restaurant {
     required this.isActive,
     required this.openTime,
     required this.closeTime,
+    required this.createdAt,
+    required this.updatedAt,
     required this.distance,
     required this.time,
     required this.record,
@@ -47,9 +72,10 @@ class Restaurant {
         isActive: json["isActive"],
         openTime: json["openTime"],
         closeTime: json["closeTime"],
-       
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
         distance: json["distance"],
-        time: json["time"],
+        time: json["time"]?.toDouble(),
         record: json["record"]?.toDouble(),
         recordPeople: json["recordPeople"],
         tags: List<String>.from(json["tags"].map((x) => x)),
@@ -67,6 +93,8 @@ class Restaurant {
         "isActive": isActive,
         "openTime": openTime,
         "closeTime": closeTime,
+        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt.toIso8601String(),
         "distance": distance,
         "time": time,
         "record": record,
@@ -76,4 +104,34 @@ class Restaurant {
       };
 }
 
+class Meta {
+  final int totalItems;
+  final int itemCount;
+  final int itemsPerPage;
+  final int totalPages;
+  final int currentPage;
 
+  Meta({
+    required this.totalItems,
+    required this.itemCount,
+    required this.itemsPerPage,
+    required this.totalPages,
+    required this.currentPage,
+  });
+
+  factory Meta.fromJson(Map<String, dynamic> json) => Meta(
+        totalItems: json["totalItems"],
+        itemCount: json["itemCount"],
+        itemsPerPage: json["itemsPerPage"],
+        totalPages: json["totalPages"],
+        currentPage: json["currentPage"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "totalItems": totalItems,
+        "itemCount": itemCount,
+        "itemsPerPage": itemsPerPage,
+        "totalPages": totalPages,
+        "currentPage": currentPage,
+      };
+}

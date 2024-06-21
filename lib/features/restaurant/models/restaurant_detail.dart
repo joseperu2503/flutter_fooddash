@@ -11,7 +11,7 @@ class RestaurantDetail {
   final String closeTime;
   final List<DishCategory> dishCategories;
   final int distance;
-  final int time;
+    final double time;
   final double record;
   final int recordPeople;
   final List<String> tags;
@@ -52,7 +52,7 @@ class RestaurantDetail {
         dishCategories: List<DishCategory>.from(
             json["dishCategories"].map((x) => DishCategory.fromJson(x))),
         distance: json["distance"],
-        time: json["time"],
+        time: json["time"]?.toDouble(),
         record: json["record"]?.toDouble(),
         recordPeople: json["recordPeople"],
         tags: List<String>.from(json["tags"].map((x) => x)),

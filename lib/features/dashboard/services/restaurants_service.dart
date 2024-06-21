@@ -3,12 +3,18 @@ import 'package:fooddash/features/dashboard/models/category.dart';
 import 'package:fooddash/features/dashboard/models/restaurant.dart';
 
 class RestaurantsService {
-  static Future<List<Restaurant>> getRestaurants() async {
+  static Future<RestaurantsResponse> getRestaurants({
+    int page = 1,
+  }) async {
     try {
-      final response = await Api().get('/restaurants');
+      Map<String, dynamic> queryParameters = {
+        "page": page,
+        "limit": 5,
+      };
+      final response =
+          await Api().get('/restaurants', queryParameters: queryParameters);
 
-      return List<Restaurant>.from(
-          response.data.map((x) => Restaurant.fromJson(x)));
+      return RestaurantsResponse.fromJson(response.data);
     } catch (e) {
       throw 'An error occurred while loading the restaurants.';
     }

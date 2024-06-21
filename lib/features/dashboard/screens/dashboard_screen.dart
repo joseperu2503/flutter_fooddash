@@ -28,6 +28,20 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
       ref.read(restaurantsProvider.notifier).getCategories();
       ref.read(cartProvider.notifier).getMyCart();
     });
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels + 100 >=
+          _scrollController.position.maxScrollExtent) {
+        ref.read(restaurantsProvider.notifier).getRestaurants();
+      }
+    });
+  }
+
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -38,6 +52,7 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
       body: SafeArea(
         bottom: false,
         child: CustomScrollView(
+          controller: _scrollController,
           slivers: [
             const AppbarDashboard(),
             const MesageDashboard(),

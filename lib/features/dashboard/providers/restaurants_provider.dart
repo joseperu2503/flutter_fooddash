@@ -33,11 +33,11 @@ class RestaurantsNotifier extends StateNotifier<RestaurantsState> {
     );
 
     try {
-      final List<Restaurant> response =
-          await RestaurantsService.getRestaurants();
+      final RestaurantsResponse response =
+          await RestaurantsService.getRestaurants(page: state.page);
       state = state.copyWith(
-        restaurants: [...state.restaurants, ...response],
-        totalPages: 1,
+        restaurants: [...state.restaurants, ...response.items],
+        totalPages: response.meta.totalPages,
         page: state.page + 1,
         restaurantsStatus: LoadingStatus.success,
       );
