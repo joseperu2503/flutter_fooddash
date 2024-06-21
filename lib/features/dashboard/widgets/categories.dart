@@ -17,25 +17,25 @@ class CategoriesDashboard extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            padding: const EdgeInsets.only(
-              top: 10,
-              left: 24,
-              right: 24,
-            ),
-            child: const Text(
-              'Top Categories',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w700,
-                color: AppColors.slate900,
-                height: 1,
-                leadingDistribution: TextLeadingDistribution.even,
-              ),
-            ),
-          ),
+          // Container(
+          //   padding: const EdgeInsets.only(
+          //     top: 10,
+          //     left: 24,
+          //     right: 24,
+          //   ),
+          //   child: const Text(
+          //     'Top Categories',
+          //     style: TextStyle(
+          //       fontSize: 20,
+          //       fontWeight: FontWeight.w700,
+          //       color: AppColors.slate900,
+          //       height: 1,
+          //       leadingDistribution: TextLeadingDistribution.even,
+          //     ),
+          //   ),
+          // ),
           const SizedBox(
-            height: 24,
+            height: 12,
           ),
           SizedBox(
             height: 120,

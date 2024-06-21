@@ -36,20 +36,18 @@ class MostPopular extends StatelessWidget {
             height: 16,
           ),
           SizedBox(
-            height: 250,
+            height: 190,
             child: ListView.separated(
               clipBehavior: Clip.none,
               padding: const EdgeInsets.symmetric(horizontal: 24),
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
                 final restaurant = restaurants[index];
-                return Container(
-                  width: 300,
-                  alignment: Alignment.topCenter,
-                  child: RestaurantItem(
-                    restaurant: restaurant,
-                    showLogo: false,
-                  ),
+                return RestaurantItem(
+                  width: 250,
+                  // height: 180,
+                  restaurant: restaurant,
+                  showLogo: false,
                 );
               },
               separatorBuilder: (context, index) {

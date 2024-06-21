@@ -12,10 +12,14 @@ class RestaurantItem extends ConsumerWidget {
     super.key,
     required this.restaurant,
     this.showLogo = true,
+    this.height = 240,
+    this.width = double.infinity,
   });
 
   final Restaurant restaurant;
   final bool showLogo;
+  final double height;
+  final double width;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -27,6 +31,8 @@ class RestaurantItem extends ConsumerWidget {
         context.push('/restaurant/${restaurant.id}');
       },
       child: Container(
+        height: height,
+        width: width,
         decoration: BoxDecoration(
           color: AppColors.white,
           borderRadius: BorderRadius.circular(15),
@@ -43,97 +49,98 @@ class RestaurantItem extends ConsumerWidget {
           borderRadius: BorderRadius.circular(10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(
-                height: 171,
-                child: Stack(
-                  children: [
-                    SizedBox.expand(
-                      child: Center(
-                        child: SvgPicture.asset(
-                          'assets/icons/logo.svg',
-                          width: 52,
-                          height: 52,
-                          colorFilter: const ColorFilter.mode(
-                            AppColors.gray100,
-                            BlendMode.srcIn,
+              Expanded(
+                child: SizedBox(
+                  height: 140,
+                  child: Stack(
+                    children: [
+                      SizedBox.expand(
+                        child: Center(
+                          child: SvgPicture.asset(
+                            'assets/icons/logo.svg',
+                            width: 52,
+                            height: 52,
+                            colorFilter: const ColorFilter.mode(
+                              AppColors.gray100,
+                              BlendMode.srcIn,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    FadeInImage(
-                      width: double.infinity,
-                      height: double.infinity,
-                      image: NetworkImage(
-                        restaurant.backdrop,
-                      ),
-                      fit: BoxFit.cover,
-                      placeholder:
-                          const AssetImage('assets/images/transparent.png'),
-                    ),
-                    Positioned(
-                      top: 10,
-                      left: 11,
-                      child: Container(
-                        width: 69,
-                        height: 28,
-                        decoration: BoxDecoration(
-                          color: AppColors.white,
-                          borderRadius: BorderRadius.circular(15),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Color.fromRGBO(254, 114, 76, 0.2),
-                              offset: Offset(0, 5.85),
-                              blurRadius: 23.39,
-                              spreadRadius: 0,
-                            ),
-                          ],
+                      FadeInImage(
+                        width: double.infinity,
+                        height: double.infinity,
+                        image: NetworkImage(
+                          restaurant.backdrop,
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              restaurant.record.toString(),
-                              style: const TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.black,
-                                height: 1,
-                                leadingDistribution:
-                                    TextLeadingDistribution.even,
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 2,
-                            ),
-                            SvgPicture.asset(
-                              'assets/icons/star.svg',
-                              width: 14,
-                              colorFilter: const ColorFilter.mode(
-                                AppColors.yellow,
-                                BlendMode.srcIn,
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 2,
-                            ),
-                            Text(
-                              '(${restaurant.recordPeople})',
-                              style: const TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.w400,
-                                color: AppColors.label,
-                                height: 1,
-                                leadingDistribution:
-                                    TextLeadingDistribution.even,
-                              ),
-                            ),
-                          ],
-                        ),
+                        fit: BoxFit.cover,
+                        placeholder:
+                            const AssetImage('assets/images/transparent.png'),
                       ),
-                    )
-                  ],
+                      Positioned(
+                        top: 10,
+                        left: 11,
+                        child: Container(
+                          width: 69,
+                          height: 28,
+                          decoration: BoxDecoration(
+                            color: AppColors.white,
+                            borderRadius: BorderRadius.circular(15),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Color.fromRGBO(254, 114, 76, 0.2),
+                                offset: Offset(0, 5.85),
+                                blurRadius: 23.39,
+                                spreadRadius: 0,
+                              ),
+                            ],
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                restaurant.record.toString(),
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.black,
+                                  height: 1,
+                                  leadingDistribution:
+                                      TextLeadingDistribution.even,
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 2,
+                              ),
+                              SvgPicture.asset(
+                                'assets/icons/star.svg',
+                                width: 14,
+                                colorFilter: const ColorFilter.mode(
+                                  AppColors.yellow,
+                                  BlendMode.srcIn,
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 2,
+                              ),
+                              Text(
+                                '(${restaurant.recordPeople})',
+                                style: const TextStyle(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColors.label,
+                                  height: 1,
+                                  leadingDistribution:
+                                      TextLeadingDistribution.even,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
               Container(
