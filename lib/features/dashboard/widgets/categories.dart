@@ -1,17 +1,18 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fooddash/config/constants/app_colors.dart';
 import 'package:fooddash/features/dashboard/models/category.dart';
 import 'package:flutter/material.dart';
+import 'package:fooddash/features/dashboard/providers/restaurants_provider.dart';
 
-class CategoriesDashboard extends StatelessWidget {
+class CategoriesDashboard extends ConsumerWidget {
   const CategoriesDashboard({
     super.key,
-    required this.categories,
   });
 
-  final List<Category> categories;
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final restaurantsState = ref.watch(restaurantsProvider);
+    final categories = restaurantsState.categories;
     return SliverToBoxAdapter(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,7 +46,12 @@ class CategoriesDashboard extends StatelessWidget {
                 final category = categories[index];
                 return CategoryItem(
                   category: category,
-                  isSelected: index == 2,
+                  isSelected: category.id == restaurantsState.category?.id,
+                  onPress: (category) {
+                    ref
+                        .read(restaurantsProvider.notifier)
+                        .setCategory(category);
+                  },
                 );
               },
               separatorBuilder: (context, index) {
@@ -67,10 +73,12 @@ class CategoryItem extends StatelessWidget {
     super.key,
     required this.category,
     required this.isSelected,
+    required this.onPress,
   });
 
   final Category category;
   final bool isSelected;
+  final void Function(Category category) onPress;
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +97,9 @@ class CategoryItem extends StatelessWidget {
             ),
           ),
           child: TextButton(
-            onPressed: () {},
+            onPressed: () {
+              onPress(category);
+            },
             style: TextButton.styleFrom(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(14),

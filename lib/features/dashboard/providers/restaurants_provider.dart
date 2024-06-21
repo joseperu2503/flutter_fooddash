@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:fooddash/features/dashboard/models/category.dart';
 import 'package:fooddash/features/dashboard/models/restaurant.dart';
 import 'package:fooddash/features/dashboard/services/restaurants_service.dart';
@@ -21,6 +22,8 @@ class RestaurantsNotifier extends StateNotifier<RestaurantsState> {
       totalPages: 1,
       restaurantsStatus: LoadingStatus.none,
       categories: [],
+      category: () => null,
+      categoriesStatus: LoadingStatus.none,
     );
   }
 
@@ -34,7 +37,10 @@ class RestaurantsNotifier extends StateNotifier<RestaurantsState> {
 
     try {
       final RestaurantsResponse response =
-          await RestaurantsService.getRestaurants(page: state.page);
+          await RestaurantsService.getRestaurants(
+        page: state.page,
+        restaurantCategoryId: state.category?.id,
+      );
       state = state.copyWith(
         restaurants: [...state.restaurants, ...response.items],
         totalPages: response.meta.totalPages,
@@ -94,6 +100,17 @@ class RestaurantsNotifier extends StateNotifier<RestaurantsState> {
       ),
     );
   }
+
+  setCategory(Category category) {
+    state = state.copyWith(
+      restaurants: [],
+      page: 1,
+      totalPages: 1,
+      restaurantsStatus: LoadingStatus.none,
+      category: () => state.category?.id == category.id ? null : category,
+    );
+    getRestaurants();
+  }
 }
 
 class RestaurantsState {
@@ -102,6 +119,7 @@ class RestaurantsState {
   final int totalPages;
   final LoadingStatus restaurantsStatus;
   final List<Category> categories;
+  final Category? category;
   final LoadingStatus categoriesStatus;
   final RestaurantDetail? termporalRestaurant;
 
@@ -113,6 +131,7 @@ class RestaurantsState {
     this.categories = const [],
     this.categoriesStatus = LoadingStatus.none,
     this.termporalRestaurant,
+    this.category,
   });
 
   RestaurantsState copyWith({
@@ -123,6 +142,7 @@ class RestaurantsState {
     List<Category>? categories,
     LoadingStatus? categoriesStatus,
     RestaurantDetail? termporalRestaurant,
+    ValueGetter<Category?>? category,
   }) =>
       RestaurantsState(
         restaurants: restaurants ?? this.restaurants,
@@ -132,5 +152,6 @@ class RestaurantsState {
         categories: categories ?? this.categories,
         categoriesStatus: categoriesStatus ?? this.categoriesStatus,
         termporalRestaurant: termporalRestaurant ?? this.termporalRestaurant,
+        category: category != null ? category() : this.category,
       );
 }

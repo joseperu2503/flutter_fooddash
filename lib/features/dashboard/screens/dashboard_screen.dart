@@ -57,9 +57,7 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
             const AppbarDashboard(),
             const MesageDashboard(),
             const InputSearchDashboard(),
-            CategoriesDashboard(
-              categories: restaurantsState.categories,
-            ),
+            const CategoriesDashboard(),
             MostPopular(
               restaurants: restaurantsState.restaurants,
             ),

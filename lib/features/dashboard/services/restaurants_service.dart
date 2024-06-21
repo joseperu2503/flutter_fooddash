@@ -5,11 +5,13 @@ import 'package:fooddash/features/dashboard/models/restaurant.dart';
 class RestaurantsService {
   static Future<RestaurantsResponse> getRestaurants({
     int page = 1,
+    int? restaurantCategoryId,
   }) async {
     try {
       Map<String, dynamic> queryParameters = {
         "page": page,
         "limit": 5,
+        "restaurantCategoryId": restaurantCategoryId,
       };
       final response =
           await Api().get('/restaurants', queryParameters: queryParameters);
