@@ -2,11 +2,11 @@ import 'package:fooddash/features/profile/providers/profile_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fooddash/features/shared/widgets/custom_text_field.dart';
 import 'package:go_router/go_router.dart';
 import 'package:fooddash/config/constants/app_colors.dart';
 import 'package:fooddash/features/shared/widgets/back_button.dart';
 import 'package:fooddash/features/shared/widgets/custom_button.dart';
-import 'package:fooddash/features/shared/widgets/custom_input.dart';
 
 const double heightBottomSheet = 380;
 
@@ -20,8 +20,8 @@ class ProfileScreen extends ConsumerStatefulWidget {
 class ProfileScreenState extends ConsumerState<ProfileScreen> {
   @override
   void initState() {
-    Future.microtask(() {
-      ref.invalidate(profileProvider);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(profileProvider.notifier).initData();
     });
     super.initState();
   }
@@ -72,7 +72,7 @@ class ProfileScreenState extends ConsumerState<ProfileScreen> {
           body: Column(
             children: [
               const SizedBox(
-                height: 40,
+                height: 20,
               ),
               Container(
                 height: 108,
@@ -91,8 +91,8 @@ class ProfileScreenState extends ConsumerState<ProfileScreen> {
                       boxShadow: [
                         BoxShadow(
                           color: AppColors.yellow.withOpacity(0.3),
-                          offset: const Offset(0, 15),
-                          blurRadius: 40,
+                          offset: const Offset(0, 8),
+                          blurRadius: 20,
                           spreadRadius: 0,
                         ),
                       ],
@@ -110,19 +110,6 @@ class ProfileScreenState extends ConsumerState<ProfileScreen> {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 18,
-              ),
-              Text(
-                profileState.fullName.value ?? '',
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.black,
-                  height: 1,
-                  leadingDistribution: TextLeadingDistribution.even,
-                ),
-              ),
               Expanded(
                 child: CustomScrollView(
                   slivers: [
@@ -131,53 +118,42 @@ class ProfileScreenState extends ConsumerState<ProfileScreen> {
                         padding: const EdgeInsets.only(
                           left: 24,
                           right: 24,
-                          top: 50,
+                          top: 30,
                           bottom: 40,
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            const Text(
-                              'FullName',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                                color: AppColors.label,
-                                height: 1,
-                                leadingDistribution:
-                                    TextLeadingDistribution.even,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 12,
-                            ),
-                            CustomInput(
-                              value: profileState.fullName,
+                            CustomTextField(
+                              label: 'Name',
+                              value: profileState.name,
                               onChanged: (value) {
                                 ref
                                     .read(profileProvider.notifier)
-                                    .changeFullName(value);
+                                    .changeName(value);
                               },
-                              hintText: 'Enter full name',
+                              hintText: 'Enter name',
+                              keyboardType: TextInputType.name,
                             ),
                             const SizedBox(
                               height: 28,
                             ),
-                            const Text(
-                              'E-mail',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                                color: AppColors.label,
-                                height: 16 / 16,
-                                leadingDistribution:
-                                    TextLeadingDistribution.even,
-                              ),
+                            CustomTextField(
+                              label: 'Surname',
+                              value: profileState.surname,
+                              onChanged: (value) {
+                                ref
+                                    .read(profileProvider.notifier)
+                                    .changeSurname(value);
+                              },
+                              hintText: 'Enter surname',
+                              keyboardType: TextInputType.name,
                             ),
                             const SizedBox(
-                              height: 12,
+                              height: 28,
                             ),
-                            CustomInput(
+                            CustomTextField(
+                              label: 'E-mail',
                               value: profileState.email,
                               onChanged: (value) {
                                 ref
@@ -185,25 +161,13 @@ class ProfileScreenState extends ConsumerState<ProfileScreen> {
                                     .changeEmail(value);
                               },
                               hintText: 'Enter e-mail',
+                              keyboardType: TextInputType.emailAddress,
                             ),
                             const SizedBox(
                               height: 28,
                             ),
-                            const Text(
-                              'Phone Number',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                                color: AppColors.label,
-                                height: 16 / 16,
-                                leadingDistribution:
-                                    TextLeadingDistribution.even,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 12,
-                            ),
-                            CustomInput(
+                            CustomTextField(
+                              label: 'Phone Number',
                               value: profileState.phone,
                               onChanged: (value) {
                                 ref
@@ -211,6 +175,7 @@ class ProfileScreenState extends ConsumerState<ProfileScreen> {
                                     .changePhone(value);
                               },
                               hintText: 'Enter phone',
+                              keyboardType: TextInputType.phone,
                             ),
                           ],
                         ),
@@ -230,7 +195,7 @@ class ProfileScreenState extends ConsumerState<ProfileScreen> {
                 onPressed: () {
                   context.pop();
                 },
-                text: 'SAVE',
+                text: 'Save',
               ),
             ),
           ),

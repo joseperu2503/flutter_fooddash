@@ -55,14 +55,15 @@ class _CustomTextFieldState extends State<CustomTextField> {
   @override
   void dispose() {
     _effectiveFocusNode.dispose();
+    controller.dispose();
     super.dispose();
   }
 
   @override
   void didUpdateWidget(covariant CustomTextField oldWidget) {
     //actualiza el controller cada vez que el valor se actualiza desde afuera
-    if (widget.value.value != oldWidget.value.value &&
-        widget.value.value != controller.value.text) {
+
+    if (widget.value.value != controller.value.text) {
       controller.value = controller.value.copyWith(
         text: widget.value.value,
       );

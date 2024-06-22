@@ -2,24 +2,24 @@ class AuthUser {
   final int id;
   final String email;
   final String name;
-  final String lastName;
+  final String surname;
   final String phone;
 
   AuthUser({
     required this.id,
     required this.email,
     required this.name,
-    required this.lastName,
+    required this.surname,
     required this.phone,
   });
 
-  String get fullName => '$name $lastName';
+  String get fullName => '$name $surname';
 
   factory AuthUser.fromJson(Map<String, dynamic> json) => AuthUser(
         id: json["id"],
         email: json["email"],
         name: json["name"],
-        lastName: json["lastName"],
+        surname: json["surname"],
         phone: json["phone"],
       );
 
@@ -27,7 +27,7 @@ class AuthUser {
         "id": id,
         "email": email,
         "name": name,
-        "lastName": lastName,
+        "surname": surname,
         "phone": phone,
       };
 }

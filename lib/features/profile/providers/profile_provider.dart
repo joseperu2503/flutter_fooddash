@@ -1,5 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:reactive_forms/reactive_forms.dart';
+import 'package:fooddash/features/auth/models/auth_user.dart';
+import 'package:fooddash/features/auth/providers/auth_provider.dart';
+import 'package:fooddash/features/shared/plugins/formx/formx.dart';
+import 'package:fooddash/features/shared/plugins/formx/validators/validators.dart';
 
 final profileProvider =
     StateNotifierProvider<ProfileNotifier, ProfileState>((ref) {
@@ -7,27 +10,49 @@ final profileProvider =
 });
 
 class ProfileNotifier extends StateNotifier<ProfileState> {
-  ProfileNotifier(this.ref)
-      : super(ProfileState(
-          fullName: FormControl<String>(value: 'Jose Perez'),
-          email: FormControl<String>(value: 'joseperu2503@gmail.com'),
-          phone: FormControl<String>(value: '993 689 145'),
-        ));
+  ProfileNotifier(this.ref) : super(ProfileState());
   final StateNotifierProviderRef ref;
 
-  void changeFullName(FormControl<String> fullName) {
+  initData() async {
+    final AuthUser? user = ref.read(authProvider).user;
+    if (user == null) return;
+
     state = state.copyWith(
-      fullName: fullName,
+      name: FormxInput(value: user.name, validators: [
+        Validators.required(),
+      ]),
+      surname: FormxInput(value: user.surname, validators: [
+        Validators.required(),
+      ]),
+      email: FormxInput<String>(value: user.email, validators: [
+        Validators.required<String>(),
+        Validators.email(),
+      ]),
+      phone: FormxInput(value: user.phone, validators: [
+        Validators.required(),
+      ]),
     );
   }
 
-  void changeEmail(FormControl<String> email) {
+  void changeName(FormxInput<String> name) {
+    state = state.copyWith(
+      name: name,
+    );
+  }
+
+  void changeSurname(FormxInput<String> surname) {
+    state = state.copyWith(
+      surname: surname,
+    );
+  }
+
+  void changeEmail(FormxInput<String> email) {
     state = state.copyWith(
       email: email,
     );
   }
 
-  void changePhone(FormControl<String> phone) {
+  void changePhone(FormxInput<String> phone) {
     state = state.copyWith(
       phone: phone,
     );
@@ -35,23 +60,27 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
 }
 
 class ProfileState {
-  final FormControl<String> fullName;
-  final FormControl<String> email;
-  final FormControl<String> phone;
+  final FormxInput<String> name;
+  final FormxInput<String> surname;
+  final FormxInput<String> email;
+  final FormxInput<String> phone;
 
   ProfileState({
-    required this.fullName,
-    required this.email,
-    required this.phone,
+    this.name = const FormxInput(value: ''),
+    this.surname = const FormxInput(value: ''),
+    this.email = const FormxInput(value: ''),
+    this.phone = const FormxInput(value: ''),
   });
 
   ProfileState copyWith({
-    FormControl<String>? fullName,
-    FormControl<String>? email,
-    FormControl<String>? phone,
+    FormxInput<String>? name,
+    FormxInput<String>? surname,
+    FormxInput<String>? email,
+    FormxInput<String>? phone,
   }) =>
       ProfileState(
-        fullName: fullName ?? this.fullName,
+        name: name ?? this.name,
+        surname: surname ?? this.surname,
         email: email ?? this.email,
         phone: phone ?? this.phone,
       );
