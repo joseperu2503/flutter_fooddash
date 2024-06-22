@@ -16,7 +16,7 @@ import 'package:fooddash/features/payment_methods/screens/card_form_screen.dart'
 import 'package:fooddash/features/payment_methods/screens/payment_methods_screen.dart';
 import 'package:fooddash/features/profile/screens/profile_screen.dart';
 import 'package:fooddash/features/restaurant/screens/restaurant_screen.dart';
-import 'package:fooddash/features/shared/widgets/tabs.dart';
+import 'package:fooddash/features/shared/widgets/internal_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -53,7 +53,7 @@ GoRouter appRouter = GoRouter(
     StatefulShellRoute.indexedStack(
       parentNavigatorKey: rootNavigatorKey,
       builder: (context, state, navigationShell) {
-        return Tabs(
+        return InternalLayout(
           key: tabKey,
           navigationShell: navigationShell,
         );

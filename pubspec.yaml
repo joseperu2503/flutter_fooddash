@@ -38,7 +38,6 @@ flutter:
     - assets/icons/
     - assets/icons/tabs/
     - assets/icons/drawer/
-    - assets/illustrations/
     - assets/images/
 
   fonts:
