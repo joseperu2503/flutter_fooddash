@@ -148,20 +148,8 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                     const SizedBox(
                       height: 31,
                     ),
-                    const Text(
-                      'E-mail',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.label,
-                        height: 16 / 16,
-                        leadingDistribution: TextLeadingDistribution.even,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
                     CustomTextField(
+                      label: 'E-mail',
                       hintText: 'Your email',
                       value: loginState.email,
                       onChanged: (value) {
@@ -171,22 +159,10 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                       keyboardType: TextInputType.emailAddress,
                     ),
                     const SizedBox(
-                      height: 29,
-                    ),
-                    const Text(
-                      'Password',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.label,
-                        height: 16 / 16,
-                        leadingDistribution: TextLeadingDistribution.even,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 12,
+                      height: 32,
                     ),
                     CustomTextField(
+                      label: 'Password',
                       hintText: 'Your password',
                       value: loginState.password,
                       onChanged: (value) {
