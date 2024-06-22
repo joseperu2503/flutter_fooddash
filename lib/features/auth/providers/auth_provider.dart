@@ -44,6 +44,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
   }
 
   initAutoLogout() async {
+    getUser();
     _cancelTimer();
     final (validToken, timeRemainingInSeconds) =
         await AuthService.verifyToken();

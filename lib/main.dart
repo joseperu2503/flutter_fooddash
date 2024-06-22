@@ -25,7 +25,6 @@ class MainAppState extends ConsumerState<MainApp> {
   @override
   void initState() {
     ref.read(authProvider.notifier).initAutoLogout();
-    ref.read(authProvider.notifier).getUser();
 
     super.initState();
   }
