@@ -23,10 +23,10 @@ showAddressBottomSheet(BuildContext context) {
 
       return DraggableScrollableSheet(
         initialChildSize: heigh,
-        minChildSize: 0,
+        minChildSize: heigh,
         maxChildSize: 1,
         snap: true,
-        snapSizes: [0, heigh, 1],
+        snapSizes: [heigh, 1],
         expand: false,
         builder: (context, scrollController) {
           return ClipRRect(
