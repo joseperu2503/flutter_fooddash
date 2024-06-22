@@ -2,8 +2,8 @@ import 'package:fooddash/features/profile/providers/profile_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fooddash/features/shared/models/loading_status.dart';
 import 'package:fooddash/features/shared/widgets/custom_text_field.dart';
-import 'package:go_router/go_router.dart';
 import 'package:fooddash/config/constants/app_colors.dart';
 import 'package:fooddash/features/shared/widgets/back_button.dart';
 import 'package:fooddash/features/shared/widgets/custom_button.dart';
@@ -186,19 +186,23 @@ class ProfileScreenState extends ConsumerState<ProfileScreen> {
               ),
             ],
           ),
-          bottomNavigationBar: Container(
-            color: AppColors.white,
-            padding: EdgeInsets.only(bottom: screen.padding.bottom),
-            height: 110,
-            child: Center(
-              child: CustomButton(
-                onPressed: () {
-                  context.pop();
-                },
-                text: 'Save',
-              ),
-            ),
-          ),
+          bottomNavigationBar: profileState.showButton
+              ? Container(
+                  color: AppColors.white,
+                  padding: EdgeInsets.only(bottom: screen.padding.bottom),
+                  height: 110,
+                  child: Center(
+                    child: CustomButton(
+                      onPressed: () {
+                        ref.read(profileProvider.notifier).submit();
+                      },
+                      disabled: profileState.buttonDisabled,
+                      text: 'Save',
+                      loading: profileState.loading == LoadingStatus.loading,
+                    ),
+                  ),
+                )
+              : null,
         ),
       ],
     );

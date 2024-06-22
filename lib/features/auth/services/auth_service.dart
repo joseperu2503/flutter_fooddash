@@ -53,6 +53,37 @@ class AuthService {
     }
   }
 
+  static Future<AuthUser> changePersonalData({
+    required String name,
+    required String surname,
+    required String email,
+    required String phone,
+  }) async {
+    try {
+      Map<String, dynamic> form = {
+        "name": name,
+        "surname": surname,
+        "email": email,
+        "phone": phone,
+      };
+      final response = await Api().put('/auth/update', data: form);
+
+      return AuthUser.fromJson(response.data);
+    } catch (e) {
+      String errorMessage =
+          'An error occurred while changing the personal data.';
+      try {
+        if (e is DioException) {
+          if (e.response?.data['message'] != null) {
+            errorMessage = e.response?.data['message'];
+          }
+        }
+      } catch (_) {}
+
+      throw errorMessage;
+    }
+  }
+
   static Future<(bool, int)> verifyToken() async {
     final token = await StorageService.get<String>(StorageKeys.token);
     if (token == null) return (false, 0);
