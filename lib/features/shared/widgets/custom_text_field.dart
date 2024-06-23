@@ -36,7 +36,7 @@ class CustomTextField extends StatefulWidget {
 }
 
 class _CustomTextFieldState extends State<CustomTextField> {
-  final TextEditingController controller = TextEditingController();
+  final TextEditingController _controller = TextEditingController();
   final FocusNode _focusNode = FocusNode();
 
   FocusNode get _effectiveFocusNode => widget.focusNode ?? _focusNode;
@@ -44,6 +44,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
   @override
   void initState() {
     super.initState();
+    setValue();
 
     _effectiveFocusNode.addListener(() {
       if (!_effectiveFocusNode.hasFocus) {
@@ -55,20 +56,23 @@ class _CustomTextFieldState extends State<CustomTextField> {
   @override
   void dispose() {
     _effectiveFocusNode.dispose();
-    controller.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
   @override
   void didUpdateWidget(covariant CustomTextField oldWidget) {
     //actualiza el controller cada vez que el valor se actualiza desde afuera
+    setValue();
+    super.didUpdateWidget(oldWidget);
+  }
 
-    if (widget.value.value != controller.value.text) {
-      controller.value = controller.value.copyWith(
+  setValue() {
+    if (widget.value.value != _controller.value.text) {
+      _controller.value = _controller.value.copyWith(
         text: widget.value.value,
       );
     }
-    super.didUpdateWidget(oldWidget);
   }
 
   @override
@@ -139,7 +143,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   fontWeight: FontWeight.w400,
                   color: AppColors.input,
                 ),
-                controller: controller,
+                controller: _controller,
                 onChanged: (value) {
                   widget.onChanged(
                     widget.value.updateValue(value),

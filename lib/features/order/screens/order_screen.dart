@@ -3,10 +3,9 @@ import 'dart:async';
 import 'package:fooddash/config/constants/app_colors.dart';
 import 'package:fooddash/config/constants/environment.dart';
 import 'package:fooddash/config/constants/styles.dart';
-import 'package:fooddash/features/address/providers/address_provider.dart';
 import 'package:fooddash/features/address/services/location_service.dart';
 import 'package:fooddash/features/order/widgets/bottom_modal.dart';
-import 'package:fooddash/features/shared/providers/map_controller_provider.dart';
+import 'package:fooddash/features/shared/providers/map_provider.dart';
 import 'package:fooddash/features/shared/utils/utils.dart';
 import 'package:fooddash/features/shared/widgets/back_button.dart';
 import 'package:flutter/material.dart';
@@ -102,7 +101,9 @@ class _MapViewState extends ConsumerState<_MapView> {
   @override
   void initState() {
     Future.microtask(() async {
-      Position location = await LocationService.getCurrentPosition();
+      Position? location = await LocationService.getCurrentPosition();
+      if (location == null) return;
+
       setState(() {
         house = LatLng(
           location.latitude,
@@ -110,7 +111,7 @@ class _MapViewState extends ConsumerState<_MapView> {
         );
       });
 
-      ref.read(addressProvider.notifier).changeCameraPosition(LatLng(
+      ref.read(mapProvider.notifier).changeCameraPosition(LatLng(
             house.latitude,
             house.longitude,
           ));
@@ -245,7 +246,7 @@ class _MapViewState extends ConsumerState<_MapView> {
               ? house.longitude
               : restaurant.longitude),
     );
-    ref.read(mapControllerProvider).controller?.animateCamera(
+    ref.read(mapProvider).controller?.animateCamera(
         CameraUpdate.newLatLngBounds(bounds, screen.size.height * 0.1));
   }
 
@@ -279,12 +280,13 @@ class _MapViewState extends ConsumerState<_MapView> {
 
   @override
   Widget build(BuildContext context) {
-    final addressState = ref.watch(addressProvider);
-    if (!showMap || addressState.cameraPosition == null) return Container();
+    final mapState = ref.watch(mapProvider);
+
+    if (!showMap || mapState.cameraPosition == null) return Container();
     return GoogleMap(
       mapType: MapType.normal,
       initialCameraPosition: CameraPosition(
-        target: addressState.cameraPosition!,
+        target: mapState.cameraPosition!,
         zoom: 18,
       ),
       myLocationEnabled: true,
@@ -292,7 +294,7 @@ class _MapViewState extends ConsumerState<_MapView> {
       polylines: Set<Polyline>.of(polylines.values),
       markers: Set<Marker>.from(markers.values),
       onMapCreated: (GoogleMapController controller) {
-        ref.read(mapControllerProvider.notifier).setMapController(controller);
+        ref.read(mapProvider.notifier).setMapController(controller);
         centerCamera();
       },
     );

@@ -1,7 +1,7 @@
 import 'package:fooddash/config/constants/app_colors.dart';
 import 'package:fooddash/features/address/providers/address_provider.dart';
 import 'package:fooddash/features/address/services/location_service.dart';
-import 'package:fooddash/features/shared/providers/map_controller_provider.dart';
+import 'package:fooddash/features/shared/providers/map_provider.dart';
 import 'package:fooddash/features/shared/widgets/back_button.dart';
 import 'package:fooddash/features/shared/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
@@ -122,18 +122,19 @@ class MapView extends ConsumerStatefulWidget {
 class MapViewState extends ConsumerState<MapView> {
   @override
   Widget build(BuildContext context) {
-    final addressState = ref.watch(addressProvider);
-    if (addressState.cameraPosition == null) return Container();
+    final mapState = ref.watch(mapProvider);
+
+    if (mapState.cameraPosition == null) return Container();
     return GoogleMap(
       mapType: MapType.normal,
       initialCameraPosition: CameraPosition(
-        target: addressState.cameraPosition!,
+        target: mapState.cameraPosition!,
         zoom: 18,
       ),
       myLocationEnabled: true,
       myLocationButtonEnabled: false,
       onCameraMove: (position) {
-        ref.read(addressProvider.notifier).changeCameraPosition(LatLng(
+        ref.read(mapProvider.notifier).changeCameraPosition(LatLng(
               position.target.latitude,
               position.target.longitude,
             ));
@@ -142,7 +143,7 @@ class MapViewState extends ConsumerState<MapView> {
         ref.read(addressProvider.notifier).searchLocality();
       },
       onMapCreated: (GoogleMapController controller) {
-        ref.read(mapControllerProvider.notifier).setMapController(controller);
+        ref.read(mapProvider.notifier).setMapController(controller);
       },
     );
   }
@@ -195,7 +196,7 @@ class BottomModal extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        searchAddressState.locality?.city ?? '',
+                        searchAddressState.city.value,
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
@@ -204,7 +205,7 @@ class BottomModal extends ConsumerWidget {
                         ),
                       ),
                       Text(
-                        searchAddressState.locality?.country ?? '',
+                        searchAddressState.country.value,
                         style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
@@ -230,14 +231,13 @@ class BottomModal extends ConsumerWidget {
                   ),
                   child: TextButton(
                     onPressed: () async {
-                      try {
-                        Position location =
-                            await LocationService.getCurrentPosition();
-                        ref.read(mapControllerProvider.notifier).goToLocation(
-                              location.latitude,
-                              location.longitude,
-                            );
-                      } catch (_) {}
+                      Position? location =
+                          await LocationService.getCurrentPosition();
+                      if (location == null) return;
+                      ref.read(mapProvider.notifier).goToLocation(
+                            location.latitude,
+                            location.longitude,
+                          );
                     },
                     style: TextButton.styleFrom(
                       padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -276,11 +276,10 @@ class BottomModal extends ConsumerWidget {
               height: 24,
             ),
             CustomButton(
-              width: double.infinity,
               onPressed: () {
                 context.push('/confirm-address');
               },
-              text: 'CONFIRM ADDRESS',
+              text: 'Confirm address',
             )
           ],
         ),

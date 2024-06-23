@@ -2,6 +2,8 @@ import 'package:fooddash/config/constants/app_colors.dart';
 import 'package:fooddash/features/address/providers/address_provider.dart';
 import 'package:fooddash/features/address/services/location_service.dart';
 import 'package:fooddash/features/address/widgets/input_search_address.dart';
+import 'package:fooddash/features/shared/models/loading_status.dart';
+import 'package:fooddash/features/shared/providers/map_provider.dart';
 import 'package:fooddash/features/shared/widgets/back_button.dart';
 import 'package:fooddash/features/shared/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
@@ -21,16 +23,10 @@ class SearchAddressScreenState extends ConsumerState<SearchAddressScreen> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() {
-      ref.invalidate(addressProvider);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(addressProvider.notifier).resetForm();
       _focusNode.requestFocus();
     });
-  }
-
-  @override
-  void deactivate() {
-    ref.invalidate(addressProvider);
-    super.deactivate();
   }
 
   @override
@@ -40,14 +36,15 @@ class SearchAddressScreenState extends ConsumerState<SearchAddressScreen> {
   }
 
   final FocusNode _focusNode = FocusNode();
+  bool loadingPosition = false;
 
   @override
   Widget build(BuildContext context) {
-    final searchAddressState = ref.watch(addressProvider);
-    final showResults = searchAddressState.addressResults.isNotEmpty;
-    final noResults = !searchAddressState.loadingAddresses &&
-        searchAddressState.addressResults.isEmpty &&
-        searchAddressState.search != '';
+    final addressState = ref.watch(addressProvider);
+    final showResults = addressState.addressResults.isNotEmpty;
+    final noResults =
+        addressState.searchingAddresses == LoadingStatus.success &&
+            addressState.addressResults.isEmpty;
 
     return Scaffold(
       appBar: AppBar(
@@ -66,7 +63,7 @@ class SearchAddressScreenState extends ConsumerState<SearchAddressScreen> {
                 ),
                 Expanded(
                   child: InputSearchAddress(
-                    value: searchAddressState.search,
+                    value: addressState.search,
                     onChanged: (value) {
                       ref.read(addressProvider.notifier).changeSearch(value);
                     },
@@ -87,7 +84,7 @@ class SearchAddressScreenState extends ConsumerState<SearchAddressScreen> {
               height: 40,
             ),
           ),
-          if (searchAddressState.loadingAddresses)
+          if (addressState.searchingAddresses == LoadingStatus.loading)
             const SliverToBoxAdapter(
               child: SizedBox(
                 height: 200,
@@ -107,7 +104,7 @@ class SearchAddressScreenState extends ConsumerState<SearchAddressScreen> {
               padding: const EdgeInsets.only(),
               sliver: SliverList.separated(
                 itemBuilder: (context, index) {
-                  final result = searchAddressState.addressResults[index];
+                  final result = addressState.addressResults[index];
                   return SizedBox(
                     height: 80,
                     child: TextButton(
@@ -115,7 +112,7 @@ class SearchAddressScreenState extends ConsumerState<SearchAddressScreen> {
                         if (result.properties.coordinates?.latitude != null &&
                             result.properties.coordinates?.longitude != null) {
                           ref
-                              .read(addressProvider.notifier)
+                              .read(mapProvider.notifier)
                               .changeCameraPosition(LatLng(
                                 result.properties.coordinates!.latitude!,
                                 result.properties.coordinates!.longitude!,
@@ -176,7 +173,7 @@ class SearchAddressScreenState extends ConsumerState<SearchAddressScreen> {
                     color: AppColors.slate50,
                   );
                 },
-                itemCount: searchAddressState.addressResults.length,
+                itemCount: addressState.addressResults.length,
               ),
             ),
           if (noResults)
@@ -222,21 +219,20 @@ class SearchAddressScreenState extends ConsumerState<SearchAddressScreen> {
               child: CustomButton(
                 width: double.infinity,
                 onPressed: () async {
-                  try {
-                    Position location =
-                        await LocationService.getCurrentPosition();
+                  FocusManager.instance.primaryFocus?.unfocus();
 
-                    ref
-                        .read(addressProvider.notifier)
-                        .changeCameraPosition(LatLng(
-                          location.latitude,
-                          location.longitude,
-                        ));
-                    if (!context.mounted) return;
-                    context.push('/address-map');
-                  } catch (_) {}
+                  Position? location =
+                      await LocationService.getCurrentPosition();
+                  if (location == null) return;
+
+                  ref.read(mapProvider.notifier).changeCameraPosition(LatLng(
+                        location.latitude,
+                        location.longitude,
+                      ));
+                  if (!context.mounted) return;
+                  context.push('/address-map');
                 },
-                text: 'SEARCH ADDRESS OVER THE MAP',
+                text: 'Search address over the map',
               ),
             ),
           )

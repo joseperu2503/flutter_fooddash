@@ -5,9 +5,12 @@ import 'package:fooddash/features/address/models/search_address_response.dart';
 import 'package:fooddash/features/address/services/mapbox_service.dart';
 import 'package:fooddash/features/core/models/service_exception.dart';
 import 'package:fooddash/features/core/services/snackbar_service.dart';
+import 'package:fooddash/features/shared/models/form_type.dart';
+import 'package:fooddash/features/shared/models/loading_status.dart';
+import 'package:fooddash/features/shared/plugins/formx/formx.dart';
+import 'package:fooddash/features/shared/providers/map_provider.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:reactive_forms/reactive_forms.dart';
 
 final addressProvider =
     StateNotifierProvider<AddressNotifier, AddressState>((ref) {
@@ -15,18 +18,27 @@ final addressProvider =
 });
 
 class AddressNotifier extends StateNotifier<AddressState> {
-  AddressNotifier(this.ref)
-      : super(AddressState(
-          address: FormControl<String>(value: ''),
-        ));
+  AddressNotifier(this.ref) : super(AddressState());
   final StateNotifierProviderRef ref;
 
-  Future<void> searchProducts() async {
+  resetForm() {
     state = state.copyWith(
-      loadingAddresses: true,
+      city: const FormxInput(value: ''),
+      country: const FormxInput(value: ''),
+      address: const FormxInput(value: ''),
+      tag: () => null,
+      deliveryDetail: () => null,
+    );
+    changeSearch('');
+  }
+
+  Future<void> searchAddress() async {
+    state = state.copyWith(
+      searchingAddresses: LoadingStatus.loading,
     );
 
     final search = state.search;
+
     try {
       final MapboxResponse response = await MapBoxService.searchbox(
         query: state.search,
@@ -35,17 +47,16 @@ class AddressNotifier extends StateNotifier<AddressState> {
       if (search == state.search) {
         state = state.copyWith(
           addressResults: response.features,
+          searchingAddresses: LoadingStatus.success,
         );
       }
     } on ServiceException catch (e) {
       if (search == state.search) {
         SnackbarService.showSnackbar(e.message);
+        state = state.copyWith(
+          searchingAddresses: LoadingStatus.error,
+        );
       }
-    }
-    if (search == state.search) {
-      state = state.copyWith(
-        loadingAddresses: false,
-      );
     }
   }
 
@@ -55,7 +66,8 @@ class AddressNotifier extends StateNotifier<AddressState> {
     state = state.copyWith(
       addressResults: [],
       search: newSearch,
-      loadingAddresses: newSearch != '',
+      searchingAddresses:
+          newSearch != '' ? LoadingStatus.loading : LoadingStatus.none,
     );
     if (newSearch == '') return;
 
@@ -66,13 +78,13 @@ class AddressNotifier extends StateNotifier<AddressState> {
       const Duration(milliseconds: 1000),
       () {
         if (search != state.search) return;
-        searchProducts();
+        searchAddress();
       },
     );
   }
 
   Future<void> searchLocality() async {
-    LatLng? cameraPosition = state.cameraPosition;
+    LatLng? cameraPosition = ref.read(mapProvider).cameraPosition;
     if (cameraPosition == null) return;
     try {
       final MapboxResponse response = await MapBoxService.geocode(
@@ -80,41 +92,40 @@ class AddressNotifier extends StateNotifier<AddressState> {
         longitude: cameraPosition.longitude,
       );
 
-      if (cameraPosition == state.cameraPosition) {
+      if (cameraPosition == ref.read(mapProvider).cameraPosition) {
         if (response.features.isNotEmpty &&
-            response.features[0].properties.namePreferred != null &&
-            response.features[0].properties.context.country?.name != null) {
+            response.features[0].properties.context.locality?.name != null &&
+            response.features[0].properties.context.country?.name != null &&
+            response.features[0].properties.context.street?.name != null) {
           state = state.copyWith(
-            locality: () => Locality(
-              city: response.features[0].properties.namePreferred!,
-              country: response.features[0].properties.context.country!.name!,
-            ),
+            city: state.city.updateValue(
+                response.features[0].properties.context.locality!.name!),
+            country: state.country.updateValue(
+                response.features[0].properties.context.country!.name!),
+            address: state.address.updateValue(
+                response.features[0].properties.context.street!.name!),
           );
         } else {
           state = state.copyWith(
-            locality: () => null,
+            city: state.city.updateValue(''),
+            country: state.country.updateValue(''),
+            address: state.address.updateValue(''),
           );
         }
       }
     } on ServiceException catch (_) {
-      if (cameraPosition == state.cameraPosition) {
+      if (cameraPosition == ref.read(mapProvider).cameraPosition) {
         state = state.copyWith(
-          locality: () => null,
+          city: state.city.updateValue(''),
+          country: state.country.updateValue(''),
+          address: state.address.updateValue(''),
         );
       }
     }
-  }
 
-  void changeCameraPosition(LatLng newCameraPosition) {
-    state = state.copyWith(
-      cameraPosition: () => newCameraPosition,
-    );
-  }
-
-  void changeAddress(FormControl<String> address) {
-    state = state.copyWith(
-      address: address,
-    );
+    print(state.city.value);
+    print(state.country.value);
+    print(state.address.value);
   }
 
   void changeTag(Tag tag) {
@@ -128,62 +139,71 @@ class AddressNotifier extends StateNotifier<AddressState> {
       deliveryDetail: () => deliveryDetail,
     );
   }
+
+  void changeDetail(FormxInput<String> detail) {
+    state = state.copyWith(
+      detail: detail,
+    );
+  }
+
+  void changeReferences(FormxInput<String> references) {
+    state = state.copyWith(
+      references: references,
+    );
+  }
 }
 
 class AddressState {
   final List<Feature> addressResults;
   final String search;
-  final bool loadingAddresses;
-  final Locality? locality;
-  final LatLng? cameraPosition;
-  final FormControl<String> address;
+  final LoadingStatus searchingAddresses;
   final Tag? tag;
   final DeliveryDetail? deliveryDetail;
+  final FormxInput<String> city;
+  final FormxInput<String> country;
+  final FormxInput<String> address;
+  final FormxInput<String> detail;
+  final FormxInput<String> references;
 
   AddressState({
     this.addressResults = const [],
     this.search = '',
-    this.loadingAddresses = false,
-    this.locality,
-    this.cameraPosition,
-    required this.address,
+    this.searchingAddresses = LoadingStatus.none,
     this.tag,
     this.deliveryDetail,
+    this.city = const FormxInput(value: ''),
+    this.country = const FormxInput(value: ''),
+    this.address = const FormxInput(value: ''),
+    this.detail = const FormxInput(value: ''),
+    this.references = const FormxInput(value: ''),
   });
 
   AddressState copyWith({
     List<Feature>? addressResults,
     String? search,
-    bool? loadingAddresses,
-    ValueGetter<Locality?>? locality,
+    LoadingStatus? searchingAddresses,
     ValueGetter<Position?>? currentPosition,
-    ValueGetter<LatLng?>? cameraPosition,
-    FormControl<String>? address,
     ValueGetter<Tag?>? tag,
     ValueGetter<DeliveryDetail?>? deliveryDetail,
+    FormxInput<String>? city,
+    FormxInput<String>? country,
+    FormxInput<String>? address,
+    FormxInput<String>? detail,
+    FormxInput<String>? references,
   }) =>
       AddressState(
         addressResults: addressResults ?? this.addressResults,
         search: search ?? this.search,
-        loadingAddresses: loadingAddresses ?? this.loadingAddresses,
-        locality: locality != null ? locality() : this.locality,
-        cameraPosition:
-            cameraPosition != null ? cameraPosition() : this.cameraPosition,
-        address: address ?? this.address,
+        searchingAddresses: searchingAddresses ?? this.searchingAddresses,
         tag: tag != null ? tag() : this.tag,
         deliveryDetail:
             deliveryDetail != null ? deliveryDetail() : this.deliveryDetail,
+        city: city ?? this.city,
+        country: country ?? this.country,
+        address: address ?? this.address,
+        detail: detail ?? this.detail,
+        references: references ?? this.references,
       );
-}
-
-class Locality {
-  String city;
-  String country;
-
-  Locality({
-    required this.city,
-    required this.country,
-  });
 }
 
 List<Tag> tags = [

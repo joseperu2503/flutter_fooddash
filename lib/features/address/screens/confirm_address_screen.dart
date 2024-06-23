@@ -1,16 +1,14 @@
+import 'package:fooddash/features/shared/plugins/formx/formx.dart';
+import 'package:fooddash/features/shared/widgets/custom_text_field.dart';
 import 'package:fooddash/features/shared/widgets/custom_textarea.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-
 import 'package:fooddash/config/constants/app_colors.dart';
 import 'package:fooddash/features/address/providers/address_provider.dart';
 import 'package:fooddash/features/shared/widgets/back_button.dart';
 import 'package:fooddash/features/shared/widgets/custom_button.dart';
-import 'package:fooddash/features/shared/widgets/custom_input.dart';
-
-const double heightBottomSheet = 380;
 
 class ConfirmAddressScreen extends ConsumerWidget {
   const ConfirmAddressScreen({super.key});
@@ -68,67 +66,33 @@ class ConfirmAddressScreen extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const Text(
-                    'City, Country*',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.label,
-                      height: 16 / 16,
-                      leadingDistribution: TextLeadingDistribution.even,
+                  CustomTextField(
+                    label: 'City, Country*',
+                    value: FormxInput(
+                      value:
+                          '${addressState.city.value}, ${addressState.country.value}',
                     ),
-                  ),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  CustomInput(
-                    value: addressState.address,
-                    onChanged: (value) {
-                      ref.read(addressProvider.notifier).changeAddress(value);
-                    },
+                    readOnly: true,
+                    onChanged: (value) {},
                   ),
                   const SizedBox(
                     height: 28,
                   ),
-                  const Text(
-                    'Address or location*',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.label,
-                      height: 16 / 16,
-                      leadingDistribution: TextLeadingDistribution.even,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  CustomInput(
+                  CustomTextField(
+                    label: 'Address or location*',
                     value: addressState.address,
-                    onChanged: (value) {
-                      ref.read(addressProvider.notifier).changeAddress(value);
-                    },
+                    readOnly: true,
+                    onChanged: (value) {},
                   ),
                   const SizedBox(
                     height: 28,
                   ),
-                  const Text(
-                    'Detail: app / flat / house',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.label,
-                      height: 16 / 16,
-                      leadingDistribution: TextLeadingDistribution.even,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  CustomInput(
-                    value: addressState.address,
+                  CustomTextField(
+                    label: 'Detail: app / flat / house',
+                    value: addressState.detail,
+                    hintText: 'Ex. Río de oto building apt 201',
                     onChanged: (value) {
-                      ref.read(addressProvider.notifier).changeAddress(value);
+                      ref.read(addressProvider.notifier).changeDetail(value);
                     },
                   ),
                   const SizedBox(
@@ -281,23 +245,14 @@ class ConfirmAddressScreen extends ConsumerWidget {
                   const SizedBox(
                     height: 28,
                   ),
-                  const Text(
-                    'Delivery Details',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.label,
-                      height: 16 / 16,
-                      leadingDistribution: TextLeadingDistribution.even,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 12,
-                  ),
                   CustomTextarea(
-                    value: addressState.address,
+                    label: 'References',
+                    value: addressState.references,
+                    hintText: 'E.g. house with green bars, next to the bakery.',
                     onChanged: (value) {
-                      ref.read(addressProvider.notifier).changeAddress(value);
+                      ref
+                          .read(addressProvider.notifier)
+                          .changeReferences(value);
                     },
                   ),
                 ],
@@ -317,7 +272,7 @@ class ConfirmAddressScreen extends ConsumerWidget {
               context.pop();
               context.pop();
             },
-            text: 'SAVE',
+            text: 'Save',
           ),
         ),
       ),

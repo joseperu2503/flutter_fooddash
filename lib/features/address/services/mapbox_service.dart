@@ -4,8 +4,7 @@ import 'package:fooddash/features/address/models/search_address_response.dart';
 import 'package:fooddash/features/core/models/service_exception.dart';
 
 class MapBoxService {
-  static Future<MapboxResponse> searchbox(
-      {required String query}) async {
+  static Future<MapboxResponse> searchbox({required String query}) async {
     try {
       Map<String, dynamic> queryParameters = {
         "q": query,
@@ -32,9 +31,9 @@ class MapBoxService {
     try {
       Map<String, dynamic> queryParameters = {
         "access_token": Environment.tokenMapbox,
-        "country": "pe",
+        // "country": "pe",
         "language": "en",
-        "types": "place,locality",
+        "types": "place,locality,street",
         "longitude": longitude,
         "latitude": latitude,
       };
