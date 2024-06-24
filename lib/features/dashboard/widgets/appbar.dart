@@ -1,8 +1,8 @@
 import 'package:fooddash/config/constants/app_colors.dart';
 import 'package:fooddash/config/router/app_router.dart';
-import 'package:fooddash/features/address/widgets/address_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fooddash/features/address/services/address_services.dart';
 import 'package:fooddash/features/dashboard/widgets/cart_button.dart';
 
 class AppbarDashboard extends StatelessWidget {
@@ -61,7 +61,7 @@ class AppbarDashboard extends StatelessWidget {
             Expanded(
               child: TextButton(
                 onPressed: () {
-                  showAddressBottomSheet(context);
+                  AddressService.showAddressBottomSheet(context);
                 },
                 style: TextButton.styleFrom(
                   padding: const EdgeInsets.all(0),

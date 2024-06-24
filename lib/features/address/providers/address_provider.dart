@@ -1,14 +1,17 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fooddash/features/address/models/address.dart';
 import 'package:fooddash/features/address/models/search_address_response.dart';
 import 'package:fooddash/features/address/services/mapbox_service.dart';
+import 'package:fooddash/features/address/services/address_services.dart';
 import 'package:fooddash/features/core/models/service_exception.dart';
 import 'package:fooddash/features/core/services/snackbar_service.dart';
 import 'package:fooddash/features/shared/models/form_type.dart';
 import 'package:fooddash/features/shared/models/loading_status.dart';
 import 'package:fooddash/features/shared/plugins/formx/formx.dart';
 import 'package:fooddash/features/shared/providers/map_provider.dart';
+import 'package:fooddash/features/shared/services/snackbar_service.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -122,10 +125,29 @@ class AddressNotifier extends StateNotifier<AddressState> {
         );
       }
     }
+  }
 
-    print(state.city.value);
-    print(state.country.value);
-    print(state.address.value);
+  Future<void> getMyAddresses() async {
+    if (state.loadingAddresses == LoadingStatus.loading) return;
+
+    state = state.copyWith(
+      loadingAddresses: LoadingStatus.loading,
+      addresses: [],
+    );
+
+    try {
+      final List<Address> response = await AddressService.getMyAddresses();
+      state = state.copyWith(
+        addresses: [...state.addresses, ...response],
+        loadingAddresses: LoadingStatus.success,
+      );
+    } on ServiceException catch (e) {
+      SnackBarService.show(e.message);
+
+      state = state.copyWith(
+        loadingAddresses: LoadingStatus.error,
+      );
+    }
   }
 
   void changeTag(Tag tag) {
@@ -164,6 +186,8 @@ class AddressState {
   final FormxInput<String> address;
   final FormxInput<String> detail;
   final FormxInput<String> references;
+  final List<Address> addresses;
+  final LoadingStatus loadingAddresses;
 
   AddressState({
     this.addressResults = const [],
@@ -176,6 +200,8 @@ class AddressState {
     this.address = const FormxInput(value: ''),
     this.detail = const FormxInput(value: ''),
     this.references = const FormxInput(value: ''),
+    this.addresses = const [],
+    this.loadingAddresses = LoadingStatus.none,
   });
 
   AddressState copyWith({
@@ -190,6 +216,8 @@ class AddressState {
     FormxInput<String>? address,
     FormxInput<String>? detail,
     FormxInput<String>? references,
+    List<Address>? addresses,
+    LoadingStatus? loadingAddresses,
   }) =>
       AddressState(
         addressResults: addressResults ?? this.addressResults,
@@ -203,6 +231,8 @@ class AddressState {
         address: address ?? this.address,
         detail: detail ?? this.detail,
         references: references ?? this.references,
+        addresses: addresses ?? this.addresses,
+        loadingAddresses: loadingAddresses ?? this.loadingAddresses,
       );
 }
 

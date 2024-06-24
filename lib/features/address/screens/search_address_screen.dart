@@ -1,6 +1,6 @@
 import 'package:fooddash/config/constants/app_colors.dart';
 import 'package:fooddash/features/address/providers/address_provider.dart';
-import 'package:fooddash/features/address/services/location_service.dart';
+import 'package:fooddash/features/shared/services/location_service.dart';
 import 'package:fooddash/features/address/widgets/input_search_address.dart';
 import 'package:fooddash/features/shared/models/loading_status.dart';
 import 'package:fooddash/features/shared/providers/map_provider.dart';

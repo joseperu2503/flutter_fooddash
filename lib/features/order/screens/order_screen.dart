@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:fooddash/config/constants/app_colors.dart';
 import 'package:fooddash/config/constants/environment.dart';
 import 'package:fooddash/config/constants/styles.dart';
-import 'package:fooddash/features/address/services/location_service.dart';
+import 'package:fooddash/features/shared/services/location_service.dart';
 import 'package:fooddash/features/order/widgets/bottom_modal.dart';
 import 'package:fooddash/features/shared/providers/map_provider.dart';
 import 'package:fooddash/features/shared/utils/utils.dart';

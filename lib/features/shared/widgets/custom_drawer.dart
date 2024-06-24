@@ -1,4 +1,4 @@
-import 'package:fooddash/features/address/widgets/address_bottom_sheet.dart';
+import 'package:fooddash/features/address/services/address_services.dart';
 import 'package:fooddash/features/auth/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -214,7 +214,7 @@ List<MenuItem> menuItems = [
   MenuItem(
     label: 'Addresses',
     onPress: (context) {
-      showAddressBottomSheet(context);
+      AddressService.showAddressBottomSheet(context);
     },
     icon: 'assets/icons/map_pin_solid.svg',
   ),
