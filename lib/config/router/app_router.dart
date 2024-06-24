@@ -21,7 +21,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
-final GlobalKey<NavigatorState> _tabNavigatorKey = GlobalKey<NavigatorState>();
 final GlobalKey<TabsState> tabKey = GlobalKey<TabsState>();
 
 Future<String?> unprotectedRoute(
@@ -60,12 +59,10 @@ GoRouter appRouter = GoRouter(
       },
       branches: [
         StatefulShellBranch(
-          navigatorKey: _tabNavigatorKey,
           routes: [
             GoRoute(
               path: '/dashboard',
               builder: (context, state) => const DashboardScreen(),
-              parentNavigatorKey: _tabNavigatorKey,
               redirect: protectedRoute,
             ),
           ],

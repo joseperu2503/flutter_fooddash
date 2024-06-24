@@ -33,7 +33,9 @@ class CustomBottomNavigationBar extends StatelessWidget {
           ),
         ],
       ),
-      height: 60 + screen.padding.bottom,
+      constraints: BoxConstraints(
+        minHeight: 60 + screen.padding.bottom,
+      ),
       child: BottomNavigationBar(
         backgroundColor: AppColors.white,
         elevation: 0,
