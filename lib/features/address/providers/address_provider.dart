@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fooddash/config/router/app_router.dart';
 import 'package:fooddash/features/address/models/address.dart';
 import 'package:fooddash/features/address/models/search_address_response.dart';
 import 'package:fooddash/features/address/services/mapbox_service.dart';
@@ -150,6 +151,45 @@ class AddressNotifier extends StateNotifier<AddressState> {
     }
   }
 
+  Future<void> saveAddress() async {
+    LatLng? cameraPosition = ref.read(mapProvider).cameraPosition;
+    if (cameraPosition == null) return;
+
+    if (state.savingAddress == LoadingStatus.loading) return;
+
+    state = state.copyWith(
+      savingAddress: LoadingStatus.loading,
+    );
+
+    try {
+      await AddressService.createAddress(
+        city: state.city.value,
+        country: state.country.value,
+        address: state.address.value,
+        detail: state.detail.value,
+        latitude: cameraPosition.latitude,
+        longitude: cameraPosition.longitude,
+        addressDeliveryDetailId: state.deliveryDetail?.id,
+        addressTagId: state.tag?.id,
+        references: state.references.value,
+      );
+
+      state = state.copyWith(
+        savingAddress: LoadingStatus.success,
+      );
+      appRouter.pop();
+      appRouter.pop();
+      appRouter.pop();
+      await getMyAddresses();
+    } on ServiceException catch (e) {
+      SnackBarService.show(e.message);
+
+      state = state.copyWith(
+        savingAddress: LoadingStatus.error,
+      );
+    }
+  }
+
   void changeTag(Tag tag) {
     state = state.copyWith(
       tag: () => tag,
@@ -188,6 +228,7 @@ class AddressState {
   final FormxInput<String> references;
   final List<Address> addresses;
   final LoadingStatus loadingAddresses;
+  final LoadingStatus savingAddress;
 
   AddressState({
     this.addressResults = const [],
@@ -202,6 +243,7 @@ class AddressState {
     this.references = const FormxInput(value: ''),
     this.addresses = const [],
     this.loadingAddresses = LoadingStatus.none,
+    this.savingAddress = LoadingStatus.none,
   });
 
   AddressState copyWith({
@@ -218,6 +260,7 @@ class AddressState {
     FormxInput<String>? references,
     List<Address>? addresses,
     LoadingStatus? loadingAddresses,
+    LoadingStatus? savingAddress,
   }) =>
       AddressState(
         addressResults: addressResults ?? this.addressResults,
@@ -233,6 +276,7 @@ class AddressState {
         references: references ?? this.references,
         addresses: addresses ?? this.addresses,
         loadingAddresses: loadingAddresses ?? this.loadingAddresses,
+        savingAddress: savingAddress ?? this.savingAddress,
       );
 }
 

@@ -3,7 +3,7 @@ class Address {
   final String city;
   final String country;
   final String address;
-  final String? detail;
+  final String detail;
   final String references;
   final double latitude;
   final double longitude;

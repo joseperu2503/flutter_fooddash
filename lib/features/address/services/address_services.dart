@@ -13,7 +13,39 @@ class AddressService {
 
       return List<Address>.from(response.data.map((x) => Address.fromJson(x)));
     } catch (e) {
-      throw ServiceException('An error occurred while loading the addresses.');
+      throw ServiceException(
+          'An error occurred while loading the addresses.', e);
+    }
+  }
+
+  static Future<void> createAddress({
+    required String country,
+    required String city,
+    required double latitude,
+    required double longitude,
+    required String address,
+    required String detail,
+    required String references,
+    required int? addressTagId,
+    required int? addressDeliveryDetailId,
+  }) async {
+    try {
+      Map<String, dynamic> form = {
+        "city": city,
+        "country": country,
+        "address": address,
+        "detail": detail,
+        "references": references,
+        "latitude": latitude,
+        "longitude": longitude,
+        "addressTagId": addressTagId,
+        "addressDeliveryDetailId": addressDeliveryDetailId,
+      };
+
+      await api.post('/addresses', data: form);
+    } catch (e) {
+      throw ServiceException(
+          'An error occurred while registering the address.', e);
     }
   }
 

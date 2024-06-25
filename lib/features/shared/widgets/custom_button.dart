@@ -81,9 +81,11 @@ class CustomButton extends StatelessWidget {
         boxShadow: boxShadow,
       ),
       child: TextButton(
-        onPressed: () {
-          onPressed();
-        },
+        onPressed: loading
+            ? null
+            : () {
+                onPressed();
+              },
         style: TextButton.styleFrom(
           minimumSize: Size(
             double.infinity,
