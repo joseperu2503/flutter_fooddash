@@ -4,9 +4,9 @@ import 'package:fooddash/features/auth/models/login_response.dart';
 import 'package:fooddash/features/auth/providers/auth_provider.dart';
 import 'package:fooddash/features/auth/services/auth_service.dart';
 import 'package:fooddash/features/core/services/storage_service.dart';
+import 'package:fooddash/features/shared/models/loading_status.dart';
 import 'package:fooddash/features/shared/plugins/formx/formx.dart';
 import 'package:fooddash/features/shared/plugins/formx/validators/validators.dart';
-import 'package:fooddash/features/shared/services/loader_service.dart';
 import 'package:fooddash/features/shared/services/snackbar_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -48,7 +48,9 @@ class LoginNotifier extends StateNotifier<LoginState> {
 
     if (!Formx.validate([state.email, state.email])) return;
 
-    LoaderService.show();
+    state = state.copyWith(
+      loading: LoadingStatus.loading,
+    );
 
     try {
       final LoginResponse loginResponse = await AuthService.login(
@@ -61,11 +63,15 @@ class LoginNotifier extends StateNotifier<LoginState> {
       setRemember();
       appRouter.go('/dashboard');
       ref.read(authProvider.notifier).initAutoLogout();
+      state = state.copyWith(
+        loading: LoadingStatus.success,
+      );
     } catch (e) {
+      state = state.copyWith(
+        loading: LoadingStatus.error,
+      );
       SnackBarService.show(e);
     }
-
-    LoaderService.hide();
   }
 
   setRemember() async {
@@ -98,21 +104,25 @@ class LoginState {
   final FormxInput<String> email;
   final FormxInput<String> password;
   final bool rememberMe;
+  final LoadingStatus loading;
 
   LoginState({
     this.email = const FormxInput(value: ''),
     this.password = const FormxInput(value: ''),
     this.rememberMe = false,
+    this.loading = LoadingStatus.none,
   });
 
   LoginState copyWith({
     FormxInput<String>? email,
     FormxInput<String>? password,
     bool? rememberMe,
+    LoadingStatus? loading,
   }) =>
       LoginState(
         email: email ?? this.email,
         password: password ?? this.password,
         rememberMe: rememberMe ?? this.rememberMe,
+        loading: loading ?? this.loading,
       );
 }

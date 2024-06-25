@@ -1,5 +1,6 @@
 import 'package:fooddash/config/constants/app_colors.dart';
 import 'package:fooddash/features/auth/providers/login_provider.dart';
+import 'package:fooddash/features/shared/models/loading_status.dart';
 import 'package:fooddash/features/shared/widgets/back_button.dart';
 import 'package:fooddash/features/shared/widgets/custom_button.dart';
 import 'package:fooddash/features/shared/widgets/custom_text_field.dart';
@@ -196,8 +197,9 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                         onPressed: () {
                           ref.read(loginProvider.notifier).login();
                         },
-                        text: 'LOGIN',
+                        text: 'Login',
                         boxShadowType: BoxShadowType.gray,
+                        loading: loginState.loading == LoadingStatus.loading,
                       ),
                     ),
                     const SizedBox(
