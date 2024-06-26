@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
 
 class ServiceException implements Exception {
-  final String errorMessage;
+  final String _errorMessage;
   final dynamic e;
 
-  ServiceException(this.errorMessage, this.e);
+  ServiceException(this._errorMessage, this.e);
 
   String get message {
     if (e is DioException) {
@@ -17,6 +17,6 @@ class ServiceException implements Exception {
       } catch (_) {}
     }
 
-    return errorMessage;
+    return _errorMessage;
   }
 }

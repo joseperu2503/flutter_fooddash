@@ -2,10 +2,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fooddash/config/constants/app_colors.dart';
 import 'package:fooddash/config/constants/styles.dart';
 import 'package:fooddash/features/address/providers/address_provider.dart';
+import 'package:fooddash/features/shared/providers/map_provider.dart';
+import 'package:fooddash/features/shared/services/location_service.dart';
 import 'package:fooddash/features/shared/widgets/custom_check.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 const double heightBottomSheet = 200;
 
@@ -67,7 +71,7 @@ class AddressBottomSheetState extends ConsumerState<AddressBottomSheet> {
                       Container(
                         height: 60,
                         decoration: BoxDecoration(
-                          color: AppColors.inputBorder,
+                          color: AppColors.gray100,
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: TextButton(
@@ -120,64 +124,79 @@ class AddressBottomSheetState extends ConsumerState<AddressBottomSheet> {
                   padding: const EdgeInsets.symmetric(
                     horizontal: 24,
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            width: 52,
-                            height: 52,
-                            decoration: BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                  color:
-                                      const Color(0xffD3D1D8).withOpacity(0.25),
-                                  offset: const Offset(0, 20),
-                                  blurRadius: 30,
-                                  spreadRadius: 0,
-                                )
-                              ],
-                            ),
-                            child: TextButton(
-                              onPressed: () {},
-                              style: TextButton.styleFrom(
-                                padding: const EdgeInsets.all(0),
-                                shape: const CircleBorder(),
-                                backgroundColor: AppColors.white,
+                  child: GestureDetector(
+                    onTap: () async {
+                      FocusManager.instance.primaryFocus?.unfocus();
+
+                      Position? location =
+                          await LocationService.getCurrentPosition();
+                      if (location == null) return;
+
+                      ref
+                          .read(mapProvider.notifier)
+                          .changeCameraPosition(LatLng(
+                            location.latitude,
+                            location.longitude,
+                          ));
+                      if (!context.mounted) return;
+                      context.push('/address-map');
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              width: 52,
+                              height: 52,
+                              decoration: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: const Color(0xffD3D1D8)
+                                        .withOpacity(0.25),
+                                    offset: const Offset(0, 20),
+                                    blurRadius: 30,
+                                    spreadRadius: 0,
+                                  )
+                                ],
+                                shape: BoxShape.circle,
+                                color: AppColors.white,
                               ),
-                              child: SvgPicture.asset(
-                                'assets/icons/map_pin.svg',
-                                width: 24,
-                                colorFilter: const ColorFilter.mode(
-                                  AppColors.label2,
-                                  BlendMode.srcIn,
+                              child: Center(
+                                child: SvgPicture.asset(
+                                  'assets/icons/map_pin.svg',
+                                  width: 24,
+                                  colorFilter: const ColorFilter.mode(
+                                    AppColors.label2,
+                                    BlendMode.srcIn,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          const Text(
-                            'Current location',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.label2,
-                              leadingDistribution: TextLeadingDistribution.even,
+                            const SizedBox(
+                              width: 8,
                             ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 12,
-                      ),
-                      const Divider(
-                        color: AppColors.slate50,
-                        height: 1,
-                      ),
-                    ],
+                            const Text(
+                              'Current location',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.label2,
+                                leadingDistribution:
+                                    TextLeadingDistribution.even,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 12,
+                        ),
+                        const Divider(
+                          color: AppColors.inputBorder,
+                          height: 1,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -255,7 +274,7 @@ class AddressBottomSheetState extends ConsumerState<AddressBottomSheet> {
                     margin: const EdgeInsets.symmetric(
                       horizontal: 24,
                     ),
-                    color: AppColors.slate50,
+                    color: AppColors.inputBorder,
                   );
                 },
                 itemCount: addressState.addresses.length,

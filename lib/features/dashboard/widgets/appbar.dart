@@ -59,13 +59,10 @@ class AppbarDashboard extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: TextButton(
-                onPressed: () {
+              child: GestureDetector(
+                onTap: () {
                   AddressService.showAddressBottomSheet(context);
                 },
-                style: TextButton.styleFrom(
-                  padding: const EdgeInsets.all(0),
-                ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,

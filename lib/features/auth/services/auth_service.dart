@@ -2,8 +2,8 @@ import 'package:fooddash/config/api/api.dart';
 import 'package:fooddash/config/constants/storage_keys.dart';
 import 'package:fooddash/features/auth/models/login_response.dart';
 import 'package:fooddash/features/auth/models/auth_user.dart';
+import 'package:fooddash/features/core/models/service_exception.dart';
 import 'package:fooddash/features/core/services/storage_service.dart';
-import 'package:dio/dio.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 class AuthService {
@@ -21,16 +21,7 @@ class AuthService {
 
       return LoginResponse.fromJson(response.data);
     } catch (e) {
-      String errorMessage = 'An error occurred while trying to log in.';
-      try {
-        if (e is DioException) {
-          if (e.response?.data['message'] != null) {
-            errorMessage = e.response?.data['message'];
-          }
-        }
-      } catch (_) {}
-
-      throw errorMessage;
+      throw ServiceException('An error occurred while trying to log in.', e);
     }
   }
 
@@ -40,16 +31,7 @@ class AuthService {
 
       return AuthUser.fromJson(response.data);
     } catch (e) {
-      String errorMessage = 'An error occurred while loading the user.';
-      try {
-        if (e is DioException) {
-          if (e.response?.data['message'] != null) {
-            errorMessage = e.response?.data['message'];
-          }
-        }
-      } catch (_) {}
-
-      throw errorMessage;
+      throw ServiceException('An error occurred while loading the user.', e);
     }
   }
 
@@ -70,17 +52,8 @@ class AuthService {
 
       return AuthUser.fromJson(response.data);
     } catch (e) {
-      String errorMessage =
-          'An error occurred while changing the personal data.';
-      try {
-        if (e is DioException) {
-          if (e.response?.data['message'] != null) {
-            errorMessage = e.response?.data['message'];
-          }
-        }
-      } catch (_) {}
-
-      throw errorMessage;
+      throw ServiceException(
+          'An error occurred while changing the personal data.', e);
     }
   }
 

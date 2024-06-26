@@ -36,10 +36,7 @@ class _InputSearchAddressState extends State<InputSearchAddress> {
       height: 51,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: AppColors.slate50,
-        border: Border.all(
-          color: const Color(0xffEFEFEF),
-        ),
+        color: AppColors.gray100,
       ),
       child: Row(
         children: [

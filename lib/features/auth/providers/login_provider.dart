@@ -3,6 +3,7 @@ import 'package:fooddash/config/router/app_router.dart';
 import 'package:fooddash/features/auth/models/login_response.dart';
 import 'package:fooddash/features/auth/providers/auth_provider.dart';
 import 'package:fooddash/features/auth/services/auth_service.dart';
+import 'package:fooddash/features/core/models/service_exception.dart';
 import 'package:fooddash/features/core/services/storage_service.dart';
 import 'package:fooddash/features/shared/models/loading_status.dart';
 import 'package:fooddash/features/shared/plugins/formx/formx.dart';
@@ -26,9 +27,13 @@ class LoginNotifier extends StateNotifier<LoginState> {
 
     state = state.copyWith(
       email: FormxInput<String>(
-          value: '',
-          validators: [Validators.required<String>(), Validators.email()]),
-      password: FormxInput(value: '', validators: [Validators.required()]),
+        value: '',
+        validators: [Validators.required<String>(), Validators.email()],
+      ),
+      password: FormxInput(
+        value: '',
+        validators: [Validators.required()],
+      ),
       rememberMe: rememberMe,
     );
 
@@ -66,11 +71,11 @@ class LoginNotifier extends StateNotifier<LoginState> {
       state = state.copyWith(
         loading: LoadingStatus.success,
       );
-    } catch (e) {
+    } on ServiceException catch (e) {
       state = state.copyWith(
         loading: LoadingStatus.error,
       );
-      SnackBarService.show(e);
+      SnackBarService.show(e.message);
     }
   }
 
