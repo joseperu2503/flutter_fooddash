@@ -27,7 +27,7 @@ class InputSearchDashboard extends StatelessWidget {
                   ),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(14),
-                    color: AppColors.inputHint.withOpacity(0.1),
+                    color: AppColors.gray50,
                     border: Border.all(
                       color: const Color(0xffEFEFEF),
                     ),

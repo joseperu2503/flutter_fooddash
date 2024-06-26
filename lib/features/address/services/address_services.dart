@@ -49,16 +49,22 @@ class AddressService {
     }
   }
 
-  static showAddressBottomSheet(BuildContext context) {
+  static showAddressBottomSheet(
+    BuildContext context, {
+    bool isDismissible = true,
+  }) {
     showModalBottomSheet(
       context: context,
       useSafeArea: true,
       useRootNavigator: true,
       elevation: 0,
       isScrollControlled: true,
+      isDismissible: isDismissible,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
+      showDragHandle: false,
+      enableDrag: isDismissible,
       builder: (BuildContext context) {
         return const AddressBottomSheet();
       },

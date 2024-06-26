@@ -8,7 +8,6 @@ import 'package:fooddash/features/address/services/mapbox_service.dart';
 import 'package:fooddash/features/address/services/address_services.dart';
 import 'package:fooddash/features/core/models/service_exception.dart';
 import 'package:fooddash/features/core/services/snackbar_service.dart';
-import 'package:fooddash/features/shared/models/form_type.dart';
 import 'package:fooddash/features/shared/models/loading_status.dart';
 import 'package:fooddash/features/shared/plugins/formx/formx.dart';
 import 'package:fooddash/features/shared/providers/map_provider.dart';
@@ -133,20 +132,36 @@ class AddressNotifier extends StateNotifier<AddressState> {
 
     state = state.copyWith(
       loadingAddresses: LoadingStatus.loading,
-      addresses: [],
+      // addresses: [],
     );
 
     try {
       final List<Address> response = await AddressService.getMyAddresses();
       state = state.copyWith(
-        addresses: [...state.addresses, ...response],
+        addresses: response,
         loadingAddresses: LoadingStatus.success,
       );
+      setAddress();
     } on ServiceException catch (e) {
       SnackBarService.show(e.message);
 
       state = state.copyWith(
         loadingAddresses: LoadingStatus.error,
+      );
+    }
+  }
+
+  setAddress() {
+    if (state.addresses.isEmpty) {
+      if (rootNavigatorKey.currentContext == null) return;
+
+      AddressService.showAddressBottomSheet(
+        rootNavigatorKey.currentContext!,
+        isDismissible: false,
+      );
+    } else {
+      state = state.copyWith(
+        selectedAddress: () => state.addresses[0],
       );
     }
   }
@@ -174,13 +189,13 @@ class AddressNotifier extends StateNotifier<AddressState> {
         references: state.references.value,
       );
 
+      await getMyAddresses();
+      appRouter.pop();
+      appRouter.pop();
+      appRouter.pop();
       state = state.copyWith(
         savingAddress: LoadingStatus.success,
       );
-      appRouter.pop();
-      appRouter.pop();
-      appRouter.pop();
-      await getMyAddresses();
     } on ServiceException catch (e) {
       SnackBarService.show(e.message);
 
@@ -213,6 +228,12 @@ class AddressNotifier extends StateNotifier<AddressState> {
       references: references,
     );
   }
+
+  void changeSelectedAddress(Address address) {
+    state = state.copyWith(
+      selectedAddress: () => address,
+    );
+  }
 }
 
 class AddressState {
@@ -227,6 +248,7 @@ class AddressState {
   final FormxInput<String> detail;
   final FormxInput<String> references;
   final List<Address> addresses;
+  final Address? selectedAddress;
   final LoadingStatus loadingAddresses;
   final LoadingStatus savingAddress;
 
@@ -244,6 +266,7 @@ class AddressState {
     this.addresses = const [],
     this.loadingAddresses = LoadingStatus.none,
     this.savingAddress = LoadingStatus.none,
+    this.selectedAddress,
   });
 
   AddressState copyWith({
@@ -261,6 +284,7 @@ class AddressState {
     List<Address>? addresses,
     LoadingStatus? loadingAddresses,
     LoadingStatus? savingAddress,
+    ValueGetter<Address?>? selectedAddress,
   }) =>
       AddressState(
         addressResults: addressResults ?? this.addressResults,
@@ -277,6 +301,8 @@ class AddressState {
         addresses: addresses ?? this.addresses,
         loadingAddresses: loadingAddresses ?? this.loadingAddresses,
         savingAddress: savingAddress ?? this.savingAddress,
+        selectedAddress:
+            selectedAddress != null ? selectedAddress() : this.selectedAddress,
       );
 }
 

@@ -48,7 +48,7 @@ class _InputSearchAddressState extends State<InputSearchAddress> {
                 hintStyle: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.w400,
-                  color: AppColors.inputHint,
+                  color: AppColors.slate500,
                 ),
                 contentPadding: EdgeInsets.symmetric(
                   horizontal: 20,

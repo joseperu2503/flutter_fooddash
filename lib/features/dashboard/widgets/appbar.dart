@@ -1,15 +1,19 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fooddash/config/constants/app_colors.dart';
 import 'package:fooddash/config/router/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fooddash/features/address/providers/address_provider.dart';
 import 'package:fooddash/features/address/services/address_services.dart';
 import 'package:fooddash/features/dashboard/widgets/cart_button.dart';
 
-class AppbarDashboard extends StatelessWidget {
+class AppbarDashboard extends ConsumerWidget {
   const AppbarDashboard({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final addressState = ref.watch(addressProvider);
+
     return SliverAppBar(
       scrolledUnderElevation: 0,
       automaticallyImplyLeading: false,
@@ -60,6 +64,7 @@ class AppbarDashboard extends StatelessWidget {
             ),
             Expanded(
               child: GestureDetector(
+                behavior: HitTestBehavior.translucent,
                 onTap: () {
                   AddressService.showAddressBottomSheet(context);
                 },
@@ -96,9 +101,9 @@ class AppbarDashboard extends StatelessWidget {
                     const SizedBox(
                       height: 4,
                     ),
-                    const Text(
-                      '4102  Pretty View Lane ',
-                      style: TextStyle(
+                    Text(
+                      addressState.selectedAddress?.address ?? '',
+                      style: const TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
                         color: AppColors.primary,
@@ -109,6 +114,9 @@ class AppbarDashboard extends StatelessWidget {
                   ],
                 ),
               ),
+            ),
+            const SizedBox(
+              width: 10,
             ),
             const CartButton(),
           ],
