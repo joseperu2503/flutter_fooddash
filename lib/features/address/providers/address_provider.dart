@@ -152,6 +152,8 @@ class AddressNotifier extends StateNotifier<AddressState> {
   }
 
   setAddress() {
+    if (state.selectedAddress != null) return;
+
     if (state.addresses.isEmpty) {
       if (rootNavigatorKey.currentContext == null) return;
 
@@ -233,6 +235,7 @@ class AddressNotifier extends StateNotifier<AddressState> {
     state = state.copyWith(
       selectedAddress: () => address,
     );
+    appRouter.pop();
   }
 }
 
