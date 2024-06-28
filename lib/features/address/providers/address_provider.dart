@@ -127,7 +127,7 @@ class AddressNotifier extends StateNotifier<AddressState> {
     }
   }
 
-  Future<void> getMyAddresses() async {
+  Future<void> getMyAddresses({bool withSetAddress = false}) async {
     if (state.loadingAddresses == LoadingStatus.loading) return;
 
     state = state.copyWith(
@@ -141,7 +141,9 @@ class AddressNotifier extends StateNotifier<AddressState> {
         addresses: response,
         loadingAddresses: LoadingStatus.success,
       );
-      setAddress();
+      if (withSetAddress) {
+        setAddress();
+      }
     } on ServiceException catch (e) {
       SnackBarService.show(e.message);
 
@@ -156,7 +158,6 @@ class AddressNotifier extends StateNotifier<AddressState> {
 
     if (state.addresses.isEmpty) {
       if (rootNavigatorKey.currentContext == null) return;
-
       AddressService.showAddressBottomSheet(
         rootNavigatorKey.currentContext!,
         isDismissible: false,

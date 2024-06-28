@@ -116,6 +116,9 @@ class AddressBottomSheetState extends ConsumerState<AddressBottomSheet> {
             Expanded(
               child: CustomScrollView(
                 controller: scrollController,
+                physics: addressState.selectedAddress == null
+                    ? const NeverScrollableScrollPhysics()
+                    : null,
                 slivers: [
                   SliverToBoxAdapter(
                     child: Container(

@@ -28,7 +28,7 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
       ref.read(restaurantsProvider.notifier).getRestaurants();
       ref.read(restaurantsProvider.notifier).getCategories();
       ref.read(cartProvider.notifier).getMyCart();
-      ref.read(addressProvider.notifier).getMyAddresses();
+      ref.read(addressProvider.notifier).getMyAddresses(withSetAddress: true);
     });
     _scrollController.addListener(() {
       if (_scrollController.position.pixels + 100 >=

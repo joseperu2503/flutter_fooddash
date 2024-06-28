@@ -1,23 +1,21 @@
+import 'package:fooddash/features/auth/models/auth_user.dart';
+
 class LoginResponse {
-  final int id;
-  final String email;
+  final AuthUser user;
   final String token;
 
   LoginResponse({
-    required this.id,
-    required this.email,
+    required this.user,
     required this.token,
   });
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) => LoginResponse(
-        id: json["id"],
-        email: json["email"],
+        user: AuthUser.fromJson(json["user"]),
         token: json["token"],
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "email": email,
+        "user": user.toJson(),
         "token": token,
       };
 }
