@@ -2,15 +2,12 @@ import 'package:fooddash/features/payment_methods/providers/payment_method_provi
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
+import 'package:fooddash/features/shared/widgets/custom_text_field.dart';
 import 'package:fooddash/config/constants/app_colors.dart';
 import 'package:fooddash/features/shared/widgets/back_button.dart';
 import 'package:fooddash/features/shared/widgets/custom_button.dart';
-import 'package:fooddash/features/shared/widgets/custom_input.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
-import 'package:reactive_forms/reactive_forms.dart';
-
-const double heightBottomSheet = 380;
+import 'package:mask_input_formatter/mask_input_formatter.dart';
 
 class CardFormScreen extends ConsumerStatefulWidget {
   const CardFormScreen({super.key});
@@ -20,28 +17,26 @@ class CardFormScreen extends ConsumerStatefulWidget {
 }
 
 class CardFormScreenState extends ConsumerState<CardFormScreen> {
-  final FocusNode _focusNodeCcv = FocusNode();
-  bool showBackView = false;
   @override
   void initState() {
-    _focusNodeCcv.addListener(() {
-      setState(() {
-        showBackView = _focusNodeCcv.hasFocus;
-      });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(paymentMethodProvider.notifier).resetForm();
     });
     super.initState();
   }
+
+  MaskInputFormatter cardNumberFormatter = MaskInputFormatter(
+    mask: '#### #### #### ####',
+  );
+
+  MaskInputFormatter ccvFormatter = MaskInputFormatter(
+    mask: '###',
+  );
 
   @override
   Widget build(BuildContext context) {
     final paymentState = ref.watch(paymentMethodProvider);
     final MediaQueryData screen = MediaQuery.of(context);
-
-    final FormControl<String> cardNumberInput = paymentState.cardNumber;
-
-    if (paymentState.cardNumber.value != null) {
-      cardNumberInput.patchValue(addSpaces(cardNumberInput.value!));
-    }
 
     return Scaffold(
       appBar: AppBar(
@@ -93,66 +88,58 @@ class CardFormScreenState extends ConsumerState<CardFormScreen> {
                 children: [
                   Center(
                     child: CreditCardWidget(
-                      cardNumber: paymentState.cardNumber.value ?? '',
-                      expiryDate: paymentState.expired.value ?? '',
-                      cardHolderName: paymentState.name.value ?? '',
-                      cvvCode: paymentState.ccv.value ?? '',
-                      showBackView: showBackView,
+                      cardNumber: paymentState.cardNumber.value,
+                      expiryDate: paymentState.expired.value,
+                      cardHolderName: paymentState.name.value,
+                      cvvCode: '',
+                      showBackView: false,
+                      isSwipeGestureEnabled: false,
                       isHolderNameVisible: true,
-                      onCreditCardWidgetChange: (CreditCardBrand brand) {},
+                      onCreditCardWidgetChange: (CreditCardBrand brand) {
+                        if (brand.brandName == CardType.visa ||
+                            brand.brandName == CardType.mastercard) {
+                          cardNumberFormatter = MaskInputFormatter(
+                            mask: '#### #### #### ####',
+                          );
+                          ccvFormatter = MaskInputFormatter(
+                            mask: '###',
+                          );
+                        }
+                        if (brand.brandName == CardType.americanExpress) {
+                          cardNumberFormatter =
+                              MaskInputFormatter(mask: '#### ###### #####');
+                          ccvFormatter = MaskInputFormatter(
+                            mask: '####',
+                          );
+                        }
+                      },
                       padding: 0,
                     ),
                   ),
                   const SizedBox(
                     height: 40,
                   ),
-                  const Text(
-                    'Card Number',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.label,
-                      height: 1,
-                      leadingDistribution: TextLeadingDistribution.even,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  CustomInput(
-                    value: cardNumberInput,
+                  CustomTextField(
+                    label: 'Card Number',
+                    value: paymentState.cardNumber,
                     onChanged: (value) {
-                      FormControl<String> formControl = value;
-                      if (value.value != null) {
-                        formControl.patchValue(removeSpaces(value.value!));
-                      }
                       ref
                           .read(paymentMethodProvider.notifier)
-                          .changeCardNumber(formControl);
+                          .changeCardNumber(value);
                     },
                     hintText: 'XXXX XXXX XXXX XXXX',
                     inputFormatters: [
-                      CardFormatter(),
+                      cardNumberFormatter,
                       LengthLimitingTextInputFormatter(19)
                     ],
+                    keyboardType: TextInputType.number,
+                    textInputAction: TextInputAction.next,
                   ),
                   const SizedBox(
                     height: 28,
                   ),
-                  const Text(
-                    'Card Holder Name',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.label,
-                      height: 16 / 16,
-                      leadingDistribution: TextLeadingDistribution.even,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  CustomInput(
+                  CustomTextField(
+                    label: 'Card Holder Name',
                     value: paymentState.name,
                     onChanged: (value) {
                       ref
@@ -160,6 +147,8 @@ class CardFormScreenState extends ConsumerState<CardFormScreen> {
                           .changeName(value);
                     },
                     hintText: 'Enter Holder Name',
+                    keyboardType: TextInputType.name,
+                    textInputAction: TextInputAction.next,
                   ),
                   const SizedBox(
                     height: 28,
@@ -170,21 +159,8 @@ class CardFormScreenState extends ConsumerState<CardFormScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            const Text(
-                              'Expired',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                                color: AppColors.label,
-                                height: 16 / 16,
-                                leadingDistribution:
-                                    TextLeadingDistribution.even,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 12,
-                            ),
-                            CustomInput(
+                            CustomTextField(
+                              label: 'Expired',
                               value: paymentState.expired,
                               onChanged: (value) {
                                 ref
@@ -192,43 +168,17 @@ class CardFormScreenState extends ConsumerState<CardFormScreen> {
                                     .changeExpired(value);
                               },
                               hintText: 'MM/YY',
+                              textInputAction: TextInputAction.done,
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                expiredFormatter,
+                              ],
                             ),
                           ],
                         ),
                       ),
                       const SizedBox(
                         width: 24,
-                      ),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            const Text(
-                              'CVC/CCV',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                                color: AppColors.label,
-                                height: 16 / 16,
-                                leadingDistribution:
-                                    TextLeadingDistribution.even,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 12,
-                            ),
-                            CustomInput(
-                              value: paymentState.ccv,
-                              onChanged: (value) {
-                                ref
-                                    .read(paymentMethodProvider.notifier)
-                                    .changeCcv(value);
-                              },
-                              hintText: 'XXX',
-                              focusNode: _focusNodeCcv,
-                            ),
-                          ],
-                        ),
                       ),
                     ],
                   )
@@ -245,9 +195,10 @@ class CardFormScreenState extends ConsumerState<CardFormScreen> {
         child: Center(
           child: CustomButton(
             onPressed: () {
-              context.pop();
+              ref.read(paymentMethodProvider.notifier).saveCard();
             },
-            text: 'SAVE',
+            disabled: !paymentState.isFormValue,
+            text: 'Save',
           ),
         ),
       ),
@@ -255,89 +206,6 @@ class CardFormScreenState extends ConsumerState<CardFormScreen> {
   }
 }
 
-int offset(int selectionEnd) {
-  if (selectionEnd >= 0 && selectionEnd <= 3) {
-    return 0;
-  }
-  if (selectionEnd >= 4 && selectionEnd <= 8) {
-    return 1;
-  }
-  if (selectionEnd >= 9 && selectionEnd <= 13) {
-    return 2;
-  }
-  return 3;
-}
-
-class CardFormatter extends TextInputFormatter {
-  @override
-  TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue, TextEditingValue newValue) {
-    // Rechazar la entrada si ingresan espacio
-    if (removeSpaces(oldValue.text) == removeSpaces(newValue.text) &&
-        (newValue.text.length > oldValue.text.length)) {
-      return oldValue;
-    }
-
-    final regex = RegExp(r'^[0-9]*$');
-    if (!regex.hasMatch(removeSpaces(newValue.text))) {
-      return oldValue; // Rechazar la entrada si no contiene solo números
-    }
-
-    var newText = addSpaces(newValue.text);
-
-    //limitar a 19 caracteres, esto es porque al pegar de la papelera
-    //el LengthLimitingTextInputFormatter(19) no funcionaba
-    if (newText.length > 19) {
-      newText = newText.substring(0, 19);
-    }
-
-    //variable para saber cuanto hay que aumentarle o disminuirle al puntero
-    var addSelection = 0;
-
-    // al agregar caracteres, funciona para cuando se pega del portapapeles
-    if (newValue.text.length > oldValue.text.length) {
-      addSelection =
-          offset(newValue.selection.end) - offset(oldValue.selection.end);
-      //al agregar caracter, cuando el puntero esté en las posiciones indicadas se le aumentará una posicion
-      if ([4, 9, 14].contains(oldValue.selection.end)) {
-        addSelection = addSelection + 1;
-      }
-    }
-    //al remover caracter, cuando el puntero esté en las posiciones indicadas se le restara una posicion
-    if (newValue.text.length < oldValue.text.length) {
-      if ([5, 10, 15].contains(newValue.selection.end)) {
-        addSelection = -1;
-      }
-    }
-
-    return newValue.copyWith(
-      text: newText,
-      selection: TextSelection.collapsed(
-        offset: newValue.selection.end + addSelection > 19
-            ? 19
-            : newValue.selection.end + addSelection,
-      ),
-    );
-  }
-}
-
-String addSpaces(String value) {
-  final StringBuffer result = StringBuffer();
-  int groupLength = 0;
-  String stringWithoutSpaces = removeSpaces(value);
-
-  for (int i = 0; i < stringWithoutSpaces.length; i++) {
-    result.write(stringWithoutSpaces[i]);
-    if ([3, 7, 11].contains(groupLength)) {
-      // Agrega un espacio después de cada grupo de 4 dígitos, al final se obtiene 4 grupos de 4 dígitos
-      result.write(' ');
-    }
-    groupLength++;
-  }
-
-  return result.toString();
-}
-
-String removeSpaces(String value) {
-  return value.replaceAll(' ', '');
-}
+MaskInputFormatter expiredFormatter = MaskInputFormatter(
+  mask: '##/##',
+);

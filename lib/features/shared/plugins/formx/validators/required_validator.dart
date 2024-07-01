@@ -13,7 +13,8 @@ class RequiredValidator<T> extends Validator<T> {
 
     if (value == null) {
       return error;
-    } else if (value is String) {
+    }
+    if (value is String) {
       return value.trim().isEmpty ? error : null;
     }
 

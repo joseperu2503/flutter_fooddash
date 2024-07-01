@@ -3,9 +3,9 @@ import 'package:fooddash/config/constants/environment.dart';
 import 'package:dio/dio.dart';
 
 class ApiMapbox {
-  static final Dio _dioBase = Dio(BaseOptions(baseUrl: Environment.urlMapbox));
+  final Dio _dioBase = Dio(BaseOptions(baseUrl: Environment.mapboxUrl));
 
-  static Future<Response> get(
+  Future<Response> get(
     String path, {
     Map<String, dynamic>? queryParameters,
   }) async {

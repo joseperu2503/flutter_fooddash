@@ -4,7 +4,6 @@ import 'package:fooddash/config/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fooddash/features/auth/providers/auth_provider.dart';
-import 'package:loader_overlay/loader_overlay.dart';
 
 void main() async {
   await Environment.initEnvironment();
@@ -36,9 +35,6 @@ class MainAppState extends ConsumerState<MainApp> {
       routerConfig: appRouter,
       theme: AppTheme.getTheme(),
       debugShowCheckedModeBanner: false,
-      builder: (context, child) {
-        return LoaderOverlay(child: child!);
-      },
     );
   }
 }

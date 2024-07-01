@@ -4,7 +4,7 @@ import 'package:fooddash/features/core/services/storage_service.dart';
 import 'package:dio/dio.dart';
 
 class Api {
-  static final Dio _dioBase = Dio(BaseOptions(baseUrl: Environment.urlBase));
+  final Dio _dioBase = Dio(BaseOptions(baseUrl: Environment.baseUrl));
 
   InterceptorsWrapper interceptor = InterceptorsWrapper();
 

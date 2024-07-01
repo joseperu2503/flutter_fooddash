@@ -1,4 +1,6 @@
+import 'package:fooddash/features/shared/plugins/formx/validators/compose_or_validator.dart';
 import 'package:fooddash/features/shared/plugins/formx/validators/email_validator.dart';
+import 'package:fooddash/features/shared/plugins/formx/validators/min_length_validator.dart';
 import 'package:fooddash/features/shared/plugins/formx/validators/required_validator.dart';
 
 import './min_validator.dart';
@@ -9,7 +11,7 @@ class Validators {
   /// or equal to [min] value.
   ///
   /// The argument [min] must not be null.
-  static Validator<T> min<T>(T min) => MinValidator<T>(min);
+  static Validator<T> min<T>(double min) => MinValidator<T>(min);
 
   /// Creates a validator that requires the control have a non-empty value.
   static Validator<T> required<T>({String? errorMessage}) =>
@@ -17,4 +19,11 @@ class Validators {
 
   static Validator<T> email<T>({String? errorMessage}) =>
       EmailValidator<T>(errorMessage: errorMessage);
+
+  static Validator<T> minLenth<T>(int minLenth, {String? errorMessage}) =>
+      MinLengthValidator<T>(minLenth, errorMessage: errorMessage);
+
+  static Validator<T> composeOR<T>(List<Validator<T>> validators) {
+    return ComposeOrValidator<T>(validators);
+  }
 }

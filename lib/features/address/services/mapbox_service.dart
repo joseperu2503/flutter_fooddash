@@ -3,17 +3,19 @@ import 'package:fooddash/config/constants/environment.dart';
 import 'package:fooddash/features/address/models/search_address_response.dart';
 import 'package:fooddash/features/core/models/service_exception.dart';
 
+final apiMapbox = ApiMapbox();
+
 class MapBoxService {
   static Future<MapboxResponse> searchbox({required String query}) async {
     try {
       Map<String, dynamic> queryParameters = {
         "q": query,
-        "access_token": Environment.tokenMapbox,
+        "access_token": Environment.mapboxToken,
         "country": "pe",
         "language": "en",
       };
 
-      final response = await ApiMapbox.get(
+      final response = await apiMapbox.get(
         '/search/searchbox/v1/forward',
         queryParameters: queryParameters,
       );
@@ -31,7 +33,7 @@ class MapBoxService {
   }) async {
     try {
       Map<String, dynamic> queryParameters = {
-        "access_token": Environment.tokenMapbox,
+        "access_token": Environment.mapboxToken,
         // "country": "pe",
         "language": "en",
         "types": "place,locality,street",
@@ -39,7 +41,7 @@ class MapBoxService {
         "latitude": latitude,
       };
 
-      final response = await ApiMapbox.get(
+      final response = await apiMapbox.get(
         '/search/geocode/v6/reverse',
         queryParameters: queryParameters,
       );

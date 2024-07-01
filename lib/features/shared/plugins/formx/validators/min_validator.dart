@@ -3,11 +3,8 @@ import './validator.dart';
 /// Validator that requires the control's value to be greater than or equal
 /// to a provided value.
 class MinValidator<T> extends Validator<T> {
-  final T min;
+  final double min;
 
-  /// Constructs the instance of the validator.
-  ///
-  /// The argument [min] must not be null.
   const MinValidator(this.min);
 
   @override
@@ -18,10 +15,10 @@ class MinValidator<T> extends Validator<T> {
       return error;
     }
 
-    assert(value is Comparable<T>,
+    assert(value is Comparable<double>,
         'The MinValidator validator is expecting a control of type `Comparable` but received a control of type ${value.runtimeType}');
 
-    final comparableValue = value as Comparable<T>;
+    final comparableValue = value as Comparable<double>;
     return comparableValue.compareTo(min) >= 0 ? null : error;
   }
 }
