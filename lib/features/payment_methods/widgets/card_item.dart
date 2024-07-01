@@ -1,5 +1,5 @@
 import 'package:fooddash/config/constants/app_colors.dart';
-import 'package:fooddash/features/payment_methods/models/card.dart';
+import 'package:fooddash/features/payment_methods/models/bank_card.dart';
 import 'package:fooddash/features/shared/widgets/custom_check.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -15,6 +15,17 @@ class CardItem extends StatelessWidget {
   final bool? isSelected;
   final void Function() onPress;
   final BankCard card;
+  String get cardIcon {
+    if (card.issuer == 'Mastercard') {
+      return 'assets/icons/mastercard.svg';
+    }
+
+    if (card.issuer == 'Visa') {
+      return 'assets/icons/visa.svg';
+    }
+
+    return '';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,20 +60,22 @@ class CardItem extends StatelessWidget {
         child: Row(
           children: [
             SvgPicture.asset(
-              'assets/icons/visa.svg',
+              cardIcon,
               width: 50,
             ),
             const SizedBox(
               width: 12,
             ),
-            const Expanded(
+            Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Debit card',
-                    style: TextStyle(
+                    card.paymentMethod.paymentTypeId == 'debit_card'
+                        ? 'Debit card'
+                        : 'Credit card',
+                    style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
                       color: AppColors.slate900,
@@ -70,12 +83,12 @@ class CardItem extends StatelessWidget {
                       leadingDistribution: TextLeadingDistribution.even,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 8,
                   ),
                   Text(
-                    '4929 **** **** 1976',
-                    style: TextStyle(
+                    '**** **** **** ${card.lastFourDigits}',
+                    style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
                       color: AppColors.slate600,

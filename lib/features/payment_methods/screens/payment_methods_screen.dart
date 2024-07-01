@@ -1,4 +1,4 @@
-import 'package:fooddash/features/payment_methods/data/cards.dart';
+import 'package:fooddash/features/payment_methods/providers/payment_method_provider.dart';
 import 'package:fooddash/features/payment_methods/widgets/card_item.dart';
 import 'package:fooddash/features/payment_methods/widgets/cash_item.dart';
 import 'package:flutter/material.dart';
@@ -21,11 +21,16 @@ class CardFormScreenState extends ConsumerState<PaymentMethodsScreen> {
   bool showBackView = false;
   @override
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(paymentMethodProvider.notifier).getMyCards();
+    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final paymentState = ref.watch(paymentMethodProvider);
+
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 60,
@@ -114,7 +119,7 @@ class CardFormScreenState extends ConsumerState<PaymentMethodsScreen> {
             ),
             sliver: SliverList.separated(
               itemBuilder: (context, index) {
-                final card = cards[index];
+                final card = paymentState.cards[index];
                 return CardItem(
                   onPress: () {},
                   card: card,
@@ -125,7 +130,7 @@ class CardFormScreenState extends ConsumerState<PaymentMethodsScreen> {
                   height: 16,
                 );
               },
-              itemCount: cards.length,
+              itemCount: paymentState.cards.length,
             ),
           ),
         ],

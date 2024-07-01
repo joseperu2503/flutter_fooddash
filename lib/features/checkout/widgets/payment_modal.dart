@@ -1,16 +1,19 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fooddash/config/constants/app_colors.dart';
-import 'package:fooddash/features/payment_methods/data/cards.dart';
+import 'package:fooddash/features/payment_methods/providers/payment_method_provider.dart';
 import 'package:fooddash/features/payment_methods/widgets/card_item.dart';
 import 'package:fooddash/features/payment_methods/widgets/cash_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
-class PaymentModal extends StatelessWidget {
+class PaymentModal extends ConsumerWidget {
   const PaymentModal({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final paymentState = ref.watch(paymentMethodProvider);
+
     return SizedBox(
       height: 500,
       child: Column(
@@ -109,7 +112,7 @@ class PaymentModal extends StatelessWidget {
                   ),
                   sliver: SliverList.separated(
                     itemBuilder: (context, index) {
-                      final card = cards[index];
+                      final card = paymentState.cards[index];
                       return CardItem(
                         onPress: () {},
                         card: card,
@@ -121,7 +124,7 @@ class PaymentModal extends StatelessWidget {
                         height: 16,
                       );
                     },
-                    itemCount: cards.length,
+                    itemCount: paymentState.cards.length,
                   ),
                 ),
               ],

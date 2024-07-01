@@ -2,6 +2,7 @@ import 'package:fooddash/features/payment_methods/providers/payment_method_provi
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fooddash/features/shared/models/loading_status.dart';
 import 'package:fooddash/features/shared/widgets/custom_text_field.dart';
 import 'package:fooddash/config/constants/app_colors.dart';
 import 'package:fooddash/features/shared/widgets/back_button.dart';
@@ -199,6 +200,7 @@ class CardFormScreenState extends ConsumerState<CardFormScreen> {
             },
             disabled: !paymentState.isFormValue,
             text: 'Save',
+            loading: paymentState.savingCard == LoadingStatus.loading,
           ),
         ),
       ),
