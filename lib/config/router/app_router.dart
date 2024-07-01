@@ -12,6 +12,7 @@ import 'package:fooddash/features/favorites/screens/favorites_screen.dart';
 import 'package:fooddash/features/notifications/screens/notifications_screen.dart';
 import 'package:fooddash/features/order/screens/my_orders_screen.dart';
 import 'package:fooddash/features/order/screens/order_screen.dart';
+import 'package:fooddash/features/payment_methods/screens/card_detail_screen.dart';
 import 'package:fooddash/features/payment_methods/screens/card_form_screen.dart';
 import 'package:fooddash/features/payment_methods/screens/payment_methods_screen.dart';
 import 'package:fooddash/features/profile/screens/profile_screen.dart';
@@ -171,6 +172,16 @@ GoRouter appRouter = GoRouter(
       builder: (context, state) => const PaymentMethodsScreen(),
       redirect: protectedRoute,
       parentNavigatorKey: rootNavigatorKey,
+      routes: [
+        GoRoute(
+          path: 'card-detail/:cardId',
+          builder: (context, state) => CardDetailScreen(
+            cardId: state.pathParameters['cardId'] ?? '',
+          ),
+          redirect: protectedRoute,
+          parentNavigatorKey: rootNavigatorKey,
+        ),
+      ],
     ),
     GoRoute(
       path: '/profile',

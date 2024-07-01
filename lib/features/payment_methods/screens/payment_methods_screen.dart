@@ -121,7 +121,9 @@ class CardFormScreenState extends ConsumerState<PaymentMethodsScreen> {
               itemBuilder: (context, index) {
                 final card = paymentState.cards[index];
                 return CardItem(
-                  onPress: () {},
+                  onPress: () {
+                    context.push('/payment-methods/card-detail/${card.id}');
+                  },
                   card: card,
                 );
               },

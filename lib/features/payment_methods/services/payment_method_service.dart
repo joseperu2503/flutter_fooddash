@@ -75,4 +75,19 @@ class PaymentMethodService {
           'An error occurred while registering the card.', e);
     }
   }
+
+  static Future<List<BankCard>> deleteCard({
+    required String cardId,
+  }) async {
+    try {
+      final response = await api.delete(
+        '/cards/$cardId',
+      );
+
+      return List<BankCard>.from(
+          response.data.map((x) => BankCard.fromJson(x)));
+    } catch (e) {
+      throw ServiceException('An error occurred while deleting the card.', e);
+    }
+  }
 }

@@ -122,6 +122,32 @@ class PaymentMethodNotifier extends StateNotifier<PaymentMethodState> {
       );
     }
   }
+
+  Future<void> deleteCard(String cardId) async {
+    if (state.savingCard == LoadingStatus.loading) return;
+
+    state = state.copyWith(
+      savingCard: LoadingStatus.loading,
+    );
+
+    try {
+      final cards = await PaymentMethodService.deleteCard(
+        cardId: cardId,
+      );
+
+      state = state.copyWith(
+        cards: cards,
+        savingCard: LoadingStatus.success,
+      );
+      appRouter.pop();
+    } on ServiceException catch (e) {
+      SnackBarService.show(e.message);
+
+      state = state.copyWith(
+        savingCard: LoadingStatus.error,
+      );
+    }
+  }
 }
 
 class PaymentMethodState {
