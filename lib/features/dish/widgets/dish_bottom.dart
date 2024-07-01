@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fooddash/config/constants/app_colors.dart';
 import 'package:fooddash/features/dish/providers/dish_provider.dart';
+import 'package:fooddash/features/shared/models/loading_status.dart';
 import 'package:fooddash/features/shared/widgets/custom_button.dart';
 
 class BottomDish extends ConsumerWidget {
@@ -119,7 +120,8 @@ class BottomDish extends ConsumerWidget {
                   ref.read(dishProvider.notifier).addDishToCart();
                 },
                 disabled: !dishState.isDone,
-                text: 'ADD TO CART',
+                text: 'Add to cart',
+                loading: dishState.addingToCart == LoadingStatus.loading,
               ),
             ),
           ],

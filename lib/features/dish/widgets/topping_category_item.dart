@@ -49,7 +49,8 @@ class _TermDesplegableState extends State<ToppingCategoryItem> {
 
   @override
   void didUpdateWidget(covariant ToppingCategoryItem oldWidget) {
-    if (widget.toppingCategory.isDone != oldWidget.toppingCategory.isDone) {
+    if (widget.toppingCategory.selectedToppings !=
+        oldWidget.toppingCategory.selectedToppings) {
       setState(() {
         isExpanded = !widget.toppingCategory.isDone;
       });

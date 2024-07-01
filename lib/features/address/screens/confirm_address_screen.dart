@@ -122,6 +122,7 @@ class ConfirmAddressScreen extends ConsumerWidget {
                           onTap: () {
                             ref.read(addressProvider.notifier).changeTag(tag);
                           },
+                          behavior: HitTestBehavior.translucent,
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 8),
                             decoration: BoxDecoration(
@@ -204,6 +205,7 @@ class ConfirmAddressScreen extends ConsumerWidget {
                                 .read(addressProvider.notifier)
                                 .changeDelivery(delivery);
                           },
+                          behavior: HitTestBehavior.translucent,
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 8),
                             decoration: BoxDecoration(

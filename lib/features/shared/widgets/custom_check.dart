@@ -24,6 +24,7 @@ class CustomCheck extends StatelessWidget {
           onChange!(!isSelected);
         }
       },
+      behavior: HitTestBehavior.translucent,
       child: Container(
         padding: const EdgeInsets.all(10),
         child: Container(

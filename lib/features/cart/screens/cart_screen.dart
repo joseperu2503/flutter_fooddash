@@ -114,6 +114,7 @@ class CartScreenState extends ConsumerState<CartScreen> {
                               onTap: () {
                                 ref.read(cartProvider.notifier).deleteMyCart();
                               },
+                              behavior: HitTestBehavior.translucent,
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 16,

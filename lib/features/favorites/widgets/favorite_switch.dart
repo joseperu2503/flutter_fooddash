@@ -49,6 +49,7 @@ class FavoriteSwitch extends StatelessWidget {
                   onTap: () {
                     onChange(FavoriteType.food);
                   },
+                  behavior: HitTestBehavior.translucent,
                   child: Container(
                     color: Colors.transparent,
                     alignment: Alignment.center,
@@ -72,6 +73,7 @@ class FavoriteSwitch extends StatelessWidget {
                   onTap: () {
                     onChange(FavoriteType.restaurant);
                   },
+                  behavior: HitTestBehavior.translucent,
                   child: Container(
                     color: Colors.transparent,
                     alignment: Alignment.center,

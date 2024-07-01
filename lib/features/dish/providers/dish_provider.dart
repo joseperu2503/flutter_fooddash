@@ -120,6 +120,10 @@ class DishNotifier extends StateNotifier<DishState> {
       return;
     }
 
+    state = state.copyWith(
+      addingToCart: LoadingStatus.loading,
+    );
+
     List<ToppingDishCartRequest> toppings = [];
 
     for (var selectedTopping in state.selectedToppings) {
@@ -136,11 +140,15 @@ class DishNotifier extends StateNotifier<DishState> {
       units: state.units,
       toppings: toppings,
     );
-    appRouter.pop();
 
     await ref
         .read(cartProvider.notifier)
         .addDishToCart(dishCart, state.dishDetail!.dishCategory!.restaurant.id);
+    appRouter.pop();
+
+    state = state.copyWith(
+      addingToCart: LoadingStatus.success,
+    );
   }
 
   addUnits() {
@@ -163,12 +171,14 @@ class DishState {
   final int units;
   final List<SelectedTopping> selectedToppings;
   final LoadingStatus loading;
+  final LoadingStatus addingToCart;
 
   DishState({
     this.dishDetail,
     this.units = 1,
     this.selectedToppings = const [],
     this.loading = LoadingStatus.none,
+    this.addingToCart = LoadingStatus.none,
   });
 
   List<ToppingCategoryForm> get toppingCategoriesStatus {
@@ -203,12 +213,14 @@ class DishState {
     int? units,
     List<SelectedTopping>? selectedToppings,
     LoadingStatus? loading,
+    LoadingStatus? addingToCart,
   }) =>
       DishState(
         dishDetail: dishDetail ?? this.dishDetail,
         units: units ?? this.units,
         selectedToppings: selectedToppings ?? this.selectedToppings,
         loading: loading ?? this.loading,
+        addingToCart: addingToCart ?? this.addingToCart,
       );
 }
 

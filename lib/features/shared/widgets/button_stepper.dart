@@ -48,6 +48,7 @@ class ButtonStepper extends ConsumerWidget {
                   if (onRemove == null) return;
                   onRemove!();
                 },
+                behavior: HitTestBehavior.translucent,
                 child: SvgPicture.asset(
                   'assets/icons/minus.svg',
                   height: 20,
@@ -84,6 +85,7 @@ class ButtonStepper extends ConsumerWidget {
                 if (onAdd == null) return;
                 onAdd!();
               },
+              behavior: HitTestBehavior.translucent,
               child: SvgPicture.asset(
                 'assets/icons/plus.svg',
                 height: 20,

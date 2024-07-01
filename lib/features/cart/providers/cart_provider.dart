@@ -4,8 +4,10 @@ import 'package:fooddash/features/cart/models/cart_request.dart';
 import 'package:fooddash/features/cart/models/cart_response.dart';
 import 'package:fooddash/features/cart/services/cart_service.dart';
 import 'package:fooddash/features/cart/widgets/change_order.dart';
+import 'package:fooddash/features/core/models/service_exception.dart';
 import 'package:fooddash/features/shared/models/loading_status.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fooddash/features/shared/services/snackbar_service.dart';
 
 final cartProvider = StateNotifierProvider<CartNotifier, CartState>((ref) {
   return CartNotifier(ref);
@@ -78,7 +80,8 @@ class CartNotifier extends StateNotifier<CartState> {
     }
 
     List<DishCartRequest> dishes = [];
-    if (restaurantId == state.cartResponse?.restaurant.id) {
+    if (restaurantId == state.cartResponse?.restaurant.id ||
+        state.cartResponse == null) {
       //cuando el plato que se va a agregar pertenece al restaurant del cart
       dishes = [dishCartRequest, ...state.dishesForRequest];
     } else {
@@ -115,15 +118,18 @@ class CartNotifier extends StateNotifier<CartState> {
       state = state.copyWith(
         loading: LoadingStatus.loading,
       );
-      final CartResponse response = await CartService.updateMyCart(cartRequest);
+      final CartResponse? response =
+          await CartService.updateMyCart(cartRequest);
       state = state.copyWith(
         cartResponse: () => response,
         loading: LoadingStatus.success,
       );
-    } catch (e) {
+    } on ServiceException catch (e) {
       state = state.copyWith(
         loading: LoadingStatus.error,
       );
+      SnackBarService.show(e.message);
+
       rethrow;
     }
   }

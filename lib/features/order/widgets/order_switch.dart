@@ -47,6 +47,7 @@ class OrderSwitch extends StatelessWidget {
                   onTap: () {
                     onChange(OrderType.upcoming);
                   },
+                  behavior: HitTestBehavior.translucent,
                   child: Container(
                     color: Colors.transparent,
                     alignment: Alignment.center,
@@ -70,6 +71,7 @@ class OrderSwitch extends StatelessWidget {
                   onTap: () {
                     onChange(OrderType.history);
                   },
+                  behavior: HitTestBehavior.translucent,
                   child: Container(
                     color: Colors.transparent,
                     alignment: Alignment.center,
