@@ -1,17 +1,58 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fooddash/config/constants/app_colors.dart';
+import 'package:fooddash/features/address/providers/address_provider.dart';
 import 'package:fooddash/features/checkout/widgets/order_successfully.dart';
 import 'package:fooddash/features/checkout/widgets/payment_modal.dart';
+import 'package:fooddash/features/shared/utils/utils.dart';
 import 'package:fooddash/features/shared/widgets/back_button.dart';
 import 'package:fooddash/features/shared/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fooddash/features/shared/widgets/custom_label.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class CheckoutScreen extends StatelessWidget {
+class CheckoutScreen extends ConsumerStatefulWidget {
   const CheckoutScreen({super.key});
+
+  @override
+  CheckoutScreenState createState() => CheckoutScreenState();
+}
+
+class CheckoutScreenState extends ConsumerState<CheckoutScreen> {
+  Map<MarkerId, Marker> markers = {};
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      addMarkerDelivery();
+    });
+  }
+
+//añadir marker del restaurant
+  addMarkerDelivery() async {
+    final icon = await Utils.bitmapDescriptorFromSvgAsset(
+      'assets/icons/map_pin_solid.svg',
+      const Size(32, 32),
+    );
+
+    final address = ref.read(addressProvider).selectedAddress;
+    if (address == null) return;
+    MarkerId id = const MarkerId('address');
+    Marker marker = Marker(
+      markerId: id,
+      position: LatLng(address.latitude, address.longitude),
+      icon: icon,
+    );
+    setState(() {
+      markers[id] = marker;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final MediaQueryData screen = MediaQuery.of(context);
+    final addressState = ref.watch(addressProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -62,87 +103,92 @@ class CheckoutScreen extends StatelessWidget {
                   const SizedBox(
                     height: 40,
                   ),
-                  const Text(
-                    'Address',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.label,
-                      height: 1,
-                      leadingDistribution: TextLeadingDistribution.even,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  Container(
-                    height: 65,
-                    decoration: BoxDecoration(
-                      color: AppColors.white,
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Color.fromRGBO(233, 233, 233, 0.25),
-                          offset: Offset(15, 20),
-                          blurRadius: 45,
-                          spreadRadius: 0,
-                        ),
-                      ],
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(
-                        color: AppColors.inputBorder,
+                  const CustomLabel('Deliver to'),
+                  if (addressState.selectedAddress != null)
+                    Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.white,
+                        borderRadius: BorderRadius.circular(15),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Color.fromRGBO(211, 209, 216, 0.25),
+                            offset: Offset(15, 15),
+                            blurRadius: 30,
+                            spreadRadius: 0,
+                          ),
+                        ],
                       ),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 24,
-                    ),
-                    child: const Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            'Jl. Soekarno Hatta 15A Malang',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.slate800,
-                              height: 1.5,
-                              leadingDistribution: TextLeadingDistribution.even,
+                      padding: const EdgeInsets.only(
+                        right: 24,
+                      ),
+                      child: Row(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(15),
+                            child: SizedBox(
+                              height: 100,
+                              width: 100,
+                              child: GoogleMap(
+                                mapType: MapType.normal,
+                                initialCameraPosition: CameraPosition(
+                                  target: LatLng(
+                                    addressState.selectedAddress!.latitude,
+                                    addressState.selectedAddress!.longitude,
+                                  ),
+                                  zoom: 16.5,
+                                ),
+                                myLocationEnabled: false,
+                                myLocationButtonEnabled: false,
+                                scrollGesturesEnabled: false,
+                                markers: Set<Marker>.from(markers.values),
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                          Expanded(
+                            child: Container(
+                              padding: const EdgeInsets.only(
+                                top: 12,
+                                left: 12,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    addressState.selectedAddress?.address ?? '',
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                      color: AppColors.slate800,
+                                      height: 1.5,
+                                      leadingDistribution:
+                                          TextLeadingDistribution.even,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
                   const SizedBox(
                     height: 28,
                   ),
-                  const Text(
+                  const CustomLabel(
                     'Payment Method',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.label,
-                      height: 1,
-                      leadingDistribution: TextLeadingDistribution.even,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 12,
                   ),
                   Container(
                     decoration: BoxDecoration(
                       color: AppColors.white,
+                      borderRadius: BorderRadius.circular(15),
                       boxShadow: const [
                         BoxShadow(
-                          color: Color.fromRGBO(233, 233, 233, 0.25),
-                          offset: Offset(15, 20),
-                          blurRadius: 45,
+                          color: Color.fromRGBO(211, 209, 216, 0.25),
+                          offset: Offset(15, 15),
+                          blurRadius: 30,
                           spreadRadius: 0,
                         ),
                       ],
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(
-                        color: AppColors.inputBorder,
-                      ),
                     ),
                     height: 80,
                     child: TextButton(
@@ -150,6 +196,7 @@ class CheckoutScreen extends StatelessWidget {
                         showModalBottomSheet(
                           context: context,
                           elevation: 0,
+                          showDragHandle: false,
                           builder: (context) {
                             return const PaymentModal();
                           },
@@ -335,7 +382,7 @@ class CheckoutScreen extends StatelessWidget {
                 },
               );
             },
-            text: 'CONFIRM',
+            text: 'Confirm',
           ),
         ),
       ),

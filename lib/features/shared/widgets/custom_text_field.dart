@@ -2,6 +2,7 @@ import 'package:fooddash/config/constants/app_colors.dart';
 import 'package:fooddash/features/shared/plugins/formx/formx.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fooddash/features/shared/widgets/custom_label.dart';
 
 class CustomTextField extends StatefulWidget {
   const CustomTextField({
@@ -84,18 +85,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             if (widget.label != null)
-              Container(
-                padding: const EdgeInsets.only(bottom: 12),
-                child: Text(
-                  widget.label!,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                    color: AppColors.label,
-                    height: 16 / 16,
-                    leadingDistribution: TextLeadingDistribution.even,
-                  ),
-                ),
+              CustomLabel(
+                widget.label!,
               ),
             Container(
               height: 65,
