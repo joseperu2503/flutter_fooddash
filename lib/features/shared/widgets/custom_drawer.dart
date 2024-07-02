@@ -109,6 +109,10 @@ class CustomDrawer extends ConsumerWidget {
                           menuItem.icon,
                           width: 24,
                           height: 24,
+                          colorFilter: const ColorFilter.mode(
+                            Color(0xff9796A1),
+                            BlendMode.srcIn,
+                          ),
                         ),
                         const SizedBox(
                           width: 14,
