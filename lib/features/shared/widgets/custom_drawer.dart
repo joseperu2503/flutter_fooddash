@@ -109,10 +109,6 @@ class CustomDrawer extends ConsumerWidget {
                           menuItem.icon,
                           width: 24,
                           height: 24,
-                          colorFilter: const ColorFilter.mode(
-                            Color(0xff9796A1),
-                            BlendMode.srcIn,
-                          ),
                         ),
                         const SizedBox(
                           width: 14,
@@ -220,7 +216,7 @@ List<MenuItem> menuItems = [
     onPress: (context) {
       AddressService.showAddressBottomSheet(context);
     },
-    icon: 'assets/icons/map_pin_solid.svg',
+    icon: 'assets/icons/drawer/map_pin_solid.svg',
   ),
   MenuItem(
     label: 'Payment Methods',

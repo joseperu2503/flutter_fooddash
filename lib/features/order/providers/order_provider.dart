@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fooddash/features/core/models/service_exception.dart';
 import 'package:fooddash/features/order/models/order.dart';
@@ -37,7 +38,38 @@ class OrderNotifier extends StateNotifier<OrderState> {
       SnackBarService.show(e.message);
 
       state = state.copyWith(
+        orders: [],
         loadingOrders: LoadingStatus.error,
+      );
+    }
+  }
+
+  void setOrder(Order order) {
+    state = state.copyWith(
+      order: () => order,
+      loadingOrder: LoadingStatus.success,
+    );
+  }
+
+  Future<void> getOrder(Order order) async {
+    if (state.loadingOrder == LoadingStatus.loading) return;
+
+    state = state.copyWith(
+      loadingOrder: LoadingStatus.loading,
+    );
+
+    try {
+      final Order response = await OrderService.getOrder(orderId: order.id);
+      state = state.copyWith(
+        order: () => response,
+        loadingOrder: LoadingStatus.success,
+      );
+    } on ServiceException catch (e) {
+      SnackBarService.show(e.message);
+
+      state = state.copyWith(
+        order: () => null,
+        loadingOrder: LoadingStatus.error,
       );
     }
   }
@@ -46,18 +78,26 @@ class OrderNotifier extends StateNotifier<OrderState> {
 class OrderState {
   final List<Order> orders;
   final LoadingStatus loadingOrders;
+  final Order? order;
+  final LoadingStatus loadingOrder;
 
   OrderState({
     this.orders = const [],
     this.loadingOrders = LoadingStatus.none,
+    this.order,
+    this.loadingOrder = LoadingStatus.none,
   });
 
   OrderState copyWith({
     List<Order>? orders,
     LoadingStatus? loadingOrders,
+    ValueGetter<Order?>? order,
+    LoadingStatus? loadingOrder,
   }) =>
       OrderState(
         orders: orders ?? this.orders,
         loadingOrders: loadingOrders ?? this.loadingOrders,
+        order: order != null ? order() : this.order,
+        loadingOrder: loadingOrder ?? this.loadingOrder,
       );
 }

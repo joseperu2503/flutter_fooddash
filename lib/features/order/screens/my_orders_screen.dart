@@ -116,7 +116,7 @@ class MyOrdersScreenState extends ConsumerState<MyOrdersScreen> {
 
 enum OrderType { upcoming, history }
 
-class UpcomingOrderItem extends StatelessWidget {
+class UpcomingOrderItem extends ConsumerWidget {
   const UpcomingOrderItem({
     super.key,
     required this.order,
@@ -125,7 +125,7 @@ class UpcomingOrderItem extends StatelessWidget {
   final Order order;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
@@ -262,7 +262,7 @@ class UpcomingOrderItem extends StatelessWidget {
                     height: 5,
                   ),
                   Text(
-                    order.orderStatuses.last.orderStatusType.name,
+                    order.orderStatus.name,
                     style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
@@ -359,6 +359,7 @@ class UpcomingOrderItem extends StatelessWidget {
               Expanded(
                 child: CustomButton(
                   onPressed: () {
+                    ref.read(orderProvider.notifier).setOrder(order);
                     context.push('/order');
                   },
                   text: 'Track Order',

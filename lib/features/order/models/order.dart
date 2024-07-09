@@ -7,7 +7,7 @@ class Order {
   final List<DishOrder> dishOrders;
   final Restaurant restaurant;
   final Address address;
-  final List<OrderStatus> orderStatuses;
+  final OrderStatus orderStatus;
 
   Order({
     required this.id,
@@ -18,7 +18,7 @@ class Order {
     required this.dishOrders,
     required this.restaurant,
     required this.address,
-    required this.orderStatuses,
+    required this.orderStatus,
   });
 
   factory Order.fromJson(Map<String, dynamic> json) => Order(
@@ -31,8 +31,7 @@ class Order {
             json["dishOrders"].map((x) => DishOrder.fromJson(x))),
         restaurant: Restaurant.fromJson(json["restaurant"]),
         address: Address.fromJson(json["address"]),
-        orderStatuses: List<OrderStatus>.from(
-            json["orderStatuses"].map((x) => OrderStatus.fromJson(x))),
+        orderStatus: OrderStatus.fromJson(json["orderStatus"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -44,8 +43,7 @@ class Order {
         "dishOrders": List<dynamic>.from(dishOrders.map((x) => x.toJson())),
         "restaurant": restaurant.toJson(),
         "address": address.toJson(),
-        "orderStatuses":
-            List<dynamic>.from(orderStatuses.map((x) => x.toJson())),
+        "orderStatus": orderStatus.toJson(),
       };
 }
 
@@ -186,35 +184,14 @@ class Topping {
 
 class OrderStatus {
   final int id;
-  final OrderStatusType orderStatusType;
-
-  OrderStatus({
-    required this.id,
-    required this.orderStatusType,
-  });
-
-  factory OrderStatus.fromJson(Map<String, dynamic> json) => OrderStatus(
-        id: json["id"],
-        orderStatusType: OrderStatusType.fromJson(json["orderStatusType"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "orderStatusType": orderStatusType.toJson(),
-      };
-}
-
-class OrderStatusType {
-  final int id;
   final String name;
 
-  OrderStatusType({
+  OrderStatus({
     required this.id,
     required this.name,
   });
 
-  factory OrderStatusType.fromJson(Map<String, dynamic> json) =>
-      OrderStatusType(
+  factory OrderStatus.fromJson(Map<String, dynamic> json) => OrderStatus(
         id: json["id"],
         name: json["name"],
       );

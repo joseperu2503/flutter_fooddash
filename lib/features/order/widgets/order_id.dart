@@ -1,10 +1,14 @@
 import 'package:fooddash/config/constants/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:fooddash/features/order/models/order.dart';
 
 class OrderId extends StatelessWidget {
   const OrderId({
     super.key,
+    required this.order,
   });
+
+  final Order order;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +34,7 @@ class OrderId extends StatelessWidget {
             width: 80,
             height: 80,
             child: Image.network(
-              'https://www.edigitalagency.com.au/wp-content/uploads/starbucks-logo-png.png',
+              order.restaurant.logo,
               fit: BoxFit.cover,
             ),
           ),
@@ -38,12 +42,12 @@ class OrderId extends StatelessWidget {
         const SizedBox(
           width: 18,
         ),
-        const Column(
+        Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '3 Items',
-              style: TextStyle(
+              '${order.dishOrders.length} items',
+              style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w400,
                 color: AppColors.label,
@@ -51,12 +55,12 @@ class OrderId extends StatelessWidget {
                 leadingDistribution: TextLeadingDistribution.even,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Text(
-              'Starbuck',
-              style: TextStyle(
+              order.restaurant.name,
+              style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
                 color: AppColors.black,

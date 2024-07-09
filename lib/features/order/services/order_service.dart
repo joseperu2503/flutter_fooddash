@@ -14,4 +14,16 @@ class OrderService {
       throw ServiceException('An error occurred while loading the orders.', e);
     }
   }
+
+  static Future<Order> getOrder({
+    required int orderId,
+  }) async {
+    try {
+      final response = await api.get('/orders/$orderId');
+
+      return Order.fromJson(response.data);
+    } catch (e) {
+      throw ServiceException('An error occurred while loading the order.', e);
+    }
+  }
 }

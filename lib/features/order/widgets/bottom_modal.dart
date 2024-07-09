@@ -1,5 +1,6 @@
 import 'package:fooddash/config/constants/app_colors.dart';
 import 'package:fooddash/config/constants/styles.dart';
+import 'package:fooddash/features/order/models/order.dart';
 import 'package:fooddash/features/order/widgets/delivery_info.dart';
 import 'package:fooddash/features/order/widgets/order_dish_item.dart';
 import 'package:fooddash/features/order/widgets/order_id.dart';
@@ -15,8 +16,11 @@ class BottomModal extends StatelessWidget {
   const BottomModal({
     super.key,
     required this.screen,
+    required this.order,
   });
   final MediaQueryData screen;
+  final Order order;
+
   @override
   Widget build(BuildContext context) {
     final dishes = staticMenu[0].dishes;
@@ -80,9 +84,9 @@ class BottomModal extends StatelessWidget {
                       const SizedBox(
                         height: 24,
                       ),
-                      const Text(
-                        'Food on the way',
-                        style: TextStyle(
+                      Text(
+                        order.orderStatus.name,
+                        style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
                           color: AppColors.label,
@@ -93,7 +97,9 @@ class BottomModal extends StatelessWidget {
                       const SizedBox(
                         height: 16,
                       ),
-                      const ProgressOrder(),
+                      ProgressOrder(
+                        order: order,
+                      ),
                       const SizedBox(
                         height: 40,
                       ),
@@ -101,7 +107,9 @@ class BottomModal extends StatelessWidget {
                       const SizedBox(
                         height: 24,
                       ),
-                      const OrderId(),
+                      OrderId(
+                        order: order,
+                      ),
                       const SizedBox(
                         height: 42,
                       ),

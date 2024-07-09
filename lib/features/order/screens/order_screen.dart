@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:fooddash/config/constants/app_colors.dart';
 import 'package:fooddash/config/constants/environment.dart';
 import 'package:fooddash/config/constants/styles.dart';
+import 'package:fooddash/features/order/providers/order_provider.dart';
 import 'package:fooddash/features/shared/services/location_service.dart';
 import 'package:fooddash/features/order/widgets/bottom_modal.dart';
 import 'package:fooddash/features/shared/providers/map_provider.dart';
@@ -25,6 +26,7 @@ class OrderScreenState extends ConsumerState<OrderScreen> {
   @override
   Widget build(BuildContext context) {
     final MediaQueryData screen = MediaQuery.of(context);
+    final order = ref.watch(orderProvider).order;
 
     return Scaffold(
       appBar: AppBar(
@@ -75,7 +77,11 @@ class OrderScreenState extends ConsumerState<OrderScreen> {
               ),
             ],
           ),
-          BottomModal(screen: screen),
+          if (order != null)
+            BottomModal(
+              screen: screen,
+              order: order,
+            ),
         ],
       ),
     );
