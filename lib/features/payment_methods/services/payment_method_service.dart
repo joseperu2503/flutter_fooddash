@@ -2,21 +2,22 @@ import 'package:fooddash/config/api/api.dart';
 import 'package:fooddash/config/api/api_mercado_pago.dart';
 import 'package:fooddash/config/constants/environment.dart';
 import 'package:fooddash/features/core/models/service_exception.dart';
-import 'package:fooddash/features/payment_methods/models/bank_card.dart';
 import 'package:fooddash/features/payment_methods/models/card_token_response.dart';
+import 'package:fooddash/features/payment_methods/models/payment_methods.dart';
 
 final api = Api();
 final apiMercadoPago = ApiMercadoPago();
 
 class PaymentMethodService {
-  static Future<List<BankCard>> getMyCards() async {
+  static Future<List<PaymentMethod>> getMyPaymentMethods() async {
     try {
-      final response = await api.get('/cards/my-cards');
+      final response = await api.get('/payment-methods/my-payment-methods');
 
-      return List<BankCard>.from(
-          response.data.map((x) => BankCard.fromJson(x)));
+      return List<PaymentMethod>.from(
+          response.data.map((x) => PaymentMethod.fromJson(x)));
     } catch (e) {
-      throw ServiceException('An error occurred while loading the cards.', e);
+      throw ServiceException(
+          'An error occurred while loading the payment methods.', e);
     }
   }
 
@@ -55,7 +56,7 @@ class PaymentMethodService {
     }
   }
 
-  static Future<List<BankCard>> saveCard({
+  static Future<void> saveCard({
     required String token,
   }) async {
     try {
@@ -63,29 +64,23 @@ class PaymentMethodService {
         "token": token,
       };
 
-      final response = await api.post(
+      await api.post(
         '/cards',
         data: form,
       );
-
-      return List<BankCard>.from(
-          response.data.map((x) => BankCard.fromJson(x)));
     } catch (e) {
       throw ServiceException(
           'An error occurred while registering the card.', e);
     }
   }
 
-  static Future<List<BankCard>> deleteCard({
+  static Future<void> deleteCard({
     required String cardId,
   }) async {
     try {
-      final response = await api.delete(
+      await api.delete(
         '/cards/$cardId',
       );
-
-      return List<BankCard>.from(
-          response.data.map((x) => BankCard.fromJson(x)));
     } catch (e) {
       throw ServiceException('An error occurred while deleting the card.', e);
     }

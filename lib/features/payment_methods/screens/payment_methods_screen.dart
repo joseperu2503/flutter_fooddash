@@ -1,6 +1,5 @@
 import 'package:fooddash/features/payment_methods/providers/payment_method_provider.dart';
-import 'package:fooddash/features/payment_methods/widgets/card_item.dart';
-import 'package:fooddash/features/payment_methods/widgets/cash_item.dart';
+import 'package:fooddash/features/payment_methods/widgets/payment_method_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fooddash/config/constants/app_colors.dart';
@@ -22,7 +21,7 @@ class CardFormScreenState extends ConsumerState<PaymentMethodsScreen> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(paymentMethodProvider.notifier).getMyCards();
+      ref.read(paymentMethodProvider.notifier).getMyPaymentMethods();
     });
     super.initState();
   }
@@ -102,29 +101,24 @@ class CardFormScreenState extends ConsumerState<PaymentMethodsScreen> {
       ),
       body: CustomScrollView(
         slivers: [
-          SliverToBoxAdapter(
-            child: Container(
-              padding: const EdgeInsets.only(
-                right: 24,
-                left: 24,
-                top: 40,
-                bottom: 16,
-              ),
-              child: const CashItem(),
-            ),
-          ),
           SliverPadding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 24,
+            padding: const EdgeInsets.only(
+              right: 24,
+              left: 24,
+              top: 40,
+              bottom: 16,
             ),
             sliver: SliverList.separated(
               itemBuilder: (context, index) {
-                final card = paymentState.cards[index];
-                return CardItem(
-                  onPress: () {
-                    context.push('/payment-methods/card-detail/${card.id}');
-                  },
-                  card: card,
+                final card = paymentState.paymentMethods[index];
+                return PaymentMethodItem(
+                  onPress: card.id == 'cash'
+                      ? null
+                      : () {
+                          context
+                              .push('/payment-methods/card-detail/${card.id}');
+                        },
+                  paymentMethod: card,
                 );
               },
               separatorBuilder: (context, index) {
@@ -132,7 +126,7 @@ class CardFormScreenState extends ConsumerState<PaymentMethodsScreen> {
                   height: 16,
                 );
               },
-              itemCount: paymentState.cards.length,
+              itemCount: paymentState.paymentMethods.length,
             ),
           ),
         ],

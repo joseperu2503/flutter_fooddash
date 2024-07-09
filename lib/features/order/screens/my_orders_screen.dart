@@ -1,23 +1,36 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fooddash/config/constants/app_colors.dart';
+import 'package:fooddash/features/order/models/order.dart';
+import 'package:fooddash/features/order/providers/order_provider.dart';
 import 'package:fooddash/features/order/widgets/order_switch.dart';
-import 'package:fooddash/features/restaurant/data/menu.dart';
+import 'package:fooddash/features/shared/utils/utils.dart';
 import 'package:fooddash/features/shared/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class MyOrdersScreen extends StatefulWidget {
+class MyOrdersScreen extends ConsumerStatefulWidget {
   const MyOrdersScreen({super.key});
 
   @override
-  State<MyOrdersScreen> createState() => _MyOrdersScreenState();
+  MyOrdersScreenState createState() => MyOrdersScreenState();
 }
 
-class _MyOrdersScreenState extends State<MyOrdersScreen> {
+class MyOrdersScreenState extends ConsumerState<MyOrdersScreen> {
   OrderType orderType = OrderType.upcoming;
 
   @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(orderProvider.notifier).initData();
+      ref.read(orderProvider.notifier).getMyOrders();
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final dishes = staticMenu[0].dishes;
+    final orderState = ref.watch(orderProvider);
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -78,14 +91,17 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                     ),
                     sliver: SliverList.separated(
                       itemBuilder: (context, index) {
-                        return const UpcomingOrderItem();
+                        final order = orderState.orders[index];
+                        return UpcomingOrderItem(
+                          order: order,
+                        );
                       },
                       separatorBuilder: (context, index) {
                         return Container(
                           height: 20,
                         );
                       },
-                      itemCount: dishes.length,
+                      itemCount: orderState.orders.length,
                     ),
                   ),
                 ],
@@ -101,7 +117,12 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
 enum OrderType { upcoming, history }
 
 class UpcomingOrderItem extends StatelessWidget {
-  const UpcomingOrderItem({super.key});
+  const UpcomingOrderItem({
+    super.key,
+    required this.order,
+  });
+
+  final Order order;
 
   @override
   Widget build(BuildContext context) {
@@ -143,7 +164,7 @@ class UpcomingOrderItem extends StatelessWidget {
                   width: 80,
                   height: 80,
                   child: Image.network(
-                    'https://www.edigitalagency.com.au/wp-content/uploads/starbucks-logo-png.png',
+                    order.restaurant.logo,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -151,11 +172,84 @@ class UpcomingOrderItem extends StatelessWidget {
               const SizedBox(
                 width: 18,
               ),
-              const Column(
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          '${order.dishOrders.length.toString()} items',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.label,
+                            height: 1,
+                            leadingDistribution: TextLeadingDistribution.even,
+                          ),
+                        ),
+                        const Spacer(),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text(
+                              '\$',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.gray900,
+                                height: 1,
+                                leadingDistribution:
+                                    TextLeadingDistribution.even,
+                              ),
+                            ),
+                            Text(
+                              Utils.formatCurrency(
+                                order.total,
+                                withSymbol: false,
+                              ),
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.gray900,
+                                height: 1,
+                                leadingDistribution:
+                                    TextLeadingDistribution.even,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      order.restaurant.name,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.black,
+                        height: 1,
+                        leadingDistribution: TextLeadingDistribution.even,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 21,
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    '3 Items',
+                  const Text(
+                    'Now',
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
@@ -164,89 +258,27 @@ class UpcomingOrderItem extends StatelessWidget {
                       leadingDistribution: TextLeadingDistribution.even,
                     ),
                   ),
-                  SizedBox(
-                    height: 10,
+                  const SizedBox(
+                    height: 5,
                   ),
                   Text(
-                    'Starbuck',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.black,
-                      height: 1,
+                    order.orderStatuses.last.orderStatusType.name,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.input,
+                      height: 19.6 / 14,
                       leadingDistribution: TextLeadingDistribution.even,
                     ),
                   ),
                 ],
               ),
               const Spacer(),
-              const Text(
-                '#264100',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                  color: AppColors.orange,
-                  height: 1,
-                  leadingDistribution: TextLeadingDistribution.even,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 21,
-          ),
-          const Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Estimated Arrival',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.label,
-                      height: 1,
-                      leadingDistribution: TextLeadingDistribution.even,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 11,
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        '25',
-                        style: TextStyle(
-                          fontSize: 40,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.input,
-                          height: 1,
-                          leadingDistribution: TextLeadingDistribution.even,
-                        ),
-                      ),
-                      Text(
-                        ' min',
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.input,
-                          height: 2,
-                          leadingDistribution: TextLeadingDistribution.even,
-                        ),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-              Spacer(),
-              Column(
+              const Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    'Now',
+                    'Estimated Arrival',
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
@@ -258,18 +290,23 @@ class UpcomingOrderItem extends StatelessWidget {
                   SizedBox(
                     height: 5,
                   ),
-                  Text(
-                    'Food on the way',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.input,
-                      height: 19.6 / 14,
-                      leadingDistribution: TextLeadingDistribution.even,
-                    ),
-                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        '25-35 min',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.input,
+                          height: 19.6 / 14,
+                          leadingDistribution: TextLeadingDistribution.even,
+                        ),
+                      ),
+                    ],
+                  )
                 ],
-              )
+              ),
             ],
           ),
           const SizedBox(

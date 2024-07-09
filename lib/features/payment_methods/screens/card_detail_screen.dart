@@ -1,5 +1,5 @@
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fooddash/features/payment_methods/models/bank_card.dart';
+import 'package:fooddash/features/payment_methods/models/payment_methods.dart';
 import 'package:fooddash/features/payment_methods/providers/payment_method_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -27,20 +27,20 @@ class CardDetailScreenState extends ConsumerState<CardDetailScreen> {
     super.initState();
   }
 
-  BankCard? card;
+  PaymentMethod? paymentMethod;
 
   getCard() {
-    final cards = ref.read(paymentMethodProvider).cards;
-    final cardIndex =
-        cards.indexWhere((element) => element.id == widget.cardId);
+    final paymentMethods = ref.read(paymentMethodProvider).paymentMethods;
+    final paymentMethodsIndex =
+        paymentMethods.indexWhere((element) => element.id == widget.cardId);
 
-    if (cardIndex < 0) {
+    if (paymentMethodsIndex < 0) {
       context.pop();
       return;
     }
 
     setState(() {
-      card = cards[cardIndex];
+      paymentMethod = paymentMethods[paymentMethodsIndex];
     });
   }
 
@@ -88,10 +88,10 @@ class CardDetailScreenState extends ConsumerState<CardDetailScreen> {
                   width: 38,
                   child: TextButton(
                     onPressed: () {
-                      if (card == null) return;
+                      if (paymentMethod == null) return;
                       ref
                           .read(paymentMethodProvider.notifier)
-                          .deleteCard(card!.id);
+                          .deleteCard(paymentMethod!.id);
                     },
                     style: TextButton.styleFrom(
                       shape: RoundedRectangleBorder(
@@ -132,10 +132,10 @@ class CardDetailScreenState extends ConsumerState<CardDetailScreen> {
                   Center(
                     child: CreditCardWidget(
                       cardNumber:
-                          '${card?.firstSixDigits.toString()}000000${card?.lastFourDigits.toString()}',
+                          '${paymentMethod?.firstSixDigits.toString()}000000${paymentMethod?.lastFourDigits.toString()}',
                       expiryDate:
-                          '${card?.expirationMonth.toString()}/${card?.expirationYear.toString().substring(2, 4)}',
-                      cardHolderName: '${card?.cardHolder.name}',
+                          '${paymentMethod?.expirationMonth.toString()}/${paymentMethod?.expirationYear.toString().substring(2, 4)}',
+                      cardHolderName: '${paymentMethod?.cardHolder.name}',
                       cvvCode: '',
                       showBackView: false,
                       isSwipeGestureEnabled: false,

@@ -2,8 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fooddash/config/constants/app_colors.dart';
 import 'package:fooddash/config/constants/styles.dart';
 import 'package:fooddash/features/payment_methods/providers/payment_method_provider.dart';
-import 'package:fooddash/features/payment_methods/widgets/card_item.dart';
-import 'package:fooddash/features/payment_methods/widgets/cash_item.dart';
+import 'package:fooddash/features/payment_methods/widgets/payment_method_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fooddash/features/shared/widgets/custom_drag_handle.dart';
@@ -20,7 +19,7 @@ class PaymentModalState extends ConsumerState<PaymentModal> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(paymentMethodProvider.notifier).getMyCards();
+      ref.read(paymentMethodProvider.notifier).getMyPaymentMethods();
     });
     super.initState();
   }
@@ -100,29 +99,16 @@ class PaymentModalState extends ConsumerState<PaymentModal> {
           Expanded(
             child: CustomScrollView(
               slivers: [
-                SliverToBoxAdapter(
-                  child: Container(
-                    padding: const EdgeInsets.only(
-                      right: 24,
-                      left: 24,
-                      bottom: 16,
-                    ),
-                    child: CashItem(
-                      isSelected: true,
-                      onPress: () {},
-                    ),
-                  ),
-                ),
                 SliverPadding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 24,
                   ),
                   sliver: SliverList.separated(
                     itemBuilder: (context, index) {
-                      final card = paymentState.cards[index];
-                      return CardItem(
+                      final card = paymentState.paymentMethods[index];
+                      return PaymentMethodItem(
                         onPress: () {},
-                        card: card,
+                        paymentMethod: card,
                         isSelected: false,
                       );
                     },
@@ -131,7 +117,7 @@ class PaymentModalState extends ConsumerState<PaymentModal> {
                         height: 16,
                       );
                     },
-                    itemCount: paymentState.cards.length,
+                    itemCount: paymentState.paymentMethods.length,
                   ),
                 ),
               ],

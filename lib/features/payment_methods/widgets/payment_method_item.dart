@@ -1,31 +1,19 @@
 import 'package:fooddash/config/constants/app_colors.dart';
-import 'package:fooddash/features/payment_methods/models/bank_card.dart';
+import 'package:fooddash/features/payment_methods/models/payment_methods.dart';
 import 'package:fooddash/features/shared/widgets/custom_check.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
-class CardItem extends StatelessWidget {
-  const CardItem({
+class PaymentMethodItem extends StatelessWidget {
+  const PaymentMethodItem({
     super.key,
     this.isSelected,
-    required this.onPress,
-    required this.card,
+    this.onPress,
+    required this.paymentMethod,
   });
 
   final bool? isSelected;
-  final void Function() onPress;
-  final BankCard card;
-  String get cardIcon {
-    if (card.issuer == 'Mastercard') {
-      return 'assets/icons/mastercard.svg';
-    }
-
-    if (card.issuer == 'Visa') {
-      return 'assets/icons/visa.svg';
-    }
-
-    return '';
-  }
+  final void Function()? onPress;
+  final PaymentMethod paymentMethod;
 
   @override
   Widget build(BuildContext context) {
@@ -44,9 +32,11 @@ class CardItem extends StatelessWidget {
       ),
       height: 80,
       child: TextButton(
-        onPressed: () {
-          onPress();
-        },
+        onPressed: onPress == null
+            ? null
+            : () {
+                onPress!();
+              },
         style: TextButton.styleFrom(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(
@@ -59,8 +49,9 @@ class CardItem extends StatelessWidget {
         ),
         child: Row(
           children: [
-            SvgPicture.asset(
-              cardIcon,
+            Image.network(
+              paymentMethod.image,
+              fit: BoxFit.contain,
               width: 50,
             ),
             const SizedBox(
@@ -72,9 +63,7 @@ class CardItem extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    card.paymentMethod.paymentTypeId == 'debit_card'
-                        ? 'Debit card'
-                        : 'Credit card',
+                    paymentMethod.description,
                     style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
@@ -83,19 +72,20 @@ class CardItem extends StatelessWidget {
                       leadingDistribution: TextLeadingDistribution.even,
                     ),
                   ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  Text(
-                    '**** **** **** ${card.lastFourDigits}',
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.slate600,
-                      height: 1,
-                      leadingDistribution: TextLeadingDistribution.even,
+                  if (paymentMethod.lastFourDigits != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: Text(
+                        '**** **** **** ${paymentMethod.lastFourDigits}',
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.slate600,
+                          height: 1,
+                          leadingDistribution: TextLeadingDistribution.even,
+                        ),
+                      ),
                     ),
-                  ),
                 ],
               ),
             ),

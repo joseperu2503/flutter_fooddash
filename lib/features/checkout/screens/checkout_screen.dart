@@ -140,6 +140,7 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                                 myLocationEnabled: false,
                                 myLocationButtonEnabled: false,
                                 scrollGesturesEnabled: false,
+                                zoomGesturesEnabled: false,
                                 markers: Set<Marker>.from(markers.values),
                               ),
                             ),

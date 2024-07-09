@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fooddash/config/router/app_router.dart';
 import 'package:fooddash/features/auth/providers/auth_provider.dart';
 import 'package:fooddash/features/core/models/service_exception.dart';
-import 'package:fooddash/features/payment_methods/models/bank_card.dart';
+import 'package:fooddash/features/payment_methods/models/payment_methods.dart';
 import 'package:fooddash/features/payment_methods/services/payment_method_service.dart';
 import 'package:fooddash/features/payment_methods/validators/card_validator.dart';
 import 'package:fooddash/features/shared/models/loading_status.dart';
@@ -63,24 +63,25 @@ class PaymentMethodNotifier extends StateNotifier<PaymentMethodState> {
     );
   }
 
-  Future<void> getMyCards() async {
-    if (state.loadingCards == LoadingStatus.loading) return;
+  Future<void> getMyPaymentMethods() async {
+    if (state.loadingPaymentMethods == LoadingStatus.loading) return;
 
     state = state.copyWith(
-      loadingCards: LoadingStatus.loading,
+      loadingPaymentMethods: LoadingStatus.loading,
     );
 
     try {
-      final List<BankCard> response = await PaymentMethodService.getMyCards();
+      final List<PaymentMethod> response =
+          await PaymentMethodService.getMyPaymentMethods();
       state = state.copyWith(
-        cards: response,
-        loadingCards: LoadingStatus.success,
+        paymentMethods: response,
+        loadingPaymentMethods: LoadingStatus.success,
       );
     } on ServiceException catch (e) {
       SnackBarService.show(e.message);
 
       state = state.copyWith(
-        loadingCards: LoadingStatus.error,
+        loadingPaymentMethods: LoadingStatus.error,
       );
     }
   }
@@ -105,12 +106,11 @@ class PaymentMethodNotifier extends StateNotifier<PaymentMethodState> {
         email: ref.read(authProvider).user?.email,
       );
 
-      final cards = await PaymentMethodService.saveCard(
+      await PaymentMethodService.saveCard(
         token: cardTokenResponse.id,
       );
 
       state = state.copyWith(
-        cards: cards,
         savingCard: LoadingStatus.success,
       );
       appRouter.pop();
@@ -131,12 +131,11 @@ class PaymentMethodNotifier extends StateNotifier<PaymentMethodState> {
     );
 
     try {
-      final cards = await PaymentMethodService.deleteCard(
+      await PaymentMethodService.deleteCard(
         cardId: cardId,
       );
 
       state = state.copyWith(
-        cards: cards,
         savingCard: LoadingStatus.success,
       );
       appRouter.pop();
@@ -155,16 +154,16 @@ class PaymentMethodState {
   final FormxInput<String> name;
   final FormxInput<String> expired;
   final LoadingStatus savingCard;
-  final List<BankCard> cards;
-  final LoadingStatus loadingCards;
+  final List<PaymentMethod> paymentMethods;
+  final LoadingStatus loadingPaymentMethods;
 
   PaymentMethodState({
     this.cardNumber = const FormxInput(value: ''),
     this.name = const FormxInput(value: ''),
     this.expired = const FormxInput(value: ''),
     this.savingCard = LoadingStatus.none,
-    this.cards = const [],
-    this.loadingCards = LoadingStatus.none,
+    this.paymentMethods = const [],
+    this.loadingPaymentMethods = LoadingStatus.none,
   });
 
   bool get isFormValue => cardNumber.isValid && name.isValid && expired.isValid;
@@ -174,15 +173,16 @@ class PaymentMethodState {
     FormxInput<String>? name,
     FormxInput<String>? expired,
     LoadingStatus? savingCard,
-    List<BankCard>? cards,
-    LoadingStatus? loadingCards,
+    List<PaymentMethod>? paymentMethods,
+    LoadingStatus? loadingPaymentMethods,
   }) =>
       PaymentMethodState(
         cardNumber: cardNumber ?? this.cardNumber,
         name: name ?? this.name,
         expired: expired ?? this.expired,
         savingCard: savingCard ?? this.savingCard,
-        cards: cards ?? this.cards,
-        loadingCards: loadingCards ?? this.loadingCards,
+        paymentMethods: paymentMethods ?? this.paymentMethods,
+        loadingPaymentMethods:
+            loadingPaymentMethods ?? this.loadingPaymentMethods,
       );
 }
