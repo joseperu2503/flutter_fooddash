@@ -8,13 +8,13 @@ class CustomDragHandle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(
-        top: 20,
-        bottom: 20,
+        top: 12,
+        bottom: 16,
       ),
       alignment: Alignment.center,
       child: Container(
         width: 80,
-        height: 10,
+        height: 8,
         decoration: BoxDecoration(
           color: AppColors.gray100,
           borderRadius: BorderRadius.circular(40),

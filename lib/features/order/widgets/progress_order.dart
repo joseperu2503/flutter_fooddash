@@ -17,68 +17,152 @@ class ProgressOrder extends StatelessWidget {
       children: [
         Row(
           children: [
-            SizedBox(
-              width: 60,
-              child: SvgPicture.asset(
-                'assets/icons/order.svg',
-                width: 24,
-                colorFilter: const ColorFilter.mode(
-                  AppColors.primary,
-                  BlendMode.srcIn,
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: order.orderStatus.id >= 1
+                    ? AppColors.orange
+                    : AppColors.gray200,
+                shape: BoxShape.circle,
+              ),
+              child: Center(
+                child: SvgPicture.asset(
+                  'assets/icons/order.svg',
+                  width: 24,
+                  colorFilter: const ColorFilter.mode(
+                    AppColors.white,
+                    BlendMode.srcIn,
+                  ),
                 ),
               ),
             ),
             Expanded(
-              child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 8),
-                height: 1,
-                color: AppColors.primary,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                    return Container(
+                      height: 2,
+                      color: AppColors.gray200,
+                      alignment: Alignment.centerLeft,
+                      child: Container(
+                        height: 2,
+                        width: order.orderStatus.id >= 2
+                            ? constraints.maxWidth
+                            : order.orderStatus.id >= 1
+                                ? constraints.maxWidth / 2
+                                : 0,
+                        color: AppColors.primary,
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
-            SizedBox(
-              width: 60,
-              child: SvgPicture.asset(
-                'assets/icons/pot.svg',
-                width: 24,
-                colorFilter: const ColorFilter.mode(
-                  AppColors.primary,
-                  BlendMode.srcIn,
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: order.orderStatus.id >= 2
+                    ? AppColors.orange
+                    : AppColors.gray200,
+                shape: BoxShape.circle,
+              ),
+              child: Center(
+                child: SvgPicture.asset(
+                  'assets/icons/pot.svg',
+                  width: 24,
+                  colorFilter: const ColorFilter.mode(
+                    AppColors.white,
+                    BlendMode.srcIn,
+                  ),
                 ),
               ),
             ),
             Expanded(
-              child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 8),
-                height: 1,
-                color: AppColors.primary,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                    return Container(
+                      height: 2,
+                      color: AppColors.gray200,
+                      alignment: Alignment.centerLeft,
+                      child: Container(
+                        height: 2,
+                        width: order.orderStatus.id >= 3
+                            ? constraints.maxWidth
+                            : order.orderStatus.id >= 2
+                                ? constraints.maxWidth / 2
+                                : 0,
+                        color: AppColors.primary,
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
-            SizedBox(
-              width: 60,
-              child: SvgPicture.asset(
-                'assets/icons/delivery.svg',
-                width: 24,
-                colorFilter: const ColorFilter.mode(
-                  AppColors.primary,
-                  BlendMode.srcIn,
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: order.orderStatus.id >= 3
+                    ? AppColors.orange
+                    : AppColors.gray200,
+                shape: BoxShape.circle,
+              ),
+              child: Center(
+                child: SvgPicture.asset(
+                  'assets/icons/delivery.svg',
+                  width: 24,
+                  colorFilter: const ColorFilter.mode(
+                    AppColors.white,
+                    BlendMode.srcIn,
+                  ),
                 ),
               ),
             ),
             Expanded(
-              child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 8),
-                height: 1,
-                color: AppColors.label,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                    return Container(
+                      height: 2,
+                      color: AppColors.gray200,
+                      alignment: Alignment.centerLeft,
+                      child: Container(
+                        height: 2,
+                        width: order.orderStatus.id >= 4
+                            ? constraints.maxWidth
+                            : order.orderStatus.id >= 3
+                                ? constraints.maxWidth / 2
+                                : 0,
+                        color: AppColors.primary,
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
-            SizedBox(
-              width: 60,
-              child: SvgPicture.asset(
-                'assets/icons/check_circle.svg',
-                width: 24,
-                colorFilter: const ColorFilter.mode(
-                  AppColors.label,
-                  BlendMode.srcIn,
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: order.orderStatus.id == 4
+                    ? AppColors.orange
+                    : AppColors.gray200,
+                shape: BoxShape.circle,
+              ),
+              child: Center(
+                child: SvgPicture.asset(
+                  'assets/icons/check_circle.svg',
+                  width: 24,
+                  colorFilter: const ColorFilter.mode(
+                    AppColors.white,
+                    BlendMode.srcIn,
+                  ),
                 ),
               ),
             ),

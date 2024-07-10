@@ -8,6 +8,7 @@ class Order {
   final Restaurant restaurant;
   final Address address;
   final OrderStatus orderStatus;
+  final EstimatedDelivery estimatedDelivery;
 
   Order({
     required this.id,
@@ -19,6 +20,7 @@ class Order {
     required this.restaurant,
     required this.address,
     required this.orderStatus,
+    required this.estimatedDelivery,
   });
 
   factory Order.fromJson(Map<String, dynamic> json) => Order(
@@ -32,6 +34,8 @@ class Order {
         restaurant: Restaurant.fromJson(json["restaurant"]),
         address: Address.fromJson(json["address"]),
         orderStatus: OrderStatus.fromJson(json["orderStatus"]),
+        estimatedDelivery:
+            EstimatedDelivery.fromJson(json["estimatedDelivery"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -44,6 +48,7 @@ class Order {
         "restaurant": restaurant.toJson(),
         "address": address.toJson(),
         "orderStatus": orderStatus.toJson(),
+        "estimatedDelivery": estimatedDelivery.toJson(),
       };
 }
 
@@ -109,12 +114,14 @@ class Dish {
   final int id;
   final String name;
   final String image;
-  final int price;
+  final String description;
+  final double price;
 
   Dish({
     required this.id,
     required this.name,
     required this.image,
+    required this.description,
     required this.price,
   });
 
@@ -122,13 +129,15 @@ class Dish {
         id: json["id"],
         name: json["name"],
         image: json["image"],
-        price: json["price"],
+        description: json["description"],
+        price: json["price"]?.toDouble(),
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
         "image": image,
+        "description": description,
         "price": price,
       };
 }
@@ -161,7 +170,7 @@ class ToppingDishOrder {
 class Topping {
   final int id;
   final String description;
-  final int price;
+  final double price;
 
   Topping({
     required this.id,
@@ -172,13 +181,34 @@ class Topping {
   factory Topping.fromJson(Map<String, dynamic> json) => Topping(
         id: json["id"],
         description: json["description"],
-        price: json["price"],
+        price: json["price"]?.toDouble(),
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "description": description,
         "price": price,
+      };
+}
+
+class EstimatedDelivery {
+  final DateTime min;
+  final DateTime max;
+
+  EstimatedDelivery({
+    required this.min,
+    required this.max,
+  });
+
+  factory EstimatedDelivery.fromJson(Map<String, dynamic> json) =>
+      EstimatedDelivery(
+        min: DateTime.parse(json["min"]),
+        max: DateTime.parse(json["max"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "min": min.toIso8601String(),
+        "max": max.toIso8601String(),
       };
 }
 

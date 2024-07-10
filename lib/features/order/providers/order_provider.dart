@@ -51,15 +51,22 @@ class OrderNotifier extends StateNotifier<OrderState> {
     );
   }
 
-  Future<void> getOrder(Order order) async {
-    if (state.loadingOrder == LoadingStatus.loading) return;
-
+  Future<void> getOrder(int orderId) async {
     state = state.copyWith(
       loadingOrder: LoadingStatus.loading,
     );
+    final orderIndex = state.orders.indexWhere((order) => order.id == orderId);
+
+    if (orderIndex >= 0) {
+      state = state.copyWith(
+        order: () => state.orders[orderIndex],
+        loadingOrder: LoadingStatus.success,
+      );
+      return;
+    }
 
     try {
-      final Order response = await OrderService.getOrder(orderId: order.id);
+      final Order response = await OrderService.getOrder(orderId: orderId);
       state = state.copyWith(
         order: () => response,
         loadingOrder: LoadingStatus.success,

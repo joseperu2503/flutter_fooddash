@@ -1,9 +1,9 @@
 import 'dart:async';
-
 import 'package:fooddash/config/constants/app_colors.dart';
 import 'package:fooddash/config/constants/environment.dart';
 import 'package:fooddash/config/constants/styles.dart';
 import 'package:fooddash/features/order/providers/order_provider.dart';
+import 'package:fooddash/features/order/widgets/pulsating_circle.dart';
 import 'package:fooddash/features/shared/services/location_service.dart';
 import 'package:fooddash/features/order/widgets/bottom_modal.dart';
 import 'package:fooddash/features/shared/providers/map_provider.dart';
@@ -14,9 +14,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:intl/intl.dart';
 
 class OrderScreen extends ConsumerStatefulWidget {
-  const OrderScreen({super.key});
+  const OrderScreen({
+    super.key,
+    required this.orderId,
+  });
+
+  final int orderId;
 
   @override
   OrderScreenState createState() => OrderScreenState();
@@ -24,38 +30,89 @@ class OrderScreen extends ConsumerStatefulWidget {
 
 class OrderScreenState extends ConsumerState<OrderScreen> {
   @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      ref.read(orderProvider.notifier).getOrder(widget.orderId);
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final MediaQueryData screen = MediaQuery.of(context);
     final order = ref.watch(orderProvider).order;
 
+    if (order == null) {
+      return const Scaffold();
+    }
+
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: toolbarHeight,
+        toolbarHeight: toolbarHeightOrder,
         flexibleSpace: SafeArea(
           child: Container(
             padding: const EdgeInsets.symmetric(
               horizontal: 24,
             ),
-            height: toolbarHeight,
-            child: const Row(
+            height: toolbarHeightOrder,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                CustomBackButton(),
-                Spacer(),
-                Text(
-                  'Track Your Order',
+                const Row(
+                  children: [
+                    CustomBackButton(),
+                    Spacer(),
+                    Text(
+                      'Track Your Order',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.input,
+                        height: 1,
+                        leadingDistribution: TextLeadingDistribution.even,
+                      ),
+                    ),
+                    Spacer(),
+                    SizedBox(
+                      width: 38,
+                      height: 38,
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                const Text(
+                  'Estimated delivery',
                   style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.input,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.label,
                     height: 1,
                     leadingDistribution: TextLeadingDistribution.even,
                   ),
                 ),
-                Spacer(),
-                SizedBox(
-                  width: 38,
-                  height: 38,
+                const SizedBox(
+                  height: 12,
                 ),
+                Row(
+                  children: [
+                    const PulsatingCircle(),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      '${DateFormat('HH:mm a').format(order.estimatedDelivery.min)} - ${DateFormat('HH:mm a').format(order.estimatedDelivery.max)}',
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.input,
+                        height: 1,
+                        leadingDistribution: TextLeadingDistribution.even,
+                      ),
+                    ),
+                  ],
+                )
               ],
             ),
           ),
@@ -71,17 +128,16 @@ class OrderScreenState extends ConsumerState<OrderScreen> {
                 child: _MapView(),
               ),
               Container(
-                height: (heightBottomSheet +
+                height: (minHeightBottomSheet +
                     screen.padding.bottom -
                     radiusBottomSheet),
               ),
             ],
           ),
-          if (order != null)
-            BottomModal(
-              screen: screen,
-              order: order,
-            ),
+          BottomModal(
+            screen: screen,
+            order: order,
+          ),
         ],
       ),
     );
@@ -106,7 +162,7 @@ class _MapViewState extends ConsumerState<_MapView> {
 
   @override
   void initState() {
-    Future.microtask(() async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       Position? location = await LocationService.getCurrentPosition();
       if (location == null) return;
 
@@ -128,7 +184,7 @@ class _MapViewState extends ConsumerState<_MapView> {
       addMarkerHouse();
       addMarkerDelivery();
       addMarkerRestaurant();
-      getPolyLines();
+      // getPolyLines();
     });
 
     super.initState();
