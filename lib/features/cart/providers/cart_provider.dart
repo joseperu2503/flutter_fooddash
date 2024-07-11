@@ -6,6 +6,7 @@ import 'package:fooddash/features/cart/models/cart_response.dart';
 import 'package:fooddash/features/cart/services/cart_service.dart';
 import 'package:fooddash/features/cart/widgets/change_order.dart';
 import 'package:fooddash/features/core/models/service_exception.dart';
+import 'package:fooddash/features/order/models/order_request.dart';
 import 'package:fooddash/features/shared/models/loading_status.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fooddash/features/shared/services/snackbar_service.dart';
@@ -75,7 +76,7 @@ class CartNotifier extends StateNotifier<CartState> {
     if (addressId == null) return;
 
     try {
-      final int dishForRequestIndex = state.dishesForRequest
+      final int dishForRequestIndex = state.dishesForCartRequest
           .indexWhere((dishForRequest) => dishForRequest == dishCartRequest);
 
       if (dishForRequestIndex >= 0) {
@@ -88,7 +89,7 @@ class CartNotifier extends StateNotifier<CartState> {
       if (restaurantId == state.cartResponse?.restaurant.id ||
           state.cartResponse == null) {
         //cuando el plato que se va a agregar pertenece al restaurant del cart
-        dishes = [dishCartRequest, ...state.dishesForRequest];
+        dishes = [dishCartRequest, ...state.dishesForCartRequest];
       } else {
         //cuando el plato que se va a agregar no pertenece al restaurant del cart
         if (rootNavigatorKey.currentContext == null) return;
@@ -161,7 +162,7 @@ class CartNotifier extends StateNotifier<CartState> {
 
     CartRequest cartRequest = CartRequest(
       restaurantId: state.cartResponse!.restaurant.id,
-      dishes: state.dishesForRequest,
+      dishes: state.dishesForCartRequest,
       addressId: addressId,
     );
 
@@ -196,7 +197,7 @@ class CartNotifier extends StateNotifier<CartState> {
 
     CartRequest cartRequest = CartRequest(
       restaurantId: state.cartResponse!.restaurant.id,
-      dishes: state.dishesForRequest,
+      dishes: state.dishesForCartRequest,
       addressId: addressId,
     );
 
@@ -236,7 +237,7 @@ class CartState {
     return null;
   }
 
-  List<DishCartRequest> get dishesForRequest {
+  List<DishCartRequest> get dishesForCartRequest {
     if (cartResponse == null) return [];
 
     List<DishCartRequest> dishes = [];
@@ -249,6 +250,31 @@ class CartState {
           toppings: dishCart.toppingDishCarts
               .map(
                 (toppingDishCart) => ToppingDishCartRequest(
+                  toppingId: toppingDishCart.id,
+                  units: toppingDishCart.units,
+                ),
+              )
+              .toList(),
+        ),
+      );
+    }
+
+    return dishes;
+  }
+
+  List<DishOrderRequest> get dishesForOrderRequest {
+    if (cartResponse == null) return [];
+
+    List<DishOrderRequest> dishes = [];
+
+    for (var dishCart in cartResponse!.dishCarts) {
+      dishes.add(
+        DishOrderRequest(
+          dishId: dishCart.dish.id,
+          units: dishCart.units,
+          toppings: dishCart.toppingDishCarts
+              .map(
+                (toppingDishCart) => ToppingDishOrderRequest(
                   toppingId: toppingDishCart.id,
                   units: toppingDishCart.units,
                 ),

@@ -1,6 +1,7 @@
 import 'package:fooddash/config/api/api.dart';
 import 'package:fooddash/features/core/models/service_exception.dart';
 import 'package:fooddash/features/order/models/order.dart';
+import 'package:fooddash/features/order/models/order_request.dart';
 
 final api = Api();
 
@@ -12,6 +13,18 @@ class OrderService {
       return List<Order>.from(response.data.map((x) => Order.fromJson(x)));
     } catch (e) {
       throw ServiceException('An error occurred while loading the orders.', e);
+    }
+  }
+
+  static Future<Order> createOrder(OrderRequest cartRequest) async {
+    try {
+      final Map<String, dynamic> data = cartRequest.toJson();
+
+      final response = await Api().post('/orders', data: data);
+
+      return Order.fromJson(response.data);
+    } catch (e) {
+      throw ServiceException('An error occurred while create the order.', e);
     }
   }
 

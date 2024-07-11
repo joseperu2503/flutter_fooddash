@@ -6,6 +6,7 @@ import 'package:fooddash/features/shared/utils/utils.dart';
 import 'package:fooddash/features/shared/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
 class UpcomingOrderItem extends ConsumerWidget {
   const UpcomingOrderItem({
@@ -165,10 +166,10 @@ class UpcomingOrderItem extends ConsumerWidget {
                 ],
               ),
               const Spacer(),
-              const Column(
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(
+                  const Text(
                     'Estimated delivery',
                     style: TextStyle(
                       fontSize: 12,
@@ -178,15 +179,15 @@ class UpcomingOrderItem extends ConsumerWidget {
                       leadingDistribution: TextLeadingDistribution.even,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        '25-35 min',
-                        style: TextStyle(
+                        '${DateFormat('HH:mm a').format(order.estimatedDelivery.min.toLocal())} - ${DateFormat('HH:mm a').format(order.estimatedDelivery.max.toLocal())}',
+                        style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
                           color: AppColors.input,

@@ -3,8 +3,9 @@ import 'package:fooddash/config/constants/app_colors.dart';
 import 'package:fooddash/config/constants/styles.dart';
 import 'package:fooddash/features/address/providers/address_provider.dart';
 import 'package:fooddash/features/cart/providers/cart_provider.dart';
-import 'package:fooddash/features/checkout/widgets/order_successfully.dart';
 import 'package:fooddash/features/checkout/widgets/payment_modal.dart';
+import 'package:fooddash/features/order/providers/order_provider.dart';
+import 'package:fooddash/features/shared/models/loading_status.dart';
 import 'package:fooddash/features/shared/utils/utils.dart';
 import 'package:fooddash/features/shared/widgets/back_button.dart';
 import 'package:fooddash/features/shared/widgets/custom_button.dart';
@@ -56,6 +57,7 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen> {
     final MediaQueryData screen = MediaQuery.of(context);
     final addressState = ref.watch(addressProvider);
     final cartResponse = ref.watch(cartProvider).cartResponse;
+    final orderState = ref.watch(orderProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -177,13 +179,13 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                   ),
                   Container(
                     decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
                       color: AppColors.white,
-                      borderRadius: BorderRadius.circular(15),
-                      boxShadow: const [
+                      boxShadow: [
                         BoxShadow(
-                          color: Color.fromRGBO(211, 209, 216, 0.25),
-                          offset: Offset(15, 15),
-                          blurRadius: 30,
+                          color: const Color(0xffD3D1D8).withOpacity(0.3),
+                          offset: const Offset(8, 12),
+                          blurRadius: 22.96,
                           spreadRadius: 0,
                         ),
                       ],
@@ -385,16 +387,11 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen> {
         height: 110,
         child: Center(
           child: CustomButton(
-            onPressed: () {
-              showModalBottomSheet(
-                context: context,
-                elevation: 0,
-                builder: (context) {
-                  return const OrderSuccessfully();
-                },
-              );
+            onPressed: () async {
+              ref.read(orderProvider.notifier).createOrder();
             },
             text: 'Confirm',
+            loading: orderState.creatingOrder == LoadingStatus.loading,
           ),
         ),
       ),

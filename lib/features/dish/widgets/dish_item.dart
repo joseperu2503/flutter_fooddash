@@ -24,7 +24,7 @@ class DishItem extends ConsumerWidget {
 
     int unitsInCart = 0;
 
-    for (var dishForRequest in cartState.dishesForRequest) {
+    for (var dishForRequest in cartState.dishesForCartRequest) {
       if (dishForRequest.dishId == dish.id) {
         unitsInCart = unitsInCart + dishForRequest.units;
       }

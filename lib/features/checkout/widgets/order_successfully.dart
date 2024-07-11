@@ -2,6 +2,7 @@ import 'package:fooddash/config/constants/app_colors.dart';
 import 'package:fooddash/features/shared/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 
 class OrderSuccessfully extends StatelessWidget {
   const OrderSuccessfully({super.key});
@@ -49,7 +50,9 @@ class OrderSuccessfully extends StatelessWidget {
             ),
             const Spacer(),
             CustomButton(
-              onPressed: () {},
+              onPressed: () {
+                context.go('/my-orders');
+              },
               text: 'ORDER TRACKING',
             ),
             const SizedBox(
