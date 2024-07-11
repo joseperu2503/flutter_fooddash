@@ -1,112 +1,188 @@
 class CartResponse {
   final int id;
+  final double subtotal;
+  final double deliveryFee;
+  final double serviceFee;
+  final double total;
   final List<DishCart> dishCarts;
   final Restaurant restaurant;
-  final double subtotal;
+  final Address address;
 
   CartResponse({
     required this.id,
+    required this.subtotal,
+    required this.deliveryFee,
+    required this.serviceFee,
+    required this.total,
     required this.dishCarts,
     required this.restaurant,
-    required this.subtotal,
+    required this.address,
   });
 
   CartResponse copyWith({
     int? id,
+    double? subtotal,
+    double? deliveryFee,
+    double? serviceFee,
+    double? total,
     List<DishCart>? dishCarts,
     Restaurant? restaurant,
-    double? subtotal,
+    Address? address,
   }) =>
       CartResponse(
         id: id ?? this.id,
+        subtotal: subtotal ?? this.subtotal,
+        deliveryFee: deliveryFee ?? this.deliveryFee,
+        serviceFee: serviceFee ?? this.serviceFee,
+        total: total ?? this.total,
         dishCarts: dishCarts ?? this.dishCarts,
         restaurant: restaurant ?? this.restaurant,
-        subtotal: subtotal ?? this.subtotal,
+        address: address ?? this.address,
       );
 
   factory CartResponse.fromJson(Map<String, dynamic> json) => CartResponse(
         id: json["id"],
+        subtotal: json["subtotal"]?.toDouble(),
+        deliveryFee: json["deliveryFee"]?.toDouble(),
+        serviceFee: json["serviceFee"]?.toDouble(),
+        total: json["total"]?.toDouble(),
         dishCarts: List<DishCart>.from(
             json["dishCarts"].map((x) => DishCart.fromJson(x))),
         restaurant: Restaurant.fromJson(json["restaurant"]),
-        subtotal: json["subtotal"]?.toDouble(),
+        address: Address.fromJson(json["address"]),
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
+        "subtotal": subtotal,
+        "deliveryFee": deliveryFee,
+        "serviceFee": serviceFee,
+        "total": total,
         "dishCarts": List<dynamic>.from(dishCarts.map((x) => x.toJson())),
         "restaurant": restaurant.toJson(),
-        "subtotal": subtotal,
+        "address": address.toJson(),
+      };
+}
+
+class Address {
+  final int id;
+  final String address;
+  final double latitude;
+  final double longitude;
+
+  Address({
+    required this.id,
+    required this.address,
+    required this.latitude,
+    required this.longitude,
+  });
+
+  Address copyWith({
+    int? id,
+    String? address,
+    double? latitude,
+    double? longitude,
+  }) =>
+      Address(
+        id: id ?? this.id,
+        address: address ?? this.address,
+        latitude: latitude ?? this.latitude,
+        longitude: longitude ?? this.longitude,
+      );
+
+  factory Address.fromJson(Map<String, dynamic> json) => Address(
+        id: json["id"],
+        address: json["address"],
+        latitude: json["latitude"]?.toDouble(),
+        longitude: json["longitude"]?.toDouble(),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "address": address,
+        "latitude": latitude,
+        "longitude": longitude,
       };
 }
 
 class DishCart {
   final int id;
-  final String name;
-  final String image;
-  final String description;
-  final double price;
-  final int stock;
-  final bool isActive;
-  final DateTime createdAt;
-  final DateTime updatedAt;
   final int units;
-  final List<ToppingDishCart> toppingDishCarts;
+  final Dish dish;
+  final List<dynamic> toppingDishCarts;
 
   DishCart({
     required this.id,
-    required this.name,
-    required this.image,
-    required this.description,
-    required this.price,
-    required this.stock,
-    required this.isActive,
-    required this.createdAt,
-    required this.updatedAt,
     required this.units,
+    required this.dish,
     required this.toppingDishCarts,
   });
 
   DishCart copyWith({
     int? id,
-    String? name,
-    String? image,
-    String? description,
-    double? price,
-    int? stock,
-    bool? isActive,
-    DateTime? createdAt,
-    DateTime? updatedAt,
     int? units,
-    List<ToppingDishCart>? toppingDishCarts,
+    Dish? dish,
+    List<dynamic>? toppingDishCarts,
   }) =>
       DishCart(
         id: id ?? this.id,
-        name: name ?? this.name,
-        image: image ?? this.image,
-        description: description ?? this.description,
-        price: price ?? this.price,
-        stock: stock ?? this.stock,
-        isActive: isActive ?? this.isActive,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt,
         units: units ?? this.units,
+        dish: dish ?? this.dish,
         toppingDishCarts: toppingDishCarts ?? this.toppingDishCarts,
       );
 
   factory DishCart.fromJson(Map<String, dynamic> json) => DishCart(
         id: json["id"],
+        units: json["units"],
+        dish: Dish.fromJson(json["dish"]),
+        toppingDishCarts:
+            List<dynamic>.from(json["toppingDishCarts"].map((x) => x)),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "units": units,
+        "dish": dish.toJson(),
+        "toppingDishCarts": List<dynamic>.from(toppingDishCarts.map((x) => x)),
+      };
+}
+
+class Dish {
+  final int id;
+  final String name;
+  final String image;
+  final String description;
+  final double price;
+
+  Dish({
+    required this.id,
+    required this.name,
+    required this.image,
+    required this.description,
+    required this.price,
+  });
+
+  Dish copyWith({
+    int? id,
+    String? name,
+    String? image,
+    String? description,
+    double? price,
+  }) =>
+      Dish(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        image: image ?? this.image,
+        description: description ?? this.description,
+        price: price ?? this.price,
+      );
+
+  factory Dish.fromJson(Map<String, dynamic> json) => Dish(
+        id: json["id"],
         name: json["name"],
         image: json["image"],
         description: json["description"],
         price: json["price"]?.toDouble(),
-        stock: json["stock"],
-        isActive: json["isActive"],
-        createdAt: DateTime.parse(json["createdAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
-        units: json["units"],
-        toppingDishCarts: List<ToppingDishCart>.from(
-            json["toppingDishCarts"].map((x) => ToppingDishCart.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -115,79 +191,6 @@ class DishCart {
         "image": image,
         "description": description,
         "price": price,
-        "stock": stock,
-        "isActive": isActive,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
-        "units": units,
-        "toppingDishCarts":
-            List<dynamic>.from(toppingDishCarts.map((x) => x.toJson())),
-      };
-}
-
-class ToppingDishCart {
-  final int id;
-  final String description;
-  final bool isActive;
-  final int maxLimit;
-  final double price;
-  final DateTime createdAt;
-  final DateTime updatedAt;
-  final int units;
-
-  ToppingDishCart({
-    required this.id,
-    required this.description,
-    required this.isActive,
-    required this.maxLimit,
-    required this.price,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.units,
-  });
-
-  ToppingDishCart copyWith({
-    int? id,
-    String? description,
-    bool? isActive,
-    int? maxLimit,
-    double? price,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-    int? units,
-  }) =>
-      ToppingDishCart(
-        id: id ?? this.id,
-        description: description ?? this.description,
-        isActive: isActive ?? this.isActive,
-        maxLimit: maxLimit ?? this.maxLimit,
-        price: price ?? this.price,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt,
-        units: units ?? this.units,
-      );
-
-  factory ToppingDishCart.fromJson(Map<String, dynamic> json) =>
-      ToppingDishCart(
-        id: json["id"],
-        description: json["description"],
-        isActive: json["isActive"],
-        maxLimit: json["maxLimit"],
-        price: json["price"]?.toDouble(),
-        createdAt: DateTime.parse(json["createdAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
-        units: json["units"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "description": description,
-        "isActive": isActive,
-        "maxLimit": maxLimit,
-        "price": price,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
-        "units": units,
       };
 }
 
@@ -199,11 +202,6 @@ class Restaurant {
   final String backdrop;
   final double latitude;
   final double longitude;
-  final bool isActive;
-  final String openTime;
-  final String closeTime;
-  final DateTime createdAt;
-  final DateTime updatedAt;
 
   Restaurant({
     required this.id,
@@ -213,11 +211,6 @@ class Restaurant {
     required this.backdrop,
     required this.latitude,
     required this.longitude,
-    required this.isActive,
-    required this.openTime,
-    required this.closeTime,
-    required this.createdAt,
-    required this.updatedAt,
   });
 
   Restaurant copyWith({
@@ -228,11 +221,6 @@ class Restaurant {
     String? backdrop,
     double? latitude,
     double? longitude,
-    bool? isActive,
-    String? openTime,
-    String? closeTime,
-    DateTime? createdAt,
-    DateTime? updatedAt,
   }) =>
       Restaurant(
         id: id ?? this.id,
@@ -242,11 +230,6 @@ class Restaurant {
         backdrop: backdrop ?? this.backdrop,
         latitude: latitude ?? this.latitude,
         longitude: longitude ?? this.longitude,
-        isActive: isActive ?? this.isActive,
-        openTime: openTime ?? this.openTime,
-        closeTime: closeTime ?? this.closeTime,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt,
       );
 
   factory Restaurant.fromJson(Map<String, dynamic> json) => Restaurant(
@@ -257,11 +240,6 @@ class Restaurant {
         backdrop: json["backdrop"],
         latitude: json["latitude"]?.toDouble(),
         longitude: json["longitude"]?.toDouble(),
-        isActive: json["isActive"],
-        openTime: json["openTime"],
-        closeTime: json["closeTime"],
-        createdAt: DateTime.parse(json["createdAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -272,10 +250,5 @@ class Restaurant {
         "backdrop": backdrop,
         "latitude": latitude,
         "longitude": longitude,
-        "isActive": isActive,
-        "openTime": openTime,
-        "closeTime": closeTime,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
       };
 }

@@ -1,6 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fooddash/config/constants/app_colors.dart';
+import 'package:fooddash/config/constants/styles.dart';
 import 'package:fooddash/features/address/providers/address_provider.dart';
+import 'package:fooddash/features/cart/providers/cart_provider.dart';
 import 'package:fooddash/features/checkout/widgets/order_successfully.dart';
 import 'package:fooddash/features/checkout/widgets/payment_modal.dart';
 import 'package:fooddash/features/shared/utils/utils.dart';
@@ -53,6 +55,7 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   Widget build(BuildContext context) {
     final MediaQueryData screen = MediaQuery.of(context);
     final addressState = ref.watch(addressProvider);
+    final cartResponse = ref.watch(cartProvider).cartResponse;
 
     return Scaffold(
       appBar: AppBar(
@@ -69,13 +72,7 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                 Spacer(),
                 Text(
                   'Checkout',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.slate800,
-                    height: 1.3,
-                    leadingDistribution: TextLeadingDistribution.even,
-                  ),
+                  style: appBarTitle,
                 ),
                 Spacer(),
                 SizedBox(
@@ -244,122 +241,136 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                   const SizedBox(
                     height: 60,
                   ),
-                  const Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Subtotal',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.black,
-                          height: 1,
-                          leadingDistribution: TextLeadingDistribution.even,
+                  if (cartResponse != null)
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Text(
+                              'Subtotal',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                color: AppColors.gray800,
+                                height: 1,
+                                leadingDistribution:
+                                    TextLeadingDistribution.even,
+                              ),
+                            ),
+                            const Spacer(),
+                            Text(
+                              Utils.formatCurrency(cartResponse.subtotal),
+                              style: const TextStyle(
+                                fontSize: 19,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.gray800,
+                                height: 1,
+                                leadingDistribution:
+                                    TextLeadingDistribution.even,
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                      Spacer(),
-                      Text(
-                        '\$27.30',
-                        style: TextStyle(
-                          fontSize: 19,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.slate800,
-                          height: 1,
-                          leadingDistribution: TextLeadingDistribution.even,
+                        const Divider(
+                          color: Color(0xffF1F2F3),
+                          height: 40,
                         ),
-                      ),
-                    ],
-                  ),
-                  const Divider(
-                    color: Color(0xffF1F2F3),
-                    height: 32,
-                  ),
-                  const Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Tax and Fees',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.black,
-                          height: 1,
-                          leadingDistribution: TextLeadingDistribution.even,
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Text(
+                              'service fee',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                color: AppColors.gray800,
+                                height: 1,
+                                leadingDistribution:
+                                    TextLeadingDistribution.even,
+                              ),
+                            ),
+                            const Spacer(),
+                            Text(
+                              Utils.formatCurrency(cartResponse.serviceFee),
+                              style: const TextStyle(
+                                fontSize: 19,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.gray800,
+                                height: 1,
+                                leadingDistribution:
+                                    TextLeadingDistribution.even,
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                      Spacer(),
-                      Text(
-                        '\$5.30',
-                        style: TextStyle(
-                          fontSize: 19,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.slate800,
-                          height: 1,
-                          leadingDistribution: TextLeadingDistribution.even,
+                        const Divider(
+                          color: Color(0xffF1F2F3),
+                          height: 40,
                         ),
-                      ),
-                    ],
-                  ),
-                  const Divider(
-                    color: Color(0xffF1F2F3),
-                    height: 32,
-                  ),
-                  const Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Delivery',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.black,
-                          height: 1,
-                          leadingDistribution: TextLeadingDistribution.even,
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Text(
+                              'Delivery fee',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                color: AppColors.gray800,
+                                height: 1,
+                                leadingDistribution:
+                                    TextLeadingDistribution.even,
+                              ),
+                            ),
+                            const Spacer(),
+                            Text(
+                              Utils.formatCurrency(cartResponse.deliveryFee),
+                              style: const TextStyle(
+                                fontSize: 19,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.gray800,
+                                height: 1,
+                                leadingDistribution:
+                                    TextLeadingDistribution.even,
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                      Spacer(),
-                      Text(
-                        '\$1.00',
-                        style: TextStyle(
-                          fontSize: 19,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.slate800,
-                          height: 1,
-                          leadingDistribution: TextLeadingDistribution.even,
+                        const Divider(
+                          color: Color(0xffF1F2F3),
+                          height: 40,
                         ),
-                      ),
-                    ],
-                  ),
-                  const Divider(
-                    color: Color(0xffF1F2F3),
-                    height: 32,
-                  ),
-                  const Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Total',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.black,
-                          height: 1,
-                          leadingDistribution: TextLeadingDistribution.even,
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Text(
+                              'Total paid',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.black,
+                                height: 1,
+                                leadingDistribution:
+                                    TextLeadingDistribution.even,
+                              ),
+                            ),
+                            const Spacer(),
+                            Text(
+                              Utils.formatCurrency(cartResponse.total),
+                              style: const TextStyle(
+                                fontSize: 19,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.black,
+                                height: 1,
+                                leadingDistribution:
+                                    TextLeadingDistribution.even,
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                      Spacer(),
-                      Text(
-                        '\$33.60',
-                        style: TextStyle(
-                          fontSize: 19,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.slate800,
-                          height: 1,
-                          leadingDistribution: TextLeadingDistribution.even,
-                        ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
                   const SizedBox(
                     height: 16,
                   ),

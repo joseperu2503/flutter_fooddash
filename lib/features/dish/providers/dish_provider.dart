@@ -141,14 +141,19 @@ class DishNotifier extends StateNotifier<DishState> {
       toppings: toppings,
     );
 
-    await ref
-        .read(cartProvider.notifier)
-        .addDishToCart(dishCart, state.dishDetail!.dishCategory!.restaurant.id);
-    appRouter.pop();
+    try {
+      await ref.read(cartProvider.notifier).addDishToCart(
+          dishCart, state.dishDetail!.dishCategory!.restaurant.id);
+      appRouter.pop();
 
-    state = state.copyWith(
-      addingToCart: LoadingStatus.success,
-    );
+      state = state.copyWith(
+        addingToCart: LoadingStatus.success,
+      );
+    } catch (e) {
+      state = state.copyWith(
+        addingToCart: LoadingStatus.error,
+      );
+    }
   }
 
   addUnits() {

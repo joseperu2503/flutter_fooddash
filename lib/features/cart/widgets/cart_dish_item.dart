@@ -35,7 +35,7 @@ class CartDishItem extends ConsumerWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: Image.network(
-              dishCart.image,
+              dishCart.dish.image,
               fit: BoxFit.cover,
               height: heightItem,
               width: heightItem,
@@ -52,7 +52,7 @@ class CartDishItem extends ConsumerWidget {
                   height: 4,
                 ),
                 Text(
-                  dishCart.name,
+                  dishCart.dish.name,
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w400,
@@ -83,7 +83,8 @@ class CartDishItem extends ConsumerWidget {
                 Row(
                   children: [
                     Text(
-                      Utils.formatCurrency(dishCart.price * dishCart.units),
+                      Utils.formatCurrency(
+                          dishCart.dish.price * dishCart.units),
                       style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w700,

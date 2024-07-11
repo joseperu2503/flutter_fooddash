@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fooddash/config/router/app_router.dart';
+import 'package:fooddash/features/address/providers/address_provider.dart';
 import 'package:fooddash/features/cart/models/cart_request.dart';
 import 'package:fooddash/features/cart/models/cart_response.dart';
 import 'package:fooddash/features/cart/services/cart_service.dart';
@@ -70,47 +71,54 @@ class CartNotifier extends StateNotifier<CartState> {
     DishCartRequest dishCartRequest,
     int restaurantId,
   ) async {
-    final int dishForRequestIndex = state.dishesForRequest
-        .indexWhere((dishForRequest) => dishForRequest == dishCartRequest);
+    final addressId = getAddres();
+    if (addressId == null) return;
 
-    if (dishForRequestIndex >= 0) {
-      //cuando el plato que se va a agregar ya esta en el cart
-      await addUnitDish(dishForRequestIndex);
-      return;
-    }
+    try {
+      final int dishForRequestIndex = state.dishesForRequest
+          .indexWhere((dishForRequest) => dishForRequest == dishCartRequest);
 
-    List<DishCartRequest> dishes = [];
-    if (restaurantId == state.cartResponse?.restaurant.id ||
-        state.cartResponse == null) {
-      //cuando el plato que se va a agregar pertenece al restaurant del cart
-      dishes = [dishCartRequest, ...state.dishesForRequest];
-    } else {
-      //cuando el plato que se va a agregar no pertenece al restaurant del cart
-      if (rootNavigatorKey.currentContext == null) return;
-      bool? response = await showModalBottomSheet(
-        context: rootNavigatorKey.currentContext!,
-        elevation: 0,
-        builder: (context) {
-          return const ChangeOrder();
-        },
+      if (dishForRequestIndex >= 0) {
+        //cuando el plato que se va a agregar ya esta en el cart
+        await addUnitDish(dishForRequestIndex);
+        return;
+      }
+
+      List<DishCartRequest> dishes = [];
+      if (restaurantId == state.cartResponse?.restaurant.id ||
+          state.cartResponse == null) {
+        //cuando el plato que se va a agregar pertenece al restaurant del cart
+        dishes = [dishCartRequest, ...state.dishesForRequest];
+      } else {
+        //cuando el plato que se va a agregar no pertenece al restaurant del cart
+        if (rootNavigatorKey.currentContext == null) return;
+        bool? response = await showModalBottomSheet(
+          context: rootNavigatorKey.currentContext!,
+          elevation: 0,
+          builder: (context) {
+            return const ChangeOrder();
+          },
+        );
+        if (response == null) {
+          return;
+        }
+        if (response == false) {
+          appRouter.push('/cart');
+          return;
+        }
+
+        dishes = [dishCartRequest];
+      }
+
+      CartRequest cartRequest = CartRequest(
+        restaurantId: restaurantId,
+        dishes: dishes,
+        addressId: addressId,
       );
-      if (response == null) {
-        return;
-      }
-      if (response == false) {
-        appRouter.push('/cart');
-        return;
-      }
-
-      dishes = [dishCartRequest];
+      await updateCart(cartRequest);
+    } catch (e) {
+      rethrow;
     }
-
-    CartRequest cartRequest = CartRequest(
-      restaurantId: restaurantId,
-      dishes: dishes,
-    );
-
-    await updateCart(cartRequest);
   }
 
   Future<void> updateCart(CartRequest cartRequest) async {
@@ -136,6 +144,8 @@ class CartNotifier extends StateNotifier<CartState> {
 
   Future<void> addUnitDish(int index) async {
     if (state.cartResponse == null) return;
+    final addressId = getAddres();
+    if (addressId == null) return;
 
     state = state.copyWith(
       cartResponse: () => state.cartResponse!.copyWith(
@@ -152,6 +162,7 @@ class CartNotifier extends StateNotifier<CartState> {
     CartRequest cartRequest = CartRequest(
       restaurantId: state.cartResponse!.restaurant.id,
       dishes: state.dishesForRequest,
+      addressId: addressId,
     );
 
     await updateCart(cartRequest);
@@ -159,6 +170,8 @@ class CartNotifier extends StateNotifier<CartState> {
 
   Future<void> removeUnitDish(int index) async {
     if (state.cartResponse == null) return;
+    final addressId = getAddres();
+    if (addressId == null) return;
 
     List<DishCart> dishCarts = state.cartResponse!.dishCarts.map((dishCart) {
       if (state.cartResponse!.dishCarts.indexOf(dishCart) == index) {
@@ -184,9 +197,22 @@ class CartNotifier extends StateNotifier<CartState> {
     CartRequest cartRequest = CartRequest(
       restaurantId: state.cartResponse!.restaurant.id,
       dishes: state.dishesForRequest,
+      addressId: addressId,
     );
 
     updateCart(cartRequest);
+  }
+
+  int? getAddres() {
+    if (state.cartResponse != null) {
+      return state.cartResponse!.address.id;
+    }
+    final selectedAddress = ref.read(addressProvider).selectedAddress;
+
+    if (selectedAddress != null) {
+      return selectedAddress.id;
+    }
+    return null;
   }
 }
 
@@ -218,7 +244,7 @@ class CartState {
     for (var dishCart in cartResponse!.dishCarts) {
       dishes.add(
         DishCartRequest(
-          dishId: dishCart.id,
+          dishId: dishCart.dish.id,
           units: dishCart.units,
           toppings: dishCart.toppingDishCarts
               .map(

@@ -4,21 +4,25 @@ import 'package:flutter/foundation.dart';
 class CartRequest {
   final int restaurantId;
   final List<DishCartRequest> dishes;
+  final int addressId;
 
   CartRequest({
     required this.restaurantId,
     required this.dishes,
+    required this.addressId,
   });
 
   factory CartRequest.fromJson(Map<String, dynamic> json) => CartRequest(
         restaurantId: json["restaurantId"],
         dishes: List<DishCartRequest>.from(
             json["dishes"].map((x) => DishCartRequest.fromJson(x))),
+        addressId: json["addressId"],
       );
 
   Map<String, dynamic> toJson() => {
         "restaurantId": restaurantId,
         "dishes": List<dynamic>.from(dishes.map((x) => x.toJson())),
+        "addressId": addressId,
       };
 }
 
