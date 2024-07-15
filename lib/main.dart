@@ -1,9 +1,9 @@
-import 'package:fooddash/config/constants/environment.dart';
-import 'package:fooddash/config/router/app_router.dart';
-import 'package:fooddash/config/theme/app_theme.dart';
+import 'package:fooddash/app/app.dart';
+import 'package:fooddash/app/config/constants/environment.dart';
+import 'package:fooddash/app/config/router/app_router.dart';
+import 'package:fooddash/app/config/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fooddash/features/auth/providers/auth_provider.dart';
 
 void main() async {
   await Environment.initEnvironment();
@@ -13,20 +13,8 @@ void main() async {
   ));
 }
 
-class MainApp extends ConsumerStatefulWidget {
+class MainApp extends StatelessWidget {
   const MainApp({super.key});
-
-  @override
-  MainAppState createState() => MainAppState();
-}
-
-class MainAppState extends ConsumerState<MainApp> {
-  @override
-  void initState() {
-    ref.read(authProvider.notifier).initAutoLogout();
-
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +22,9 @@ class MainAppState extends ConsumerState<MainApp> {
       title: 'FoodDash',
       routerConfig: appRouter,
       theme: AppTheme.getTheme(),
+      builder: (context, child) => App(
+        child: child,
+      ),
       debugShowCheckedModeBanner: false,
     );
   }
