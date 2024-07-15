@@ -51,6 +51,12 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
     final restaurantsState = ref.watch(restaurantsProvider);
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        toolbarHeight: 0,
+        scrolledUnderElevation: 0,
+      ),
+      backgroundColor: AppColors.background,
       body: SafeArea(
         bottom: false,
         child: CustomScrollView(

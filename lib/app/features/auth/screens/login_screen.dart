@@ -30,7 +30,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
 
     return AnnotatedRegion(
       value: const SystemUiOverlayStyle(
-        systemNavigationBarColor: Colors.white,
+        systemNavigationBarIconBrightness: Brightness.dark,
       ),
       child: Container(
         color: AppColors.background,
@@ -142,7 +142,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                       const SizedBox(
                         height: 40,
                       ),
-                      Spacer(),
+                      const Spacer(),
                       const Text(
                         'Login',
                         style: TextStyle(

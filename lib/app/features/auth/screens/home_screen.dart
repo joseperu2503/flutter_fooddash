@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/services.dart';
 import 'package:fooddash/app/config/constants/app_colors.dart';
 import 'package:fooddash/app/features/shared/widgets/custom_button.dart';
@@ -13,16 +11,9 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge,
-        overlays: [SystemUiOverlay.bottom]);
-
     return AnnotatedRegion(
-      value: SystemUiOverlayStyle(
-        systemNavigationBarColor: Colors.transparent,
-        statusBarBrightness: Platform.isIOS ? Brightness.dark : Brightness.dark,
-        statusBarIconBrightness:
-            Platform.isIOS ? Brightness.dark : Brightness.dark,
-        statusBarColor: Colors.transparent,
+      value: const SystemUiOverlayStyle(
+        systemNavigationBarIconBrightness: Brightness.light,
       ),
       child: Scaffold(
         body: Stack(

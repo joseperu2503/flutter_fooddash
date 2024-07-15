@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/services.dart';
 import 'package:fooddash/app/app.dart';
 import 'package:fooddash/app/config/constants/environment.dart';
 import 'package:fooddash/app/config/router/app_router.dart';
@@ -7,6 +10,30 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() async {
   await Environment.initEnvironment();
+
+  //** Bloquea el giro */
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
+  });
+
+  SystemChrome.setEnabledSystemUIMode(
+    SystemUiMode.edgeToEdge,
+    overlays: [SystemUiOverlay.bottom],
+  );
+
+  SystemChrome.setSystemUIOverlayStyle(
+    SystemUiOverlayStyle(
+      systemNavigationBarColor: Colors.transparent,
+      systemNavigationBarIconBrightness: Brightness.dark,
+      systemNavigationBarContrastEnforced: false,
+      statusBarBrightness: Platform.isIOS ? Brightness.dark : Brightness.dark,
+      statusBarIconBrightness:
+          Platform.isIOS ? Brightness.dark : Brightness.dark,
+      statusBarColor: Colors.transparent,
+    ),
+  );
 
   runApp(const ProviderScope(
     child: MainApp(),

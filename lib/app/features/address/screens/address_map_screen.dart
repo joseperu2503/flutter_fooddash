@@ -131,6 +131,7 @@ class MapViewState extends ConsumerState<MapView> {
         target: mapState.cameraPosition!,
         zoom: 18,
       ),
+      zoomControlsEnabled: false,
       myLocationEnabled: true,
       myLocationButtonEnabled: false,
       onCameraMove: (position) {
