@@ -43,7 +43,7 @@ class AppColors {
   static const Color inputBorder = Color(0xFFEEEEEE);
   static const Color inputHint = Color(0xFFC4C4C4);
   static const Color input = Color(0xFF111719);
-  static const Color label = Color(0xFF9796A1);
+  static const Color label = slate600;
 
   static const Color label2 = Color(0xFF323643);
 

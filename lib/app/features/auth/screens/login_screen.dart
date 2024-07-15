@@ -105,8 +105,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                   ],
                 ),
               ),
-              SliverFillRemaining(
-                hasScrollBody: false,
+              SliverToBoxAdapter(
                 child: Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 24,
@@ -142,7 +141,6 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                       const SizedBox(
                         height: 40,
                       ),
-                      const Spacer(),
                       const Text(
                         'Login',
                         style: TextStyle(
@@ -154,7 +152,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                         ),
                       ),
                       const SizedBox(
-                        height: 31,
+                        height: 40,
                       ),
                       CustomTextField(
                         label: 'E-mail',
@@ -211,9 +209,8 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                           loading: loginState.loading == LoadingStatus.loading,
                         ),
                       ),
-                      const Spacer(),
                       const SizedBox(
-                        height: 40,
+                        height: 50,
                       ),
                     ],
                   ),

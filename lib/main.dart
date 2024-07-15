@@ -28,9 +28,8 @@ void main() async {
       systemNavigationBarColor: Colors.transparent,
       systemNavigationBarIconBrightness: Brightness.dark,
       systemNavigationBarContrastEnforced: false,
-      statusBarBrightness: Platform.isIOS ? Brightness.dark : Brightness.dark,
-      statusBarIconBrightness:
-          Platform.isIOS ? Brightness.dark : Brightness.dark,
+      statusBarBrightness: Platform.isIOS ? Brightness.light : Brightness.dark,
+      statusBarIconBrightness: Brightness.dark,
       statusBarColor: Colors.transparent,
     ),
   );
