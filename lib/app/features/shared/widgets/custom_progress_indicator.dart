@@ -10,7 +10,7 @@ class CustomProgressIndicator extends StatelessWidget {
     super.key,
     this.size = 32,
     this.color = AppColors.primary,
-    this.strokeWidth = 4,
+    this.strokeWidth = 3,
   });
 
   final double size;

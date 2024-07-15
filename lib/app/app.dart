@@ -1,9 +1,7 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fooddash/app/features/auth/providers/auth_provider.dart';
-import 'package:fooddash/app/features/shared/widgets/splash_screen.dart';
 
 class App extends ConsumerStatefulWidget {
   const App({
@@ -21,30 +19,20 @@ class AppState extends ConsumerState<App> {
   @override
   void initState() {
     ref.read(authProvider.notifier).initAutoLogout();
-    Timer(
-      const Duration(seconds: 1),
-      () {
-        setState(() {
-          showSplashScreen = false;
-        });
-      },
-    );
+
+    //** Bloquea el giro */
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+      ]);
+    });
     super.initState();
   }
-
-  bool showSplashScreen = true;
 
   @override
   Widget build(BuildContext context) {
     if (widget.child == null) return Container();
 
-    return Stack(
-      children: [
-        widget.child!,
-        SplashScreen(
-          show: showSplashScreen,
-        ),
-      ],
-    );
+    return widget.child!;
   }
 }
