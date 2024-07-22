@@ -19,20 +19,81 @@ class RestaurantInfo extends StatelessWidget {
         ),
         // height: heightRestaurantInfo,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(
-              height: 70,
+              height: 12,
             ),
-            Text(
-              restaurant.name,
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w700,
-                color: AppColors.slate900,
-                height: 1,
-                leadingDistribution: TextLeadingDistribution.even,
-              ),
+            Row(
+              children: [
+                Container(
+                  height: 50,
+                  width: 50,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: AppColors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color.fromRGBO(211, 209, 216, 0.3),
+                        offset: Offset(
+                            5, 10), // Desplazamiento horizontal y vertical
+                        blurRadius: 20, // Radio de desenfoque
+                        spreadRadius: 0, // Extensión de la sombra
+                      ),
+                    ],
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(25),
+                    child: SizedBox(
+                      child: Image.network(
+                        restaurant.logo,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 12,
+                ),
+                Text(
+                  restaurant.name,
+                  style: const TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.slate900,
+                    height: 1.2,
+                    leadingDistribution: TextLeadingDistribution.even,
+                  ),
+                ),
+                const Spacer(),
+                Container(
+                  width: 38,
+                  height: 38,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(14),
+                    color: Colors.transparent,
+                  ),
+                  child: TextButton(
+                    onPressed: () {},
+                    style: TextButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                      padding: EdgeInsets.zero,
+                    ),
+                    child: Center(
+                      child: SvgPicture.asset(
+                        'assets/icons/heart_solid.svg',
+                        width: 24,
+                        colorFilter: const ColorFilter.mode(
+                          AppColors.primary,
+                          BlendMode.srcIn,
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              ],
             ),
             const SizedBox(
               height: 10,
@@ -41,7 +102,7 @@ class RestaurantInfo extends StatelessWidget {
               restaurant.address,
               style: const TextStyle(
                 fontSize: 14,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w400,
                 color: AppColors.label,
                 height: 1,
                 leadingDistribution: TextLeadingDistribution.even,
@@ -50,39 +111,39 @@ class RestaurantInfo extends StatelessWidget {
             const SizedBox(
               height: 16,
             ),
-            SizedBox(
-              height: 22,
-              child: ListView.separated(
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return Container(
-                    height: 22,
-                    decoration: BoxDecoration(
-                      color: const Color(0xffF6F6F6),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    padding: const EdgeInsets.symmetric(horizontal: 14),
-                    child: Center(
-                      child: Text(
-                        restaurant.tags[index],
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xff8A8E9B),
-                          height: 1,
-                          leadingDistribution: TextLeadingDistribution.even,
-                        ),
-                      ),
-                    ),
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return const SizedBox(width: 8);
-                },
-                itemCount: restaurant.tags.length,
-              ),
-            ),
+            // SizedBox(
+            //   height: 22,
+            //   child: ListView.separated(
+            //     shrinkWrap: true,
+            //     scrollDirection: Axis.horizontal,
+            //     itemBuilder: (context, index) {
+            //       return Container(
+            //         height: 22,
+            //         decoration: BoxDecoration(
+            //           color: const Color(0xffF6F6F6),
+            //           borderRadius: BorderRadius.circular(5),
+            //         ),
+            //         padding: const EdgeInsets.symmetric(horizontal: 14),
+            //         child: Center(
+            //           child: Text(
+            //             restaurant.tags[index],
+            //             style: const TextStyle(
+            //               fontSize: 12,
+            //               fontWeight: FontWeight.w500,
+            //               color: Color(0xff8A8E9B),
+            //               height: 1,
+            //               leadingDistribution: TextLeadingDistribution.even,
+            //             ),
+            //           ),
+            //         ),
+            //       );
+            //     },
+            //     separatorBuilder: (context, index) {
+            //       return const SizedBox(width: 8);
+            //     },
+            //     itemCount: restaurant.tags.length,
+            //   ),
+            // ),
             const SizedBox(
               height: 12,
             ),
@@ -104,15 +165,22 @@ class RestaurantInfo extends StatelessWidget {
                   'Free delivery',
                   style: TextStyle(
                     fontSize: 14,
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.w500,
                     color: AppColors.label2,
                     height: 1,
                     leadingDistribution: TextLeadingDistribution.even,
                   ),
                 ),
-                const SizedBox(
-                  width: 16,
+                const Spacer(),
+                Container(
+                  width: 6,
+                  height: 6,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: AppColors.gray300,
+                  ),
                 ),
+                const Spacer(),
                 SvgPicture.asset(
                   'assets/icons/clock.svg',
                   height: 16,
@@ -128,26 +196,28 @@ class RestaurantInfo extends StatelessWidget {
                   '${restaurant.time} min',
                   style: const TextStyle(
                     fontSize: 14,
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.w500,
                     color: AppColors.label2,
                     height: 1,
                     leadingDistribution: TextLeadingDistribution.even,
                   ),
                 ),
-              ],
-            ),
-            const SizedBox(
-              height: 12,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+                const Spacer(),
+                Container(
+                  width: 6,
+                  height: 6,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: AppColors.gray300,
+                  ),
+                ),
+                const Spacer(),
                 Text(
                   restaurant.record.toString(),
                   style: const TextStyle(
                     fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.black,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.label2,
                     height: 1,
                     leadingDistribution: TextLeadingDistribution.even,
                   ),
@@ -169,7 +239,7 @@ class RestaurantInfo extends StatelessWidget {
                 Text(
                   '(${restaurant.recordPeople})',
                   style: const TextStyle(
-                    fontSize: 14,
+                    fontSize: 12,
                     fontWeight: FontWeight.w400,
                     color: AppColors.label,
                     height: 1,
@@ -177,6 +247,9 @@ class RestaurantInfo extends StatelessWidget {
                   ),
                 ),
               ],
+            ),
+            const SizedBox(
+              height: 24,
             ),
           ],
         ),

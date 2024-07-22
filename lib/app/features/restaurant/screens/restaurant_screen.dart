@@ -172,7 +172,7 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen>
             title: restaurantDetail!.name,
             image: restaurantDetail!.backdrop,
             scrollController: _verticalScrollController,
-            logoImage: restaurantDetail?.logo,
+            // logoImage: restaurantDetail?.logo,
           ),
           RestaurantInfo(restaurant: restaurantDetail!),
           SliverLayoutBuilder(
