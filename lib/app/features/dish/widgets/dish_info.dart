@@ -23,15 +23,47 @@ class DishInfo extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            Text(
-              dish.name,
-              style: const TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.w700,
-                color: AppColors.slate900,
-                height: 1.2,
-                leadingDistribution: TextLeadingDistribution.even,
-              ),
+            Row(
+              children: [
+                Text(
+                  dish.name,
+                  style: const TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.slate900,
+                    height: 1.2,
+                    leadingDistribution: TextLeadingDistribution.even,
+                  ),
+                ),
+                const Spacer(),
+                Container(
+                  width: 38,
+                  height: 38,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(14),
+                    color: Colors.transparent,
+                  ),
+                  child: TextButton(
+                    onPressed: () {},
+                    style: TextButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                      padding: EdgeInsets.zero,
+                    ),
+                    child: Center(
+                      child: SvgPicture.asset(
+                        'assets/icons/heart_solid.svg',
+                        width: 24,
+                        colorFilter: const ColorFilter.mode(
+                          AppColors.primary,
+                          BlendMode.srcIn,
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              ],
             ),
             const SizedBox(
               height: 8,

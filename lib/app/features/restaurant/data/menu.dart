@@ -1,4 +1,4 @@
-import 'package:fooddash/app/features/restaurant/models/restaurant_detail.dart';
+import 'package:fooddash/app/features/restaurant/models/dish_category.dart';
 
 const String urlImages = 'https://files.joseperezgil.com/images/delivery';
 
@@ -6,11 +6,9 @@ final List<DishCategory> staticMenu = [
   DishCategory(
     name: 'Burgers',
     id: 1,
-    isActive: true,
     dishes: [
       Dish(
         id: 1,
-        isActive: true,
         stock: 15,
         name: 'Classic burger',
         price: 19.90,
@@ -20,7 +18,6 @@ final List<DishCategory> staticMenu = [
       ),
       Dish(
         id: 1,
-        isActive: true,
         stock: 15,
         name: 'Cheese burger',
         price: 21.90,
@@ -30,7 +27,6 @@ final List<DishCategory> staticMenu = [
       ),
       Dish(
         id: 1,
-        isActive: true,
         stock: 15,
         name: 'A lo pobre',
         price: 22.90,
@@ -40,7 +36,6 @@ final List<DishCategory> staticMenu = [
       ),
       Dish(
         id: 1,
-        isActive: true,
         stock: 15,
         name: 'Royal burger',
         price: 19.90,
@@ -50,7 +45,6 @@ final List<DishCategory> staticMenu = [
       ),
       Dish(
         id: 1,
-        isActive: true,
         stock: 15,
         name: 'Bacon burger',
         price: 23.90,
@@ -60,7 +54,6 @@ final List<DishCategory> staticMenu = [
       ),
       Dish(
         id: 1,
-        isActive: true,
         stock: 15,
         name: 'John´s burger',
         price: 23.90,
@@ -72,12 +65,10 @@ final List<DishCategory> staticMenu = [
   ),
   DishCategory(
     id: 2,
-    isActive: true,
     name: 'Box',
     dishes: [
       Dish(
         id: 1,
-        isActive: true,
         stock: 15,
         name: 'Box Peruano',
         price: 29.90,
@@ -87,7 +78,6 @@ final List<DishCategory> staticMenu = [
       ),
       Dish(
         id: 1,
-        isActive: true,
         stock: 15,
         name: 'Box Parrillero a lo Pobre',
         price: 31.90,
@@ -97,7 +87,6 @@ final List<DishCategory> staticMenu = [
       ),
       Dish(
         id: 1,
-        isActive: true,
         stock: 15,
         name: 'Box Alitas',
         price: 29.90,
@@ -107,7 +96,6 @@ final List<DishCategory> staticMenu = [
       ),
       Dish(
         id: 1,
-        isActive: true,
         stock: 15,
         name: 'Box Parrillero',
         price: 29.90,
@@ -117,7 +105,6 @@ final List<DishCategory> staticMenu = [
       ),
       Dish(
         id: 1,
-        isActive: true,
         stock: 15,
         name: 'Box Anticuchero',
         price: 26.90,
@@ -127,7 +114,6 @@ final List<DishCategory> staticMenu = [
       ),
       Dish(
         id: 1,
-        isActive: true,
         stock: 15,
         name: 'Box Anticuchero Mixto',
         price: 27.90,

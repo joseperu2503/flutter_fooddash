@@ -1,6 +1,6 @@
 import 'package:fooddash/app/config/constants/app_colors.dart';
-import 'package:fooddash/app/features/dashboard/models/restaurant.dart';
 import 'package:fooddash/app/features/dashboard/providers/restaurants_provider.dart';
+import 'package:fooddash/app/features/restaurant/models/restaurant.dart';
 import 'package:fooddash/app/features/shared/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,9 +25,7 @@ class RestaurantItem extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
       onTap: () {
-        ref
-            .read(restaurantsProvider.notifier)
-            .setTemporalRestaurant(restaurant);
+        ref.read(restaurantsProvider.notifier).setRestaurant(restaurant);
         context.push('/restaurant/${restaurant.id}');
       },
       child: Container(

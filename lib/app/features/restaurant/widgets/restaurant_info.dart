@@ -1,17 +1,20 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fooddash/app/config/constants/app_colors.dart';
-import 'package:fooddash/app/features/restaurant/models/restaurant_detail.dart';
+import 'package:fooddash/app/features/favorites/providers/favorite_restaurant_provider.dart';
+import 'package:fooddash/app/features/restaurant/models/restaurant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fooddash/app/features/shared/widgets/favorite_button.dart';
 
-class RestaurantInfo extends StatelessWidget {
+class RestaurantInfo extends ConsumerWidget {
   const RestaurantInfo({
     super.key,
     required this.restaurant,
   });
-  final RestaurantDetail restaurant;
+  final Restaurant restaurant;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return SliverToBoxAdapter(
       child: Container(
         padding: const EdgeInsets.symmetric(
@@ -66,33 +69,14 @@ class RestaurantInfo extends StatelessWidget {
                   ),
                 ),
                 const Spacer(),
-                Container(
-                  width: 38,
-                  height: 38,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(14),
-                    color: Colors.transparent,
-                  ),
-                  child: TextButton(
-                    onPressed: () {},
-                    style: TextButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                      padding: EdgeInsets.zero,
-                    ),
-                    child: Center(
-                      child: SvgPicture.asset(
-                        'assets/icons/heart_solid.svg',
-                        width: 24,
-                        colorFilter: const ColorFilter.mode(
-                          AppColors.primary,
-                          BlendMode.srcIn,
-                        ),
-                      ),
-                    ),
-                  ),
-                )
+                FavoriteButton(
+                  onPress: () async {
+                    await ref
+                        .read(favoriteRestaurantProvider.notifier)
+                        .toggleFavorite(restaurantId: restaurant.id);
+                  },
+                  isFavorite: restaurant.isFavorite,
+                ),
               ],
             ),
             const SizedBox(

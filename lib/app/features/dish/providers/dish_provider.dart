@@ -4,7 +4,7 @@ import 'package:fooddash/app/features/cart/models/cart_request.dart';
 import 'package:fooddash/app/features/cart/providers/cart_provider.dart';
 import 'package:fooddash/app/features/dish/models/dish_detail.dart';
 import 'package:fooddash/app/features/dish/services/dish_service.dart';
-import 'package:fooddash/app/features/restaurant/models/restaurant_detail.dart';
+import 'package:fooddash/app/features/restaurant/models/dish_category.dart';
 import 'package:fooddash/app/features/shared/models/loading_status.dart';
 
 final dishProvider = StateNotifierProvider<DishNotifier, DishState>((ref) {
@@ -24,7 +24,7 @@ class DishNotifier extends StateNotifier<DishState> {
         description: dish.description,
         price: dish.price,
         stock: dish.stock,
-        isActive: dish.isActive,
+        isActive: true,
         toppingCategories: [],
         dishCategory: null,
       ),

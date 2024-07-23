@@ -1,19 +1,31 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fooddash/app/config/constants/app_colors.dart';
+import 'package:fooddash/app/features/dashboard/widgets/restaurant_item.dart';
+import 'package:fooddash/app/features/favorites/providers/favorite_restaurant_provider.dart';
 import 'package:fooddash/app/features/favorites/widgets/favorite_switch.dart';
 import 'package:fooddash/app/features/restaurant/data/constants.dart';
 import 'package:fooddash/app/features/restaurant/data/menu.dart';
 import 'package:fooddash/app/features/dish/widgets/dish_item.dart';
 import 'package:flutter/material.dart';
 
-class FavoriteScreen extends StatefulWidget {
+class FavoriteScreen extends ConsumerStatefulWidget {
   const FavoriteScreen({super.key});
 
   @override
-  State<FavoriteScreen> createState() => _FavoriteScreenState();
+  FavoriteScreenState createState() => FavoriteScreenState();
 }
 
-class _FavoriteScreenState extends State<FavoriteScreen> {
-  FavoriteType facoriteType = FavoriteType.food;
+class FavoriteScreenState extends ConsumerState<FavoriteScreen> {
+  FavoriteType favoriteType = FavoriteType.dish;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await ref.read(favoriteRestaurantProvider.notifier).initData();
+      await ref.read(favoriteRestaurantProvider.notifier).getRestaurants();
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +33,8 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
     double deviceWidth = MediaQuery.of(context).size.width;
     final widthGridItem =
         (deviceWidth - 24 * 2 - crossAxisSpacing) / crossAxisCount;
+
+    final favoriteRestaurantState = ref.watch(favoriteRestaurantProvider);
 
     return SafeArea(
       child: Scaffold(
@@ -61,43 +75,72 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                 bottom: 8,
               ),
               child: FavoriteSwitch(
-                favoriteType: facoriteType,
+                favoriteType: favoriteType,
                 onChange: (value) {
                   setState(() {
-                    facoriteType = value;
+                    favoriteType = value;
                   });
                 },
                 width: MediaQuery.of(context).size.width - 2 * 24,
               ),
             ),
-            Expanded(
-              child: CustomScrollView(
-                slivers: [
-                  SliverPadding(
-                    padding: const EdgeInsets.only(
-                      left: 24,
-                      right: 24,
-                      top: 24,
-                    ),
-                    sliver: SliverGrid.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: crossAxisCount,
-                        mainAxisSpacing: mainAxisSpacing,
-                        crossAxisSpacing: crossAxisSpacing,
-                        childAspectRatio: widthGridItem / heightDish,
+            if (favoriteType == FavoriteType.dish)
+              Expanded(
+                child: CustomScrollView(
+                  slivers: [
+                    SliverPadding(
+                      padding: const EdgeInsets.only(
+                        left: 24,
+                        right: 24,
+                        top: 24,
                       ),
-                      itemBuilder: (context, index) {
-                        return DishItem(
-                          widthGridItem: widthGridItem,
-                          dish: dishes[index],
-                        );
-                      },
-                      itemCount: dishes.length,
-                    ),
-                  )
-                ],
+                      sliver: SliverGrid.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: crossAxisCount,
+                          mainAxisSpacing: mainAxisSpacing,
+                          crossAxisSpacing: crossAxisSpacing,
+                          childAspectRatio: widthGridItem / heightDish,
+                        ),
+                        itemBuilder: (context, index) {
+                          return DishItem(
+                            widthGridItem: widthGridItem,
+                            dish: dishes[index],
+                          );
+                        },
+                        itemCount: dishes.length,
+                      ),
+                    )
+                  ],
+                ),
               ),
-            ),
+            if (favoriteType == FavoriteType.restaurant)
+              Expanded(
+                child: CustomScrollView(
+                  slivers: [
+                    SliverPadding(
+                      padding: const EdgeInsets.only(
+                        left: 24,
+                        right: 24,
+                        top: 24,
+                        bottom: 24,
+                      ),
+                      sliver: SliverList.separated(
+                        itemBuilder: (context, index) {
+                          final restaurant =
+                              favoriteRestaurantState.restaurants[index];
+                          return RestaurantItem(restaurant: restaurant);
+                        },
+                        separatorBuilder: (context, index) {
+                          return const SizedBox(
+                            height: 28,
+                          );
+                        },
+                        itemCount: favoriteRestaurantState.restaurants.length,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
           ],
         ),
       ),
@@ -105,4 +148,4 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   }
 }
 
-enum FavoriteType { food, restaurant }
+enum FavoriteType { dish, restaurant }

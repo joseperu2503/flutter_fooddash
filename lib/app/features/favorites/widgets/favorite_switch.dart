@@ -47,18 +47,18 @@ class FavoriteSwitch extends StatelessWidget {
               Expanded(
                 child: GestureDetector(
                   onTap: () {
-                    onChange(FavoriteType.food);
+                    onChange(FavoriteType.dish);
                   },
                   behavior: HitTestBehavior.translucent,
                   child: Container(
                     color: Colors.transparent,
                     alignment: Alignment.center,
                     child: Text(
-                      'Foods',
+                      'Dishes',
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
-                        color: favoriteType == FavoriteType.food
+                        color: favoriteType == FavoriteType.dish
                             ? const Color(0xffEFEFEF)
                             : AppColors.orange,
                         height: 1,

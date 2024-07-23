@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:fooddash/app/features/core/models/service_exception.dart';
 import 'package:fooddash/app/features/dashboard/models/category.dart';
 import 'package:fooddash/app/features/dashboard/models/restaurant.dart';
 import 'package:fooddash/app/features/dashboard/services/restaurants_service.dart';
-import 'package:fooddash/app/features/restaurant/models/restaurant_detail.dart';
+import 'package:fooddash/app/features/restaurant/models/dish_category.dart';
+import 'package:fooddash/app/features/restaurant/models/restaurant.dart';
 import 'package:fooddash/app/features/shared/models/loading_status.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fooddash/app/features/shared/services/snackbar_service.dart';
 
 final restaurantsProvider =
     StateNotifierProvider<RestaurantsNotifier, RestaurantsState>((ref) {
@@ -77,28 +80,31 @@ class RestaurantsNotifier extends StateNotifier<RestaurantsState> {
     }
   }
 
-  setTemporalRestaurant(Restaurant restaurant) async {
+  setRestaurant(Restaurant restaurant) async {
     state = state.copyWith(
-      termporalRestaurant: RestaurantDetail(
-        id: restaurant.id,
-        name: restaurant.name,
-        address: restaurant.address,
-        logo: restaurant.logo,
-        backdrop: restaurant.backdrop,
-        latitude: restaurant.latitude,
-        longitude: restaurant.longitude,
-        isActive: restaurant.isActive,
-        openTime: restaurant.openTime,
-        closeTime: restaurant.closeTime,
-        dishCategories: [],
-        delivery: restaurant.delivery,
-        distance: restaurant.distance,
-        record: restaurant.record,
-        recordPeople: restaurant.recordPeople,
-        tags: restaurant.tags,
-        time: restaurant.time,
-      ),
+      restaurant: restaurant,
     );
+  }
+
+  getRestaurant({required int restaurantId}) async {
+    try {
+      state = state.copyWith(
+        dishCategories: [],
+      );
+      final Restaurant restaurant =
+          await RestaurantsService.getRestaurant(restaurantId: restaurantId);
+      state = state.copyWith(
+        restaurant: restaurant,
+      );
+
+      final List<DishCategory> dishes =
+          await RestaurantsService.getDishes(restaurantId: restaurantId);
+      state = state.copyWith(
+        dishCategories: dishes,
+      );
+    } on ServiceException catch (e) {
+      SnackBarService.show(e.message);
+    }
   }
 
   setCategory(Category category) {
@@ -121,7 +127,8 @@ class RestaurantsState {
   final List<Category> categories;
   final Category? category;
   final LoadingStatus categoriesStatus;
-  final RestaurantDetail? termporalRestaurant;
+  final Restaurant? restaurant;
+  final List<DishCategory> dishCategories;
 
   RestaurantsState({
     this.restaurants = const [],
@@ -130,8 +137,9 @@ class RestaurantsState {
     this.restaurantsStatus = LoadingStatus.none,
     this.categories = const [],
     this.categoriesStatus = LoadingStatus.none,
-    this.termporalRestaurant,
+    this.restaurant,
     this.category,
+    this.dishCategories = const [],
   });
 
   RestaurantsState copyWith({
@@ -141,8 +149,9 @@ class RestaurantsState {
     LoadingStatus? restaurantsStatus,
     List<Category>? categories,
     LoadingStatus? categoriesStatus,
-    RestaurantDetail? termporalRestaurant,
+    Restaurant? restaurant,
     ValueGetter<Category?>? category,
+    List<DishCategory>? dishCategories,
   }) =>
       RestaurantsState(
         restaurants: restaurants ?? this.restaurants,
@@ -151,7 +160,8 @@ class RestaurantsState {
         restaurantsStatus: restaurantsStatus ?? this.restaurantsStatus,
         categories: categories ?? this.categories,
         categoriesStatus: categoriesStatus ?? this.categoriesStatus,
-        termporalRestaurant: termporalRestaurant ?? this.termporalRestaurant,
+        restaurant: restaurant ?? this.restaurant,
         category: category != null ? category() : this.category,
+        dishCategories: dishCategories ?? this.dishCategories,
       );
 }

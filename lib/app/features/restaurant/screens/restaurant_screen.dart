@@ -3,8 +3,7 @@ import 'package:fooddash/app/features/cart/providers/cart_provider.dart';
 import 'package:fooddash/app/features/cart/widgets/cart_bottom_sheet_2.dart';
 import 'package:fooddash/app/features/dashboard/providers/restaurants_provider.dart';
 import 'package:fooddash/app/features/restaurant/data/constants.dart';
-import 'package:fooddash/app/features/restaurant/models/restaurant_detail.dart';
-import 'package:fooddash/app/features/restaurant/services/restaurant_services.dart';
+import 'package:fooddash/app/features/restaurant/models/dish_category.dart';
 import 'package:fooddash/app/features/dish/widgets/dish_item.dart';
 import 'package:fooddash/app/features/shared/widgets/image_app_bar.dart';
 import 'package:fooddash/app/features/restaurant/widgets/restaurant_info.dart';
@@ -29,46 +28,24 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen>
     with SingleTickerProviderStateMixin {
   final ScrollController _verticalScrollController = ScrollController();
   ScrollType scrollType = ScrollType.scroll;
-  RestaurantDetail? restaurantDetail;
+  TabController? _tabController;
 
   int selectedCategoryIndex = 0;
 
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await getRestaurant();
+      await ref
+          .read(restaurantsProvider.notifier)
+          .getRestaurant(restaurantId: int.parse(widget.restaurantId));
+      _tabController = TabController(length: menu.length, vsync: this);
       _setVerticalBreakPoints();
+      _verticalScrollController.addListener(_updateCategoryIndexOnScroll);
     });
-    _verticalScrollController.addListener(_updateCategoryIndexOnScroll);
     super.initState();
   }
 
-  getRestaurant() async {
-    //obtiene el restaurant temporal del provider
-    final restaurantsState = ref.read(restaurantsProvider);
-    final RestaurantDetail? termporalRestaurant =
-        restaurantsState.termporalRestaurant;
-    if (termporalRestaurant != null) {
-      setState(() {
-        restaurantDetail = termporalRestaurant;
-      });
-    }
-
-    try {
-      final RestaurantDetail response = await RestaurantService.getRestaurant(
-        restaurantId: widget.restaurantId,
-      );
-      setState(() {
-        restaurantDetail = response;
-        _tabController = TabController(
-            length: restaurantDetail?.dishCategories.length ?? 0, vsync: this);
-      });
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
-
-  List<DishCategory> get menu => restaurantDetail?.dishCategories ?? [];
+  List<DishCategory> get menu => ref.watch(restaurantsProvider).dishCategories;
 
   void _scrollToCategory(int index) async {
     if (selectedCategoryIndex != index) {
@@ -134,14 +111,12 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen>
             selectedCategoryIndex = i;
           });
           setState(() {
-            _tabController.animateTo(i);
+            _tabController?.animateTo(i);
           });
         }
       }
     }
   }
-
-  late TabController _tabController;
 
   int _rowsPerDishes(int numDishes) {
     return (numDishes / crossAxisCount).ceil();
@@ -150,16 +125,18 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen>
   @override
   void dispose() {
     _verticalScrollController.dispose();
+    _tabController?.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final screen = MediaQuery.of(context);
+    final restaurant = ref.watch(restaurantsProvider).restaurant;
 
     final widthGridItem =
         (screen.size.width - 24 * 2 - crossAxisSpacing) / crossAxisCount;
-    if (restaurantDetail == null) {
+    if (restaurant == null) {
       return const Scaffold();
     }
     final cartState = ref.watch(cartProvider);
@@ -169,12 +146,11 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen>
         controller: _verticalScrollController,
         slivers: [
           ImageAppBar(
-            title: restaurantDetail!.name,
-            image: restaurantDetail!.backdrop,
+            title: restaurant.name,
+            image: restaurant.backdrop,
             scrollController: _verticalScrollController,
-            // logoImage: restaurantDetail?.logo,
           ),
-          RestaurantInfo(restaurant: restaurantDetail!),
+          RestaurantInfo(restaurant: restaurant),
           SliverLayoutBuilder(
             key: _sliverKey,
             builder: (context, constraints) {
@@ -192,7 +168,7 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen>
                 flexibleSpace: Container(
                   alignment: Alignment.bottomCenter,
                   height: heightCategories,
-                  child: (menu.isNotEmpty)
+                  child: (_tabController != null)
                       ? TabBar(
                           controller: _tabController,
                           isScrollable: true,
