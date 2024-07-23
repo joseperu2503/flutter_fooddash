@@ -28,6 +28,7 @@ class RestaurantInfo extends ConsumerWidget {
               height: 12,
             ),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
                   height: 50,
@@ -58,17 +59,21 @@ class RestaurantInfo extends ConsumerWidget {
                 const SizedBox(
                   width: 12,
                 ),
-                Text(
-                  restaurant.name,
-                  style: const TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.slate900,
-                    height: 1.2,
-                    leadingDistribution: TextLeadingDistribution.even,
+                Expanded(
+                  child: Text(
+                    restaurant.name,
+                    style: const TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.slate900,
+                      height: 1.2,
+                      leadingDistribution: TextLeadingDistribution.even,
+                    ),
                   ),
                 ),
-                const Spacer(),
+                const SizedBox(
+                  width: 12,
+                ),
                 FavoriteButton(
                   onPress: () async {
                     await ref

@@ -24,18 +24,20 @@ class DishInfo extends StatelessWidget {
               height: 20,
             ),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  dish.name,
-                  style: const TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.slate900,
-                    height: 1.2,
-                    leadingDistribution: TextLeadingDistribution.even,
+                Expanded(
+                  child: Text(
+                    dish.name,
+                    style: const TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.slate900,
+                      height: 1.2,
+                      leadingDistribution: TextLeadingDistribution.even,
+                    ),
                   ),
                 ),
-                const Spacer(),
                 Container(
                   width: 38,
                   height: 38,
