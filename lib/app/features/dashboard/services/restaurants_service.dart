@@ -87,8 +87,10 @@ class RestaurantsService {
         "page": page,
         "limit": 5,
       };
-      final response = await Api()
-          .get('/favorites/restaurant', queryParameters: queryParameters);
+      final response = await Api().get(
+        '/favorites/restaurant',
+        queryParameters: queryParameters,
+      );
 
       return RestaurantsResponse.fromJson(response.data);
     } catch (e) {

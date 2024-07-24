@@ -10,7 +10,7 @@ class FavoriteButton extends StatefulWidget {
     required this.isFavorite,
   });
 
-  final bool isFavorite;
+  final bool? isFavorite;
   final Future<void> Function() onPress;
 
   @override
@@ -46,9 +46,9 @@ class _FavoriteButtonState extends State<FavoriteButton> {
           padding: EdgeInsets.zero,
         ),
         child: Center(
-          child: !loading
+          child: !loading && widget.isFavorite != null
               ? SvgPicture.asset(
-                  widget.isFavorite
+                  widget.isFavorite!
                       ? 'assets/icons/heart_solid.svg'
                       : 'assets/icons/heart_outlined.svg',
                   width: 24,

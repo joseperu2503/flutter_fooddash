@@ -1,14 +1,15 @@
 import 'package:fooddash/app/config/constants/app_colors.dart';
-import 'package:fooddash/app/features/dish/models/dish_detail.dart';
+import 'package:fooddash/app/features/dish/models/dish.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fooddash/app/features/shared/widgets/favorite_button.dart';
 
 class DishInfo extends StatelessWidget {
   const DishInfo({
     super.key,
     required this.dish,
   });
-  final DishDetail dish;
+  final Dish dish;
 
   @override
   Widget build(BuildContext context) {
@@ -38,33 +39,10 @@ class DishInfo extends StatelessWidget {
                     ),
                   ),
                 ),
-                Container(
-                  width: 38,
-                  height: 38,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(14),
-                    color: Colors.transparent,
-                  ),
-                  child: TextButton(
-                    onPressed: () {},
-                    style: TextButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                      padding: EdgeInsets.zero,
-                    ),
-                    child: Center(
-                      child: SvgPicture.asset(
-                        'assets/icons/heart_solid.svg',
-                        width: 24,
-                        colorFilter: const ColorFilter.mode(
-                          AppColors.primary,
-                          BlendMode.srcIn,
-                        ),
-                      ),
-                    ),
-                  ),
-                )
+                FavoriteButton(
+                  onPress: () async {},
+                  isFavorite: dish.isFavorite,
+                ),
               ],
             ),
             const SizedBox(

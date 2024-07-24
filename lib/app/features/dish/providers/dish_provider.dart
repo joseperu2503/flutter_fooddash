@@ -2,9 +2,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fooddash/app/config/router/app_router.dart';
 import 'package:fooddash/app/features/cart/models/cart_request.dart';
 import 'package:fooddash/app/features/cart/providers/cart_provider.dart';
-import 'package:fooddash/app/features/dish/models/dish_detail.dart';
+import 'package:fooddash/app/features/dish/models/dish.dart';
+import 'package:fooddash/app/features/dish/models/topping_category.dart';
 import 'package:fooddash/app/features/dish/services/dish_service.dart';
-import 'package:fooddash/app/features/restaurant/models/dish_category.dart';
 import 'package:fooddash/app/features/shared/models/loading_status.dart';
 
 final dishProvider = StateNotifierProvider<DishNotifier, DishState>((ref) {
@@ -15,21 +15,12 @@ class DishNotifier extends StateNotifier<DishState> {
   DishNotifier(this.ref) : super(DishState());
   final StateNotifierProviderRef ref;
 
-  setTemporalDish(Dish dish) async {
+  setDish(Dish dish) async {
     state = state.copyWith(
-      dishDetail: DishDetail(
-        id: dish.id,
-        name: dish.name,
-        image: dish.image,
-        description: dish.description,
-        price: dish.price,
-        stock: dish.stock,
-        isActive: true,
-        toppingCategories: [],
-        dishCategory: null,
-      ),
+      dish: dish,
       selectedToppings: [],
       units: 1,
+      toppingCategories: [],
     );
   }
 
@@ -39,12 +30,18 @@ class DishNotifier extends StateNotifier<DishState> {
     );
 
     try {
-      final DishDetail response = await DishService.getDish(
+      final Dish dish = await DishService.getDish(
+        dishId: dishId,
+      );
+
+      final List<ToppingCategory> toppingCategories =
+          await DishService.getToppings(
         dishId: dishId,
       );
 
       state = state.copyWith(
-        dishDetail: response,
+        dish: dish,
+        toppingCategories: toppingCategories,
         loading: LoadingStatus.success,
       );
     } catch (e) {
@@ -116,7 +113,7 @@ class DishNotifier extends StateNotifier<DishState> {
   }
 
   Future<void> addDishToCart() async {
-    if (state.dishDetail == null || state.dishDetail?.dishCategory == null) {
+    if (state.dish == null || state.dish?.dishCategory == null) {
       return;
     }
 
@@ -136,14 +133,16 @@ class DishNotifier extends StateNotifier<DishState> {
     }
 
     DishCartRequest dishCart = DishCartRequest(
-      dishId: state.dishDetail!.id,
+      dishId: state.dish!.id,
       units: state.units,
       toppings: toppings,
     );
 
     try {
       await ref.read(cartProvider.notifier).addDishToCart(
-          dishCart, state.dishDetail!.dishCategory!.restaurant.id);
+            dishCart,
+            state.dish!.dishCategory!.restaurant.id,
+          );
       appRouter.pop();
 
       state = state.copyWith(
@@ -172,25 +171,27 @@ class DishNotifier extends StateNotifier<DishState> {
 }
 
 class DishState {
-  final DishDetail? dishDetail;
+  final Dish? dish;
   final int units;
   final List<SelectedTopping> selectedToppings;
   final LoadingStatus loading;
   final LoadingStatus addingToCart;
+  final List<ToppingCategory> toppingCategories;
 
   DishState({
-    this.dishDetail,
+    this.dish,
     this.units = 1,
     this.selectedToppings = const [],
     this.loading = LoadingStatus.none,
     this.addingToCart = LoadingStatus.none,
+    this.toppingCategories = const [],
   });
 
   List<ToppingCategoryForm> get toppingCategoriesStatus {
-    if (dishDetail == null) return [];
+    if (dish == null) return [];
     List<ToppingCategoryForm> statuses = [];
 
-    for (ToppingCategory toppingCategory in dishDetail!.toppingCategories) {
+    for (ToppingCategory toppingCategory in toppingCategories) {
       statuses.add(
         ToppingCategoryForm(
           toppingCategory: toppingCategory,
@@ -202,7 +203,7 @@ class DishState {
   }
 
   bool get isDone {
-    if (dishDetail == null) return false;
+    if (dish == null) return false;
     if (loading == LoadingStatus.loading) return false;
 
     for (ToppingCategoryForm toppingCategoryForm in toppingCategoriesStatus) {
@@ -214,18 +215,20 @@ class DishState {
   }
 
   DishState copyWith({
-    DishDetail? dishDetail,
+    Dish? dish,
     int? units,
     List<SelectedTopping>? selectedToppings,
     LoadingStatus? loading,
     LoadingStatus? addingToCart,
+    List<ToppingCategory>? toppingCategories,
   }) =>
       DishState(
-        dishDetail: dishDetail ?? this.dishDetail,
+        dish: dish ?? this.dish,
         units: units ?? this.units,
         selectedToppings: selectedToppings ?? this.selectedToppings,
         loading: loading ?? this.loading,
         addingToCart: addingToCart ?? this.addingToCart,
+        toppingCategories: toppingCategories ?? this.toppingCategories,
       );
 }
 
@@ -264,7 +267,6 @@ class ToppingCategoryForm extends ToppingCategory {
   }) : super(
           id: toppingCategory.id,
           description: toppingCategory.description,
-          isActive: toppingCategory.isActive,
           maxToppings: toppingCategory.maxToppings,
           minToppings: toppingCategory.minToppings,
           subtitle: toppingCategory.subtitle,

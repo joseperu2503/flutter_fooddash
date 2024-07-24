@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'dart:math' as math;
 import 'package:fooddash/app/config/constants/app_colors.dart';
-import 'package:fooddash/app/features/dish/models/dish_detail.dart';
+import 'package:fooddash/app/features/dish/models/topping_category.dart';
 import 'package:fooddash/app/features/dish/providers/dish_provider.dart';
 import 'package:fooddash/app/features/shared/utils/utils.dart';
 import 'package:fooddash/app/features/shared/widgets/button_stepper.dart';

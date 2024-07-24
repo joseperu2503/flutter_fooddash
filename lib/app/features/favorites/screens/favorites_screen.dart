@@ -4,7 +4,6 @@ import 'package:fooddash/app/features/dashboard/widgets/restaurant_item.dart';
 import 'package:fooddash/app/features/favorites/providers/favorite_restaurant_provider.dart';
 import 'package:fooddash/app/features/favorites/widgets/favorite_switch.dart';
 import 'package:fooddash/app/features/restaurant/data/constants.dart';
-import 'package:fooddash/app/features/restaurant/data/menu.dart';
 import 'package:fooddash/app/features/dish/widgets/dish_item.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +28,6 @@ class FavoriteScreenState extends ConsumerState<FavoriteScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final dishes = staticMenu[0].dishes;
     double deviceWidth = MediaQuery.of(context).size.width;
     final widthGridItem =
         (deviceWidth - 24 * 2 - crossAxisSpacing) / crossAxisCount;
@@ -85,62 +83,62 @@ class FavoriteScreenState extends ConsumerState<FavoriteScreen> {
               ),
             ),
             if (favoriteType == FavoriteType.dish)
-              Expanded(
-                child: CustomScrollView(
-                  slivers: [
-                    SliverPadding(
-                      padding: const EdgeInsets.only(
-                        left: 24,
-                        right: 24,
-                        top: 24,
-                      ),
-                      sliver: SliverGrid.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: crossAxisCount,
-                          mainAxisSpacing: mainAxisSpacing,
-                          crossAxisSpacing: crossAxisSpacing,
-                          childAspectRatio: widthGridItem / heightDish,
+              // Expanded(
+              //   child: CustomScrollView(
+              //     slivers: [
+              //       SliverPadding(
+              //         padding: const EdgeInsets.only(
+              //           left: 24,
+              //           right: 24,
+              //           top: 24,
+              //         ),
+              //         sliver: SliverGrid.builder(
+              //           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              //             crossAxisCount: crossAxisCount,
+              //             mainAxisSpacing: mainAxisSpacing,
+              //             crossAxisSpacing: crossAxisSpacing,
+              //             childAspectRatio: widthGridItem / heightDish,
+              //           ),
+              //           itemBuilder: (context, index) {
+              //             return DishItem(
+              //               widthGridItem: widthGridItem,
+              //               dish: dishes[index],
+              //             );
+              //           },
+              //           itemCount: dishes.length,
+              //         ),
+              //       )
+              //     ],
+              //   ),
+              // ),
+              if (favoriteType == FavoriteType.restaurant)
+                Expanded(
+                  child: CustomScrollView(
+                    slivers: [
+                      SliverPadding(
+                        padding: const EdgeInsets.only(
+                          left: 24,
+                          right: 24,
+                          top: 24,
+                          bottom: 24,
                         ),
-                        itemBuilder: (context, index) {
-                          return DishItem(
-                            widthGridItem: widthGridItem,
-                            dish: dishes[index],
-                          );
-                        },
-                        itemCount: dishes.length,
+                        sliver: SliverList.separated(
+                          itemBuilder: (context, index) {
+                            final restaurant =
+                                favoriteRestaurantState.restaurants[index];
+                            return RestaurantItem(restaurant: restaurant);
+                          },
+                          separatorBuilder: (context, index) {
+                            return const SizedBox(
+                              height: 28,
+                            );
+                          },
+                          itemCount: favoriteRestaurantState.restaurants.length,
+                        ),
                       ),
-                    )
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            if (favoriteType == FavoriteType.restaurant)
-              Expanded(
-                child: CustomScrollView(
-                  slivers: [
-                    SliverPadding(
-                      padding: const EdgeInsets.only(
-                        left: 24,
-                        right: 24,
-                        top: 24,
-                        bottom: 24,
-                      ),
-                      sliver: SliverList.separated(
-                        itemBuilder: (context, index) {
-                          final restaurant =
-                              favoriteRestaurantState.restaurants[index];
-                          return RestaurantItem(restaurant: restaurant);
-                        },
-                        separatorBuilder: (context, index) {
-                          return const SizedBox(
-                            height: 28,
-                          );
-                        },
-                        itemCount: favoriteRestaurantState.restaurants.length,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
           ],
         ),
       ),

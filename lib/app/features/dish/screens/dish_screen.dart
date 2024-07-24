@@ -39,7 +39,7 @@ class DishScreenState extends ConsumerState<DishScreen> {
   @override
   Widget build(BuildContext context) {
     final dishState = ref.watch(dishProvider);
-    if (dishState.dishDetail == null) {
+    if (dishState.dish == null) {
       return const Scaffold();
     }
 
@@ -48,12 +48,12 @@ class DishScreenState extends ConsumerState<DishScreen> {
         controller: verticalScrollController,
         slivers: [
           ImageAppBar(
-            title: dishState.dishDetail!.name,
-            image: dishState.dishDetail!.image,
+            title: dishState.dish!.name,
+            image: dishState.dish!.image,
             scrollController: verticalScrollController,
             expandedHeightAppbar: 300,
           ),
-          DishInfo(dish: dishState.dishDetail!),
+          DishInfo(dish: dishState.dish!),
           SliverList.separated(
             itemBuilder: (context, index) {
               final toppingCategory = dishState.toppingCategoriesStatus[index];
@@ -74,7 +74,7 @@ class DishScreenState extends ConsumerState<DishScreen> {
                 height: 1.0,
               );
             },
-            itemCount: dishState.dishDetail!.toppingCategories.length,
+            itemCount: dishState.toppingCategories.length,
           ),
         ],
       ),

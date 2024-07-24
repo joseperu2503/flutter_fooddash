@@ -1,7 +1,7 @@
 import 'package:fooddash/app/config/constants/app_colors.dart';
 import 'package:fooddash/app/features/cart/providers/cart_provider.dart';
+import 'package:fooddash/app/features/dish/models/dish.dart';
 import 'package:fooddash/app/features/dish/providers/dish_provider.dart';
-import 'package:fooddash/app/features/restaurant/models/dish_category.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -40,7 +40,7 @@ class DishItem extends ConsumerWidget {
               borderRadius: BorderRadius.circular(12),
             ),
             onTap: () {
-              ref.read(dishProvider.notifier).setTemporalDish(dish);
+              ref.read(dishProvider.notifier).setDish(dish);
               context.push('/dish/${dish.id}');
             },
             contentPadding: EdgeInsets.zero,
