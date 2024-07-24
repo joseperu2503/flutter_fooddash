@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fooddash/app/config/constants/app_colors.dart';
 import 'package:fooddash/app/features/dashboard/widgets/restaurant_item.dart';
+import 'package:fooddash/app/features/favorites/providers/favorite_dish_provider.dart';
 import 'package:fooddash/app/features/favorites/providers/favorite_restaurant_provider.dart';
 import 'package:fooddash/app/features/favorites/widgets/favorite_switch.dart';
 import 'package:fooddash/app/features/restaurant/data/constants.dart';
@@ -20,8 +21,10 @@ class FavoriteScreenState extends ConsumerState<FavoriteScreen> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await ref.read(favoriteRestaurantProvider.notifier).initData();
+      ref.read(favoriteRestaurantProvider.notifier).initData();
       await ref.read(favoriteRestaurantProvider.notifier).getRestaurants();
+      ref.read(favoriteDishProvider.notifier).initData();
+      await ref.read(favoriteDishProvider.notifier).getDishes();
     });
     super.initState();
   }
@@ -33,6 +36,7 @@ class FavoriteScreenState extends ConsumerState<FavoriteScreen> {
         (deviceWidth - 24 * 2 - crossAxisSpacing) / crossAxisCount;
 
     final favoriteRestaurantState = ref.watch(favoriteRestaurantProvider);
+    final favoriteDishState = ref.watch(favoriteDishProvider);
 
     return SafeArea(
       child: Scaffold(
@@ -83,62 +87,62 @@ class FavoriteScreenState extends ConsumerState<FavoriteScreen> {
               ),
             ),
             if (favoriteType == FavoriteType.dish)
-              // Expanded(
-              //   child: CustomScrollView(
-              //     slivers: [
-              //       SliverPadding(
-              //         padding: const EdgeInsets.only(
-              //           left: 24,
-              //           right: 24,
-              //           top: 24,
-              //         ),
-              //         sliver: SliverGrid.builder(
-              //           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              //             crossAxisCount: crossAxisCount,
-              //             mainAxisSpacing: mainAxisSpacing,
-              //             crossAxisSpacing: crossAxisSpacing,
-              //             childAspectRatio: widthGridItem / heightDish,
-              //           ),
-              //           itemBuilder: (context, index) {
-              //             return DishItem(
-              //               widthGridItem: widthGridItem,
-              //               dish: dishes[index],
-              //             );
-              //           },
-              //           itemCount: dishes.length,
-              //         ),
-              //       )
-              //     ],
-              //   ),
-              // ),
-              if (favoriteType == FavoriteType.restaurant)
-                Expanded(
-                  child: CustomScrollView(
-                    slivers: [
-                      SliverPadding(
-                        padding: const EdgeInsets.only(
-                          left: 24,
-                          right: 24,
-                          top: 24,
-                          bottom: 24,
-                        ),
-                        sliver: SliverList.separated(
-                          itemBuilder: (context, index) {
-                            final restaurant =
-                                favoriteRestaurantState.restaurants[index];
-                            return RestaurantItem(restaurant: restaurant);
-                          },
-                          separatorBuilder: (context, index) {
-                            return const SizedBox(
-                              height: 28,
-                            );
-                          },
-                          itemCount: favoriteRestaurantState.restaurants.length,
-                        ),
+              Expanded(
+                child: CustomScrollView(
+                  slivers: [
+                    SliverPadding(
+                      padding: const EdgeInsets.only(
+                        left: 24,
+                        right: 24,
+                        top: 24,
                       ),
-                    ],
-                  ),
+                      sliver: SliverGrid.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: crossAxisCount,
+                          mainAxisSpacing: mainAxisSpacing,
+                          crossAxisSpacing: crossAxisSpacing,
+                          childAspectRatio: widthGridItem / heightDish,
+                        ),
+                        itemBuilder: (context, index) {
+                          return DishItem(
+                            widthGridItem: widthGridItem,
+                            dish: favoriteDishState.dishes[index],
+                          );
+                        },
+                        itemCount: favoriteDishState.dishes.length,
+                      ),
+                    )
+                  ],
                 ),
+              ),
+            if (favoriteType == FavoriteType.restaurant)
+              Expanded(
+                child: CustomScrollView(
+                  slivers: [
+                    SliverPadding(
+                      padding: const EdgeInsets.only(
+                        left: 24,
+                        right: 24,
+                        top: 24,
+                        bottom: 24,
+                      ),
+                      sliver: SliverList.separated(
+                        itemBuilder: (context, index) {
+                          final restaurant =
+                              favoriteRestaurantState.restaurants[index];
+                          return RestaurantItem(restaurant: restaurant);
+                        },
+                        separatorBuilder: (context, index) {
+                          return const SizedBox(
+                            height: 28,
+                          );
+                        },
+                        itemCount: favoriteRestaurantState.restaurants.length,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
           ],
         ),
       ),

@@ -1,10 +1,12 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fooddash/app/config/constants/app_colors.dart';
 import 'package:fooddash/app/features/dish/models/dish.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fooddash/app/features/favorites/providers/favorite_dish_provider.dart';
 import 'package:fooddash/app/features/shared/widgets/favorite_button.dart';
 
-class DishInfo extends StatelessWidget {
+class DishInfo extends ConsumerWidget {
   const DishInfo({
     super.key,
     required this.dish,
@@ -12,7 +14,7 @@ class DishInfo extends StatelessWidget {
   final Dish dish;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return SliverToBoxAdapter(
       child: Container(
         padding: const EdgeInsets.symmetric(
@@ -40,7 +42,11 @@ class DishInfo extends StatelessWidget {
                   ),
                 ),
                 FavoriteButton(
-                  onPress: () async {},
+                  onPress: () async {
+                    await ref
+                        .read(favoriteDishProvider.notifier)
+                        .toggleFavorite(dishId: dish.id);
+                  },
                   isFavorite: dish.isFavorite,
                 ),
               ],

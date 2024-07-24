@@ -62,14 +62,14 @@ flutter:
 
 flutter_native_splash:
   color: "#FE724C"
-  image: assets/native/splash.png
+  image: assets/app/splash.png
 
   android_12:
-    image: assets/native/android12splash.png
+    image: assets/app/android12splash.png
     color: "#FE724C"
 
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/native/icon.png"
+  image_path: "assets/app/icon.png"
   min_sdk_android: 21

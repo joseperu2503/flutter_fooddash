@@ -18,15 +18,15 @@ class DishNotifier extends StateNotifier<DishState> {
   setDish(Dish dish) async {
     state = state.copyWith(
       dish: dish,
-      selectedToppings: [],
-      units: 1,
-      toppingCategories: [],
     );
   }
 
   getDish(String dishId) async {
     state = state.copyWith(
       loading: LoadingStatus.loading,
+      selectedToppings: [],
+      units: 1,
+      toppingCategories: [],
     );
 
     try {

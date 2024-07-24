@@ -13,7 +13,7 @@ class Restaurant {
   final double record;
   final int recordPeople;
   final double delivery;
-  final bool isFavorite;
+  final bool? isFavorite;
 
   Restaurant({
     required this.id,
@@ -30,7 +30,7 @@ class Restaurant {
     required this.record,
     required this.recordPeople,
     required this.delivery,
-    required this.isFavorite,
+    this.isFavorite,
   });
 
   factory Restaurant.fromJson(Map<String, dynamic> json) => Restaurant(
