@@ -109,7 +109,7 @@ class DishCart {
   final int id;
   final int units;
   final Dish dish;
-  final List<dynamic> toppingDishCarts;
+  final List<ToppingDishCart> toppingDishCarts;
 
   DishCart({
     required this.id,
@@ -122,7 +122,7 @@ class DishCart {
     int? id,
     int? units,
     Dish? dish,
-    List<dynamic>? toppingDishCarts,
+    List<ToppingDishCart>? toppingDishCarts,
   }) =>
       DishCart(
         id: id ?? this.id,
@@ -135,15 +135,16 @@ class DishCart {
         id: json["id"],
         units: json["units"],
         dish: Dish.fromJson(json["dish"]),
-        toppingDishCarts:
-            List<dynamic>.from(json["toppingDishCarts"].map((x) => x)),
+        toppingDishCarts: List<ToppingDishCart>.from(
+            json["toppingDishCarts"].map((x) => ToppingDishCart.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "units": units,
         "dish": dish.toJson(),
-        "toppingDishCarts": List<dynamic>.from(toppingDishCarts.map((x) => x)),
+        "toppingDishCarts":
+            List<dynamic>.from(toppingDishCarts.map((x) => x.toJson())),
       };
 }
 
@@ -189,6 +190,77 @@ class Dish {
         "id": id,
         "name": name,
         "image": image,
+        "description": description,
+        "price": price,
+      };
+}
+
+class ToppingDishCart {
+  final int id;
+  final int units;
+  final Topping topping;
+
+  ToppingDishCart({
+    required this.id,
+    required this.units,
+    required this.topping,
+  });
+
+  ToppingDishCart copyWith({
+    int? id,
+    int? units,
+    Topping? topping,
+  }) =>
+      ToppingDishCart(
+        id: id ?? this.id,
+        units: units ?? this.units,
+        topping: topping ?? this.topping,
+      );
+
+  factory ToppingDishCart.fromJson(Map<String, dynamic> json) =>
+      ToppingDishCart(
+        id: json["id"],
+        units: json["units"],
+        topping: Topping.fromJson(json["topping"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "units": units,
+        "topping": topping.toJson(),
+      };
+}
+
+class Topping {
+  final int id;
+  final String description;
+  final double price;
+
+  Topping({
+    required this.id,
+    required this.description,
+    required this.price,
+  });
+
+  Topping copyWith({
+    int? id,
+    String? description,
+    double? price,
+  }) =>
+      Topping(
+        id: id ?? this.id,
+        description: description ?? this.description,
+        price: price ?? this.price,
+      );
+
+  factory Topping.fromJson(Map<String, dynamic> json) => Topping(
+        id: json["id"],
+        description: json["description"],
+        price: json["price"]?.toDouble(),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
         "description": description,
         "price": price,
       };

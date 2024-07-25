@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fooddash/app/config/constants/app_colors.dart';
 import 'package:fooddash/app/features/dish/providers/dish_provider.dart';
 import 'package:fooddash/app/features/shared/models/loading_status.dart';
+import 'package:fooddash/app/features/shared/utils/utils.dart';
 import 'package:fooddash/app/features/shared/widgets/custom_button.dart';
 
 class BottomDish extends ConsumerWidget {
@@ -114,16 +115,18 @@ class BottomDish extends ConsumerWidget {
             const SizedBox(
               width: 24,
             ),
-            Expanded(
-              child: CustomButton(
-                onPressed: () {
-                  ref.read(dishProvider.notifier).addDishToCart();
-                },
-                disabled: !dishState.isDone,
-                text: 'Add to cart',
-                loading: dishState.addingToCart == LoadingStatus.loading,
+            if (dishState.dish != null)
+              Expanded(
+                child: CustomButton(
+                  onPressed: () {
+                    ref.read(dishProvider.notifier).addDishToCart();
+                  },
+                  disabled: !dishState.isDone,
+                  text:
+                      'Add ${Utils.formatCurrency(dishState.dish!.price * dishState.units)}',
+                  loading: dishState.addingToCart == LoadingStatus.loading,
+                ),
               ),
-            ),
           ],
         ),
       ),

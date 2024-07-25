@@ -22,9 +22,10 @@ class CartDishItem extends ConsumerWidget {
     String toppingsDescription = '';
     for (var topping in dishCart.toppingDishCarts) {
       if (toppingsDescription.isEmpty) {
-        toppingsDescription = '${topping.description}.';
+        toppingsDescription = '${topping.topping.description}.';
       } else {
-        toppingsDescription = '$toppingsDescription ${topping.description}.';
+        toppingsDescription =
+            '$toppingsDescription ${topping.topping.description}.';
       }
     }
 

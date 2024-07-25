@@ -160,7 +160,7 @@ class DishInfo extends ConsumerWidget {
               ],
             ),
             const SizedBox(
-              height: 30,
+              height: 12,
             ),
           ],
         ),
