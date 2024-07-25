@@ -10,6 +10,8 @@ import 'package:fooddash/app/features/dashboard/widgets/most_popular.dart';
 import 'package:fooddash/app/features/dashboard/widgets/restaurant_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fooddash/app/features/dashboard/widgets/restaurant_skeleton.dart';
+import 'package:fooddash/app/features/shared/models/loading_status.dart';
 
 class DashboardScreen extends ConsumerStatefulWidget {
   const DashboardScreen({super.key});
@@ -66,9 +68,7 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
             const MesageDashboard(),
             const InputSearchDashboard(),
             const CategoriesDashboard(),
-            MostPopular(
-              restaurants: restaurantsState.restaurants,
-            ),
+            const MostPopular(),
             SliverToBoxAdapter(
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -112,6 +112,23 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
                 itemCount: restaurantsState.restaurants.length,
               ),
             ),
+            if (restaurantsState.restaurantsStatus == LoadingStatus.loading)
+              SliverPadding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                ),
+                sliver: SliverList.separated(
+                  itemBuilder: (context, index) {
+                    return const RestaurantSkeleton();
+                  },
+                  separatorBuilder: (context, index) {
+                    return const SizedBox(
+                      height: 28,
+                    );
+                  },
+                  itemCount: 2,
+                ),
+              ),
             const SliverToBoxAdapter(
               child: SizedBox(
                 height: 24,

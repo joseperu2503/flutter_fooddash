@@ -49,96 +49,93 @@ class RestaurantItem extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Expanded(
-                child: SizedBox(
-                  height: 140,
-                  child: Stack(
-                    children: [
-                      SizedBox.expand(
-                        child: Center(
-                          child: SvgPicture.asset(
-                            'assets/icons/logo.svg',
-                            width: 52,
-                            height: 52,
-                            colorFilter: const ColorFilter.mode(
-                              AppColors.gray100,
-                              BlendMode.srcIn,
+                child: Stack(
+                  children: [
+                    SizedBox.expand(
+                      child: Center(
+                        child: SvgPicture.asset(
+                          'assets/icons/logo.svg',
+                          width: 52,
+                          height: 52,
+                          colorFilter: const ColorFilter.mode(
+                            AppColors.gray100,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                      ),
+                    ),
+                    FadeInImage(
+                      width: double.infinity,
+                      height: double.infinity,
+                      image: NetworkImage(
+                        restaurant.backdrop,
+                      ),
+                      fit: BoxFit.cover,
+                      placeholder:
+                          const AssetImage('assets/images/transparent.png'),
+                    ),
+                    Positioned(
+                      top: 10,
+                      left: 11,
+                      child: Container(
+                        width: 69,
+                        height: 28,
+                        decoration: BoxDecoration(
+                          color: AppColors.white,
+                          borderRadius: BorderRadius.circular(15),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Color.fromRGBO(254, 114, 76, 0.2),
+                              offset: Offset(0, 5.85),
+                              blurRadius: 23.39,
+                              spreadRadius: 0,
                             ),
-                          ),
+                          ],
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              restaurant.record.toString(),
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.black,
+                                height: 1,
+                                leadingDistribution:
+                                    TextLeadingDistribution.even,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 2,
+                            ),
+                            SvgPicture.asset(
+                              'assets/icons/star.svg',
+                              width: 14,
+                              colorFilter: const ColorFilter.mode(
+                                AppColors.yellow,
+                                BlendMode.srcIn,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 2,
+                            ),
+                            Text(
+                              '(${restaurant.recordPeople})',
+                              style: const TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.w400,
+                                color: AppColors.label,
+                                height: 1,
+                                leadingDistribution:
+                                    TextLeadingDistribution.even,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      FadeInImage(
-                        width: double.infinity,
-                        height: double.infinity,
-                        image: NetworkImage(
-                          restaurant.backdrop,
-                        ),
-                        fit: BoxFit.cover,
-                        placeholder:
-                            const AssetImage('assets/images/transparent.png'),
-                      ),
-                      Positioned(
-                        top: 10,
-                        left: 11,
-                        child: Container(
-                          width: 69,
-                          height: 28,
-                          decoration: BoxDecoration(
-                            color: AppColors.white,
-                            borderRadius: BorderRadius.circular(15),
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Color.fromRGBO(254, 114, 76, 0.2),
-                                offset: Offset(0, 5.85),
-                                blurRadius: 23.39,
-                                spreadRadius: 0,
-                              ),
-                            ],
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                restaurant.record.toString(),
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.black,
-                                  height: 1,
-                                  leadingDistribution:
-                                      TextLeadingDistribution.even,
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 2,
-                              ),
-                              SvgPicture.asset(
-                                'assets/icons/star.svg',
-                                width: 14,
-                                colorFilter: const ColorFilter.mode(
-                                  AppColors.yellow,
-                                  BlendMode.srcIn,
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 2,
-                              ),
-                              Text(
-                                '(${restaurant.recordPeople})',
-                                style: const TextStyle(
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.label,
-                                  height: 1,
-                                  leadingDistribution:
-                                      TextLeadingDistribution.even,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
+                    )
+                  ],
                 ),
               ),
               Container(
@@ -150,20 +147,19 @@ class RestaurantItem extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     if (showLogo)
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(50),
-                        child: SizedBox(
-                          height: 48,
-                          width: 48,
-                          child: Image.network(
-                            restaurant.logo,
-                            fit: BoxFit.cover,
+                      Padding(
+                        padding: const EdgeInsets.only(right: 12),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(50),
+                          child: SizedBox(
+                            height: 48,
+                            width: 48,
+                            child: Image.network(
+                              restaurant.logo,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
-                      ),
-                    if (showLogo)
-                      const SizedBox(
-                        width: 12,
                       ),
                     Expanded(
                       child: Column(
@@ -185,58 +181,62 @@ class RestaurantItem extends ConsumerWidget {
                           const SizedBox(
                             height: 8,
                           ),
-                          Row(
-                            children: [
-                              SvgPicture.asset(
-                                'assets/icons/delivery.svg',
-                                height: 16,
-                                colorFilter: const ColorFilter.mode(
-                                  AppColors.primary,
-                                  BlendMode.srcIn,
+                          SizedBox(
+                            height: 16,
+                            child: Row(
+                              children: [
+                                SvgPicture.asset(
+                                  'assets/icons/delivery.svg',
+                                  height: 16,
+                                  colorFilter: const ColorFilter.mode(
+                                    AppColors.primary,
+                                    BlendMode.srcIn,
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(
-                                width: 6,
-                              ),
-                              Text(
-                                restaurant.delivery == 0
-                                    ? 'Free delivery'
-                                    : Utils.formatCurrency(restaurant.delivery),
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  color: Color(0xff7E8392),
-                                  height: 14 / 12,
-                                  leadingDistribution:
-                                      TextLeadingDistribution.even,
+                                const SizedBox(
+                                  width: 6,
                                 ),
-                              ),
-                              const SizedBox(
-                                width: 16,
-                              ),
-                              SvgPicture.asset(
-                                'assets/icons/clock.svg',
-                                height: 16,
-                                colorFilter: const ColorFilter.mode(
-                                  AppColors.primary,
-                                  BlendMode.srcIn,
+                                Text(
+                                  restaurant.delivery == 0
+                                      ? 'Free delivery'
+                                      : Utils.formatCurrency(
+                                          restaurant.delivery),
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color(0xff7E8392),
+                                    height: 14 / 12,
+                                    leadingDistribution:
+                                        TextLeadingDistribution.even,
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(
-                                width: 6,
-                              ),
-                              Text(
-                                '${restaurant.time} min',
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  color: Color(0xff7E8392),
-                                  height: 14 / 12,
-                                  leadingDistribution:
-                                      TextLeadingDistribution.even,
+                                const SizedBox(
+                                  width: 16,
                                 ),
-                              ),
-                            ],
+                                SvgPicture.asset(
+                                  'assets/icons/clock.svg',
+                                  height: 16,
+                                  colorFilter: const ColorFilter.mode(
+                                    AppColors.primary,
+                                    BlendMode.srcIn,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 6,
+                                ),
+                                Text(
+                                  '${restaurant.time} min',
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color(0xff7E8392),
+                                    height: 14 / 12,
+                                    leadingDistribution:
+                                        TextLeadingDistribution.even,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                           // if (restaurant.tags.isNotEmpty)
                           //   const SizedBox(
