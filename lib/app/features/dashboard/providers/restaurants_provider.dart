@@ -88,9 +88,8 @@ class RestaurantsNotifier extends StateNotifier<RestaurantsState> {
 
   getRestaurant({required int restaurantId}) async {
     try {
-      state = state.copyWith(
-        dishCategories: [],
-      );
+      state = state
+          .copyWith(dishCategories: [], dishesStatus: LoadingStatus.loading);
       final Restaurant restaurant =
           await RestaurantsService.getRestaurant(restaurantId: restaurantId);
       state = state.copyWith(
@@ -101,8 +100,12 @@ class RestaurantsNotifier extends StateNotifier<RestaurantsState> {
           await RestaurantsService.getDishes(restaurantId: restaurantId);
       state = state.copyWith(
         dishCategories: dishes,
+        dishesStatus: LoadingStatus.success,
       );
     } on ServiceException catch (e) {
+      state = state.copyWith(
+        dishesStatus: LoadingStatus.error,
+      );
       SnackBarService.show(e.message);
     }
   }
@@ -129,6 +132,7 @@ class RestaurantsState {
   final LoadingStatus categoriesStatus;
   final Restaurant? restaurant;
   final List<DishCategory> dishCategories;
+  final LoadingStatus dishesStatus;
 
   RestaurantsState({
     this.restaurants = const [],
@@ -140,6 +144,7 @@ class RestaurantsState {
     this.restaurant,
     this.category,
     this.dishCategories = const [],
+    this.dishesStatus = LoadingStatus.none,
   });
 
   RestaurantsState copyWith({
@@ -152,6 +157,7 @@ class RestaurantsState {
     Restaurant? restaurant,
     ValueGetter<Category?>? category,
     List<DishCategory>? dishCategories,
+    LoadingStatus? dishesStatus,
   }) =>
       RestaurantsState(
         restaurants: restaurants ?? this.restaurants,
@@ -163,5 +169,6 @@ class RestaurantsState {
         restaurant: restaurant ?? this.restaurant,
         category: category != null ? category() : this.category,
         dishCategories: dishCategories ?? this.dishCategories,
+        dishesStatus: dishesStatus ?? this.dishesStatus,
       );
 }

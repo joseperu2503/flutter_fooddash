@@ -2,9 +2,11 @@ import 'package:fooddash/app/config/constants/app_colors.dart';
 import 'package:fooddash/app/features/cart/providers/cart_provider.dart';
 import 'package:fooddash/app/features/cart/widgets/cart_bottom_sheet_2.dart';
 import 'package:fooddash/app/features/dashboard/providers/restaurants_provider.dart';
+import 'package:fooddash/app/features/dish/widgets/dish_skeleton.dart';
 import 'package:fooddash/app/features/restaurant/data/constants.dart';
 import 'package:fooddash/app/features/restaurant/models/dish_category.dart';
 import 'package:fooddash/app/features/dish/widgets/dish_item.dart';
+import 'package:fooddash/app/features/shared/models/loading_status.dart';
 import 'package:fooddash/app/features/shared/widgets/image_app_bar.dart';
 import 'package:fooddash/app/features/restaurant/widgets/restaurant_info.dart';
 import 'package:flutter/material.dart';
@@ -132,7 +134,8 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen>
   @override
   Widget build(BuildContext context) {
     final screen = MediaQuery.of(context);
-    final restaurant = ref.watch(restaurantsProvider).restaurant;
+    final restaurantState = ref.watch(restaurantsProvider);
+    final restaurant = restaurantState.restaurant;
 
     final widthGridItem =
         (screen.size.width - 24 * 2 - crossAxisSpacing) / crossAxisCount;
@@ -151,83 +154,84 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen>
             scrollController: _verticalScrollController,
           ),
           RestaurantInfo(restaurant: restaurant),
-          SliverLayoutBuilder(
-            key: _sliverKey,
-            builder: (context, constraints) {
-              double firstVerticalBreakPoint =
-                  constraints.precedingScrollExtent -
-                      (collapsedHeightAppbar + screen.padding.top);
-              if (firstVerticalBreakPoint != _firstVerticalBreakPoint) {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  setState(() {
-                    _firstVerticalBreakPoint = firstVerticalBreakPoint;
+          if (restaurantState.dishesStatus == LoadingStatus.success)
+            SliverLayoutBuilder(
+              key: _sliverKey,
+              builder: (context, constraints) {
+                double firstVerticalBreakPoint =
+                    constraints.precedingScrollExtent -
+                        (collapsedHeightAppbar + screen.padding.top);
+                if (firstVerticalBreakPoint != _firstVerticalBreakPoint) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    setState(() {
+                      _firstVerticalBreakPoint = firstVerticalBreakPoint;
+                    });
                   });
-                });
-              }
-              return SliverAppBar(
-                flexibleSpace: Container(
-                  alignment: Alignment.bottomCenter,
-                  height: heightCategories,
-                  child: (_tabController != null)
-                      ? TabBar(
-                          controller: _tabController,
-                          isScrollable: true,
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 24,
-                          ),
-                          labelPadding: EdgeInsets.zero,
-                          onTap: (value) {
-                            _scrollToCategory(value);
-                          },
-                          tabAlignment: TabAlignment.start,
-                          indicatorColor: AppColors.primary,
-                          indicatorWeight: 4,
-                          overlayColor:
-                              MaterialStateProperty.resolveWith<Color?>(
-                                  (Set<MaterialState> states) {
-                            if (states.contains(MaterialState.pressed)) {
-                              return AppColors.white.withOpacity(0.3);
-                            }
+                }
+                return SliverAppBar(
+                  flexibleSpace: Container(
+                    alignment: Alignment.bottomCenter,
+                    height: heightCategories,
+                    child: (_tabController != null)
+                        ? TabBar(
+                            controller: _tabController,
+                            isScrollable: true,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 24,
+                            ),
+                            labelPadding: EdgeInsets.zero,
+                            onTap: (value) {
+                              _scrollToCategory(value);
+                            },
+                            tabAlignment: TabAlignment.start,
+                            indicatorColor: AppColors.primary,
+                            indicatorWeight: 4,
+                            overlayColor:
+                                MaterialStateProperty.resolveWith<Color?>(
+                                    (Set<MaterialState> states) {
+                              if (states.contains(MaterialState.pressed)) {
+                                return AppColors.white.withOpacity(0.3);
+                              }
 
-                            return null;
-                          }),
-                          tabs: menu.map((dishCategory) {
-                            return Container(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 10,
-                                horizontal: 16,
-                              ),
-                              child: Text(
-                                dishCategory.name,
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColors.dark,
-                                  height: 19.5 / 16,
-                                  letterSpacing: 0.12,
-                                  leadingDistribution:
-                                      TextLeadingDistribution.even,
+                              return null;
+                            }),
+                            tabs: menu.map((dishCategory) {
+                              return Container(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 10,
+                                  horizontal: 16,
                                 ),
-                              ),
-                            );
-                          }).toList(),
-                        )
-                      : null,
-                ),
-                primary: false,
-                toolbarHeight: heightCategories,
-                scrolledUnderElevation: 0,
-                automaticallyImplyLeading: false,
-                pinned: true,
-              );
-            },
-          ),
+                                child: Text(
+                                  dishCategory.name,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.dark,
+                                    height: 19.5 / 16,
+                                    letterSpacing: 0.12,
+                                    leadingDistribution:
+                                        TextLeadingDistribution.even,
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                          )
+                        : null,
+                  ),
+                  primary: false,
+                  toolbarHeight: heightCategories,
+                  scrolledUnderElevation: 0,
+                  automaticallyImplyLeading: false,
+                  pinned: true,
+                );
+              },
+            ),
           const SliverToBoxAdapter(
             child: SizedBox(
               height: heightCategorySpace,
             ),
           ),
-          if (menu.isNotEmpty)
+          if (restaurantState.dishesStatus == LoadingStatus.success)
             ...menu
                 .map((dishCategory) {
                   int index = menu.indexOf(dishCategory);
@@ -283,6 +287,25 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen>
                 })
                 .toList()
                 .reduce((value, element) => [...value, ...element]),
+          if (restaurantState.dishesStatus == LoadingStatus.loading)
+            SliverPadding(
+              padding: const EdgeInsets.only(
+                left: 24,
+                right: 24,
+              ),
+              sliver: SliverGrid.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: crossAxisCount,
+                  mainAxisSpacing: mainAxisSpacing,
+                  crossAxisSpacing: crossAxisSpacing,
+                  childAspectRatio: widthGridItem / heightDish,
+                ),
+                itemBuilder: (context, index) {
+                  return const DishSkeleton();
+                },
+                itemCount: 6,
+              ),
+            ),
           const SliverToBoxAdapter(
             child: SizedBox(
               height: heightEnd,
