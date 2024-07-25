@@ -1,12 +1,14 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fooddash/app/config/constants/app_colors.dart';
 import 'package:fooddash/app/features/dashboard/widgets/restaurant_item.dart';
+import 'package:fooddash/app/features/dish/widgets/dish_skeleton.dart';
 import 'package:fooddash/app/features/favorites/providers/favorite_dish_provider.dart';
 import 'package:fooddash/app/features/favorites/providers/favorite_restaurant_provider.dart';
 import 'package:fooddash/app/features/favorites/widgets/favorite_switch.dart';
 import 'package:fooddash/app/features/restaurant/data/constants.dart';
 import 'package:fooddash/app/features/dish/widgets/dish_item.dart';
 import 'package:flutter/material.dart';
+import 'package:fooddash/app/features/shared/models/loading_status.dart';
 
 class FavoriteScreen extends ConsumerStatefulWidget {
   const FavoriteScreen({super.key});
@@ -22,9 +24,9 @@ class FavoriteScreenState extends ConsumerState<FavoriteScreen> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       ref.read(favoriteRestaurantProvider.notifier).initData();
-      await ref.read(favoriteRestaurantProvider.notifier).getRestaurants();
+      ref.read(favoriteRestaurantProvider.notifier).getRestaurants();
       ref.read(favoriteDishProvider.notifier).initData();
-      await ref.read(favoriteDishProvider.notifier).getDishes();
+      ref.read(favoriteDishProvider.notifier).getDishes();
     });
     _scrollControllerDish.addListener(() {
       if (_scrollControllerDish.position.pixels + 100 >=
@@ -137,7 +139,29 @@ class FavoriteScreenState extends ConsumerState<FavoriteScreen> {
                           },
                           itemCount: favoriteDishState.dishes.length,
                         ),
-                      )
+                      ),
+                      if (favoriteDishState.loadingStatus ==
+                          LoadingStatus.loading)
+                        SliverPadding(
+                          padding: const EdgeInsets.only(
+                            left: 24,
+                            right: 24,
+                            top: 24,
+                          ),
+                          sliver: SliverGrid.builder(
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: crossAxisCount,
+                              mainAxisSpacing: mainAxisSpacing,
+                              crossAxisSpacing: crossAxisSpacing,
+                              childAspectRatio: widthGridItem / heightDish,
+                            ),
+                            itemBuilder: (context, index) {
+                              return const DishSkeleton();
+                            },
+                            itemCount: 6,
+                          ),
+                        ),
                     ],
                   ),
                   CustomScrollView(

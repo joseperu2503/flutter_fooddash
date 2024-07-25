@@ -1,8 +1,10 @@
+import 'package:animated_shimmer/animated_shimmer.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fooddash/app/config/constants/app_colors.dart';
 import 'package:fooddash/app/features/dashboard/models/category.dart';
 import 'package:flutter/material.dart';
 import 'package:fooddash/app/features/dashboard/providers/restaurants_provider.dart';
+import 'package:fooddash/app/features/shared/models/loading_status.dart';
 
 class CategoriesDashboard extends ConsumerWidget {
   const CategoriesDashboard({
@@ -37,31 +39,66 @@ class CategoriesDashboard extends ConsumerWidget {
           const SizedBox(
             height: 12,
           ),
-          SizedBox(
-            height: 120,
-            child: ListView.separated(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                final category = categories[index];
-                return CategoryItem(
-                  category: category,
-                  isSelected: category.id == restaurantsState.category?.id,
-                  onPress: (category) {
-                    ref
-                        .read(restaurantsProvider.notifier)
-                        .setCategory(category);
-                  },
-                );
-              },
-              separatorBuilder: (context, index) {
-                return const SizedBox(
-                  width: 16,
-                );
-              },
-              itemCount: categories.length,
+          if (restaurantsState.categoriesStatus == LoadingStatus.success)
+            SizedBox(
+              height: 120,
+              child: ListView.separated(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  final category = categories[index];
+                  return CategoryItem(
+                    category: category,
+                    isSelected: category.id == restaurantsState.category?.id,
+                    onPress: (category) {
+                      ref
+                          .read(restaurantsProvider.notifier)
+                          .setCategory(category);
+                    },
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return const SizedBox(
+                    width: 16,
+                  );
+                },
+                itemCount: categories.length,
+              ),
             ),
-          ),
+
+          if (restaurantsState.categoriesStatus == LoadingStatus.loading)
+            SizedBox(
+              height: 120,
+              child: ListView.separated(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  return Column(
+                    children: [
+                      AnimatedShimmer(
+                        height: 88,
+                        width: 88,
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      AnimatedShimmer(
+                        height: 12,
+                        width: 65,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ],
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return const SizedBox(
+                    width: 16,
+                  );
+                },
+                itemCount: 5,
+              ),
+            ),
         ],
       ),
     );
