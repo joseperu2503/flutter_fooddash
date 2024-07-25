@@ -54,7 +54,7 @@ class DishService {
     try {
       Map<String, dynamic> queryParameters = {
         "page": page,
-        "limit": 5,
+        "limit": 6,
       };
       final response = await Api().get(
         '/favorites/dish',

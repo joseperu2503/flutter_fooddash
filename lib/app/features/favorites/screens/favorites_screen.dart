@@ -16,7 +16,7 @@ class FavoriteScreen extends ConsumerStatefulWidget {
 }
 
 class FavoriteScreenState extends ConsumerState<FavoriteScreen> {
-  FavoriteType favoriteType = FavoriteType.dish;
+  int page = 0;
 
   @override
   void initState() {
@@ -26,7 +26,31 @@ class FavoriteScreenState extends ConsumerState<FavoriteScreen> {
       ref.read(favoriteDishProvider.notifier).initData();
       await ref.read(favoriteDishProvider.notifier).getDishes();
     });
+    _scrollControllerDish.addListener(() {
+      if (_scrollControllerDish.position.pixels + 100 >=
+          _scrollControllerDish.position.maxScrollExtent) {
+        ref.read(favoriteDishProvider.notifier).getDishes();
+      }
+    });
+    _scrollControllerRestaurant.addListener(() {
+      if (_scrollControllerRestaurant.position.pixels + 100 >=
+          _scrollControllerRestaurant.position.maxScrollExtent) {
+        ref.read(favoriteRestaurantProvider.notifier).getRestaurants();
+      }
+    });
     super.initState();
+  }
+
+  final ScrollController _scrollControllerDish = ScrollController();
+  final ScrollController _scrollControllerRestaurant = ScrollController();
+  final PageController _pageController = PageController();
+
+  @override
+  void dispose() {
+    _scrollControllerDish.dispose();
+    _scrollControllerRestaurant.dispose();
+
+    super.dispose();
   }
 
   @override
@@ -77,72 +101,74 @@ class FavoriteScreenState extends ConsumerState<FavoriteScreen> {
                 bottom: 8,
               ),
               child: FavoriteSwitch(
-                favoriteType: favoriteType,
-                onChange: (value) {
-                  setState(() {
-                    favoriteType = value;
-                  });
-                },
+                pageController: _pageController,
                 width: MediaQuery.of(context).size.width - 2 * 24,
               ),
             ),
-            if (favoriteType == FavoriteType.dish)
-              Expanded(
-                child: CustomScrollView(
-                  slivers: [
-                    SliverPadding(
-                      padding: const EdgeInsets.only(
-                        left: 24,
-                        right: 24,
-                        top: 24,
-                      ),
-                      sliver: SliverGrid.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: crossAxisCount,
-                          mainAxisSpacing: mainAxisSpacing,
-                          crossAxisSpacing: crossAxisSpacing,
-                          childAspectRatio: widthGridItem / heightDish,
+            Expanded(
+              child: PageView(
+                controller: _pageController,
+                onPageChanged: (value) {
+                  setState(() {});
+                },
+                children: [
+                  CustomScrollView(
+                    controller: _scrollControllerDish,
+                    slivers: [
+                      SliverPadding(
+                        padding: const EdgeInsets.only(
+                          left: 24,
+                          right: 24,
+                          top: 24,
                         ),
-                        itemBuilder: (context, index) {
-                          return DishItem(
-                            widthGridItem: widthGridItem,
-                            dish: favoriteDishState.dishes[index],
-                          );
-                        },
-                        itemCount: favoriteDishState.dishes.length,
+                        sliver: SliverGrid.builder(
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: crossAxisCount,
+                            mainAxisSpacing: mainAxisSpacing,
+                            crossAxisSpacing: crossAxisSpacing,
+                            childAspectRatio: widthGridItem / heightDish,
+                          ),
+                          itemBuilder: (context, index) {
+                            return DishItem(
+                              widthGridItem: widthGridItem,
+                              dish: favoriteDishState.dishes[index],
+                            );
+                          },
+                          itemCount: favoriteDishState.dishes.length,
+                        ),
+                      )
+                    ],
+                  ),
+                  CustomScrollView(
+                    controller: _scrollControllerRestaurant,
+                    slivers: [
+                      SliverPadding(
+                        padding: const EdgeInsets.only(
+                          left: 24,
+                          right: 24,
+                          top: 24,
+                          bottom: 24,
+                        ),
+                        sliver: SliverList.separated(
+                          itemBuilder: (context, index) {
+                            final restaurant =
+                                favoriteRestaurantState.restaurants[index];
+                            return RestaurantItem(restaurant: restaurant);
+                          },
+                          separatorBuilder: (context, index) {
+                            return const SizedBox(
+                              height: 28,
+                            );
+                          },
+                          itemCount: favoriteRestaurantState.restaurants.length,
+                        ),
                       ),
-                    )
-                  ],
-                ),
+                    ],
+                  ),
+                ],
               ),
-            if (favoriteType == FavoriteType.restaurant)
-              Expanded(
-                child: CustomScrollView(
-                  slivers: [
-                    SliverPadding(
-                      padding: const EdgeInsets.only(
-                        left: 24,
-                        right: 24,
-                        top: 24,
-                        bottom: 24,
-                      ),
-                      sliver: SliverList.separated(
-                        itemBuilder: (context, index) {
-                          final restaurant =
-                              favoriteRestaurantState.restaurants[index];
-                          return RestaurantItem(restaurant: restaurant);
-                        },
-                        separatorBuilder: (context, index) {
-                          return const SizedBox(
-                            height: 28,
-                          );
-                        },
-                        itemCount: favoriteRestaurantState.restaurants.length,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+            ),
           ],
         ),
       ),
