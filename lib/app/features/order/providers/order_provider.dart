@@ -67,6 +67,7 @@ class OrderNotifier extends StateNotifier<OrderState> {
     try {
       await OrderService.createOrder(orderRequest);
       await ref.read(cartProvider.notifier).getMyCart();
+      await ref.read(orderProvider.notifier).getMyOrders();
 
       state = state.copyWith(
         creatingOrder: LoadingStatus.success,
