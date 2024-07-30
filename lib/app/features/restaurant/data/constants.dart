@@ -13,7 +13,6 @@ const double heightCategoryTitleSpace = 10;
 const double heightCategorySpace = 18;
 
 //Dish
-// const double heightDish = 250;
 const double heightDishInfo = 90;
 
 //grid dishes
