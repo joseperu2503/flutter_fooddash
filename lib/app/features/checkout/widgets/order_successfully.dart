@@ -53,7 +53,7 @@ class OrderSuccessfully extends StatelessWidget {
               onPressed: () {
                 context.go('/my-orders');
               },
-              text: 'ORDER TRACKING',
+              text: 'Order Tracking',
             ),
             const SizedBox(
               height: 8,
