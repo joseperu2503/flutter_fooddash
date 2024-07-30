@@ -19,3 +19,5 @@ const TextStyle appBarTitle = TextStyle(
   height: 1.3,
   leadingDistribution: TextLeadingDistribution.even,
 );
+
+const double horizontalPaddingMobile = 24;

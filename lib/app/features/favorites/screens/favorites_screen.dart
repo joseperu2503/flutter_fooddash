@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fooddash/app/config/constants/app_colors.dart';
+import 'package:fooddash/app/config/constants/styles.dart';
 import 'package:fooddash/app/features/dashboard/widgets/restaurant_item.dart';
 import 'package:fooddash/app/features/dish/widgets/dish_skeleton.dart';
 import 'package:fooddash/app/features/favorites/providers/favorite_dish_provider.dart';
@@ -57,9 +58,7 @@ class FavoriteScreenState extends ConsumerState<FavoriteScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double deviceWidth = MediaQuery.of(context).size.width;
-    final widthGridItem =
-        (deviceWidth - 24 * 2 - crossAxisSpacing) / crossAxisCount;
+    final screen = MediaQuery.of(context);
 
     final favoriteRestaurantState = ref.watch(favoriteRestaurantProvider);
     final favoriteDishState = ref.watch(favoriteDishProvider);
@@ -72,7 +71,7 @@ class FavoriteScreenState extends ConsumerState<FavoriteScreen> {
           scrolledUnderElevation: 0,
           flexibleSpace: Container(
             padding: const EdgeInsets.symmetric(
-              horizontal: 24,
+              horizontal: horizontalPaddingMobile,
             ),
             height: 60,
             child: const Row(
@@ -97,14 +96,15 @@ class FavoriteScreenState extends ConsumerState<FavoriteScreen> {
           children: [
             Container(
               padding: const EdgeInsets.only(
-                left: 24,
-                right: 24,
+                left: horizontalPaddingMobile,
+                right: horizontalPaddingMobile,
                 top: 24,
                 bottom: 8,
               ),
               child: FavoriteSwitch(
                 pageController: _pageController,
-                width: MediaQuery.of(context).size.width - 2 * 24,
+                width: MediaQuery.of(context).size.width -
+                    2 * horizontalPaddingMobile,
               ),
             ),
             Expanded(
@@ -119,21 +119,15 @@ class FavoriteScreenState extends ConsumerState<FavoriteScreen> {
                     slivers: [
                       SliverPadding(
                         padding: const EdgeInsets.only(
-                          left: 24,
-                          right: 24,
+                          left: horizontalPaddingMobile,
+                          right: horizontalPaddingMobile,
                           top: 24,
                         ),
                         sliver: SliverGrid.builder(
                           gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: crossAxisCount,
-                            mainAxisSpacing: mainAxisSpacing,
-                            crossAxisSpacing: crossAxisSpacing,
-                            childAspectRatio: widthGridItem / heightDish,
-                          ),
+                              dishSliverGridDelegate(screen.size.width),
                           itemBuilder: (context, index) {
                             return DishItem(
-                              widthGridItem: widthGridItem,
                               dish: favoriteDishState.dishes[index],
                             );
                           },
@@ -144,18 +138,13 @@ class FavoriteScreenState extends ConsumerState<FavoriteScreen> {
                           LoadingStatus.loading)
                         SliverPadding(
                           padding: const EdgeInsets.only(
-                            left: 24,
-                            right: 24,
+                            left: horizontalPaddingMobile,
+                            right: horizontalPaddingMobile,
                             top: 24,
                           ),
                           sliver: SliverGrid.builder(
                             gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: crossAxisCount,
-                              mainAxisSpacing: mainAxisSpacing,
-                              crossAxisSpacing: crossAxisSpacing,
-                              childAspectRatio: widthGridItem / heightDish,
-                            ),
+                                dishSliverGridDelegate(screen.size.width),
                             itemBuilder: (context, index) {
                               return const DishSkeleton();
                             },
@@ -169,8 +158,8 @@ class FavoriteScreenState extends ConsumerState<FavoriteScreen> {
                     slivers: [
                       SliverPadding(
                         padding: const EdgeInsets.only(
-                          left: 24,
-                          right: 24,
+                          left: horizontalPaddingMobile,
+                          right: horizontalPaddingMobile,
                           top: 24,
                           bottom: 24,
                         ),

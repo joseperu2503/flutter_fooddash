@@ -1,4 +1,5 @@
 import 'package:fooddash/app/config/constants/app_colors.dart';
+import 'package:fooddash/app/config/constants/styles.dart';
 import 'package:fooddash/app/features/cart/providers/cart_provider.dart';
 import 'package:fooddash/app/features/cart/widgets/cart_bottom_sheet_2.dart';
 import 'package:fooddash/app/features/dashboard/providers/restaurants_provider.dart';
@@ -84,6 +85,8 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen>
 
   //** calcula los scrollbreakpoints de las categorias */
   void _setVerticalBreakPoints() {
+    final screen = MediaQuery.of(context);
+
     final double firstBreakPoint = _firstVerticalBreakPoint;
     _verticalBreakPoints.add(firstBreakPoint);
     for (var i = 0; i < menu.length; i++) {
@@ -94,7 +97,7 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen>
           (heightCategorySpace +
               heightCategoryTitle +
               heightCategoryTitleSpace) +
-          (numRows * heightDish) +
+          (numRows * heightGridDish(screen.size.width)) +
           (numRows - 1) * mainAxisSpacing;
       _verticalBreakPoints.add(breakPoint);
     }
@@ -137,8 +140,6 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen>
     final restaurantState = ref.watch(restaurantsProvider);
     final restaurant = restaurantState.restaurant;
 
-    final widthGridItem =
-        (screen.size.width - 24 * 2 - crossAxisSpacing) / crossAxisCount;
     if (restaurant == null) {
       return const Scaffold();
     }
@@ -177,7 +178,7 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen>
                             controller: _tabController,
                             isScrollable: true,
                             padding: const EdgeInsets.symmetric(
-                              horizontal: 24,
+                              horizontal: horizontalPaddingMobile,
                             ),
                             labelPadding: EdgeInsets.zero,
                             onTap: (value) {
@@ -238,7 +239,9 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen>
                   return [
                     SliverPadding(
                       key: _categoryKeys[index],
-                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: horizontalPaddingMobile,
+                      ),
                       sliver: SliverToBoxAdapter(
                         child: Container(
                           height: heightCategoryTitle,
@@ -259,19 +262,15 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen>
                       ),
                     ),
                     SliverPadding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: horizontalPaddingMobile,
+                      ),
                       sliver: SliverGrid.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: crossAxisCount,
-                          mainAxisSpacing: mainAxisSpacing,
-                          crossAxisSpacing: crossAxisSpacing,
-                          childAspectRatio: widthGridItem / heightDish,
-                        ),
+                        gridDelegate: dishSliverGridDelegate(screen.size.width),
                         itemBuilder: (context, index) {
                           final dish = dishCategory.dishes[index];
                           // print(dish.id);
                           return DishItem(
-                            widthGridItem: widthGridItem,
                             dish: dish,
                           );
                         },
@@ -290,16 +289,11 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen>
           if (restaurantState.dishesStatus == LoadingStatus.loading)
             SliverPadding(
               padding: const EdgeInsets.only(
-                left: 24,
-                right: 24,
+                left: horizontalPaddingMobile,
+                right: horizontalPaddingMobile,
               ),
               sliver: SliverGrid.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: crossAxisCount,
-                  mainAxisSpacing: mainAxisSpacing,
-                  crossAxisSpacing: crossAxisSpacing,
-                  childAspectRatio: widthGridItem / heightDish,
-                ),
+                gridDelegate: dishSliverGridDelegate(screen.size.width),
                 itemBuilder: (context, index) {
                   return const DishSkeleton();
                 },
