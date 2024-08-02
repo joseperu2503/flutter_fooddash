@@ -51,7 +51,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
       password: state.password.touch(),
     );
 
-    if (!Formx.validate([state.email, state.email])) return;
+    if (!Formx.validate([state.email, state.password])) return;
 
     state = state.copyWith(
       loading: LoadingStatus.loading,

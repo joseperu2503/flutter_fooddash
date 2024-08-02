@@ -8,7 +8,7 @@ class CustomLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Text(
         label,

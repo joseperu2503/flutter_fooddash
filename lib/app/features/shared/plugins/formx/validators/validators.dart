@@ -1,7 +1,7 @@
-import 'package:fooddash/app/features/shared/plugins/formx/validators/compose_or_validator.dart';
-import 'package:fooddash/app/features/shared/plugins/formx/validators/email_validator.dart';
-import 'package:fooddash/app/features/shared/plugins/formx/validators/min_length_validator.dart';
-import 'package:fooddash/app/features/shared/plugins/formx/validators/required_validator.dart';
+import '../validators/compose_or_validator.dart';
+import '../validators/email_validator.dart';
+import '../validators/min_length_validator.dart';
+import '../validators/required_validator.dart';
 
 import './min_validator.dart';
 import './validator.dart';
