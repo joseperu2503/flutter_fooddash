@@ -26,6 +26,7 @@ dependencies:
   jwt_decoder: ^2.0.1
   mask_input_formatter: ^0.0.3
   shared_preferences: ^2.2.3
+  socket_io_client: ^2.0.3+1
 
 dev_dependencies:
   change_app_package_name: ^1.2.0

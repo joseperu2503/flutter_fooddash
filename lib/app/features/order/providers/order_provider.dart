@@ -7,6 +7,7 @@ import 'package:fooddash/app/features/core/models/service_exception.dart';
 import 'package:fooddash/app/features/order/models/order.dart';
 import 'package:fooddash/app/features/order/models/order_request.dart';
 import 'package:fooddash/app/features/order/services/order_service.dart';
+import 'package:fooddash/app/features/order/services/order_socker_service.dart';
 import 'package:fooddash/app/features/shared/models/loading_status.dart';
 import 'package:fooddash/app/features/shared/services/snackbar_service.dart';
 
@@ -92,40 +93,57 @@ class OrderNotifier extends StateNotifier<OrderState> {
     }
   }
 
-  void setOrder(Order order) {
+  void goToOrder(Order order) {
     state = state.copyWith(
       order: () => order,
-      loadingOrder: LoadingStatus.success,
     );
+    appRouter.push('/order/${order.id}');
   }
+
+  final Map<int, OrderSocket> _activeSockets = {};
 
   Future<void> getOrder(int orderId) async {
     state = state.copyWith(
       loadingOrder: LoadingStatus.loading,
     );
-    final orderIndex = state.orders.indexWhere((order) => order.id == orderId);
 
-    if (orderIndex >= 0) {
-      state = state.copyWith(
-        order: () => state.orders[orderIndex],
-        loadingOrder: LoadingStatus.success,
-      );
-      return;
+    if (state.order == null) {
+      final orderIndex =
+          state.orders.indexWhere((order) => order.id == orderId);
+
+      if (orderIndex >= 0) {
+        setOrder(state.orders[orderIndex]);
+      }
     }
 
-    try {
-      final Order response = await OrderService.getOrder(orderId: orderId);
-      state = state.copyWith(
-        order: () => response,
-        loadingOrder: LoadingStatus.success,
-      );
-    } on ServiceException catch (e) {
-      SnackBarService.show(e.message);
+    disconnectSocket(orderId);
 
-      state = state.copyWith(
-        order: () => null,
-        loadingOrder: LoadingStatus.error,
-      );
+    final orderSocketService = OrderSocket(
+      orderId: orderId,
+      orderStatusUpdate: (order) {
+        setOrder(order);
+      },
+    );
+
+    await orderSocketService.connect();
+
+    _activeSockets[orderId] = orderSocketService;
+  }
+
+  setOrder(Order order) {
+    state = state.copyWith(
+      order: () => order,
+      loadingOrder: LoadingStatus.success,
+    );
+
+    if (order.orderStatus.id == 4) {
+      disconnectSocket(order.id);
+    }
+  }
+
+  disconnectSocket(int orderId) {
+    if (_activeSockets[orderId] != null) {
+      _activeSockets[orderId]!.disconnect();
     }
   }
 }

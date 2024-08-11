@@ -5,7 +5,6 @@ import 'package:fooddash/app/features/order/providers/order_provider.dart';
 import 'package:fooddash/app/features/shared/utils/utils.dart';
 import 'package:fooddash/app/features/shared/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 class UpcomingOrderItem extends ConsumerWidget {
@@ -251,8 +250,7 @@ class UpcomingOrderItem extends ConsumerWidget {
               Expanded(
                 child: CustomButton(
                   onPressed: () {
-                    ref.read(orderProvider.notifier).setOrder(order);
-                    context.push('/order/${order.id}');
+                    ref.read(orderProvider.notifier).goToOrder(order);
                   },
                   text: 'Track Order',
                   height: 43,
