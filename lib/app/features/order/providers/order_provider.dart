@@ -129,7 +129,7 @@ class OrderNotifier extends StateNotifier<OrderState> {
 
     final orderSocketService = OrderSocket(
       orderId: orderId,
-      orderStatusUpdate: (order) {
+      orderUpdate: (order) {
         setOrder(order);
       },
     );
