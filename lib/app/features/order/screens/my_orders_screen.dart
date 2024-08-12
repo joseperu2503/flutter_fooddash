@@ -1,9 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fooddash/app/config/constants/app_colors.dart';
+import 'package:fooddash/app/config/constants/styles.dart';
 import 'package:fooddash/app/features/order/providers/order_provider.dart';
-import 'package:fooddash/app/features/order/widgets/order_switch.dart';
-import 'package:fooddash/app/features/order/widgets/upcoming_order_item.dart';
+import 'package:fooddash/app/features/order/widgets/orders_page.dart';
 import 'package:flutter/material.dart';
+import 'package:fooddash/app/features/shared/widgets/custom_switch.dart';
 
 class MyOrdersScreen extends ConsumerStatefulWidget {
   const MyOrdersScreen({super.key});
@@ -13,21 +14,22 @@ class MyOrdersScreen extends ConsumerStatefulWidget {
 }
 
 class MyOrdersScreenState extends ConsumerState<MyOrdersScreen> {
-  OrderType orderType = OrderType.upcoming;
+  final PageController _pageController = PageController();
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(orderProvider.notifier).initData();
-      ref.read(orderProvider.notifier).getMyOrders();
-    });
+    // _pageController.animateToPage(1, duration: Duration(microseconds: 0), curve: Curves.bounceOut);
     super.initState();
   }
 
   @override
-  Widget build(BuildContext context) {
-    final orderState = ref.watch(orderProvider);
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -60,47 +62,28 @@ class MyOrdersScreenState extends ConsumerState<MyOrdersScreen> {
         body: Column(
           children: [
             Container(
+              width: double.infinity,
               padding: const EdgeInsets.only(
-                left: 24,
-                right: 24,
+                left: horizontalPaddingMobile,
+                right: horizontalPaddingMobile,
                 top: 24,
                 bottom: 8,
               ),
-              child: OrderSwitch(
-                orderType: orderType,
-                onChange: (value) {
-                  setState(() {
-                    orderType = value;
-                  });
-                },
-                width: MediaQuery.of(context).size.width - 2 * 24,
+              child: CustomSwitch(
+                pageController: _pageController,
+                label1: 'Upcoming',
+                label2: 'History',
               ),
             ),
             Expanded(
-              child: CustomScrollView(
-                slivers: [
-                  SliverPadding(
-                    padding: const EdgeInsets.only(
-                      left: 24,
-                      right: 24,
-                      top: 24,
-                      bottom: 30,
-                    ),
-                    sliver: SliverList.separated(
-                      itemBuilder: (context, index) {
-                        final order = orderState.orders[index];
-                        return UpcomingOrderItem(
-                          order: order,
-                        );
-                      },
-                      separatorBuilder: (context, index) {
-                        return Container(
-                          height: 20,
-                        );
-                      },
-                      itemCount: orderState.orders.length,
-                    ),
-                  ),
+              child: PageView(
+                controller: _pageController,
+                onPageChanged: (value) {
+                  setState(() {});
+                },
+                children: [
+                  OrdersPage(orderProvider: upcomingOrdersProvider),
+                  OrdersPage(orderProvider: historyOrdersProvider),
                 ],
               ),
             ),
@@ -110,5 +93,3 @@ class MyOrdersScreenState extends ConsumerState<MyOrdersScreen> {
     );
   }
 }
-
-enum OrderType { upcoming, history }

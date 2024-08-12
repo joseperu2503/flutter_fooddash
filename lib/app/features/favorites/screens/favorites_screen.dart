@@ -5,11 +5,11 @@ import 'package:fooddash/app/features/dashboard/widgets/restaurant_item.dart';
 import 'package:fooddash/app/features/dish/widgets/dish_skeleton.dart';
 import 'package:fooddash/app/features/favorites/providers/favorite_dish_provider.dart';
 import 'package:fooddash/app/features/favorites/providers/favorite_restaurant_provider.dart';
-import 'package:fooddash/app/features/favorites/widgets/favorite_switch.dart';
 import 'package:fooddash/app/features/restaurant/data/constants.dart';
 import 'package:fooddash/app/features/dish/widgets/dish_item.dart';
 import 'package:flutter/material.dart';
 import 'package:fooddash/app/features/shared/models/loading_status.dart';
+import 'package:fooddash/app/features/shared/widgets/custom_switch.dart';
 
 class FavoriteScreen extends ConsumerStatefulWidget {
   const FavoriteScreen({super.key});
@@ -19,8 +19,6 @@ class FavoriteScreen extends ConsumerStatefulWidget {
 }
 
 class FavoriteScreenState extends ConsumerState<FavoriteScreen> {
-  int page = 0;
-
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
@@ -52,7 +50,7 @@ class FavoriteScreenState extends ConsumerState<FavoriteScreen> {
   void dispose() {
     _scrollControllerDish.dispose();
     _scrollControllerRestaurant.dispose();
-
+    _pageController.dispose();
     super.dispose();
   }
 
@@ -93,18 +91,20 @@ class FavoriteScreenState extends ConsumerState<FavoriteScreen> {
           ),
         ),
         body: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Container(
+              width: double.infinity,
               padding: const EdgeInsets.only(
                 left: horizontalPaddingMobile,
                 right: horizontalPaddingMobile,
                 top: 24,
                 bottom: 8,
               ),
-              child: FavoriteSwitch(
+              child: CustomSwitch(
                 pageController: _pageController,
-                width: MediaQuery.of(context).size.width -
-                    2 * horizontalPaddingMobile,
+                label1: 'Dishes',
+                label2: 'Restaurants',
               ),
             ),
             Expanded(
@@ -188,5 +188,3 @@ class FavoriteScreenState extends ConsumerState<FavoriteScreen> {
     );
   }
 }
-
-enum FavoriteType { dish, restaurant }

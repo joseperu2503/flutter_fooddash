@@ -6,11 +6,21 @@ import 'package:fooddash/app/features/order/models/order_request.dart';
 final api = Api();
 
 class OrderService {
-  static Future<List<Order>> getMyOrders() async {
-    try {
-      final response = await api.get('/orders/my-orders');
+  static Future<OrdersResponse> getMyOrders({
+    int page = 1,
+    required List<int> orderStatuses,
+  }) async {
+    Map<String, dynamic> queryParameters = {
+      "page": page,
+      "limit": 5,
+      "orderStatuses": orderStatuses.join(','),
+    };
 
-      return List<Order>.from(response.data.map((x) => Order.fromJson(x)));
+    try {
+      final response =
+          await api.get('/orders/my-orders', queryParameters: queryParameters);
+
+      return OrdersResponse.fromJson(response.data);
     } catch (e) {
       throw ServiceException('An error occurred while loading the orders.', e);
     }

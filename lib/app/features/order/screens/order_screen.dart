@@ -32,7 +32,7 @@ class OrderScreenState extends ConsumerState<OrderScreen> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      ref.read(orderProvider.notifier).getOrder(widget.orderId);
+      ref.read(upcomingOrdersProvider.notifier).getOrder(widget.orderId);
     });
     super.initState();
   }
@@ -40,7 +40,7 @@ class OrderScreenState extends ConsumerState<OrderScreen> {
   @override
   Widget build(BuildContext context) {
     final MediaQueryData screen = MediaQuery.of(context);
-    final order = ref.watch(orderProvider).order;
+    final order = ref.watch(upcomingOrdersProvider).order;
 
     if (order == null) {
       return const Scaffold();

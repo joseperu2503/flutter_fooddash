@@ -57,7 +57,7 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen> {
     final MediaQueryData screen = MediaQuery.of(context);
     final addressState = ref.watch(addressProvider);
     final cartResponse = ref.watch(cartProvider).cartResponse;
-    final orderState = ref.watch(orderProvider);
+    final orderState = ref.watch(upcomingOrdersProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -388,7 +388,7 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen> {
         child: Center(
           child: CustomButton(
             onPressed: () async {
-              ref.read(orderProvider.notifier).createOrder();
+              ref.read(upcomingOrdersProvider.notifier).createOrder();
             },
             text: 'Confirm',
             loading: orderState.creatingOrder == LoadingStatus.loading,

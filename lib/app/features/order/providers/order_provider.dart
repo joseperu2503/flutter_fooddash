@@ -7,17 +7,24 @@ import 'package:fooddash/app/features/core/models/service_exception.dart';
 import 'package:fooddash/app/features/order/models/order.dart';
 import 'package:fooddash/app/features/order/models/order_request.dart';
 import 'package:fooddash/app/features/order/services/order_service.dart';
-import 'package:fooddash/app/features/order/services/order_socker_service.dart';
+import 'package:fooddash/app/features/order/services/order_socket.dart';
 import 'package:fooddash/app/features/shared/models/loading_status.dart';
 import 'package:fooddash/app/features/shared/services/snackbar_service.dart';
 
-final orderProvider = StateNotifierProvider<OrderNotifier, OrderState>((ref) {
-  return OrderNotifier(ref);
+final upcomingOrdersProvider =
+    StateNotifierProvider<OrderNotifier, OrderState>((ref) {
+  return OrderNotifier(ref, [1, 2, 3]);
+});
+
+final historyOrdersProvider =
+    StateNotifierProvider<OrderNotifier, OrderState>((ref) {
+  return OrderNotifier(ref, [4]);
 });
 
 class OrderNotifier extends StateNotifier<OrderState> {
-  OrderNotifier(this.ref) : super(OrderState());
+  OrderNotifier(this.ref, this.orderStatuses) : super(OrderState());
   final StateNotifierProviderRef ref;
+  final List<int> orderStatuses;
 
   initData() {
     state = state.copyWith(
@@ -34,9 +41,11 @@ class OrderNotifier extends StateNotifier<OrderState> {
     );
 
     try {
-      final List<Order> response = await OrderService.getMyOrders();
+      final OrdersResponse response = await OrderService.getMyOrders(
+        orderStatuses: orderStatuses,
+      );
       state = state.copyWith(
-        orders: response,
+        orders: response.items,
         loadingOrders: LoadingStatus.success,
       );
     } on ServiceException catch (e) {
@@ -68,7 +77,7 @@ class OrderNotifier extends StateNotifier<OrderState> {
     try {
       await OrderService.createOrder(orderRequest);
       await ref.read(cartProvider.notifier).getMyCart();
-      await ref.read(orderProvider.notifier).getMyOrders();
+      await ref.read(upcomingOrdersProvider.notifier).getMyOrders();
 
       state = state.copyWith(
         creatingOrder: LoadingStatus.success,
