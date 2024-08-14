@@ -1,3 +1,4 @@
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fooddash/app/config/constants/app_colors.dart';
 import 'package:fooddash/app/features/shared/plugins/formx/formx.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ class CustomTextField extends StatefulWidget {
     this.autofocus = false,
     this.readOnly = false,
     this.label,
+    this.isPassword = false,
   });
 
   final FormxInput<String> value;
@@ -31,6 +33,7 @@ class CustomTextField extends StatefulWidget {
   final bool autofocus;
   final bool readOnly;
   final String? label;
+  final bool isPassword;
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -41,6 +44,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
   final FocusNode _focusNode = FocusNode();
 
   FocusNode get _effectiveFocusNode => widget.focusNode ?? _focusNode;
+  bool showPassword = false;
 
   @override
   void initState() {
@@ -101,55 +105,89 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   ),
                 ],
               ),
-              child: TextFormField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                      color: AppColors.inputBorder,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            color: AppColors.inputBorder,
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            color: AppColors.primary,
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        hintText: widget.hintText,
+                        hintStyle: const TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.inputHint,
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 20,
+                        ),
+                        suffixIcon: (widget.isPassword)
+                            ? GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    showPassword = !showPassword;
+                                  });
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.only(right: 10),
+                                  height: 40,
+                                  width: 40,
+                                  child: Center(
+                                    child: SvgPicture.asset(
+                                      showPassword
+                                          ? 'assets/icons/eye.svg'
+                                          : 'assets/icons/eye_closed.svg',
+                                      colorFilter: const ColorFilter.mode(
+                                        AppColors.gray600,
+                                        BlendMode.srcIn,
+                                      ),
+                                      width: 22,
+                                      height: 22,
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : null,
+                      ),
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.input,
+                      ),
+                      controller: _controller,
+                      onChanged: (value) {
+                        widget.onChanged(
+                          widget.value.updateValue(value),
+                        );
+                      },
+                      focusNode: _effectiveFocusNode,
+                      keyboardType: widget.keyboardType,
+                      inputFormatters: widget.inputFormatters,
+                      textInputAction: widget.textInputAction,
+                      onFieldSubmitted: widget.onFieldSubmitted,
+                      autofocus: widget.autofocus,
+                      readOnly: widget.readOnly,
+                      onTapOutside: (event) {
+                        FocusScope.of(context).unfocus();
+                      },
+                      obscureText: widget.isPassword && !showPassword,
                     ),
-                    borderRadius: BorderRadius.circular(10),
                   ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                      color: AppColors.primary,
-                    ),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  hintText: widget.hintText,
-                  hintStyle: const TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w400,
-                    color: AppColors.inputHint,
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 20,
-                  ),
-                ),
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w400,
-                  color: AppColors.input,
-                ),
-                controller: _controller,
-                onChanged: (value) {
-                  widget.onChanged(
-                    widget.value.updateValue(value),
-                  );
-                },
-                focusNode: _effectiveFocusNode,
-                keyboardType: widget.keyboardType,
-                inputFormatters: widget.inputFormatters,
-                textInputAction: widget.textInputAction,
-                onFieldSubmitted: widget.onFieldSubmitted,
-                autofocus: widget.autofocus,
-                readOnly: widget.readOnly,
-                onTapOutside: (event) {
-                  FocusScope.of(context).unfocus();
-                },
+                ],
               ),
             ),
           ],

@@ -180,6 +180,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                         onFieldSubmitted: (value) {
                           ref.read(loginProvider.notifier).login();
                         },
+                        isPassword: true,
                       ),
                       const SizedBox(
                         height: 32,
