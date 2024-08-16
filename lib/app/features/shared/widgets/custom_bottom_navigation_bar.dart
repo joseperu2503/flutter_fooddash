@@ -102,14 +102,14 @@ class CustomBottomNavigationBar extends StatelessWidget {
           BottomNavigationBarItem(
             label: '',
             icon: SvgPicture.asset(
-              'assets/icons/tabs/notification_outlined.svg',
+              'assets/icons/tabs/profile_outlined.svg',
               colorFilter: const ColorFilter.mode(
                 AppColors.slate600,
                 BlendMode.srcIn,
               ),
             ),
             activeIcon: SvgPicture.asset(
-              'assets/icons/tabs/notification_solid.svg',
+              'assets/icons/tabs/profile_solid.svg',
               colorFilter: const ColorFilter.mode(
                 AppColors.primary,
                 BlendMode.srcIn,

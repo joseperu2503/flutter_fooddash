@@ -166,7 +166,7 @@ class AddressBottomSheetState extends ConsumerState<AddressBottomSheet> {
                                   ),
                                   child: Center(
                                     child: SvgPicture.asset(
-                                      'assets/icons/map_pin.svg',
+                                      'assets/icons/map_pin_outlined.svg',
                                       width: 24,
                                       colorFilter: const ColorFilter.mode(
                                         AppColors.label2,

@@ -152,7 +152,7 @@ class OrderScreenState extends ConsumerState<OrderScreen> {
                   Row(
                     children: [
                       SvgPicture.asset(
-                        'assets/icons/map_pin.svg',
+                        'assets/icons/map_pin_outlined.svg',
                         width: 24,
                         colorFilter: const ColorFilter.mode(
                           AppColors.label2,

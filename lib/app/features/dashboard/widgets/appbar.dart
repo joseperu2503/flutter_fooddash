@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fooddash/app/config/constants/app_colors.dart';
-import 'package:fooddash/app/config/router/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fooddash/app/features/address/providers/address_provider.dart';
@@ -19,48 +18,42 @@ class AppbarDashboard extends ConsumerWidget {
       automaticallyImplyLeading: false,
       toolbarHeight: 60,
       floating: true,
+      pinned: true,
       flexibleSpace: Container(
         height: 50,
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: Row(
           children: [
             Container(
-              width: 70,
+              width: 42,
               height: 42,
-              alignment: Alignment.centerLeft,
-              child: Container(
-                width: 38,
-                height: 38,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(14),
-                  color: AppColors.white,
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Color.fromRGBO(211, 209, 216, 0.3),
-                      offset:
-                          Offset(5, 10), // Desplazamiento horizontal y vertical
-                      blurRadius: 20, // Radio de desenfoque
-                      spreadRadius: 0, // Extensión de la sombra
-                    ),
-                  ],
-                ),
-                child: TextButton(
-                  onPressed: () {
-                    if (tabKey.currentState == null) return;
-                    tabKey.currentState!.handleMenuButtonPressed();
-                  },
-                  style: TextButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
-                    ),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(14),
+                color: AppColors.white,
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color.fromRGBO(211, 209, 216, 0.3),
+                    offset:
+                        Offset(5, 10), // Desplazamiento horizontal y vertical
+                    blurRadius: 20, // Radio de desenfoque
+                    spreadRadius: 0, // Extensión de la sombra
                   ),
-                  child: Center(
-                    child: SvgPicture.asset(
-                      'assets/icons/menu.svg',
-                    ),
+                ],
+              ),
+              child: Center(
+                child: SvgPicture.asset(
+                  'assets/icons/map_pin_outlined.svg',
+                  width: 18,
+                  height: 18,
+                  colorFilter: const ColorFilter.mode(
+                    AppColors.gray800,
+                    BlendMode.srcIn,
                   ),
                 ),
               ),
+            ),
+            const SizedBox(
+              width: 8,
             ),
             Expanded(
               child: GestureDetector(
@@ -70,18 +63,17 @@ class AppbarDashboard extends ConsumerWidget {
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Text(
                           'Deliver to',
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: 13,
                             fontWeight: FontWeight.w500,
                             color: AppColors.slate800,
-                            height: 1.22,
+                            height: 1,
                             leadingDistribution: TextLeadingDistribution.even,
                           ),
                         ),
@@ -92,19 +84,19 @@ class AppbarDashboard extends ConsumerWidget {
                           'assets/icons/arrow_down.svg',
                           width: 10,
                           colorFilter: const ColorFilter.mode(
-                            AppColors.slate800,
+                            AppColors.gray700,
                             BlendMode.srcIn,
                           ),
                         ),
                       ],
                     ),
                     const SizedBox(
-                      height: 4,
+                      height: 2,
                     ),
                     Text(
                       addressState.selectedAddress?.address ?? '',
                       style: const TextStyle(
-                        fontSize: 15,
+                        fontSize: 16,
                         fontWeight: FontWeight.w600,
                         color: AppColors.primary,
                         height: 1.22,

@@ -1,24 +1,27 @@
-import 'package:fooddash/app/features/address/services/address_services.dart';
-import 'package:fooddash/app/features/auth/providers/auth_provider.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fooddash/app/config/constants/app_colors.dart';
+import 'package:flutter/material.dart';
+import 'package:fooddash/app/config/constants/styles.dart';
+import 'package:fooddash/app/features/address/services/address_services.dart';
+import 'package:fooddash/app/features/auth/providers/auth_provider.dart';
 import 'package:go_router/go_router.dart';
 
-class CustomDrawer extends ConsumerWidget {
-  const CustomDrawer({
-    super.key,
-  });
+class MenuScreen extends ConsumerStatefulWidget {
+  const MenuScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final MediaQueryData screen = MediaQuery.of(context);
-    final authState = ref.watch(authProvider);
+  MenuScreenState createState() => MenuScreenState();
+}
 
-    return SizedBox(
-      width: double.infinity,
-      child: CustomScrollView(
+class MenuScreenState extends ConsumerState<MenuScreen> {
+  @override
+  Widget build(BuildContext context) {
+    final authState = ref.watch(authProvider);
+    final MediaQueryData screen = MediaQuery.of(context);
+
+    return Scaffold(
+      body: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(
             child: Container(
@@ -61,16 +64,10 @@ class CustomDrawer extends ConsumerWidget {
                   ),
                   Text(
                     authState.user?.fullName ?? '',
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.black,
-                      height: 1,
-                      leadingDistribution: TextLeadingDistribution.even,
-                    ),
+                    style: title,
                   ),
                   const SizedBox(
-                    height: 8,
+                    height: 2,
                   ),
                   Text(
                     authState.user?.email ?? '',
@@ -95,13 +92,16 @@ class CustomDrawer extends ConsumerWidget {
               itemBuilder: (context, index) {
                 final menuItem = menuItems[index];
                 return SizedBox(
-                  height: 57,
+                  height: 64,
                   child: TextButton(
                     onPressed: () {
                       menuItem.onPress(context);
                     },
                     style: TextButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                      ),
+                      shape: const LinearBorder(),
                     ),
                     child: Row(
                       children: [
@@ -109,6 +109,10 @@ class CustomDrawer extends ConsumerWidget {
                           menuItem.icon,
                           width: 24,
                           height: 24,
+                          colorFilter: const ColorFilter.mode(
+                            AppColors.gray900,
+                            BlendMode.srcIn,
+                          ),
                         ),
                         const SizedBox(
                           width: 14,
@@ -118,9 +122,18 @@ class CustomDrawer extends ConsumerWidget {
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
-                            color: AppColors.black,
+                            color: AppColors.gray900,
                             height: 1,
                             leadingDistribution: TextLeadingDistribution.even,
+                          ),
+                        ),
+                        const Spacer(),
+                        SvgPicture.asset(
+                          'assets/icons/arrow_forward.svg',
+                          width: 16,
+                          colorFilter: const ColorFilter.mode(
+                            AppColors.gray900,
+                            BlendMode.srcIn,
                           ),
                         ),
                       ],
@@ -129,8 +142,12 @@ class CustomDrawer extends ConsumerWidget {
                 );
               },
               separatorBuilder: (context, index) {
-                return const SizedBox(
-                  height: 0,
+                return const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 24),
+                  child: Divider(
+                    height: 0,
+                    color: AppColors.gray100,
+                  ),
                 );
               },
               itemCount: menuItems.length,
@@ -139,11 +156,11 @@ class CustomDrawer extends ConsumerWidget {
           SliverFillRemaining(
             hasScrollBody: false,
             child: Container(
-              padding: EdgeInsets.only(
+              padding: const EdgeInsets.only(
                 left: 24,
                 right: 24,
-                top: 36 + screen.padding.top,
-                bottom: 36 + screen.padding.bottom,
+                top: 36,
+                bottom: 36,
               ),
               child: Row(
                 children: [
@@ -209,36 +226,36 @@ List<MenuItem> menuItems = [
     onPress: (context) {
       context.push('/profile');
     },
-    icon: 'assets/icons/drawer/profile.svg',
+    icon: 'assets/icons/profile_outlined.svg',
   ),
   MenuItem(
     label: 'Addresses',
     onPress: (context) {
       AddressService.showAddressBottomSheet(context);
     },
-    icon: 'assets/icons/drawer/map_pin_solid.svg',
+    icon: 'assets/icons/map_pin_outlined.svg',
   ),
   MenuItem(
     label: 'Payment Methods',
     onPress: (context) {
       context.push('/payment-methods');
     },
-    icon: 'assets/icons/drawer/payment.svg',
+    icon: 'assets/icons/card.svg',
   ),
   MenuItem(
     label: 'Contact Us',
     onPress: (context) {},
-    icon: 'assets/icons/drawer/contact.svg',
+    icon: 'assets/icons/contact.svg',
   ),
   MenuItem(
     label: 'Settings',
     onPress: (context) {},
-    icon: 'assets/icons/drawer/settings.svg',
+    icon: 'assets/icons/settings.svg',
   ),
   MenuItem(
     label: 'Helps & FAQs',
     onPress: (context) {},
-    icon: 'assets/icons/drawer/help.svg',
+    icon: 'assets/icons/help.svg',
   ),
 ];
 

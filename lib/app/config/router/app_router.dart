@@ -9,7 +9,7 @@ import 'package:fooddash/app/features/checkout/screens/checkout_screen.dart';
 import 'package:fooddash/app/features/dashboard/screens/dashboard_screen.dart';
 import 'package:fooddash/app/features/dish/screens/dish_screen.dart';
 import 'package:fooddash/app/features/favorites/screens/favorites_screen.dart';
-import 'package:fooddash/app/features/notifications/screens/notifications_screen.dart';
+import 'package:fooddash/app/features/menu/screens/menu_screen.dart';
 import 'package:fooddash/app/features/order/screens/my_orders_screen.dart';
 import 'package:fooddash/app/features/order/screens/order_screen.dart';
 import 'package:fooddash/app/features/order/screens/track_order_screen.dart';
@@ -23,7 +23,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
-final GlobalKey<TabsState> tabKey = GlobalKey<TabsState>();
 
 Future<String?> unprotectedRoute(
     BuildContext context, GoRouterState state) async {
@@ -55,7 +54,6 @@ GoRouter appRouter = GoRouter(
       parentNavigatorKey: rootNavigatorKey,
       builder: (context, state, navigationShell) {
         return InternalLayout(
-          key: tabKey,
           navigationShell: navigationShell,
         );
       },
@@ -90,8 +88,8 @@ GoRouter appRouter = GoRouter(
         StatefulShellBranch(
           routes: [
             GoRoute(
-              path: '/notifications',
-              builder: (context, state) => const NotificationsScreen(),
+              path: '/menu',
+              builder: (context, state) => const MenuScreen(),
               redirect: protectedRoute,
             ),
           ],

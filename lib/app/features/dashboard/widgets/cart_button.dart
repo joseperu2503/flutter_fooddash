@@ -52,7 +52,7 @@ class CartButton extends ConsumerWidget {
           children: [
             SvgPicture.asset(
               'assets/icons/cart_outlined.svg',
-              width: 24,
+              width: 22,
               colorFilter: ColorFilter.mode(
                 (cartState.numDishes != null && cartState.numDishes! > 0)
                     ? AppColors.white
@@ -61,14 +61,17 @@ class CartButton extends ConsumerWidget {
               ),
             ),
             if (cartState.numDishes != null && cartState.numDishes! > 0)
-              Text(
-                cartState.numDishes.toString(),
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.white,
-                  height: 1,
-                  leadingDistribution: TextLeadingDistribution.even,
+              Padding(
+                padding: const EdgeInsets.only(left: 4),
+                child: Text(
+                  cartState.numDishes.toString(),
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.white,
+                    height: 1,
+                    leadingDistribution: TextLeadingDistribution.even,
+                  ),
                 ),
               ),
           ],
