@@ -110,7 +110,7 @@ class RestaurantItem extends ConsumerWidget {
                               width: 2,
                             ),
                             SvgPicture.asset(
-                              'assets/icons/star.svg',
+                              'assets/icons/star_solid.svg',
                               width: 14,
                               colorFilter: const ColorFilter.mode(
                                 AppColors.yellow,

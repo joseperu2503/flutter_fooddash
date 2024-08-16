@@ -83,7 +83,7 @@ class DishInfo extends ConsumerWidget {
             //         ],
             //       ),
             //       child: SvgPicture.asset(
-            //         'assets/icons/star.svg',
+            //         'assets/icons/star_solid.svg',
             //         width: 17,
             //         colorFilter: const ColorFilter.mode(
             //           AppColors.yellow,

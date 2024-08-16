@@ -58,7 +58,7 @@ class AddressBottomSheetState extends ConsumerState<AddressBottomSheet> {
                   const CustomDragHandle(),
                   const Text(
                     'Add o choose an address',
-                    style: modalBottomSheetTitle,
+                    style: title,
                   ),
                   const Divider(
                     color: AppColors.slate100,

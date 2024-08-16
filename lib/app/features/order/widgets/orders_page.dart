@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fooddash/app/config/constants/styles.dart';
+import 'package:fooddash/app/features/order/models/order.dart';
 import 'package:fooddash/app/features/order/providers/order_provider.dart';
-import 'package:fooddash/app/features/order/widgets/upcoming_order_item.dart';
 
 class OrdersPage extends ConsumerStatefulWidget {
   const OrdersPage({
     super.key,
     required this.orderProvider,
+    required this.orderWidget,
   });
+
+  final Widget Function(Order order) orderWidget;
 
   @override
   OrdersPageState createState() => OrdersPageState();
@@ -59,9 +62,7 @@ class OrdersPageState extends ConsumerState<OrdersPage> {
           sliver: SliverList.separated(
             itemBuilder: (context, index) {
               final order = orders[index];
-              return UpcomingOrderItem(
-                order: order,
-              );
+              return widget.orderWidget(order);
             },
             separatorBuilder: (context, index) {
               return Container(

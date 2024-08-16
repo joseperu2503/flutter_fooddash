@@ -12,6 +12,7 @@ import 'package:fooddash/app/features/favorites/screens/favorites_screen.dart';
 import 'package:fooddash/app/features/notifications/screens/notifications_screen.dart';
 import 'package:fooddash/app/features/order/screens/my_orders_screen.dart';
 import 'package:fooddash/app/features/order/screens/order_screen.dart';
+import 'package:fooddash/app/features/order/screens/track_order_screen.dart';
 import 'package:fooddash/app/features/payment_methods/screens/card_detail_screen.dart';
 import 'package:fooddash/app/features/payment_methods/screens/card_form_screen.dart';
 import 'package:fooddash/app/features/payment_methods/screens/payment_methods_screen.dart';
@@ -136,6 +137,14 @@ GoRouter appRouter = GoRouter(
       builder: (context, state) => const LoginScreen(),
       parentNavigatorKey: rootNavigatorKey,
       redirect: unprotectedRoute,
+    ),
+    GoRoute(
+      path: '/track-order/:orderId',
+      builder: (context, state) => TrackOrderScreen(
+        orderId: int.tryParse(state.pathParameters['orderId'] ?? '0') ?? 0,
+      ),
+      redirect: protectedRoute,
+      parentNavigatorKey: rootNavigatorKey,
     ),
     GoRoute(
       path: '/order/:orderId',

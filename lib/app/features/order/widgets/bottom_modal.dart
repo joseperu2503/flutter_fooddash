@@ -72,7 +72,7 @@ class BottomModal extends StatelessWidget {
                       const CustomDragHandle(),
                       Text(
                         order.orderStatus.name,
-                        style: modalBottomSheetTitle,
+                        style: title,
                       ),
                       const SizedBox(
                         height: 16,

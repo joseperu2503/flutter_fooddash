@@ -1,4 +1,5 @@
 import 'package:fooddash/app/config/constants/app_colors.dart';
+import 'package:fooddash/app/config/constants/styles.dart';
 import 'package:fooddash/app/features/address/providers/address_provider.dart';
 import 'package:fooddash/app/features/cart/providers/cart_provider.dart';
 import 'package:fooddash/app/features/dashboard/providers/restaurants_provider.dart';
@@ -80,13 +81,7 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
                     ),
                     Text(
                       'Recommended for you',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.slate900,
-                        height: 1,
-                        leadingDistribution: TextLeadingDistribution.even,
-                      ),
+                      style: subtitle,
                     ),
                     SizedBox(
                       height: 16,

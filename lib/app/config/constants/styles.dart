@@ -4,7 +4,7 @@ import 'package:fooddash/app/config/constants/app_colors.dart';
 const double toolbarHeight = 60;
 const double toolbarHeightOrder = 120;
 
-const TextStyle modalBottomSheetTitle = TextStyle(
+const TextStyle title = TextStyle(
   fontSize: 26,
   fontWeight: FontWeight.w800,
   color: AppColors.slate800,
@@ -21,3 +21,11 @@ const TextStyle appBarTitle = TextStyle(
 );
 
 const double horizontalPaddingMobile = 24;
+
+const TextStyle subtitle = TextStyle(
+  fontSize: 20,
+  fontWeight: FontWeight.w700,
+  color: AppColors.slate900,
+  height: 1,
+  leadingDistribution: TextLeadingDistribution.even,
+);

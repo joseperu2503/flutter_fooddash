@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fooddash/app/config/constants/app_colors.dart';
+import 'package:fooddash/app/config/constants/styles.dart';
 import 'package:fooddash/app/features/dashboard/providers/restaurants_provider.dart';
 import 'package:fooddash/app/features/dashboard/widgets/restaurant_item.dart';
 import 'package:flutter/material.dart';
@@ -26,13 +26,7 @@ class MostPopular extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: const Text(
               'The most popular',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w700,
-                color: AppColors.slate900,
-                height: 1,
-                leadingDistribution: TextLeadingDistribution.even,
-              ),
+              style: subtitle,
             ),
           ),
           const SizedBox(

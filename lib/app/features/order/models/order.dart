@@ -11,11 +11,6 @@ class OrdersResponse {
         items: List<Order>.from(json["items"].map((x) => Order.fromJson(x))),
         meta: Meta.fromJson(json["meta"]),
       );
-
-  Map<String, dynamic> toJson() => {
-        "items": List<dynamic>.from(items.map((x) => x.toJson())),
-        "meta": meta.toJson(),
-      };
 }
 
 class Meta {
@@ -61,6 +56,7 @@ class Order {
   final Address address;
   final OrderStatus orderStatus;
   final EstimatedDelivery estimatedDelivery;
+  final DateTime deliveredDate;
 
   Order({
     required this.id,
@@ -73,6 +69,7 @@ class Order {
     required this.address,
     required this.orderStatus,
     required this.estimatedDelivery,
+    required this.deliveredDate,
   });
 
   factory Order.fromJson(Map<String, dynamic> json) => Order(
@@ -81,6 +78,7 @@ class Order {
         deliveryFee: json["deliveryFee"]?.toDouble(),
         serviceFee: json["serviceFee"]?.toDouble(),
         total: json["total"]?.toDouble(),
+        deliveredDate: DateTime.parse(json["deliveredDate"]),
         dishOrders: List<DishOrder>.from(
             json["dishOrders"].map((x) => DishOrder.fromJson(x))),
         restaurant: Restaurant.fromJson(json["restaurant"]),
@@ -89,19 +87,6 @@ class Order {
         estimatedDelivery:
             EstimatedDelivery.fromJson(json["estimatedDelivery"]),
       );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "subtotal": subtotal,
-        "deliveryFee": deliveryFee,
-        "serviceFee": serviceFee,
-        "total": total,
-        "dishOrders": List<dynamic>.from(dishOrders.map((x) => x.toJson())),
-        "restaurant": restaurant.toJson(),
-        "address": address.toJson(),
-        "orderStatus": orderStatus.toJson(),
-        "estimatedDelivery": estimatedDelivery.toJson(),
-      };
 }
 
 class Address {

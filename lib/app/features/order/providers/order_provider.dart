@@ -102,6 +102,13 @@ class OrderNotifier extends StateNotifier<OrderState> {
     }
   }
 
+  void trackOrder(Order order) {
+    state = state.copyWith(
+      order: () => order,
+    );
+    appRouter.push('/track-order/${order.id}');
+  }
+
   void goToOrder(Order order) {
     state = state.copyWith(
       order: () => order,

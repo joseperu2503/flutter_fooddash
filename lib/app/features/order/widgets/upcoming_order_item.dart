@@ -250,7 +250,7 @@ class UpcomingOrderItem extends ConsumerWidget {
               Expanded(
                 child: CustomButton(
                   onPressed: () {
-                    ref.read(upcomingOrdersProvider.notifier).goToOrder(order);
+                    ref.read(upcomingOrdersProvider.notifier).trackOrder(order);
                   },
                   text: 'Track Order',
                   height: 43,

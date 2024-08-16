@@ -46,7 +46,7 @@ class PaymentModalState extends ConsumerState<PaymentModal> {
                     const Expanded(
                       child: Text(
                         'Payment method',
-                        style: modalBottomSheetTitle,
+                        style: title,
                       ),
                     ),
                     Container(

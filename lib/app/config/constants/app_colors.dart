@@ -38,6 +38,8 @@ class AppColors {
   static const Color yellow50 = Color(0xFFFFDF8B);
   static const Color yellow20 = Color(0xFFFFEFC3);
 
+  static const Color green = Color(0xFF29d884);
+
   static const Color background = white;
   static const Color primary = orange;
   static const Color inputBorder = Color(0xFFEEEEEE);

@@ -31,7 +31,7 @@ class ChangeOrder extends ConsumerWidget {
                 children: [
                   Text(
                     'Do you want to change\nyour order?',
-                    style: modalBottomSheetTitle,
+                    style: title,
                   ),
                   Divider(
                     color: AppColors.slate100,
