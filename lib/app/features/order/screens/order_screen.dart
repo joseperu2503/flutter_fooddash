@@ -91,7 +91,10 @@ class OrderScreenState extends ConsumerState<OrderScreen> {
                         width: 12,
                       ),
                       Text(
-                        DateFormat('d MMM h:mm a').format(order.deliveredDate),
+                        order.deliveredDate != null
+                            ? DateFormat('d MMM h:mm a')
+                                .format(order.deliveredDate!)
+                            : '',
                         style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,

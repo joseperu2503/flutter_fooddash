@@ -56,7 +56,7 @@ class Order {
   final Address address;
   final OrderStatus orderStatus;
   final EstimatedDelivery estimatedDelivery;
-  final DateTime deliveredDate;
+  final DateTime? deliveredDate;
 
   Order({
     required this.id,
@@ -78,7 +78,9 @@ class Order {
         deliveryFee: json["deliveryFee"]?.toDouble(),
         serviceFee: json["serviceFee"]?.toDouble(),
         total: json["total"]?.toDouble(),
-        deliveredDate: DateTime.parse(json["deliveredDate"]),
+        deliveredDate: json["deliveredDate"] == null
+            ? null
+            : DateTime.parse(json["deliveredDate"]),
         dishOrders: List<DishOrder>.from(
             json["dishOrders"].map((x) => DishOrder.fromJson(x))),
         restaurant: Restaurant.fromJson(json["restaurant"]),

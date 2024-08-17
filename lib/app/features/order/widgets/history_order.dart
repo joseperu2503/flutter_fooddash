@@ -132,8 +132,10 @@ class HistoryOrderItem extends ConsumerWidget {
                           ),
                           const Spacer(),
                           Text(
-                            DateFormat('dd-MM-yyyy')
-                                .format(order.deliveredDate),
+                            order.deliveredDate != null
+                                ? DateFormat('d MMM h:mm a')
+                                    .format(order.deliveredDate!)
+                                : '',
                             style: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w400,
