@@ -23,7 +23,7 @@ class OrderSocket {
       io.OptionBuilder()
           .setTransports(['websocket'])
           .disableAutoConnect()
-          .setExtraHeaders({'authorization': token}) // optional
+          .setExtraHeaders({'authorization': token})
           .build(),
     );
 

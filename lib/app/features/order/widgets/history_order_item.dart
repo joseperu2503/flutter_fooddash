@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fooddash/app/config/constants/app_colors.dart';
 import 'package:fooddash/app/features/order/models/order.dart';
-import 'package:fooddash/app/features/order/providers/order_provider.dart';
+import 'package:fooddash/app/features/order/providers/history_order_provider.dart';
 import 'package:fooddash/app/features/shared/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -18,7 +18,7 @@ class HistoryOrderItem extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
       onTap: () {
-        ref.read(upcomingOrdersProvider.notifier).goToOrder(order);
+        ref.read(historyOrdersProvider.notifier).goToOrder(order);
       },
       child: Container(
         padding: const EdgeInsets.all(18),

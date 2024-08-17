@@ -1,11 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fooddash/app/config/constants/app_colors.dart';
 import 'package:fooddash/app/config/constants/styles.dart';
-import 'package:fooddash/app/features/order/providers/order_provider.dart';
-import 'package:fooddash/app/features/order/widgets/history_order.dart';
-import 'package:fooddash/app/features/order/widgets/orders_page.dart';
+import 'package:fooddash/app/features/order/widgets/history_orders.dart';
 import 'package:flutter/material.dart';
-import 'package:fooddash/app/features/order/widgets/upcoming_order_item.dart';
+import 'package:fooddash/app/features/order/widgets/upcoming_orders.dart';
 import 'package:fooddash/app/features/shared/widgets/custom_switch.dart';
 
 class MyOrdersScreen extends ConsumerStatefulWidget {
@@ -80,18 +78,9 @@ class MyOrdersScreenState extends ConsumerState<MyOrdersScreen> {
             Expanded(
               child: PageView(
                 controller: _pageController,
-                onPageChanged: (value) {
-                  setState(() {});
-                },
-                children: [
-                  OrdersPage(
-                    orderProvider: upcomingOrdersProvider,
-                    orderWidget: (order) => UpcomingOrderItem(order: order),
-                  ),
-                  OrdersPage(
-                    orderProvider: historyOrdersProvider,
-                    orderWidget: (order) => HistoryOrderItem(order: order),
-                  ),
+                children: const [
+                  UpcomingOrders(),
+                  HistoryOrders(),
                 ],
               ),
             ),

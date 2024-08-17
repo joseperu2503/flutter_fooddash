@@ -6,35 +6,36 @@ import 'package:fooddash/app/features/checkout/widgets/order_successfully.dart';
 import 'package:fooddash/app/features/core/models/service_exception.dart';
 import 'package:fooddash/app/features/order/models/order.dart';
 import 'package:fooddash/app/features/order/models/order_request.dart';
+import 'package:fooddash/app/features/order/providers/history_order_provider.dart';
 import 'package:fooddash/app/features/order/services/order_service.dart';
 import 'package:fooddash/app/features/order/services/order_socket.dart';
 import 'package:fooddash/app/features/shared/models/loading_status.dart';
 import 'package:fooddash/app/features/shared/services/snackbar_service.dart';
 
 final upcomingOrdersProvider =
-    StateNotifierProvider<OrderNotifier, OrderState>((ref) {
-  return OrderNotifier(ref, [1, 2, 3]);
+    StateNotifierProvider<UpcomingOrdersNotifier, OrderState>((ref) {
+  return UpcomingOrdersNotifier(ref);
 });
 
-final historyOrdersProvider =
-    StateNotifierProvider<OrderNotifier, OrderState>((ref) {
-  return OrderNotifier(ref, [4]);
-});
-
-class OrderNotifier extends StateNotifier<OrderState> {
-  OrderNotifier(this.ref, this.orderStatuses) : super(OrderState());
+class UpcomingOrdersNotifier extends StateNotifier<OrderState> {
+  UpcomingOrdersNotifier(this.ref) : super(OrderState());
   final StateNotifierProviderRef ref;
-  final List<int> orderStatuses;
 
-  initData() {
+  resetOrders() {
     state = state.copyWith(
       orders: [],
+      page: 1,
+      totalPages: 1,
       loadingOrders: LoadingStatus.none,
     );
+    getOrders();
   }
 
-  Future<void> getMyOrders() async {
-    if (state.loadingOrders == LoadingStatus.loading) return;
+  Future<void> getOrders() async {
+    print('getOrders upcoming');
+
+    if (state.page > state.totalPages ||
+        state.loadingOrders == LoadingStatus.loading) return;
 
     state = state.copyWith(
       loadingOrders: LoadingStatus.loading,
@@ -42,12 +43,44 @@ class OrderNotifier extends StateNotifier<OrderState> {
 
     try {
       final OrdersResponse response = await OrderService.getMyOrders(
-        orderStatuses: orderStatuses,
+        orderStatuses: [1, 2, 3],
       );
       state = state.copyWith(
         orders: response.items,
+        totalPages: response.meta.totalPages,
+        page: state.page + 1,
         loadingOrders: LoadingStatus.success,
       );
+
+      for (var order in state.orders) {
+        disconnectSocket(order.id);
+
+        final orderSocketService = OrderSocket(
+          orderId: order.id,
+          orderUpdate: (updatedOrder) {
+            state = state.copyWith(
+              orders: state.orders.map((o) {
+                if (updatedOrder.id == o.id) {
+                  return updatedOrder;
+                }
+                return o;
+              }).toList(),
+            );
+            if (updatedOrder.orderStatus.id == 4) {
+              disconnectSocket(order.id);
+
+              resetOrders();
+
+              ref.read(historyOrdersProvider.notifier).initData();
+              ref.read(historyOrdersProvider.notifier).getOrders();
+            }
+          },
+        );
+
+        await orderSocketService.connect();
+
+        _activeSockets[order.id] = orderSocketService;
+      }
     } on ServiceException catch (e) {
       SnackBarService.show(e.message);
 
@@ -77,7 +110,7 @@ class OrderNotifier extends StateNotifier<OrderState> {
     try {
       await OrderService.createOrder(orderRequest);
       await ref.read(cartProvider.notifier).getMyCart();
-      await ref.read(upcomingOrdersProvider.notifier).getMyOrders();
+      await resetOrders();
 
       state = state.copyWith(
         creatingOrder: LoadingStatus.success,
@@ -102,18 +135,11 @@ class OrderNotifier extends StateNotifier<OrderState> {
     }
   }
 
-  void trackOrder(Order order) {
+  void goTrackOrder(Order order) {
     state = state.copyWith(
       order: () => order,
     );
     appRouter.push('/track-order/${order.id}');
-  }
-
-  void goToOrder(Order order) {
-    state = state.copyWith(
-      order: () => order,
-    );
-    appRouter.push('/order/${order.id}');
   }
 
   final Map<int, OrderSocket> _activeSockets = {};
@@ -154,6 +180,7 @@ class OrderNotifier extends StateNotifier<OrderState> {
 
     if (order.orderStatus.id == 4) {
       disconnectSocket(order.id);
+      ref.read(historyOrdersProvider.notifier).getOrders();
     }
   }
 
@@ -166,6 +193,8 @@ class OrderNotifier extends StateNotifier<OrderState> {
 
 class OrderState {
   final List<Order> orders;
+  final int page;
+  final int totalPages;
   final LoadingStatus loadingOrders;
   final Order? order;
   final LoadingStatus loadingOrder;
@@ -173,6 +202,8 @@ class OrderState {
 
   OrderState({
     this.orders = const [],
+    this.page = 1,
+    this.totalPages = 1,
     this.loadingOrders = LoadingStatus.none,
     this.order,
     this.loadingOrder = LoadingStatus.none,
@@ -181,6 +212,8 @@ class OrderState {
 
   OrderState copyWith({
     List<Order>? orders,
+    int? page,
+    int? totalPages,
     LoadingStatus? loadingOrders,
     ValueGetter<Order?>? order,
     LoadingStatus? loadingOrder,
@@ -188,6 +221,8 @@ class OrderState {
   }) =>
       OrderState(
         orders: orders ?? this.orders,
+        page: page ?? this.page,
+        totalPages: totalPages ?? this.totalPages,
         loadingOrders: loadingOrders ?? this.loadingOrders,
         order: order != null ? order() : this.order,
         loadingOrder: loadingOrder ?? this.loadingOrder,

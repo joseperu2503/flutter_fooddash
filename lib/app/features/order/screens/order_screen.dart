@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fooddash/app/config/constants/app_colors.dart';
 import 'package:fooddash/app/config/constants/styles.dart';
-import 'package:fooddash/app/features/order/providers/order_provider.dart';
+import 'package:fooddash/app/features/order/providers/history_order_provider.dart';
 import 'package:fooddash/app/features/order/widgets/order_dish_item.dart';
 import 'package:fooddash/app/features/order/widgets/rate.dart';
 import 'package:fooddash/app/features/shared/utils/utils.dart';
@@ -26,14 +26,14 @@ class OrderScreenState extends ConsumerState<OrderScreen> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      ref.read(upcomingOrdersProvider.notifier).getOrder(widget.orderId);
+      ref.read(historyOrdersProvider.notifier).getOrder(widget.orderId);
     });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final order = ref.watch(upcomingOrdersProvider).order;
+    final order = ref.watch(historyOrdersProvider).order;
 
     if (order == null) {
       return const Scaffold();

@@ -4,7 +4,7 @@ import 'package:fooddash/app/config/constants/styles.dart';
 import 'package:fooddash/app/features/address/providers/address_provider.dart';
 import 'package:fooddash/app/features/cart/providers/cart_provider.dart';
 import 'package:fooddash/app/features/checkout/widgets/payment_modal.dart';
-import 'package:fooddash/app/features/order/providers/order_provider.dart';
+import 'package:fooddash/app/features/order/providers/upcoming_order_provider.dart';
 import 'package:fooddash/app/features/shared/models/loading_status.dart';
 import 'package:fooddash/app/features/shared/utils/utils.dart';
 import 'package:fooddash/app/features/shared/widgets/back_button.dart';

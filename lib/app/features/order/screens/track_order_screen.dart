@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:fooddash/app/config/constants/app_colors.dart';
 import 'package:fooddash/app/config/constants/environment.dart';
 import 'package:fooddash/app/config/constants/styles.dart';
-import 'package:fooddash/app/features/order/providers/order_provider.dart';
+import 'package:fooddash/app/features/order/providers/upcoming_order_provider.dart';
 import 'package:fooddash/app/features/order/widgets/pulsating_circle.dart';
 import 'package:fooddash/app/features/shared/services/location_service.dart';
 import 'package:fooddash/app/features/order/widgets/bottom_modal.dart';

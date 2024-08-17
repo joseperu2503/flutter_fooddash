@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fooddash/app/config/constants/app_colors.dart';
 import 'package:fooddash/app/features/order/models/order.dart';
-import 'package:fooddash/app/features/order/providers/order_provider.dart';
+import 'package:fooddash/app/features/order/providers/upcoming_order_provider.dart';
 import 'package:fooddash/app/features/shared/utils/utils.dart';
 import 'package:fooddash/app/features/shared/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
@@ -250,7 +250,7 @@ class UpcomingOrderItem extends ConsumerWidget {
               Expanded(
                 child: CustomButton(
                   onPressed: () {
-                    ref.read(upcomingOrdersProvider.notifier).trackOrder(order);
+                    ref.read(upcomingOrdersProvider.notifier).goTrackOrder(order);
                   },
                   text: 'Track Order',
                   height: 43,
