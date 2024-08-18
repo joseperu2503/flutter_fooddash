@@ -21,8 +21,7 @@ class OrdersPageState extends ConsumerState<HistoryOrders> {
     print('initState upcoming');
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      ref.read(historyOrdersProvider.notifier).initData();
-      ref.read(historyOrdersProvider.notifier).getOrders();
+      ref.read(historyOrdersProvider.notifier).resetData();
     });
 
     _scrollController.addListener(() {

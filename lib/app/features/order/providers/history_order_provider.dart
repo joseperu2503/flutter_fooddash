@@ -16,7 +16,7 @@ class HistoryOrdersNotifier extends StateNotifier<OrderState> {
   HistoryOrdersNotifier(this.ref) : super(OrderState());
   final StateNotifierProviderRef ref;
 
-  initData() {
+  resetData() {
     print('initData history');
 
     state = state.copyWith(
@@ -25,6 +25,8 @@ class HistoryOrdersNotifier extends StateNotifier<OrderState> {
       totalPages: 1,
       loadingOrders: LoadingStatus.none,
     );
+
+    getOrders();
   }
 
   Future<void> getOrders() async {

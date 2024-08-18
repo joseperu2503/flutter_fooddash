@@ -6,12 +6,10 @@ import 'package:socket_io_client/socket_io_client.dart' as io;
 
 class OrderSocket {
   late io.Socket socket;
-  final int orderId;
-  final void Function(Order order) orderUpdate;
+  final void Function(List<Order> orders) upcomingOrdersUpdated;
 
   OrderSocket({
-    required this.orderId,
-    required this.orderUpdate,
+    required this.upcomingOrdersUpdated,
   });
 
   Future<void> connect() async {
@@ -34,14 +32,16 @@ class OrderSocket {
     socket.onConnect((_) {
       // print('Connected to WebSocket ${socket.id}');
       //** Unirse al canal específico de la orden */
-      socket.emit('joinOrderChannel', {'orderId': orderId});
+      // socket.emit(
+      //   'joinOrderChannel',
+      // );
     });
 
     //** Escuchar actualizaciones de la orden */
-    socket.on('orderUpdate', (dynamic data) {
-      Order order = Order.fromJson(data);
-      orderUpdate(order);
-      // print('Order ${order.id} status updated: ${order.orderStatus.name}');
+    socket.on('upcomingOrdersUpdated', (dynamic data) {
+      List<Order> orders = List<Order>.from(data.map((x) => Order.fromJson(x)));
+      print('upcomingOrdersUpdated #orders: ${orders.length}');
+      upcomingOrdersUpdated(orders);
     });
 
     //** Manejar errores de conexión */

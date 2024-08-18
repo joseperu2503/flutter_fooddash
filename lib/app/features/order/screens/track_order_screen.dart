@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:fooddash/app/config/constants/app_colors.dart';
 import 'package:fooddash/app/config/constants/environment.dart';
 import 'package:fooddash/app/config/constants/styles.dart';
+import 'package:fooddash/app/features/order/models/order.dart';
 import 'package:fooddash/app/features/order/providers/upcoming_order_provider.dart';
 import 'package:fooddash/app/features/order/widgets/pulsating_circle.dart';
 import 'package:fooddash/app/features/shared/services/location_service.dart';
@@ -12,6 +13,7 @@ import 'package:fooddash/app/features/shared/widgets/back_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:intl/intl.dart';
@@ -37,10 +39,24 @@ class TrackOrderScreenState extends ConsumerState<TrackOrderScreen> {
     super.initState();
   }
 
+  Order? order;
+
   @override
   Widget build(BuildContext context) {
     final MediaQueryData screen = MediaQuery.of(context);
-    final order = ref.watch(upcomingOrdersProvider).order;
+
+    ref.listen(upcomingOrdersProvider, (previous, next) {
+      final orders = next.orders;
+      final orderIndex =
+          orders.indexWhere((order) => order.id == widget.orderId);
+      if (orderIndex >= 0) {
+        setState(() {
+          order = orders[orderIndex];
+        });
+      } else {
+        context.pop();
+      }
+    });
 
     if (order == null) {
       return const Scaffold();
@@ -102,7 +118,7 @@ class TrackOrderScreenState extends ConsumerState<TrackOrderScreen> {
                       width: 10,
                     ),
                     Text(
-                      '${DateFormat('HH:mm a').format(order.estimatedDelivery.min)} - ${DateFormat('HH:mm a').format(order.estimatedDelivery.max)}',
+                      '${DateFormat('HH:mm a').format(order!.estimatedDelivery.min)} - ${DateFormat('HH:mm a').format(order!.estimatedDelivery.max)}',
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w700,
@@ -136,7 +152,7 @@ class TrackOrderScreenState extends ConsumerState<TrackOrderScreen> {
           ),
           BottomModal(
             screen: screen,
-            order: order,
+            order: order!,
           ),
         ],
       ),

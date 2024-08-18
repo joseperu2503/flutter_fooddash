@@ -73,6 +73,18 @@ GoRouter appRouter = GoRouter(
               path: '/my-orders',
               builder: (context, state) => const MyOrdersScreen(),
               redirect: protectedRoute,
+              routes: [
+                GoRoute(
+                  path: 'track-order/:orderId',
+                  builder: (context, state) => TrackOrderScreen(
+                    orderId:
+                        int.tryParse(state.pathParameters['orderId'] ?? '0') ??
+                            0,
+                  ),
+                  redirect: protectedRoute,
+                  parentNavigatorKey: rootNavigatorKey,
+                ),
+              ],
             ),
           ],
         ),

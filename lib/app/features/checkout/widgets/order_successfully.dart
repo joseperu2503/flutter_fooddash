@@ -1,12 +1,16 @@
 import 'package:fooddash/app/config/constants/app_colors.dart';
+import 'package:fooddash/app/config/router/app_router.dart';
 import 'package:fooddash/app/features/shared/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
 
 class OrderSuccessfully extends StatelessWidget {
-  const OrderSuccessfully({super.key});
+  const OrderSuccessfully({
+    super.key,
+    required this.orderId,
+  });
 
+  final int orderId;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -51,7 +55,7 @@ class OrderSuccessfully extends StatelessWidget {
             const Spacer(),
             CustomButton(
               onPressed: () {
-                context.go('/my-orders');
+                appRouter.go('/my-orders/track-order/$orderId');
               },
               text: 'Order Tracking',
             ),

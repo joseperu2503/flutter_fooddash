@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fooddash/app/features/auth/providers/auth_provider.dart';
+import 'package:fooddash/app/features/order/providers/upcoming_order_provider.dart';
 
 class App extends ConsumerStatefulWidget {
   const App({
@@ -18,6 +19,7 @@ class AppState extends ConsumerState<App> {
   @override
   void initState() {
     ref.read(authProvider.notifier).initAutoLogout();
+    ref.read(upcomingOrdersProvider.notifier).connectSocket();
     super.initState();
   }
 

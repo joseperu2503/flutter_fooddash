@@ -232,7 +232,8 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen>
               height: heightCategorySpace,
             ),
           ),
-          if (restaurantState.dishesStatus == LoadingStatus.success)
+          if (restaurantState.dishesStatus == LoadingStatus.success &&
+              menu.isNotEmpty)
             ...menu
                 .map((dishCategory) {
                   int index = menu.indexOf(dishCategory);
