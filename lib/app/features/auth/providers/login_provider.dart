@@ -91,12 +91,16 @@ class LoginNotifier extends StateNotifier<LoginState> {
     );
 
     // Trigger the authentication flow
-    final GoogleSignInAccount? googleUser = await GoogleSignIn(
+    final GoogleSignIn googleSignIn = GoogleSignIn(
       clientId: Platform.isIOS
           ? Environment.googleClientIdOAuthIos
           : Environment.googleClientIdOAuthAndroid,
       serverClientId: Environment.googleClientIdOAuthServer,
-    ).signIn();
+      scopes: ['email'],
+    );
+    await googleSignIn.signOut();
+
+    final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
 
     if (googleUser == null) {
       SnackBarService.show('Cancelled by user.');
