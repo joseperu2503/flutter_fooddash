@@ -50,7 +50,7 @@ class MenuScreenState extends ConsumerState<MenuScreen> {
                     ),
                     child: Center(
                       child: SvgPicture.asset(
-                        'assets/icons/drawer/profile.svg',
+                        'assets/icons/profile_solid.svg',
                         width: 60,
                         colorFilter: const ColorFilter.mode(
                           AppColors.white,
