@@ -1,0 +1,30 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "fooddash-6dc1f",
+          "appId": "1:876422063505:android:da10f1b1c75b80a4cca630",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "fooddash-6dc1f",
+          "appId": "1:876422063505:ios:687c745c6d0ff100cca630",
+          "uploadDebugSymbols": false,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "fooddash-6dc1f",
+          "configurations": {
+            "android": "1:876422063505:android:da10f1b1c75b80a4cca630",
+            "ios": "1:876422063505:ios:687c745c6d0ff100cca630"
+          }
+        }
+      }
+    }
+  }
+}

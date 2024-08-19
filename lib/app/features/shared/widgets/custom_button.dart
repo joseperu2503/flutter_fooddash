@@ -87,10 +87,6 @@ class CustomButton extends StatelessWidget {
                 onPressed();
               },
         style: TextButton.styleFrom(
-          minimumSize: Size(
-            double.infinity,
-            height,
-          ),
           padding: const EdgeInsets.symmetric(horizontal: 16),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30),

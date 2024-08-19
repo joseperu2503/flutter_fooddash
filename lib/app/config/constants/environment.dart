@@ -11,4 +11,11 @@ class Environment {
   static String googleMapsApiKey = dotenv.get('GOOGLE_MAPS_API_KEY');
   static String mpUrl = dotenv.get('MP_URL');
   static String mpPublicKey = dotenv.get('MP_PUBLIC_KEY');
+
+  static String googleClientIdOAuthServer =
+      dotenv.get('GOOGLE_CLIENT_ID_OAUTH_SERVER');
+  static String googleClientIdOAuthAndroid =
+      dotenv.get('GOOGLE_CLIENT_ID_OAUTH_ANDROID');
+  static String googleClientIdOAuthIos =
+      dotenv.get('GOOGLE_CLIENT_ID_OAUTH_IOS');
 }

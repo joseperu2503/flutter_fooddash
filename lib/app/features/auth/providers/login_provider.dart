@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:fooddash/app/config/constants/environment.dart';
 import 'package:fooddash/app/config/constants/storage_keys.dart';
 import 'package:fooddash/app/config/router/app_router.dart';
 import 'package:fooddash/app/features/auth/models/login_response.dart';
@@ -11,6 +14,7 @@ import 'package:fooddash/app/features/shared/plugins/formx/validators/validators
 import 'package:fooddash/app/features/shared/services/snackbar_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 final loginProvider = StateNotifierProvider<LoginNotifier, LoginState>((ref) {
   return LoginNotifier(ref);
@@ -65,7 +69,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
 
       await StorageService.set<String>(StorageKeys.token, loginResponse.token);
 
-      setRemember();
+      _setRemember();
       appRouter.go('/dashboard');
       ref.read(authProvider.notifier).initAutoLogout();
       state = state.copyWith(
@@ -79,7 +83,64 @@ class LoginNotifier extends StateNotifier<LoginState> {
     }
   }
 
-  setRemember() async {
+  loginGoogle() async {
+    FocusManager.instance.primaryFocus?.unfocus();
+
+    state = state.copyWith(
+      loading: LoadingStatus.loading,
+    );
+
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn(
+      clientId: Platform.isIOS
+          ? Environment.googleClientIdOAuthIos
+          : Environment.googleClientIdOAuthAndroid,
+      serverClientId: Environment.googleClientIdOAuthServer,
+    ).signIn();
+
+    if (googleUser == null) {
+      SnackBarService.show('Cancelled by user.');
+      state = state.copyWith(
+        loading: LoadingStatus.error,
+      );
+      return;
+    }
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser.authentication;
+
+    final String? idToken = googleAuth.idToken;
+
+    if (idToken == null) {
+      SnackBarService.show('no idToken');
+
+      state = state.copyWith(
+        loading: LoadingStatus.error,
+      );
+      return;
+    }
+
+    try {
+      final loginResponse = await AuthService.loginGoogle(
+        idToken: idToken,
+      );
+
+      await StorageService.set<String>(StorageKeys.token, loginResponse.token);
+
+      ref.read(authProvider.notifier).initAutoLogout();
+
+      appRouter.go('/dashboard');
+    } on ServiceException catch (e) {
+      SnackBarService.show(e.message);
+    }
+
+    state = state.copyWith(
+      loading: LoadingStatus.success,
+    );
+  }
+
+  _setRemember() async {
     if (state.rememberMe) {
       await StorageService.set<String>(StorageKeys.email, state.email.value);
     }

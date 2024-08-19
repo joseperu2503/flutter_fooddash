@@ -25,6 +25,20 @@ class AuthService {
     }
   }
 
+  static Future<LoginResponse> loginGoogle({required String idToken}) async {
+    try {
+      Map<String, dynamic> form = {
+        "idToken": idToken,
+      };
+
+      final response = await Api().post('/auth/login-google', data: form);
+
+      return LoginResponse.fromJson(response.data);
+    } catch (e) {
+      throw ServiceException('An error occurred while trying to log in.', e);
+    }
+  }
+
   static Future<AuthUser> getUser() async {
     try {
       final response = await Api().get('/auth/me');
