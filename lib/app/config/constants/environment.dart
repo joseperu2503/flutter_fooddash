@@ -6,10 +6,8 @@ class Environment {
   }
 
   static String baseUrl = dotenv.get('BASE_URL');
-  static String mapboxUrl = dotenv.get('MAPBOX_URL');
   static String mapboxToken = dotenv.get('MAPBOX_TOKEN');
   static String googleMapsApiKey = dotenv.get('GOOGLE_MAPS_API_KEY');
-  static String mpUrl = dotenv.get('MP_URL');
   static String mpPublicKey = dotenv.get('MP_PUBLIC_KEY');
 
   static String googleClientIdOAuthServer =

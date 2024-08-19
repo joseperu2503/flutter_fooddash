@@ -1,8 +1,7 @@
-import 'package:fooddash/app/config/constants/environment.dart';
 import 'package:dio/dio.dart';
 
 class ApiMercadoPago {
-  final Dio _dioBase = Dio(BaseOptions(baseUrl: Environment.mpUrl));
+  final Dio _dioBase = Dio(BaseOptions(baseUrl: 'https://api.mercadopago.com'));
 
   Future<Response> post(
     String path, {
