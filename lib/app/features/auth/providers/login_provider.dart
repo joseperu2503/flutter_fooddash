@@ -156,6 +156,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
 
     final LoginResult loginResult = await FacebookAuth.instance.login(
       permissions: const ['email'],
+      loginTracking: LoginTracking.limited,
     );
 
     if (loginResult.status != LoginStatus.success) {
@@ -167,7 +168,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
     }
 
     final AccessToken accessToken = loginResult.accessToken!;
-
+    print('accessToken ${accessToken.tokenString}');
     try {
       final loginResponse = await AuthService.loginFacebook(
         accessToken: accessToken.tokenString,

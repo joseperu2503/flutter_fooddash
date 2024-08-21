@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:fooddash/app/config/api/api.dart';
 import 'package:fooddash/app/config/constants/storage_keys.dart';
 import 'package:fooddash/app/features/auth/models/login_response.dart';
@@ -39,11 +41,13 @@ class AuthService {
     }
   }
 
-  static Future<LoginResponse> loginFacebook(
-      {required String accessToken}) async {
+  static Future<LoginResponse> loginFacebook({
+    required String accessToken,
+  }) async {
     try {
       Map<String, dynamic> form = {
         "accessToken": accessToken,
+        'platform': Platform.isAndroid ? 'android' : 'ios'
       };
 
       final response = await Api().post('/auth/login-facebook', data: form);
