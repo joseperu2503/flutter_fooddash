@@ -5,7 +5,6 @@ import 'package:fooddash/app/features/auth/widgets/social_button.dart';
 import 'package:fooddash/app/features/shared/models/loading_status.dart';
 import 'package:fooddash/app/features/shared/widgets/back_button.dart';
 import 'package:fooddash/app/features/shared/widgets/custom_button.dart';
-import 'package:fooddash/app/features/shared/widgets/custom_progress_indicator.dart';
 import 'package:fooddash/app/features/shared/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -266,9 +265,6 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
         if (loginState.loading == LoadingStatus.loading)
           Container(
             color: AppColors.white.withOpacity(0.5),
-            child: const Center(
-              child: CustomProgressIndicator(),
-            ),
           ),
       ],
     );

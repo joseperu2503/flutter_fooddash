@@ -148,9 +148,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
   loginFacebook() async {
     FocusManager.instance.primaryFocus?.unfocus();
 
-    state = state.copyWith(
-      loading: LoadingStatus.loading,
-    );
+    state = state.copyWith(loading: LoadingStatus.loading);
 
     await FacebookAuth.instance.logOut();
 
@@ -161,14 +159,18 @@ class LoginNotifier extends StateNotifier<LoginState> {
 
     if (loginResult.status != LoginStatus.success) {
       SnackBarService.show('Cancelled by user.');
-      state = state.copyWith(
-        loading: LoadingStatus.error,
-      );
+      state = state.copyWith(loading: LoadingStatus.error);
       return;
     }
 
-    final AccessToken accessToken = loginResult.accessToken!;
-    print('accessToken ${accessToken.tokenString}');
+    final AccessToken? accessToken = loginResult.accessToken;
+
+    if (accessToken == null) {
+      SnackBarService.show('no accessToken');
+      state = state.copyWith(loading: LoadingStatus.error);
+      return;
+    }
+
     try {
       final loginResponse = await AuthService.loginFacebook(
         accessToken: accessToken.tokenString,
@@ -179,14 +181,10 @@ class LoginNotifier extends StateNotifier<LoginState> {
       ref.read(authProvider.notifier).initAutoLogout();
 
       appRouter.go('/dashboard');
-      state = state.copyWith(
-        loading: LoadingStatus.success,
-      );
+      state = state.copyWith(loading: LoadingStatus.success);
     } on ServiceException catch (e) {
       SnackBarService.show(e.message);
-      state = state.copyWith(
-        loading: LoadingStatus.error,
-      );
+      state = state.copyWith(loading: LoadingStatus.error);
     }
   }
 
