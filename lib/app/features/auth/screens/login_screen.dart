@@ -234,7 +234,11 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               SocialButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  ref
+                                      .read(loginProvider.notifier)
+                                      .loginFacebook();
+                                },
                                 type: SocialButtonType.facebook,
                               ),
                               SocialButton(

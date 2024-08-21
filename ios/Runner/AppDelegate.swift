@@ -11,8 +11,8 @@ import GoogleMaps
     if let path = Bundle.main.path(forResource: "Secrets", ofType: "plist"),
        let xml = FileManager.default.contents(atPath: path),
        let secrets = try? PropertyListDecoder().decode([String: String].self, from: xml),
-       let apiKey = secrets["GoogleMapsAPIKey"] {
-      GMSServices.provideAPIKey(apiKey)
+       let GoogleMapsAPIKey = secrets["GoogleMapsAPIKey"] {
+      GMSServices.provideAPIKey(GoogleMapsAPIKey)
     } else {
       fatalError("Google Maps API key not found")
     }

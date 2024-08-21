@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:fooddash/app/config/constants/environment.dart';
 import 'package:fooddash/app/config/constants/storage_keys.dart';
 import 'package:fooddash/app/config/router/app_router.dart';
@@ -142,6 +143,50 @@ class LoginNotifier extends StateNotifier<LoginState> {
     state = state.copyWith(
       loading: LoadingStatus.success,
     );
+  }
+
+  loginFacebook() async {
+    FocusManager.instance.primaryFocus?.unfocus();
+
+    state = state.copyWith(
+      loading: LoadingStatus.loading,
+    );
+
+    await FacebookAuth.instance.logOut();
+
+    final LoginResult loginResult = await FacebookAuth.instance.login(
+      permissions: const ['email'],
+    );
+
+    if (loginResult.status != LoginStatus.success) {
+      SnackBarService.show('Cancelled by user.');
+      state = state.copyWith(
+        loading: LoadingStatus.error,
+      );
+      return;
+    }
+
+    final AccessToken accessToken = loginResult.accessToken!;
+
+    try {
+      final loginResponse = await AuthService.loginFacebook(
+        accessToken: accessToken.tokenString,
+      );
+
+      await StorageService.set<String>(StorageKeys.token, loginResponse.token);
+
+      ref.read(authProvider.notifier).initAutoLogout();
+
+      appRouter.go('/dashboard');
+      state = state.copyWith(
+        loading: LoadingStatus.success,
+      );
+    } on ServiceException catch (e) {
+      SnackBarService.show(e.message);
+      state = state.copyWith(
+        loading: LoadingStatus.error,
+      );
+    }
   }
 
   _setRemember() async {

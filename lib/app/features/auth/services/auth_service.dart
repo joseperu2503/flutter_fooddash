@@ -39,6 +39,21 @@ class AuthService {
     }
   }
 
+  static Future<LoginResponse> loginFacebook(
+      {required String accessToken}) async {
+    try {
+      Map<String, dynamic> form = {
+        "accessToken": accessToken,
+      };
+
+      final response = await Api().post('/auth/login-facebook', data: form);
+
+      return LoginResponse.fromJson(response.data);
+    } catch (e) {
+      throw ServiceException('An error occurred while trying to log in.', e);
+    }
+  }
+
   static Future<AuthUser> getUser() async {
     try {
       final response = await Api().get('/auth/me');

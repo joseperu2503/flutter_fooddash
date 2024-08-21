@@ -63,9 +63,22 @@
 				<string>Editor</string>
 				<key>CFBundleURLSchemes</key>
 				<array>
+					<string>fb855020459557449</string>
 					<string>com.googleusercontent.apps.876422063505-qkcd7munu7s3hh5ojfkecionm4jpuqcg</string>
 				</array>
 			</dict>
+		</array>
+		
+		<key>FacebookAppID</key>
+		<string>855020459557449</string>
+		<key>FacebookClientToken</key>
+		<string>95983b06099d1fa97b207ee6e69c09a0</string>
+		<key>FacebookDisplayName</key>
+		<string>FoodDash</string>
+		<key>LSApplicationQueriesSchemes</key>
+		<array>
+		<string>fbapi</string>
+		<string>fb-messenger-share-api</string>
 		</array>
 	</dict>
 </plist>
