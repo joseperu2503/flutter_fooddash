@@ -1,15 +1,23 @@
-# fooddash
+<p align="center">
+<img src="assets/app/icon.png" width="150"  alt="logo">
+</p>
 
-A new Flutter project.
+# FoodDash App
 
-flutter pub run change_app_package_name:main com.new.package.name
+## Compilar android
 
-google maps api key android
+```bash
+flutter build apk --release
+```
 
-copiar archivo local.defaults.properties y renombrar como secrets.properties y asignar la api key
+## Compilar ios
 
+```bash
+flutter build ios --release
+```
 
 ## Cambiar icono de la app
+
 ```bash
 flutter pub run flutter_launcher_icons
 ```
@@ -19,3 +27,31 @@ flutter pub run flutter_launcher_icons
 ```bash
 dart run flutter_native_splash:create
 ```
+
+## Cambiar nombre de la app
+
+```bash
+flutter pub run rename_app:main all="SnappyShop"
+```
+
+## Cambiar bundle Id
+
+```bash
+flutter pub run change_app_package_name:main com.joseperezgil.fooddash
+```
+
+## Firebase
+
+```bash
+flutterfire configure
+```
+
+## Google maps api key
+
+### Android
+
+Copiar archivo local.defaults.properties y renombrar como secrets.properties y asignar la api key
+
+### Ios
+
+Crear archivo Secrets.plist.example y renombrarlo Secrets.plist y asignar la api key
