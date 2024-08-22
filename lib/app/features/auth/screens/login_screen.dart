@@ -198,7 +198,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                               Expanded(
                                 child: Container(
                                   height: 1,
-                                  color: AppColors.gray300,
+                                  color: AppColors.gray200,
                                 ),
                               ),
                               const SizedBox(
@@ -221,7 +221,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                               Expanded(
                                 child: Container(
                                   height: 1,
-                                  color: AppColors.gray300,
+                                  color: AppColors.gray200,
                                 ),
                               ),
                             ],
@@ -230,7 +230,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                             height: 32,
                           ),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               SocialButton(
                                 onPressed: () {
@@ -239,6 +239,9 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                                       .loginFacebook();
                                 },
                                 type: SocialButtonType.facebook,
+                              ),
+                              const SizedBox(
+                                width: 32,
                               ),
                               SocialButton(
                                 onPressed: () {
