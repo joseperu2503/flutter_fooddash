@@ -24,30 +24,35 @@ class AppbarDashboard extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: Row(
           children: [
-            Container(
-              width: 42,
-              height: 42,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(14),
-                color: AppColors.white,
-                boxShadow: const [
-                  BoxShadow(
-                    color: Color.fromRGBO(211, 209, 216, 0.3),
-                    offset:
-                        Offset(5, 10), // Desplazamiento horizontal y vertical
-                    blurRadius: 20, // Radio de desenfoque
-                    spreadRadius: 0, // Extensión de la sombra
-                  ),
-                ],
-              ),
-              child: Center(
-                child: SvgPicture.asset(
-                  'assets/icons/map_pin_outlined.svg',
-                  width: 18,
-                  height: 18,
-                  colorFilter: const ColorFilter.mode(
-                    AppColors.gray800,
-                    BlendMode.srcIn,
+            GestureDetector(
+              onTap: () {
+                context.push('/my-addresses');
+              },
+              child: Container(
+                width: 42,
+                height: 42,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(14),
+                  color: AppColors.white,
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Color.fromRGBO(211, 209, 216, 0.3),
+                      offset:
+                          Offset(5, 10), // Desplazamiento horizontal y vertical
+                      blurRadius: 20, // Radio de desenfoque
+                      spreadRadius: 0, // Extensión de la sombra
+                    ),
+                  ],
+                ),
+                child: Center(
+                  child: SvgPicture.asset(
+                    'assets/icons/map_pin_outlined.svg',
+                    width: 18,
+                    height: 18,
+                    colorFilter: const ColorFilter.mode(
+                      AppColors.gray800,
+                      BlendMode.srcIn,
+                    ),
                   ),
                 ),
               ),

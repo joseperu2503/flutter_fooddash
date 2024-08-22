@@ -18,18 +18,6 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
   DashboardNotifier(this.ref) : super(DashboardState());
   final StateNotifierProviderRef ref;
 
-  initData() {
-    state = state.copyWith(
-      restaurants: [],
-      page: 1,
-      totalPages: 1,
-      restaurantsStatus: LoadingStatus.none,
-      categories: [],
-      category: () => null,
-      categoriesStatus: LoadingStatus.none,
-    );
-  }
-
   Future<void> getRestaurants() async {
     if (state.page > state.totalPages ||
         state.restaurantsStatus == LoadingStatus.loading) return;

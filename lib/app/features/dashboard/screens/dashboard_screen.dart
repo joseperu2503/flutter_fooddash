@@ -27,12 +27,16 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(dashboardProvider.notifier).initData();
+      ref.invalidate(addressProvider);
+      ref.invalidate(dashboardProvider);
+      ref.invalidate(cartProvider);
+
       ref.read(dashboardProvider.notifier).getRestaurants();
       ref.read(dashboardProvider.notifier).getCategories();
       ref.read(cartProvider.notifier).getMyCart();
       ref.read(addressProvider.notifier).getMyAddresses(withSetAddress: true);
     });
+
     _scrollController.addListener(() {
       if (_scrollController.position.pixels + 100 >=
           _scrollController.position.maxScrollExtent) {
