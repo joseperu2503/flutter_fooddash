@@ -1,15 +1,16 @@
-class Category {
+class RestaurantCategory {
   int id;
   String name;
   String image;
 
-  Category({
+  RestaurantCategory({
     required this.id,
     required this.name,
     required this.image,
   });
 
-  factory Category.fromJson(Map<String, dynamic> json) => Category(
+  factory RestaurantCategory.fromJson(Map<String, dynamic> json) =>
+      RestaurantCategory(
         id: json["id"],
         name: json["name"],
         image: json["image"],

@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fooddash/app/config/constants/styles.dart';
-import 'package:fooddash/app/features/dashboard/providers/restaurants_provider.dart';
+import 'package:fooddash/app/features/dashboard/providers/dashboard_provider.dart';
 import 'package:fooddash/app/features/dashboard/widgets/restaurant_item.dart';
 import 'package:flutter/material.dart';
 import 'package:fooddash/app/features/dashboard/widgets/restaurant_skeleton.dart';
@@ -13,7 +13,7 @@ class MostPopular extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final restaurantsState = ref.watch(restaurantsProvider);
+    final restaurantsState = ref.watch(dashboardProvider);
 
     return SliverToBoxAdapter(
       child: Column(

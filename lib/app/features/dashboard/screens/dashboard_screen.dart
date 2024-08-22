@@ -2,7 +2,7 @@ import 'package:fooddash/app/config/constants/app_colors.dart';
 import 'package:fooddash/app/config/constants/styles.dart';
 import 'package:fooddash/app/features/address/providers/address_provider.dart';
 import 'package:fooddash/app/features/cart/providers/cart_provider.dart';
-import 'package:fooddash/app/features/dashboard/providers/restaurants_provider.dart';
+import 'package:fooddash/app/features/dashboard/providers/dashboard_provider.dart';
 import 'package:fooddash/app/features/dashboard/widgets/appbar.dart';
 import 'package:fooddash/app/features/dashboard/widgets/categories.dart';
 import 'package:fooddash/app/features/dashboard/widgets/input_search.dart';
@@ -27,16 +27,16 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(restaurantsProvider.notifier).initData();
-      ref.read(restaurantsProvider.notifier).getRestaurants();
-      ref.read(restaurantsProvider.notifier).getCategories();
+      ref.read(dashboardProvider.notifier).initData();
+      ref.read(dashboardProvider.notifier).getRestaurants();
+      ref.read(dashboardProvider.notifier).getCategories();
       ref.read(cartProvider.notifier).getMyCart();
       ref.read(addressProvider.notifier).getMyAddresses(withSetAddress: true);
     });
     _scrollController.addListener(() {
       if (_scrollController.position.pixels + 100 >=
           _scrollController.position.maxScrollExtent) {
-        ref.read(restaurantsProvider.notifier).getRestaurants();
+        ref.read(dashboardProvider.notifier).getRestaurants();
       }
     });
   }
@@ -51,7 +51,7 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final restaurantsState = ref.watch(restaurantsProvider);
+    final restaurantsState = ref.watch(dashboardProvider);
 
     return Scaffold(
       appBar: AppBar(

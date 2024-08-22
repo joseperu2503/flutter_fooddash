@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:fooddash/app/features/core/models/service_exception.dart';
-import 'package:fooddash/app/features/dashboard/models/category.dart';
+import 'package:fooddash/app/features/dashboard/models/restaurant_category.dart';
 import 'package:fooddash/app/features/dashboard/models/restaurant.dart';
-import 'package:fooddash/app/features/dashboard/services/restaurants_service.dart';
+import 'package:fooddash/app/features/restaurant/services/restaurant_service.dart';
 import 'package:fooddash/app/features/restaurant/models/dish_category.dart';
 import 'package:fooddash/app/features/restaurant/models/restaurant.dart';
 import 'package:fooddash/app/features/shared/models/loading_status.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fooddash/app/features/shared/services/snackbar_service.dart';
 
-final restaurantsProvider =
-    StateNotifierProvider<RestaurantsNotifier, RestaurantsState>((ref) {
-  return RestaurantsNotifier(ref);
+final dashboardProvider =
+    StateNotifierProvider<DashboardNotifier, DashboardState>((ref) {
+  return DashboardNotifier(ref);
 });
 
-class RestaurantsNotifier extends StateNotifier<RestaurantsState> {
-  RestaurantsNotifier(this.ref) : super(RestaurantsState());
+class DashboardNotifier extends StateNotifier<DashboardState> {
+  DashboardNotifier(this.ref) : super(DashboardState());
   final StateNotifierProviderRef ref;
 
   initData() {
@@ -67,7 +67,8 @@ class RestaurantsNotifier extends StateNotifier<RestaurantsState> {
     );
 
     try {
-      final List<Category> response = await RestaurantsService.getCategories();
+      final List<RestaurantCategory> response =
+          await RestaurantsService.getCategories();
       state = state.copyWith(
         categories: [...state.categories, ...response],
         categoriesStatus: LoadingStatus.success,
@@ -110,7 +111,7 @@ class RestaurantsNotifier extends StateNotifier<RestaurantsState> {
     }
   }
 
-  setCategory(Category category) {
+  setCategory(RestaurantCategory category) {
     state = state.copyWith(
       restaurants: [],
       page: 1,
@@ -122,19 +123,19 @@ class RestaurantsNotifier extends StateNotifier<RestaurantsState> {
   }
 }
 
-class RestaurantsState {
+class DashboardState {
   final List<Restaurant> restaurants;
   final int page;
   final int totalPages;
   final LoadingStatus restaurantsStatus;
-  final List<Category> categories;
-  final Category? category;
+  final List<RestaurantCategory> categories;
+  final RestaurantCategory? category;
   final LoadingStatus categoriesStatus;
   final Restaurant? restaurant;
   final List<DishCategory> dishCategories;
   final LoadingStatus dishesStatus;
 
-  RestaurantsState({
+  DashboardState({
     this.restaurants = const [],
     this.page = 1,
     this.totalPages = 1,
@@ -147,19 +148,19 @@ class RestaurantsState {
     this.dishesStatus = LoadingStatus.none,
   });
 
-  RestaurantsState copyWith({
+  DashboardState copyWith({
     List<Restaurant>? restaurants,
     int? page,
     int? totalPages,
     LoadingStatus? restaurantsStatus,
-    List<Category>? categories,
+    List<RestaurantCategory>? categories,
     LoadingStatus? categoriesStatus,
     Restaurant? restaurant,
-    ValueGetter<Category?>? category,
+    ValueGetter<RestaurantCategory?>? category,
     List<DishCategory>? dishCategories,
     LoadingStatus? dishesStatus,
   }) =>
-      RestaurantsState(
+      DashboardState(
         restaurants: restaurants ?? this.restaurants,
         page: page ?? this.page,
         totalPages: totalPages ?? this.totalPages,

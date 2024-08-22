@@ -1,9 +1,9 @@
 import 'package:animated_shimmer/animated_shimmer.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fooddash/app/config/constants/app_colors.dart';
-import 'package:fooddash/app/features/dashboard/models/category.dart';
+import 'package:fooddash/app/features/dashboard/models/restaurant_category.dart';
 import 'package:flutter/material.dart';
-import 'package:fooddash/app/features/dashboard/providers/restaurants_provider.dart';
+import 'package:fooddash/app/features/dashboard/providers/dashboard_provider.dart';
 import 'package:fooddash/app/features/shared/models/loading_status.dart';
 
 class CategoriesDashboard extends ConsumerWidget {
@@ -13,7 +13,7 @@ class CategoriesDashboard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final restaurantsState = ref.watch(restaurantsProvider);
+    final restaurantsState = ref.watch(dashboardProvider);
     final categories = restaurantsState.categories;
     return SliverToBoxAdapter(
       child: Column(
@@ -52,7 +52,7 @@ class CategoriesDashboard extends ConsumerWidget {
                     isSelected: category.id == restaurantsState.category?.id,
                     onPress: (category) {
                       ref
-                          .read(restaurantsProvider.notifier)
+                          .read(dashboardProvider.notifier)
                           .setCategory(category);
                     },
                   );
@@ -113,9 +113,9 @@ class CategoryItem extends StatelessWidget {
     required this.onPress,
   });
 
-  final Category category;
+  final RestaurantCategory category;
   final bool isSelected;
-  final void Function(Category category) onPress;
+  final void Function(RestaurantCategory category) onPress;
 
   @override
   Widget build(BuildContext context) {

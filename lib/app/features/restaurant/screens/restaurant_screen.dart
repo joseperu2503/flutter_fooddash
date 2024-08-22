@@ -2,7 +2,7 @@ import 'package:fooddash/app/config/constants/app_colors.dart';
 import 'package:fooddash/app/config/constants/styles.dart';
 import 'package:fooddash/app/features/cart/providers/cart_provider.dart';
 import 'package:fooddash/app/features/cart/widgets/cart_bottom_sheet_2.dart';
-import 'package:fooddash/app/features/dashboard/providers/restaurants_provider.dart';
+import 'package:fooddash/app/features/dashboard/providers/dashboard_provider.dart';
 import 'package:fooddash/app/features/dish/widgets/dish_skeleton.dart';
 import 'package:fooddash/app/features/restaurant/data/constants.dart';
 import 'package:fooddash/app/features/restaurant/models/dish_category.dart';
@@ -39,7 +39,7 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen>
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await ref
-          .read(restaurantsProvider.notifier)
+          .read(dashboardProvider.notifier)
           .getRestaurant(restaurantId: int.parse(widget.restaurantId));
       _tabController = TabController(length: menu.length, vsync: this);
       _setVerticalBreakPoints();
@@ -48,7 +48,7 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen>
     super.initState();
   }
 
-  List<DishCategory> get menu => ref.watch(restaurantsProvider).dishCategories;
+  List<DishCategory> get menu => ref.watch(dashboardProvider).dishCategories;
 
   void _scrollToCategory(int index) async {
     if (selectedCategoryIndex != index) {
@@ -137,7 +137,7 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen>
   @override
   Widget build(BuildContext context) {
     final screen = MediaQuery.of(context);
-    final restaurantState = ref.watch(restaurantsProvider);
+    final restaurantState = ref.watch(dashboardProvider);
     final restaurant = restaurantState.restaurant;
 
     if (restaurant == null) {

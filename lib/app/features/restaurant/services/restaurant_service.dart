@@ -1,5 +1,5 @@
 import 'package:fooddash/app/config/api/api.dart';
-import 'package:fooddash/app/features/dashboard/models/category.dart';
+import 'package:fooddash/app/features/dashboard/models/restaurant_category.dart';
 import 'package:fooddash/app/features/dashboard/models/restaurant.dart';
 import 'package:fooddash/app/features/restaurant/models/dish_category.dart';
 import 'package:fooddash/app/features/restaurant/models/restaurant.dart';
@@ -24,12 +24,12 @@ class RestaurantsService {
     }
   }
 
-  static Future<List<Category>> getCategories() async {
+  static Future<List<RestaurantCategory>> getCategories() async {
     try {
-      final response = await Api().get('/categories');
+      final response = await Api().get('/restaurant-categories');
 
-      return List<Category>.from(
-          response.data.map((x) => Category.fromJson(x)));
+      return List<RestaurantCategory>.from(
+          response.data.map((x) => RestaurantCategory.fromJson(x)));
     } catch (e) {
       throw 'An error occurred while loading the categories.';
     }

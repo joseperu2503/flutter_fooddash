@@ -1,7 +1,7 @@
 import 'package:fooddash/app/features/core/models/service_exception.dart';
 import 'package:fooddash/app/features/dashboard/models/restaurant.dart';
-import 'package:fooddash/app/features/dashboard/providers/restaurants_provider.dart';
-import 'package:fooddash/app/features/dashboard/services/restaurants_service.dart';
+import 'package:fooddash/app/features/dashboard/providers/dashboard_provider.dart';
+import 'package:fooddash/app/features/restaurant/services/restaurant_service.dart';
 import 'package:fooddash/app/features/restaurant/models/restaurant.dart';
 import 'package:fooddash/app/features/shared/models/loading_status.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -57,7 +57,7 @@ class RestaurantsNotifier extends StateNotifier<RestaurantsState> {
       final Restaurant restaurant =
           await RestaurantsService.toggleFavorite(restaurantId: restaurantId);
 
-      ref.read(restaurantsProvider.notifier).setRestaurant(restaurant);
+      ref.read(dashboardProvider.notifier).setRestaurant(restaurant);
 
       initData();
       getRestaurants();
