@@ -1,7 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:fooddash/app/config/api/api.dart';
 import 'package:fooddash/app/features/address/models/address.dart';
-import 'package:fooddash/app/features/address/widgets/address_bottom_sheet.dart';
 import 'package:fooddash/app/features/core/models/service_exception.dart';
 
 final api = Api();
@@ -18,7 +16,7 @@ class AddressService {
     }
   }
 
-  static Future<void> createAddress({
+  static Future<Address> createAddress({
     required String country,
     required String city,
     required double latitude,
@@ -42,32 +40,11 @@ class AddressService {
         "addressDeliveryDetailId": addressDeliveryDetailId,
       };
 
-      await api.post('/addresses', data: form);
+      final response = await api.post('/addresses', data: form);
+      return Address.fromJson(response.data);
     } catch (e) {
       throw ServiceException(
           'An error occurred while registering the address.', e);
     }
-  }
-
-  static showAddressBottomSheet(
-    BuildContext context, {
-    bool isDismissible = true,
-  }) {
-    showModalBottomSheet(
-      context: context,
-      useSafeArea: true,
-      useRootNavigator: true,
-      elevation: 0,
-      isScrollControlled: true,
-      isDismissible: isDismissible,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-      showDragHandle: false,
-      enableDrag: isDismissible,
-      builder: (BuildContext context) {
-        return const AddressBottomSheet();
-      },
-    );
   }
 }

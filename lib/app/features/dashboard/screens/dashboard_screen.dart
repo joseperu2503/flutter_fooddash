@@ -52,8 +52,10 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     final restaurantsState = ref.watch(dashboardProvider);
+    final addressState = ref.watch(addressProvider);
 
     return Scaffold(
+      key: Key(addressState.selectedAddress?.id.toString() ?? 'no-address'),
       appBar: AppBar(
         backgroundColor: Colors.white,
         toolbarHeight: 0,

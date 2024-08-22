@@ -3,7 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fooddash/app/config/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:fooddash/app/config/constants/styles.dart';
-import 'package:fooddash/app/features/address/services/address_services.dart';
 import 'package:fooddash/app/features/auth/providers/auth_provider.dart';
 import 'package:go_router/go_router.dart';
 
@@ -231,7 +230,7 @@ List<MenuItem> menuItems = [
   MenuItem(
     label: 'Addresses',
     onPress: (context) {
-      AddressService.showAddressBottomSheet(context);
+      context.push('/my-addresses');
     },
     icon: 'assets/icons/map_pin_outlined.svg',
   ),

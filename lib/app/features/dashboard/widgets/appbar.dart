@@ -3,8 +3,8 @@ import 'package:fooddash/app/config/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fooddash/app/features/address/providers/address_provider.dart';
-import 'package:fooddash/app/features/address/services/address_services.dart';
 import 'package:fooddash/app/features/dashboard/widgets/cart_button.dart';
+import 'package:go_router/go_router.dart';
 
 class AppbarDashboard extends ConsumerWidget {
   const AppbarDashboard({super.key});
@@ -59,7 +59,7 @@ class AppbarDashboard extends ConsumerWidget {
               child: GestureDetector(
                 behavior: HitTestBehavior.translucent,
                 onTap: () {
-                  AddressService.showAddressBottomSheet(context);
+                  context.push('/my-addresses');
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

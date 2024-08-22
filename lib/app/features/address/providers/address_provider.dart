@@ -158,10 +158,7 @@ class AddressNotifier extends StateNotifier<AddressState> {
 
     if (state.addresses.isEmpty) {
       if (rootNavigatorKey.currentContext == null) return;
-      AddressService.showAddressBottomSheet(
-        rootNavigatorKey.currentContext!,
-        isDismissible: false,
-      );
+      appRouter.push('/my-addresses');
     } else {
       state = state.copyWith(
         selectedAddress: () => state.addresses[0],
@@ -180,7 +177,7 @@ class AddressNotifier extends StateNotifier<AddressState> {
     );
 
     try {
-      await AddressService.createAddress(
+      final Address newAddress = await AddressService.createAddress(
         city: state.city.value,
         country: state.country.value,
         address: state.address.value,
@@ -193,10 +190,10 @@ class AddressNotifier extends StateNotifier<AddressState> {
       );
 
       await getMyAddresses();
-      appRouter.pop();
-      appRouter.pop();
-      appRouter.pop();
+
+      appRouter.go('/dashboard');
       state = state.copyWith(
+        selectedAddress: () => newAddress,
         savingAddress: LoadingStatus.success,
       );
     } on ServiceException catch (e) {

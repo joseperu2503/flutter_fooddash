@@ -1,5 +1,6 @@
 import 'package:fooddash/app/features/address/screens/address_map_screen.dart';
 import 'package:fooddash/app/features/address/screens/confirm_address_screen.dart';
+import 'package:fooddash/app/features/address/screens/my_addresses_screen.dart';
 import 'package:fooddash/app/features/address/screens/search_address_screen.dart';
 import 'package:fooddash/app/features/auth/screens/home_screen.dart';
 import 'package:fooddash/app/features/auth/screens/login_screen.dart';
@@ -161,6 +162,12 @@ GoRouter appRouter = GoRouter(
       builder: (context, state) => OrderScreen(
         orderId: int.tryParse(state.pathParameters['orderId'] ?? '0') ?? 0,
       ),
+      redirect: protectedRoute,
+      parentNavigatorKey: rootNavigatorKey,
+    ),
+    GoRoute(
+      path: '/my-addresses',
+      builder: (context, state) => const MyAddressesScreen(),
       redirect: protectedRoute,
       parentNavigatorKey: rootNavigatorKey,
     ),
