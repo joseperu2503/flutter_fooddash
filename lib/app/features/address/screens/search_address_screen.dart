@@ -104,21 +104,15 @@ class SearchAddressScreenState extends ConsumerState<SearchAddressScreen> {
               padding: const EdgeInsets.only(),
               sliver: SliverList.separated(
                 itemBuilder: (context, index) {
-                  final result = addressState.addressResults[index];
+                  final addressResult = addressState.addressResults[index];
+
                   return SizedBox(
                     height: 80,
                     child: TextButton(
-                      onPressed: () {
-                        if (result.properties.coordinates?.latitude != null &&
-                            result.properties.coordinates?.longitude != null) {
-                          ref
-                              .read(mapProvider.notifier)
-                              .changeCameraPosition(LatLng(
-                                result.properties.coordinates!.latitude!,
-                                result.properties.coordinates!.longitude!,
-                              ));
-                          context.push('/address-map');
-                        }
+                      onPressed: () async {
+                        await ref
+                            .read(addressProvider.notifier)
+                            .selectAddressResult(addressResult);
                       },
                       style: TextButton.styleFrom(
                         padding: const EdgeInsets.symmetric(
@@ -136,7 +130,7 @@ class SearchAddressScreenState extends ConsumerState<SearchAddressScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  result.properties.name ?? '',
+                                  addressResult.structuredFormatting.mainText,
                                   style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600,
@@ -146,7 +140,8 @@ class SearchAddressScreenState extends ConsumerState<SearchAddressScreen> {
                                   ),
                                 ),
                                 Text(
-                                  result.properties.placeFormatted ?? '',
+                                  addressResult
+                                      .structuredFormatting.secondaryText,
                                   style: const TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,

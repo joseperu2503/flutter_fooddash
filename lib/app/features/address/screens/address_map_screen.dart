@@ -141,7 +141,7 @@ class MapViewState extends ConsumerState<MapView> {
             ));
       },
       onCameraIdle: () {
-        ref.read(addressProvider.notifier).searchLocality();
+        ref.read(addressProvider.notifier).onCameraPositionChange();
       },
       onMapCreated: (GoogleMapController controller) {
         ref.read(mapProvider.notifier).setMapController(controller);
@@ -197,7 +197,7 @@ class BottomModal extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        searchAddressState.city.value,
+                        searchAddressState.address.value,
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
@@ -206,7 +206,7 @@ class BottomModal extends ConsumerWidget {
                         ),
                       ),
                       Text(
-                        searchAddressState.country.value,
+                        searchAddressState.city.value,
                         style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,

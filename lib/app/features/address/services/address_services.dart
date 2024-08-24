@@ -1,5 +1,8 @@
 import 'package:fooddash/app/config/api/api.dart';
 import 'package:fooddash/app/features/address/models/address.dart';
+import 'package:fooddash/app/features/address/models/address_result.dart';
+import 'package:fooddash/app/features/address/models/geocode_response.dart';
+import 'package:fooddash/app/features/address/models/place_details.dart';
 import 'package:fooddash/app/features/core/models/service_exception.dart';
 
 final api = Api();
@@ -45,6 +48,68 @@ class AddressService {
     } catch (e) {
       throw ServiceException(
           'An error occurred while registering the address.', e);
+    }
+  }
+
+  static Future<List<AddressResult>> autocomplete(
+      {required String query}) async {
+    try {
+      Map<String, dynamic> queryParameters = {
+        "input": query,
+      };
+
+      final response = await api.get(
+        '/addresses/autocomplete',
+        queryParameters: queryParameters,
+      );
+
+      return List<AddressResult>.from(
+          response.data.map((x) => AddressResult.fromJson(x)));
+    } catch (e) {
+      throw ServiceException(
+          'An error occurred while searching the address.', e);
+    }
+  }
+
+  static Future<PlaceDetails> placeDetails({
+    required String placeId,
+  }) async {
+    try {
+      Map<String, dynamic> queryParameters = {
+        "placeId": placeId,
+      };
+
+      final response = await api.get(
+        '/addresses/place-details',
+        queryParameters: queryParameters,
+      );
+
+      return PlaceDetails.fromJson(response.data);
+    } catch (e) {
+      throw ServiceException(
+          'An error occurred while searching the address.', e);
+    }
+  }
+
+  static Future<GeocodeResponse> geocode({
+    required double latitude,
+    required double longitude,
+  }) async {
+    try {
+      Map<String, dynamic> queryParameters = {
+        "lat": latitude,
+        "lng": longitude,
+      };
+
+      final response = await api.get(
+        '/addresses/geocode',
+        queryParameters: queryParameters,
+      );
+
+      return GeocodeResponse.fromJson(response.data);
+    } catch (e) {
+      throw ServiceException(
+          'An error occurred while searching the address.', e);
     }
   }
 }

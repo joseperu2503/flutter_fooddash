@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fooddash/app/config/router/app_router.dart';
 import 'package:fooddash/app/features/address/models/address.dart';
-import 'package:fooddash/app/features/address/models/search_address_response.dart';
-import 'package:fooddash/app/features/address/services/mapbox_service.dart';
+import 'package:fooddash/app/features/address/models/address_result.dart';
+import 'package:fooddash/app/features/address/models/geocode_response.dart';
 import 'package:fooddash/app/features/address/services/address_services.dart';
 import 'package:fooddash/app/features/core/models/service_exception.dart';
 import 'package:fooddash/app/features/core/services/snackbar_service.dart';
@@ -35,34 +35,6 @@ class AddressNotifier extends StateNotifier<AddressState> {
     changeSearch('');
   }
 
-  Future<void> searchAddress() async {
-    state = state.copyWith(
-      searchingAddresses: LoadingStatus.loading,
-    );
-
-    final search = state.search;
-
-    try {
-      final MapboxResponse response = await MapBoxService.searchbox(
-        query: state.search,
-      );
-
-      if (search == state.search) {
-        state = state.copyWith(
-          addressResults: response.features,
-          searchingAddresses: LoadingStatus.success,
-        );
-      }
-    } on ServiceException catch (e) {
-      if (search == state.search) {
-        SnackbarService.showSnackbar(e.message);
-        state = state.copyWith(
-          searchingAddresses: LoadingStatus.error,
-        );
-      }
-    }
-  }
-
   Timer? _debounceTimer;
 
   changeSearch(String newSearch) {
@@ -86,35 +58,70 @@ class AddressNotifier extends StateNotifier<AddressState> {
     );
   }
 
-  Future<void> searchLocality() async {
+  //** Metodo para buscar resultados de direcciones */
+  Future<void> searchAddress() async {
+    state = state.copyWith(
+      searchingAddresses: LoadingStatus.loading,
+    );
+
+    final search = state.search;
+
+    try {
+      final response = await AddressService.autocomplete(
+        query: state.search,
+      );
+
+      if (search == state.search) {
+        state = state.copyWith(
+          addressResults: response,
+          searchingAddresses: LoadingStatus.success,
+        );
+      }
+    } on ServiceException catch (e) {
+      if (search == state.search) {
+        SnackbarService.showSnackbar(e.message);
+        state = state.copyWith(
+          searchingAddresses: LoadingStatus.error,
+        );
+      }
+    }
+  }
+
+  //** Metodo para seleccionar un resultado y buscar sus coordenadas */
+  Future<void> selectAddressResult(AddressResult addressResult) async {
+    FocusManager.instance.primaryFocus?.unfocus();
+
+    try {
+      final addressResultDetails = await AddressService.placeDetails(
+        placeId: addressResult.placeId,
+      );
+
+      ref.read(mapProvider.notifier).changeCameraPosition(LatLng(
+            addressResultDetails.location.lat,
+            addressResultDetails.location.lng,
+          ));
+
+      appRouter.push('/address-map');
+    } on ServiceException catch (e) {
+      SnackbarService.showSnackbar(e.message);
+    }
+  }
+
+  Future<void> onCameraPositionChange() async {
     LatLng? cameraPosition = ref.read(mapProvider).cameraPosition;
     if (cameraPosition == null) return;
     try {
-      final MapboxResponse response = await MapBoxService.geocode(
+      final GeocodeResponse response = await AddressService.geocode(
         latitude: cameraPosition.latitude,
         longitude: cameraPosition.longitude,
       );
 
       if (cameraPosition == ref.read(mapProvider).cameraPosition) {
-        if (response.features.isNotEmpty &&
-            response.features[0].properties.context.locality?.name != null &&
-            response.features[0].properties.context.country?.name != null &&
-            response.features[0].properties.context.street?.name != null) {
-          state = state.copyWith(
-            city: state.city.updateValue(
-                response.features[0].properties.context.locality!.name!),
-            country: state.country.updateValue(
-                response.features[0].properties.context.country!.name!),
-            address: state.address.updateValue(
-                response.features[0].properties.context.street!.name!),
-          );
-        } else {
-          state = state.copyWith(
-            city: state.city.updateValue(''),
-            country: state.country.updateValue(''),
-            address: state.address.updateValue(''),
-          );
-        }
+        state = state.copyWith(
+          address: state.address.updateValue(response.address),
+          city: state.city.updateValue(response.locality),
+          country: state.country.updateValue(response.country),
+        );
       }
     } on ServiceException catch (_) {
       if (cameraPosition == ref.read(mapProvider).cameraPosition) {
@@ -238,7 +245,7 @@ class AddressNotifier extends StateNotifier<AddressState> {
 }
 
 class AddressState {
-  final List<Feature> addressResults;
+  final List<AddressResult> addressResults;
   final String search;
   final LoadingStatus searchingAddresses;
   final Tag? tag;
@@ -271,7 +278,7 @@ class AddressState {
   });
 
   AddressState copyWith({
-    List<Feature>? addressResults,
+    List<AddressResult>? addressResults,
     String? search,
     LoadingStatus? searchingAddresses,
     ValueGetter<Position?>? currentPosition,
