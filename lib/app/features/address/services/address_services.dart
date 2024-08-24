@@ -21,7 +21,7 @@ class AddressService {
 
   static Future<Address> createAddress({
     required String country,
-    required String city,
+    required String locality,
     required double latitude,
     required double longitude,
     required String address,
@@ -32,7 +32,7 @@ class AddressService {
   }) async {
     try {
       Map<String, dynamic> form = {
-        "city": city,
+        "locality": locality,
         "country": country,
         "address": address,
         "detail": detail,

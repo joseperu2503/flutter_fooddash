@@ -26,7 +26,7 @@ class AddressNotifier extends StateNotifier<AddressState> {
 
   resetForm() {
     state = state.copyWith(
-      city: const FormxInput(value: ''),
+      locality: const FormxInput(value: ''),
       country: const FormxInput(value: ''),
       address: const FormxInput(value: ''),
       tag: () => null,
@@ -119,14 +119,14 @@ class AddressNotifier extends StateNotifier<AddressState> {
       if (cameraPosition == ref.read(mapProvider).cameraPosition) {
         state = state.copyWith(
           address: state.address.updateValue(response.address),
-          city: state.city.updateValue(response.locality),
+          locality: state.locality.updateValue(response.locality),
           country: state.country.updateValue(response.country),
         );
       }
     } on ServiceException catch (_) {
       if (cameraPosition == ref.read(mapProvider).cameraPosition) {
         state = state.copyWith(
-          city: state.city.updateValue(''),
+          locality: state.locality.updateValue(''),
           country: state.country.updateValue(''),
           address: state.address.updateValue(''),
         );
@@ -185,7 +185,7 @@ class AddressNotifier extends StateNotifier<AddressState> {
 
     try {
       final Address newAddress = await AddressService.createAddress(
-        city: state.city.value,
+        locality: state.locality.value,
         country: state.country.value,
         address: state.address.value,
         detail: state.detail.value,
@@ -250,7 +250,7 @@ class AddressState {
   final LoadingStatus searchingAddresses;
   final Tag? tag;
   final DeliveryDetail? deliveryDetail;
-  final FormxInput<String> city;
+  final FormxInput<String> locality;
   final FormxInput<String> country;
   final FormxInput<String> address;
   final FormxInput<String> detail;
@@ -266,7 +266,7 @@ class AddressState {
     this.searchingAddresses = LoadingStatus.none,
     this.tag,
     this.deliveryDetail,
-    this.city = const FormxInput(value: ''),
+    this.locality = const FormxInput(value: ''),
     this.country = const FormxInput(value: ''),
     this.address = const FormxInput(value: ''),
     this.detail = const FormxInput(value: ''),
@@ -284,7 +284,7 @@ class AddressState {
     ValueGetter<Position?>? currentPosition,
     ValueGetter<Tag?>? tag,
     ValueGetter<DeliveryDetail?>? deliveryDetail,
-    FormxInput<String>? city,
+    FormxInput<String>? locality,
     FormxInput<String>? country,
     FormxInput<String>? address,
     FormxInput<String>? detail,
@@ -301,7 +301,7 @@ class AddressState {
         tag: tag != null ? tag() : this.tag,
         deliveryDetail:
             deliveryDetail != null ? deliveryDetail() : this.deliveryDetail,
-        city: city ?? this.city,
+        locality: locality ?? this.locality,
         country: country ?? this.country,
         address: address ?? this.address,
         detail: detail ?? this.detail,

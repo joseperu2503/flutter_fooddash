@@ -1,6 +1,6 @@
 class Address {
   final int id;
-  final String city;
+  final String locality;
   final String country;
   final String address;
   final String detail;
@@ -12,7 +12,7 @@ class Address {
 
   Address({
     required this.id,
-    required this.city,
+    required this.locality,
     required this.country,
     required this.address,
     required this.detail,
@@ -25,7 +25,7 @@ class Address {
 
   factory Address.fromJson(Map<String, dynamic> json) => Address(
         id: json["id"],
-        city: json["city"],
+        locality: json["locality"],
         country: json["country"],
         address: json["address"],
         detail: json["detail"],
@@ -42,7 +42,7 @@ class Address {
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "city": city,
+        "locality": locality,
         "country": country,
         "address": address,
         "detail": detail,

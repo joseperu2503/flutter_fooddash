@@ -67,10 +67,10 @@ class ConfirmAddressScreen extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   CustomTextField(
-                    label: 'City, Country*',
+                    label: 'Locality, Country',
                     value: FormxInput(
                       value:
-                          '${addressState.city.value}, ${addressState.country.value}',
+                          '${addressState.locality.value}, ${addressState.country.value}',
                     ),
                     readOnly: true,
                     onChanged: (value) {},
@@ -79,7 +79,7 @@ class ConfirmAddressScreen extends ConsumerWidget {
                     height: 28,
                   ),
                   CustomTextField(
-                    label: 'Address or location*',
+                    label: 'Address or location',
                     value: addressState.address,
                     readOnly: true,
                     onChanged: (value) {},

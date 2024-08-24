@@ -206,7 +206,7 @@ class BottomModal extends ConsumerWidget {
                         ),
                       ),
                       Text(
-                        searchAddressState.city.value,
+                        searchAddressState.locality.value,
                         style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
