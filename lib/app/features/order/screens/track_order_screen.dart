@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:fooddash/app/config/constants/app_colors.dart';
-import 'package:fooddash/app/config/constants/environment.dart';
 import 'package:fooddash/app/config/constants/styles.dart';
 import 'package:fooddash/app/features/order/models/order.dart';
 import 'package:fooddash/app/features/order/providers/upcoming_order_provider.dart';
@@ -210,31 +209,6 @@ class _MapViewState extends ConsumerState<_MapView> {
   void dispose() {
     timer?.cancel();
     super.dispose();
-  }
-
-  getPolyLines() async {
-    //obtener polylinea con la libreria flutter_polyline_points y un key de google maps
-    PolylinePoints polylinePoints = PolylinePoints();
-    result = await polylinePoints.getRouteBetweenCoordinates(
-      Environment.googleMapsApiKey,
-      PointLatLng(restaurant.latitude, restaurant.longitude),
-      PointLatLng(
-        house.latitude,
-        house.longitude,
-      ),
-      travelMode: TravelMode.driving,
-    );
-
-    //mapear la polilinea en una lista de LatLng
-    if (result.points.isNotEmpty) {
-      for (var point in result.points) {
-        setState(() {
-          polylineCoordinates.add(LatLng(point.latitude, point.longitude));
-        });
-      }
-    }
-    //generar la polilinea para mostrar en el mapa
-    generatePolyLinesFromPoints();
   }
 
   void generatePolyLinesFromPoints() {
