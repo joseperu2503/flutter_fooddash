@@ -1,4 +1,5 @@
 import 'package:fooddash/app/config/api/api.dart';
+import 'package:fooddash/app/features/core/models/service_exception.dart';
 import 'package:fooddash/app/features/dashboard/models/restaurant_category.dart';
 import 'package:fooddash/app/features/dashboard/models/restaurant.dart';
 import 'package:fooddash/app/features/restaurant/models/dish_category.dart';
@@ -20,18 +21,20 @@ class RestaurantsService {
 
       return RestaurantsResponse.fromJson(response.data);
     } catch (e) {
-      throw 'An error occurred while loading the restaurants.';
+      throw ServiceException(
+          'An error occurred while loading the restaurants.', e);
     }
   }
 
   static Future<List<RestaurantCategory>> getCategories() async {
     try {
-      final response = await Api().get('/restaurant-categories');
+      final response = await Api().get('/restaurants/categories');
 
       return List<RestaurantCategory>.from(
           response.data.map((x) => RestaurantCategory.fromJson(x)));
     } catch (e) {
-      throw 'An error occurred while loading the categories.';
+      throw ServiceException(
+          'An error occurred while loading the categories.', e);
     }
   }
 
@@ -43,7 +46,8 @@ class RestaurantsService {
 
       return Restaurant.fromJson(response.data);
     } catch (e) {
-      throw 'An error occurred';
+      throw ServiceException(
+          'An error occurred while loading the restaurant.', e);
     }
   }
 
@@ -56,7 +60,7 @@ class RestaurantsService {
       return List<DishCategory>.from(
           response.data.map((x) => DishCategory.fromJson(x)));
     } catch (e) {
-      throw 'An error occurred while loading the dishes.';
+      throw ServiceException('An error occurred while loading the dishes.', e);
     }
   }
 
@@ -75,7 +79,7 @@ class RestaurantsService {
 
       return Restaurant.fromJson(response.data);
     } catch (e) {
-      throw 'An error occurred.';
+      throw ServiceException('An error occurred.', e);
     }
   }
 
@@ -94,7 +98,8 @@ class RestaurantsService {
 
       return RestaurantsResponse.fromJson(response.data);
     } catch (e) {
-      throw 'An error occurred while loading the favorite restaurants.';
+      throw ServiceException(
+          'An error occurred while loading the favorite restaurants.', e);
     }
   }
 }

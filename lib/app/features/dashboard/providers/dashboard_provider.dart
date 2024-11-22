@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fooddash/app/features/core/models/service_exception.dart';
+import 'package:fooddash/app/features/core/services/snackbar_service.dart';
 import 'package:fooddash/app/features/dashboard/models/restaurant_category.dart';
 import 'package:fooddash/app/features/dashboard/models/restaurant.dart';
 import 'package:fooddash/app/features/restaurant/services/restaurant_service.dart';
@@ -38,11 +39,11 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
         page: state.page + 1,
         restaurantsStatus: LoadingStatus.success,
       );
-    } catch (e) {
+    } on ServiceException catch (e) {
       state = state.copyWith(
         restaurantsStatus: LoadingStatus.error,
       );
-      rethrow;
+      SnackbarService.showSnackbar(e.message);
     }
   }
 
@@ -61,11 +62,11 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
         categories: [...state.categories, ...response],
         categoriesStatus: LoadingStatus.success,
       );
-    } catch (e) {
+    } on ServiceException catch (e) {
       state = state.copyWith(
         categoriesStatus: LoadingStatus.error,
       );
-      rethrow;
+      SnackbarService.showSnackbar(e.message);
     }
   }
 
