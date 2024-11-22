@@ -10,7 +10,7 @@ final api = Api();
 class AddressService {
   static Future<List<Address>> getMyAddresses() async {
     try {
-      final response = await api.get('/addresses/my-addresses');
+      final response = await api.get('/addresses');
 
       return List<Address>.from(response.data.map((x) => Address.fromJson(x)));
     } catch (e) {
