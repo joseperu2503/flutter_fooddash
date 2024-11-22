@@ -17,7 +17,7 @@ final paymentMethodProvider =
 
 class PaymentMethodNotifier extends StateNotifier<PaymentMethodState> {
   PaymentMethodNotifier(this.ref) : super(PaymentMethodState());
-  final StateNotifierProviderRef ref;
+  final Ref ref;
 
   resetForm() {
     state = state.copyWith(

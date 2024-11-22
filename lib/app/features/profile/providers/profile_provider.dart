@@ -14,7 +14,7 @@ final profileProvider =
 
 class ProfileNotifier extends StateNotifier<ProfileState> {
   ProfileNotifier(this.ref) : super(ProfileState());
-  final StateNotifierProviderRef ref;
+  final Ref ref;
 
   initData() async {
     final AuthUser? user = ref.read(authProvider).user;

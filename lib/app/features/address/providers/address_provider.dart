@@ -22,7 +22,7 @@ final addressProvider =
 
 class AddressNotifier extends StateNotifier<AddressState> {
   AddressNotifier(this.ref) : super(AddressState());
-  final StateNotifierProviderRef ref;
+  final Ref ref;
 
   resetForm() {
     state = state.copyWith(

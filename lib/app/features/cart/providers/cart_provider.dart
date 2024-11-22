@@ -17,7 +17,7 @@ final cartProvider = StateNotifierProvider<CartNotifier, CartState>((ref) {
 
 class CartNotifier extends StateNotifier<CartState> {
   CartNotifier(this.ref) : super(CartState());
-  final StateNotifierProviderRef ref;
+  final Ref ref;
 
   initData() {
     state = state.copyWith(

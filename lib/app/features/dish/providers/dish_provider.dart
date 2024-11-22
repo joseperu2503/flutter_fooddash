@@ -13,7 +13,7 @@ final dishProvider = StateNotifierProvider<DishNotifier, DishState>((ref) {
 
 class DishNotifier extends StateNotifier<DishState> {
   DishNotifier(this.ref) : super(DishState());
-  final StateNotifierProviderRef ref;
+  final Ref ref;
 
   setDish(Dish dish) async {
     state = state.copyWith(

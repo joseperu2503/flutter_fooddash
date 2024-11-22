@@ -14,7 +14,7 @@ final favoriteRestaurantProvider =
 
 class RestaurantsNotifier extends StateNotifier<RestaurantsState> {
   RestaurantsNotifier(this.ref) : super(RestaurantsState());
-  final StateNotifierProviderRef ref;
+  final Ref ref;
 
   initData() {
     state = state.copyWith(

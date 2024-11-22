@@ -33,7 +33,7 @@ class Utils {
       String path, int width) async {
     final Uint8List? imageData = await getBytesFromAsset(path, width);
     if (imageData != null) {
-      return BitmapDescriptor.fromBytes(imageData);
+      return BitmapDescriptor.bytes(imageData);
     }
     return null;
   }
@@ -65,6 +65,6 @@ class Utils {
     final image = rasterPicture.toImageSync(width, height);
     final bytes = (await image.toByteData(format: ui.ImageByteFormat.png))!;
 
-    return BitmapDescriptor.fromBytes(bytes.buffer.asUint8List());
+    return BitmapDescriptor.bytes(bytes.buffer.asUint8List());
   }
 }

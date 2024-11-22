@@ -14,7 +14,7 @@ final historyOrdersProvider =
 
 class HistoryOrdersNotifier extends StateNotifier<OrderState> {
   HistoryOrdersNotifier(this.ref) : super(OrderState());
-  final StateNotifierProviderRef ref;
+  final Ref ref;
 
   resetData() {
     print('initData history');

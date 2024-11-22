@@ -188,9 +188,9 @@ class RestaurantScreenState extends ConsumerState<RestaurantScreen>
                             indicatorColor: AppColors.primary,
                             indicatorWeight: 4,
                             overlayColor:
-                                MaterialStateProperty.resolveWith<Color?>(
-                                    (Set<MaterialState> states) {
-                              if (states.contains(MaterialState.pressed)) {
+                                WidgetStateProperty.resolveWith<Color?>(
+                                    (Set<WidgetState> states) {
+                              if (states.contains(WidgetState.pressed)) {
                                 return AppColors.white.withOpacity(0.3);
                               }
 

@@ -23,7 +23,7 @@ final loginProvider = StateNotifierProvider<LoginNotifier, LoginState>((ref) {
 
 class LoginNotifier extends StateNotifier<LoginState> {
   LoginNotifier(this.ref) : super(LoginState());
-  final StateNotifierProviderRef ref;
+  final Ref ref;
 
   initData() async {
     final email = await StorageService.get<String>(StorageKeys.email) ?? '';

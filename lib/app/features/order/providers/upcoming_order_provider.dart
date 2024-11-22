@@ -20,7 +20,7 @@ final upcomingOrdersProvider =
 
 class UpcomingOrdersNotifier extends StateNotifier<OrderState> {
   UpcomingOrdersNotifier(this.ref) : super(OrderState());
-  final StateNotifierProviderRef ref;
+  final Ref ref;
 
   OrderSocket? socket;
 

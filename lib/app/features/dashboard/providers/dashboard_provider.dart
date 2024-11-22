@@ -17,7 +17,7 @@ final dashboardProvider =
 
 class DashboardNotifier extends StateNotifier<DashboardState> {
   DashboardNotifier(this.ref) : super(DashboardState());
-  final StateNotifierProviderRef ref;
+  final Ref ref;
 
   Future<void> getRestaurants() async {
     if (state.page > state.totalPages ||
