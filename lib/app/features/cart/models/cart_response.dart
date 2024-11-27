@@ -1,9 +1,6 @@
 class CartResponse {
   final int id;
   final double subtotal;
-  final double deliveryFee;
-  final double serviceFee;
-  final double total;
   final List<DishCart> dishCarts;
   final Restaurant restaurant;
   final Address address;
@@ -11,9 +8,6 @@ class CartResponse {
   CartResponse({
     required this.id,
     required this.subtotal,
-    required this.deliveryFee,
-    required this.serviceFee,
-    required this.total,
     required this.dishCarts,
     required this.restaurant,
     required this.address,
@@ -32,9 +26,6 @@ class CartResponse {
       CartResponse(
         id: id ?? this.id,
         subtotal: subtotal ?? this.subtotal,
-        deliveryFee: deliveryFee ?? this.deliveryFee,
-        serviceFee: serviceFee ?? this.serviceFee,
-        total: total ?? this.total,
         dishCarts: dishCarts ?? this.dishCarts,
         restaurant: restaurant ?? this.restaurant,
         address: address ?? this.address,
@@ -43,9 +34,6 @@ class CartResponse {
   factory CartResponse.fromJson(Map<String, dynamic> json) => CartResponse(
         id: json["id"],
         subtotal: json["subtotal"]?.toDouble(),
-        deliveryFee: json["deliveryFee"]?.toDouble(),
-        serviceFee: json["serviceFee"]?.toDouble(),
-        total: json["total"]?.toDouble(),
         dishCarts: List<DishCart>.from(
             json["dishCarts"].map((x) => DishCart.fromJson(x))),
         restaurant: Restaurant.fromJson(json["restaurant"]),
@@ -55,9 +43,6 @@ class CartResponse {
   Map<String, dynamic> toJson() => {
         "id": id,
         "subtotal": subtotal,
-        "deliveryFee": deliveryFee,
-        "serviceFee": serviceFee,
-        "total": total,
         "dishCarts": List<dynamic>.from(dishCarts.map((x) => x.toJson())),
         "restaurant": restaurant.toJson(),
         "address": address.toJson(),

@@ -295,7 +295,7 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                             ),
                             const Spacer(),
                             Text(
-                              Utils.formatCurrency(cartResponse.serviceFee),
+                              Utils.formatCurrency(20),
                               style: const TextStyle(
                                 fontSize: 19,
                                 fontWeight: FontWeight.w500,
@@ -327,7 +327,7 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                             ),
                             const Spacer(),
                             Text(
-                              Utils.formatCurrency(cartResponse.deliveryFee),
+                              Utils.formatCurrency(20),
                               style: const TextStyle(
                                 fontSize: 19,
                                 fontWeight: FontWeight.w500,
@@ -359,7 +359,7 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                             ),
                             const Spacer(),
                             Text(
-                              Utils.formatCurrency(cartResponse.total),
+                              Utils.formatCurrency(20),
                               style: const TextStyle(
                                 fontSize: 19,
                                 fontWeight: FontWeight.w600,

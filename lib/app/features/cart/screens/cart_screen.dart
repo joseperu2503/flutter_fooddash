@@ -24,7 +24,7 @@ class CartScreenState extends ConsumerState<CartScreen> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      ref.read(cartProvider.notifier).getMyCart();
+      ref.read(cartProvider.notifier).getCart();
     });
   }
 
@@ -112,7 +112,7 @@ class CartScreenState extends ConsumerState<CartScreen> {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                ref.read(cartProvider.notifier).deleteMyCart();
+                                ref.read(cartProvider.notifier).emptyCart();
                               },
                               behavior: HitTestBehavior.translucent,
                               child: Container(

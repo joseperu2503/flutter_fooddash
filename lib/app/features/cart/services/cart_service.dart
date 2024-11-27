@@ -4,9 +4,9 @@ import 'package:fooddash/app/features/cart/models/cart_response.dart';
 import 'package:fooddash/app/features/core/models/service_exception.dart';
 
 class CartService {
-  static Future<CartResponse?> getMyCart() async {
+  static Future<CartResponse?> getCart() async {
     try {
-      final response = await Api.get('/carts/my-cart');
+      final response = await Api.get('/cart');
 
       return response.data != '' ? CartResponse.fromJson(response.data) : null;
     } catch (e) {
@@ -14,21 +14,21 @@ class CartService {
     }
   }
 
-  static Future<CartResponse?> updateMyCart(CartRequest cartRequest) async {
+  static Future<CartResponse?> updateCart(CartRequest cartRequest) async {
     try {
       final Map<String, dynamic> data = cartRequest.toJson();
 
-      final response = await Api.post('/carts', data: data);
+      final response = await Api.post('/cart', data: data);
 
       return response.data != '' ? CartResponse.fromJson(response.data) : null;
     } catch (e) {
-      throw ServiceException('An error occurred while loading the cart.', e);
+      throw ServiceException('An error occurred while updating the cart.', e);
     }
   }
 
-  static Future<void> deleteMyCart() async {
+  static Future<void> emptyCart() async {
     try {
-      await Api.delete('/carts/my-cart');
+      await Api.delete('/cart');
     } catch (e) {
       throw ServiceException('An error occurred while deleting the cart.', e);
     }

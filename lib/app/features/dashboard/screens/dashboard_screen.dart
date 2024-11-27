@@ -33,7 +33,7 @@ class DashboardScreenState extends ConsumerState<DashboardScreen> {
 
       ref.read(dashboardProvider.notifier).getRestaurants();
       ref.read(dashboardProvider.notifier).getCategories();
-      ref.read(cartProvider.notifier).getMyCart();
+      ref.read(cartProvider.notifier).getCart();
       ref.read(addressProvider.notifier).getMyAddresses(withSetAddress: true);
     });
 

@@ -26,7 +26,7 @@ class CartNotifier extends StateNotifier<CartState> {
     );
   }
 
-  Future<void> getMyCart() async {
+  Future<void> getCart() async {
     if (state.loading == LoadingStatus.loading) return;
 
     state = state.copyWith(
@@ -34,20 +34,20 @@ class CartNotifier extends StateNotifier<CartState> {
     );
 
     try {
-      final CartResponse? response = await CartService.getMyCart();
+      final CartResponse? response = await CartService.getCart();
       state = state.copyWith(
         cartResponse: () => response,
         loading: LoadingStatus.success,
       );
-    } catch (e) {
+    } on ServiceException catch (e) {
       state = state.copyWith(
         loading: LoadingStatus.error,
       );
-      rethrow;
+      SnackBarService.show(e.message);
     }
   }
 
-  Future<void> deleteMyCart() async {
+  Future<void> emptyCart() async {
     if (state.loading == LoadingStatus.loading) return;
 
     state = state.copyWith(
@@ -55,16 +55,16 @@ class CartNotifier extends StateNotifier<CartState> {
     );
 
     try {
-      await CartService.deleteMyCart();
+      await CartService.emptyCart();
       state = state.copyWith(
         cartResponse: () => null,
         loading: LoadingStatus.success,
       );
-    } catch (e) {
+    } on ServiceException catch (e) {
       state = state.copyWith(
         loading: LoadingStatus.error,
       );
-      rethrow;
+      SnackBarService.show(e.message);
     }
   }
 
@@ -75,51 +75,47 @@ class CartNotifier extends StateNotifier<CartState> {
     final addressId = getAddres();
     if (addressId == null) return;
 
-    try {
-      final int dishForRequestIndex = state.dishesForCartRequest
-          .indexWhere((dishForRequest) => dishForRequest == dishCartRequest);
+    final int dishForRequestIndex = state.dishesForCartRequest
+        .indexWhere((dishForRequest) => dishForRequest == dishCartRequest);
 
-      if (dishForRequestIndex >= 0) {
-        //cuando el plato que se va a agregar ya esta en el cart
-        await addUnitDish(dishForRequestIndex);
+    if (dishForRequestIndex >= 0) {
+      //cuando el plato que se va a agregar ya esta en el cart
+      await addUnitDish(dishForRequestIndex);
+      return;
+    }
+
+    List<DishCartRequest> dishes = [];
+    if (restaurantId == state.cartResponse?.restaurant.id ||
+        state.cartResponse == null) {
+      //cuando el plato que se va a agregar pertenece al restaurant del cart
+      dishes = [dishCartRequest, ...state.dishesForCartRequest];
+    } else {
+      //cuando el plato que se va a agregar no pertenece al restaurant del cart
+      if (rootNavigatorKey.currentContext == null) return;
+      bool? response = await showModalBottomSheet(
+        context: rootNavigatorKey.currentContext!,
+        elevation: 0,
+        builder: (context) {
+          return const ChangeOrder();
+        },
+      );
+      if (response == null) {
+        return;
+      }
+      if (response == false) {
+        appRouter.push('/cart');
         return;
       }
 
-      List<DishCartRequest> dishes = [];
-      if (restaurantId == state.cartResponse?.restaurant.id ||
-          state.cartResponse == null) {
-        //cuando el plato que se va a agregar pertenece al restaurant del cart
-        dishes = [dishCartRequest, ...state.dishesForCartRequest];
-      } else {
-        //cuando el plato que se va a agregar no pertenece al restaurant del cart
-        if (rootNavigatorKey.currentContext == null) return;
-        bool? response = await showModalBottomSheet(
-          context: rootNavigatorKey.currentContext!,
-          elevation: 0,
-          builder: (context) {
-            return const ChangeOrder();
-          },
-        );
-        if (response == null) {
-          return;
-        }
-        if (response == false) {
-          appRouter.push('/cart');
-          return;
-        }
-
-        dishes = [dishCartRequest];
-      }
-
-      CartRequest cartRequest = CartRequest(
-        restaurantId: restaurantId,
-        dishes: dishes,
-        addressId: addressId,
-      );
-      await updateCart(cartRequest);
-    } catch (e) {
-      rethrow;
+      dishes = [dishCartRequest];
     }
+
+    CartRequest cartRequest = CartRequest(
+      restaurantId: restaurantId,
+      dishes: dishes,
+      addressId: addressId,
+    );
+    await updateCart(cartRequest);
   }
 
   Future<void> updateCart(CartRequest cartRequest) async {
@@ -127,8 +123,7 @@ class CartNotifier extends StateNotifier<CartState> {
       state = state.copyWith(
         loading: LoadingStatus.loading,
       );
-      final CartResponse? response =
-          await CartService.updateMyCart(cartRequest);
+      final CartResponse? response = await CartService.updateCart(cartRequest);
       state = state.copyWith(
         cartResponse: () => response,
         loading: LoadingStatus.success,
@@ -138,8 +133,6 @@ class CartNotifier extends StateNotifier<CartState> {
         loading: LoadingStatus.error,
       );
       SnackBarService.show(e.message);
-
-      rethrow;
     }
   }
 
@@ -191,7 +184,7 @@ class CartNotifier extends StateNotifier<CartState> {
     );
 
     if (dishCarts.isEmpty) {
-      await deleteMyCart();
+      await emptyCart();
       return;
     }
 
@@ -250,7 +243,7 @@ class CartState {
           toppings: dishCart.toppingDishCarts
               .map(
                 (toppingDishCart) => ToppingDishCartRequest(
-                  toppingId: toppingDishCart.id,
+                  toppingId: toppingDishCart.topping.id,
                   units: toppingDishCart.units,
                 ),
               )

@@ -67,7 +67,7 @@ class UpcomingOrdersNotifier extends StateNotifier<OrderState> {
 
     try {
       final Order order = await OrderService.createOrder(orderRequest);
-      await ref.read(cartProvider.notifier).getMyCart();
+      await ref.read(cartProvider.notifier).getCart();
 
       state = state.copyWith(
         creatingOrder: LoadingStatus.success,
