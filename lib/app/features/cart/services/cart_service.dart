@@ -6,7 +6,7 @@ import 'package:fooddash/app/features/core/models/service_exception.dart';
 class CartService {
   static Future<CartResponse?> getMyCart() async {
     try {
-      final response = await Api().get('/carts/my-cart');
+      final response = await Api.get('/carts/my-cart');
 
       return response.data != '' ? CartResponse.fromJson(response.data) : null;
     } catch (e) {
@@ -18,7 +18,7 @@ class CartService {
     try {
       final Map<String, dynamic> data = cartRequest.toJson();
 
-      final response = await Api().post('/carts', data: data);
+      final response = await Api.post('/carts', data: data);
 
       return response.data != '' ? CartResponse.fromJson(response.data) : null;
     } catch (e) {
@@ -28,7 +28,7 @@ class CartService {
 
   static Future<void> deleteMyCart() async {
     try {
-      await Api().delete('/carts/my-cart');
+      await Api.delete('/carts/my-cart');
     } catch (e) {
       throw ServiceException('An error occurred while deleting the cart.', e);
     }

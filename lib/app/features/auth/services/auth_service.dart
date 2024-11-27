@@ -19,7 +19,7 @@ class AuthService {
         "password": password,
       };
 
-      final response = await Api().post('/auth/login', data: form);
+      final response = await Api.post('/auth/login', data: form);
 
       return LoginResponse.fromJson(response.data);
     } catch (e) {
@@ -33,7 +33,7 @@ class AuthService {
         "idToken": idToken,
       };
 
-      final response = await Api().post('/auth/login-google', data: form);
+      final response = await Api.post('/auth/login-google', data: form);
 
       return LoginResponse.fromJson(response.data);
     } catch (e) {
@@ -50,7 +50,7 @@ class AuthService {
         'platform': Platform.isAndroid ? 'android' : 'ios'
       };
 
-      final response = await Api().post('/auth/login-facebook', data: form);
+      final response = await Api.post('/auth/login-facebook', data: form);
 
       return LoginResponse.fromJson(response.data);
     } catch (e) {
@@ -60,7 +60,7 @@ class AuthService {
 
   static Future<AuthUser> getUser() async {
     try {
-      final response = await Api().get('/auth/me');
+      final response = await Api.get('/auth/me');
 
       return AuthUser.fromJson(response.data);
     } catch (e) {
@@ -81,7 +81,7 @@ class AuthService {
         "email": email,
         "phone": phone,
       };
-      final response = await Api().put('/auth/update', data: form);
+      final response = await Api.put('/auth/update', data: form);
 
       return AuthUser.fromJson(response.data);
     } catch (e) {

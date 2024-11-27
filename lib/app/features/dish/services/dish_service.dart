@@ -8,7 +8,7 @@ class DishService {
     required String dishId,
   }) async {
     try {
-      final response = await Api().get('/dishes/$dishId');
+      final response = await Api.get('/dishes/$dishId');
 
       return Dish.fromJson(response.data);
     } catch (e) {
@@ -20,7 +20,7 @@ class DishService {
     required String dishId,
   }) async {
     try {
-      final response = await Api().get('/dishes/$dishId/toppings');
+      final response = await Api.get('/dishes/$dishId/toppings');
 
       return List<ToppingCategory>.from(
           response.data.map((x) => ToppingCategory.fromJson(x)));
@@ -37,7 +37,7 @@ class DishService {
         "dishId": dishId,
       };
 
-      final response = await Api().post(
+      final response = await Api.post(
         '/favorites/dish',
         data: form,
       );
@@ -56,7 +56,7 @@ class DishService {
         "page": page,
         "limit": 6,
       };
-      final response = await Api().get(
+      final response = await Api.get(
         '/favorites/dish',
         queryParameters: queryParameters,
       );

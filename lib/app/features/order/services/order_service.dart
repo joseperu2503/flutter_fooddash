@@ -3,8 +3,6 @@ import 'package:fooddash/app/features/core/models/service_exception.dart';
 import 'package:fooddash/app/features/order/models/order.dart';
 import 'package:fooddash/app/features/order/models/order_request.dart';
 
-final api = Api();
-
 class OrderService {
   static Future<OrdersResponse> getMyOrders({
     int page = 1,
@@ -18,7 +16,7 @@ class OrderService {
 
     try {
       final response =
-          await api.get('/orders/my-orders', queryParameters: queryParameters);
+          await Api.get('/orders/my-orders', queryParameters: queryParameters);
 
       return OrdersResponse.fromJson(response.data);
     } catch (e) {
@@ -30,7 +28,7 @@ class OrderService {
     try {
       final Map<String, dynamic> data = cartRequest.toJson();
 
-      final response = await Api().post('/orders', data: data);
+      final response = await Api.post('/orders', data: data);
 
       return Order.fromJson(response.data);
     } catch (e) {
@@ -42,7 +40,7 @@ class OrderService {
     required int orderId,
   }) async {
     try {
-      final response = await api.get('/orders/$orderId');
+      final response = await Api.get('/orders/$orderId');
 
       return Order.fromJson(response.data);
     } catch (e) {

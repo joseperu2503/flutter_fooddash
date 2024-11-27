@@ -5,13 +5,12 @@ import 'package:fooddash/app/features/core/models/service_exception.dart';
 import 'package:fooddash/app/features/payment_methods/models/card_token_response.dart';
 import 'package:fooddash/app/features/payment_methods/models/payment_methods.dart';
 
-final api = Api();
 final apiMercadoPago = ApiMercadoPago();
 
 class PaymentMethodService {
   static Future<List<PaymentMethod>> getMyPaymentMethods() async {
     try {
-      final response = await api.get('/payment-methods/my-payment-methods');
+      final response = await Api.get('/payment-methods/my-payment-methods');
 
       return List<PaymentMethod>.from(
           response.data.map((x) => PaymentMethod.fromJson(x)));
@@ -64,7 +63,7 @@ class PaymentMethodService {
         "token": token,
       };
 
-      await api.post(
+      await Api.post(
         '/cards',
         data: form,
       );
@@ -78,7 +77,7 @@ class PaymentMethodService {
     required String cardId,
   }) async {
     try {
-      await api.delete(
+      await Api.delete(
         '/cards/$cardId',
       );
     } catch (e) {

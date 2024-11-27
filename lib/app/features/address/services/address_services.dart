@@ -5,12 +5,10 @@ import 'package:fooddash/app/features/address/models/geocode_response.dart';
 import 'package:fooddash/app/features/address/models/place_details.dart';
 import 'package:fooddash/app/features/core/models/service_exception.dart';
 
-final api = Api();
-
 class AddressService {
   static Future<List<Address>> getMyAddresses() async {
     try {
-      final response = await api.get('/addresses');
+      final response = await Api.get('/addresses');
 
       return List<Address>.from(response.data.map((x) => Address.fromJson(x)));
     } catch (e) {
@@ -43,7 +41,7 @@ class AddressService {
         "addressDeliveryDetailId": addressDeliveryDetailId,
       };
 
-      final response = await api.post('/addresses', data: form);
+      final response = await Api.post('/addresses', data: form);
       return Address.fromJson(response.data);
     } catch (e) {
       throw ServiceException(
@@ -58,7 +56,7 @@ class AddressService {
         "input": query,
       };
 
-      final response = await api.get(
+      final response = await Api.get(
         '/addresses/autocomplete',
         queryParameters: queryParameters,
       );
@@ -79,7 +77,7 @@ class AddressService {
         "placeId": placeId,
       };
 
-      final response = await api.get(
+      final response = await Api.get(
         '/addresses/place-details',
         queryParameters: queryParameters,
       );
@@ -101,7 +99,7 @@ class AddressService {
         "lng": longitude,
       };
 
-      final response = await api.get(
+      final response = await Api.get(
         '/addresses/geocode',
         queryParameters: queryParameters,
       );

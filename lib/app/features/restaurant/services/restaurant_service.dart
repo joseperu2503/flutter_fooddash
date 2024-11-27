@@ -17,7 +17,7 @@ class RestaurantsService {
         "restaurantCategoryId": restaurantCategoryId,
       };
       final response =
-          await Api().get('/restaurants', queryParameters: queryParameters);
+          await Api.get('/restaurants', queryParameters: queryParameters);
 
       return RestaurantsResponse.fromJson(response.data);
     } catch (e) {
@@ -28,7 +28,7 @@ class RestaurantsService {
 
   static Future<List<RestaurantCategory>> getCategories() async {
     try {
-      final response = await Api().get('/restaurants/categories');
+      final response = await Api.get('/restaurants/categories');
 
       return List<RestaurantCategory>.from(
           response.data.map((x) => RestaurantCategory.fromJson(x)));
@@ -42,7 +42,7 @@ class RestaurantsService {
     required int restaurantId,
   }) async {
     try {
-      final response = await Api().get('/restaurants/$restaurantId');
+      final response = await Api.get('/restaurants/$restaurantId');
 
       return Restaurant.fromJson(response.data);
     } catch (e) {
@@ -55,7 +55,7 @@ class RestaurantsService {
     required int restaurantId,
   }) async {
     try {
-      final response = await Api().get('/restaurants/$restaurantId/dishes');
+      final response = await Api.get('/restaurants/$restaurantId/dishes');
 
       return List<DishCategory>.from(
           response.data.map((x) => DishCategory.fromJson(x)));
@@ -72,7 +72,7 @@ class RestaurantsService {
         "restaurantId": restaurantId,
       };
 
-      final response = await Api().post(
+      final response = await Api.post(
         '/favorites/restaurant',
         data: form,
       );
@@ -91,7 +91,7 @@ class RestaurantsService {
         "page": page,
         "limit": 5,
       };
-      final response = await Api().get(
+      final response = await Api.get(
         '/favorites/restaurant',
         queryParameters: queryParameters,
       );
