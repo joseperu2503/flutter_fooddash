@@ -18,7 +18,7 @@ class CartService {
     try {
       final Map<String, dynamic> data = cartRequest.toJson();
 
-      final response = await Api.post('/cart', data: data);
+      final response = await Api.put('/cart', data: data);
 
       return CartResponse.fromJson(response.data);
     } catch (e) {
