@@ -1,3 +1,4 @@
+import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fooddash/app/features/payment_methods/models/payment_methods.dart';
 import 'package:fooddash/app/features/payment_methods/providers/payment_method_provider.dart';
@@ -128,21 +129,21 @@ class CardDetailScreenState extends ConsumerState<CardDetailScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // Center(
-                  //   child: CreditCardWidget(
-                  //     cardNumber:
-                  //         '${paymentMethod?.firstSixDigits.toString()}000000${paymentMethod?.lastFourDigits.toString()}',
-                  //     expiryDate:
-                  //         '${paymentMethod?.expirationMonth.toString()}/${paymentMethod?.expirationYear.toString().substring(2, 4)}',
-                  //     cardHolderName: '${paymentMethod?.cardHolder.name}',
-                  //     cvvCode: '',
-                  //     showBackView: false,
-                  //     isSwipeGestureEnabled: false,
-                  //     isHolderNameVisible: true,
-                  //     onCreditCardWidgetChange: (CreditCardBrand brand) {},
-                  //     padding: 0,
-                  //   ),
-                  // ),
+                  Center(
+                    child: CreditCardWidget(
+                      cardNumber:
+                          '${paymentMethod?.firstSixDigits.toString()}000000${paymentMethod?.lastFourDigits.toString()}',
+                      expiryDate:
+                          '${paymentMethod?.expirationMonth.toString()}/${paymentMethod?.expirationYear.toString().substring(2, 4)}',
+                      cardHolderName: '${paymentMethod?.cardHolder.name}',
+                      cvvCode: '',
+                      showBackView: false,
+                      isSwipeGestureEnabled: false,
+                      isHolderNameVisible: true,
+                      onCreditCardWidgetChange: (CreditCardBrand brand) {},
+                      padding: 0,
+                    ),
+                  ),
                 ],
               ),
             ),
