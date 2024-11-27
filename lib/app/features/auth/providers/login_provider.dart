@@ -72,7 +72,8 @@ class LoginNotifier extends StateNotifier<LoginState> {
 
       _setRemember();
       appRouter.go('/dashboard');
-      ref.read(authProvider.notifier).initAutoLogout();
+      ref.read(authProvider.notifier).onLogin();
+
       state = state.copyWith(
         loading: LoadingStatus.success,
       );
@@ -133,7 +134,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
 
       await StorageService.set<String>(StorageKeys.token, loginResponse.token);
 
-      ref.read(authProvider.notifier).initAutoLogout();
+      ref.read(authProvider.notifier).onLogin();
 
       appRouter.go('/dashboard');
     } on ServiceException catch (e) {
@@ -178,7 +179,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
 
       await StorageService.set<String>(StorageKeys.token, loginResponse.token);
 
-      ref.read(authProvider.notifier).initAutoLogout();
+      ref.read(authProvider.notifier).onLogin();
 
       appRouter.go('/dashboard');
       state = state.copyWith(loading: LoadingStatus.success);

@@ -43,16 +43,26 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
   }
 
-  initAutoLogout() async {
+  onLogin() {
+    initAutoLogout();
     getUser();
+  }
+
+  initAutoLogout() async {
     _cancelTimer();
     final (validToken, timeRemainingInSeconds) =
         await AuthService.verifyToken();
 
     if (validToken) {
-      _timer = Timer(Duration(seconds: timeRemainingInSeconds), () {
-        logout();
-      });
+      if (timeRemainingInSeconds > 3600) {
+        _timer = Timer(const Duration(seconds: 3600), () {
+          initAutoLogout();
+        });
+      } else {
+        _timer = Timer(Duration(seconds: timeRemainingInSeconds), () {
+          logout();
+        });
+      }
     }
   }
 
