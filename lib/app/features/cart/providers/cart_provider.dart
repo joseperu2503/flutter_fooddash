@@ -34,9 +34,9 @@ class CartNotifier extends StateNotifier<CartState> {
     );
 
     try {
-      final CartResponse? response = await CartService.getCart();
+      final CartResponse response = await CartService.getCart();
       state = state.copyWith(
-        cartResponse: () => response,
+        cartResponse: () => response.data,
         loading: LoadingStatus.success,
       );
     } on ServiceException catch (e) {
@@ -123,9 +123,9 @@ class CartNotifier extends StateNotifier<CartState> {
       state = state.copyWith(
         loading: LoadingStatus.loading,
       );
-      final CartResponse? response = await CartService.updateCart(cartRequest);
+      final CartResponse response = await CartService.updateCart(cartRequest);
       state = state.copyWith(
-        cartResponse: () => response,
+        cartResponse: () => response.data,
         loading: LoadingStatus.success,
       );
     } on ServiceException catch (e) {
@@ -143,8 +143,8 @@ class CartNotifier extends StateNotifier<CartState> {
 
     state = state.copyWith(
       cartResponse: () => state.cartResponse!.copyWith(
-        dishCarts: state.cartResponse!.dishCarts.map((dishCart) {
-          if (state.cartResponse!.dishCarts.indexOf(dishCart) == index) {
+        dishes: state.cartResponse!.dishes.map((dishCart) {
+          if (state.cartResponse!.dishes.indexOf(dishCart) == index) {
             return dishCart.copyWith(units: dishCart.units + 1);
           }
 
@@ -167,23 +167,23 @@ class CartNotifier extends StateNotifier<CartState> {
     final addressId = getAddres();
     if (addressId == null) return;
 
-    List<DishCart> dishCarts = state.cartResponse!.dishCarts.map((dishCart) {
-      if (state.cartResponse!.dishCarts.indexOf(dishCart) == index) {
-        return dishCart.copyWith(units: dishCart.units - 1);
+    List<Dish> dishes = state.cartResponse!.dishes.map((dish) {
+      if (state.cartResponse!.dishes.indexOf(dish) == index) {
+        return dish.copyWith(units: dish.units - 1);
       }
 
-      return dishCart;
+      return dish;
     }).toList();
 
-    dishCarts = dishCarts.where((dishCart) => dishCart.units > 0).toList();
+    dishes = dishes.where((dish) => dish.units > 0).toList();
 
     state = state.copyWith(
       cartResponse: () => state.cartResponse!.copyWith(
-        dishCarts: dishCarts,
+        dishes: dishes,
       ),
     );
 
-    if (dishCarts.isEmpty) {
+    if (dishes.isEmpty) {
       await emptyCart();
       return;
     }
@@ -211,13 +211,13 @@ class CartNotifier extends StateNotifier<CartState> {
 }
 
 class CartState {
-  final CartResponse? cartResponse;
+  final Cart? cartResponse;
   final LoadingStatus loading;
 
   int? get numDishes {
     if (cartResponse != null) {
-      if (cartResponse!.dishCarts.isNotEmpty) {
-        return cartResponse!.dishCarts
+      if (cartResponse!.dishes.isNotEmpty) {
+        return cartResponse!.dishes
             .map((e) => e.units)
             .toList()
             .reduce((value, element) => value + element);
@@ -235,16 +235,16 @@ class CartState {
 
     List<DishCartRequest> dishes = [];
 
-    for (var dishCart in cartResponse!.dishCarts) {
+    for (var dish in cartResponse!.dishes) {
       dishes.add(
         DishCartRequest(
-          dishId: dishCart.dish.id,
-          units: dishCart.units,
-          toppings: dishCart.toppingDishCarts
+          dishId: dish.id,
+          units: dish.units,
+          toppings: dish.toppings
               .map(
-                (toppingDishCart) => ToppingDishCartRequest(
-                  toppingId: toppingDishCart.topping.id,
-                  units: toppingDishCart.units,
+                (topping) => ToppingDishCartRequest(
+                  toppingId: topping.id,
+                  units: topping.units,
                 ),
               )
               .toList(),
@@ -260,12 +260,12 @@ class CartState {
 
     List<DishOrderRequest> dishes = [];
 
-    for (var dishCart in cartResponse!.dishCarts) {
+    for (var dish in cartResponse!.dishes) {
       dishes.add(
         DishOrderRequest(
-          dishId: dishCart.dish.id,
-          units: dishCart.units,
-          toppings: dishCart.toppingDishCarts
+          dishId: dish.id,
+          units: dish.units,
+          toppings: dish.toppings
               .map(
                 (toppingDishCart) => ToppingDishOrderRequest(
                   toppingId: toppingDishCart.id,
@@ -286,7 +286,7 @@ class CartState {
   });
 
   CartState copyWith({
-    ValueGetter<CartResponse?>? cartResponse,
+    ValueGetter<Cart?>? cartResponse,
     LoadingStatus? loading,
   }) =>
       CartState(

@@ -83,10 +83,10 @@ class CartScreenState extends ConsumerState<CartScreen> {
                   ),
                   sliver: SliverList.separated(
                     itemBuilder: (context, index) {
-                      final dish = cartState.cartResponse!.dishCarts[index];
+                      final dish = cartState.cartResponse!.dishes[index];
 
                       return CartDishItem(
-                        dishCart: dish,
+                        dish: dish,
                         index: index,
                       );
                     },
@@ -95,7 +95,7 @@ class CartScreenState extends ConsumerState<CartScreen> {
                         height: 32,
                       );
                     },
-                    itemCount: cartState.cartResponse!.dishCarts.length,
+                    itemCount: cartState.cartResponse!.dishes.length,
                   ),
                 ),
                 SliverToBoxAdapter(

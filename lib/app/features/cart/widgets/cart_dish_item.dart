@@ -11,21 +11,20 @@ const double heightItem = 90;
 class CartDishItem extends ConsumerWidget {
   const CartDishItem({
     super.key,
-    required this.dishCart,
+    required this.dish,
     required this.index,
   });
-  final DishCart dishCart;
+  final Dish dish;
   final int index;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     String toppingsDescription = '';
-    for (var topping in dishCart.toppingDishCarts) {
+    for (var topping in dish.toppings) {
       if (toppingsDescription.isEmpty) {
-        toppingsDescription = '${topping.topping.description}.';
+        toppingsDescription = '${topping.description}.';
       } else {
-        toppingsDescription =
-            '$toppingsDescription ${topping.topping.description}.';
+        toppingsDescription = '$toppingsDescription ${topping.description}.';
       }
     }
 
@@ -36,7 +35,7 @@ class CartDishItem extends ConsumerWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: Image.network(
-              dishCart.dish.image,
+              dish.image,
               fit: BoxFit.cover,
               height: heightItem,
               width: heightItem,
@@ -53,7 +52,7 @@ class CartDishItem extends ConsumerWidget {
                   height: 4,
                 ),
                 Text(
-                  dishCart.dish.name,
+                  dish.name,
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w400,
@@ -84,8 +83,7 @@ class CartDishItem extends ConsumerWidget {
                 Row(
                   children: [
                     Text(
-                      Utils.formatCurrency(
-                          dishCart.dish.price * dishCart.units),
+                      Utils.formatCurrency(dish.price * dish.units),
                       style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
@@ -100,7 +98,7 @@ class CartDishItem extends ConsumerWidget {
                   children: [
                     const Spacer(),
                     ButtonStepper2(
-                      value: dishCart.units,
+                      value: dish.units,
                       onAdd: () {
                         ref.read(cartProvider.notifier).addUnitDish(index);
                       },

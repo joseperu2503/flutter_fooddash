@@ -1,52 +1,69 @@
 class CartResponse {
-  final int id;
-  final double subtotal;
-  final List<DishCart> dishCarts;
-  final Restaurant restaurant;
-  final Address address;
+  final bool success;
+  final Cart? data;
 
   CartResponse({
-    required this.id,
-    required this.subtotal,
-    required this.dishCarts,
-    required this.restaurant,
-    required this.address,
+    required this.success,
+    required this.data,
   });
 
-  CartResponse copyWith({
-    int? id,
-    double? subtotal,
-    double? deliveryFee,
-    double? serviceFee,
-    double? total,
-    List<DishCart>? dishCarts,
-    Restaurant? restaurant,
-    Address? address,
-  }) =>
-      CartResponse(
-        id: id ?? this.id,
-        subtotal: subtotal ?? this.subtotal,
-        dishCarts: dishCarts ?? this.dishCarts,
-        restaurant: restaurant ?? this.restaurant,
-        address: address ?? this.address,
+  factory CartResponse.fromJson(Map<String, dynamic> json) => CartResponse(
+        success: json["success"],
+        data: json["data"] == null ? null : Cart.fromJson(json["data"]),
       );
 
-  factory CartResponse.fromJson(Map<String, dynamic> json) => CartResponse(
+  Map<String, dynamic> toJson() => {
+        "success": success,
+        "data": data?.toJson(),
+      };
+}
+
+class Cart {
+  final int id;
+  final double subtotal;
+  final Restaurant restaurant;
+  final Address address;
+  final List<Dish> dishes;
+
+  Cart({
+    required this.id,
+    required this.subtotal,
+    required this.restaurant,
+    required this.address,
+    required this.dishes,
+  });
+
+  factory Cart.fromJson(Map<String, dynamic> json) => Cart(
         id: json["id"],
         subtotal: json["subtotal"]?.toDouble(),
-        dishCarts: List<DishCart>.from(
-            json["dishCarts"].map((x) => DishCart.fromJson(x))),
         restaurant: Restaurant.fromJson(json["restaurant"]),
         address: Address.fromJson(json["address"]),
+        dishes: List<Dish>.from(json["dishes"].map((x) => Dish.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "subtotal": subtotal,
-        "dishCarts": List<dynamic>.from(dishCarts.map((x) => x.toJson())),
         "restaurant": restaurant.toJson(),
         "address": address.toJson(),
+        "dishes": List<dynamic>.from(dishes.map((x) => x.toJson())),
       };
+
+  Cart copyWith({
+    int? id,
+    double? subtotal,
+    Restaurant? restaurant,
+    Address? address,
+    List<Dish>? dishes,
+  }) {
+    return Cart(
+      id: id ?? this.id,
+      subtotal: subtotal ?? this.subtotal,
+      restaurant: restaurant ?? this.restaurant,
+      address: address ?? this.address,
+      dishes: dishes ?? this.dishes,
+    );
+  }
 }
 
 class Address {
@@ -61,19 +78,6 @@ class Address {
     required this.latitude,
     required this.longitude,
   });
-
-  Address copyWith({
-    int? id,
-    String? address,
-    double? latitude,
-    double? longitude,
-  }) =>
-      Address(
-        id: id ?? this.id,
-        address: address ?? this.address,
-        latitude: latitude ?? this.latitude,
-        longitude: longitude ?? this.longitude,
-      );
 
   factory Address.fromJson(Map<String, dynamic> json) => Address(
         id: json["id"],
@@ -90,55 +94,14 @@ class Address {
       };
 }
 
-class DishCart {
-  final int id;
-  final int units;
-  final Dish dish;
-  final List<ToppingDishCart> toppingDishCarts;
-
-  DishCart({
-    required this.id,
-    required this.units,
-    required this.dish,
-    required this.toppingDishCarts,
-  });
-
-  DishCart copyWith({
-    int? id,
-    int? units,
-    Dish? dish,
-    List<ToppingDishCart>? toppingDishCarts,
-  }) =>
-      DishCart(
-        id: id ?? this.id,
-        units: units ?? this.units,
-        dish: dish ?? this.dish,
-        toppingDishCarts: toppingDishCarts ?? this.toppingDishCarts,
-      );
-
-  factory DishCart.fromJson(Map<String, dynamic> json) => DishCart(
-        id: json["id"],
-        units: json["units"],
-        dish: Dish.fromJson(json["dish"]),
-        toppingDishCarts: List<ToppingDishCart>.from(
-            json["toppingDishCarts"].map((x) => ToppingDishCart.fromJson(x))),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "units": units,
-        "dish": dish.toJson(),
-        "toppingDishCarts":
-            List<dynamic>.from(toppingDishCarts.map((x) => x.toJson())),
-      };
-}
-
 class Dish {
   final int id;
   final String name;
   final String image;
   final String description;
   final double price;
+  final int units;
+  final List<Topping> toppings;
 
   Dish({
     required this.id,
@@ -146,22 +109,9 @@ class Dish {
     required this.image,
     required this.description,
     required this.price,
+    required this.units,
+    required this.toppings,
   });
-
-  Dish copyWith({
-    int? id,
-    String? name,
-    String? image,
-    String? description,
-    double? price,
-  }) =>
-      Dish(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        image: image ?? this.image,
-        description: description ?? this.description,
-        price: price ?? this.price,
-      );
 
   factory Dish.fromJson(Map<String, dynamic> json) => Dish(
         id: json["id"],
@@ -169,6 +119,9 @@ class Dish {
         image: json["image"],
         description: json["description"],
         price: json["price"]?.toDouble(),
+        units: json["units"],
+        toppings: List<Topping>.from(
+            json["toppings"].map((x) => Topping.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -177,77 +130,56 @@ class Dish {
         "image": image,
         "description": description,
         "price": price,
-      };
-}
-
-class ToppingDishCart {
-  final int id;
-  final int units;
-  final Topping topping;
-
-  ToppingDishCart({
-    required this.id,
-    required this.units,
-    required this.topping,
-  });
-
-  ToppingDishCart copyWith({
-    int? id,
-    int? units,
-    Topping? topping,
-  }) =>
-      ToppingDishCart(
-        id: id ?? this.id,
-        units: units ?? this.units,
-        topping: topping ?? this.topping,
-      );
-
-  factory ToppingDishCart.fromJson(Map<String, dynamic> json) =>
-      ToppingDishCart(
-        id: json["id"],
-        units: json["units"],
-        topping: Topping.fromJson(json["topping"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
         "units": units,
-        "topping": topping.toJson(),
+        "toppings": List<dynamic>.from(toppings.map((x) => x.toJson())),
       };
+
+  Dish copyWith({
+    int? id,
+    String? name,
+    String? image,
+    String? description,
+    double? price,
+    int? units,
+    List<Topping>? toppings,
+  }) {
+    return Dish(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      image: image ?? this.image,
+      description: description ?? this.description,
+      price: price ?? this.price,
+      units: units ?? this.units,
+      toppings: toppings ?? this.toppings,
+    );
+  }
 }
 
 class Topping {
   final int id;
   final String description;
-  final double price;
+  final int price;
+  final int units;
 
   Topping({
     required this.id,
     required this.description,
     required this.price,
+    required this.units,
   });
-
-  Topping copyWith({
-    int? id,
-    String? description,
-    double? price,
-  }) =>
-      Topping(
-        id: id ?? this.id,
-        description: description ?? this.description,
-        price: price ?? this.price,
-      );
 
   factory Topping.fromJson(Map<String, dynamic> json) => Topping(
         id: json["id"],
         description: json["description"],
-        price: json["price"]?.toDouble(),
+        price: json["price"],
+        units: json["units"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "description": description,
         "price": price,
+        "units": units,
       };
 }
 
@@ -269,25 +201,6 @@ class Restaurant {
     required this.latitude,
     required this.longitude,
   });
-
-  Restaurant copyWith({
-    int? id,
-    String? name,
-    String? address,
-    String? logo,
-    String? backdrop,
-    double? latitude,
-    double? longitude,
-  }) =>
-      Restaurant(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        address: address ?? this.address,
-        logo: logo ?? this.logo,
-        backdrop: backdrop ?? this.backdrop,
-        latitude: latitude ?? this.latitude,
-        longitude: longitude ?? this.longitude,
-      );
 
   factory Restaurant.fromJson(Map<String, dynamic> json) => Restaurant(
         id: json["id"],
