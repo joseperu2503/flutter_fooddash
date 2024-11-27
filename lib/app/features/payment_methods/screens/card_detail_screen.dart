@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fooddash/app/config/constants/app_colors.dart';
 import 'package:fooddash/app/features/shared/widgets/back_button.dart';
-import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:go_router/go_router.dart';
 
 class CardDetailScreen extends ConsumerStatefulWidget {
@@ -129,21 +128,21 @@ class CardDetailScreenState extends ConsumerState<CardDetailScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Center(
-                    child: CreditCardWidget(
-                      cardNumber:
-                          '${paymentMethod?.firstSixDigits.toString()}000000${paymentMethod?.lastFourDigits.toString()}',
-                      expiryDate:
-                          '${paymentMethod?.expirationMonth.toString()}/${paymentMethod?.expirationYear.toString().substring(2, 4)}',
-                      cardHolderName: '${paymentMethod?.cardHolder.name}',
-                      cvvCode: '',
-                      showBackView: false,
-                      isSwipeGestureEnabled: false,
-                      isHolderNameVisible: true,
-                      onCreditCardWidgetChange: (CreditCardBrand brand) {},
-                      padding: 0,
-                    ),
-                  ),
+                  // Center(
+                  //   child: CreditCardWidget(
+                  //     cardNumber:
+                  //         '${paymentMethod?.firstSixDigits.toString()}000000${paymentMethod?.lastFourDigits.toString()}',
+                  //     expiryDate:
+                  //         '${paymentMethod?.expirationMonth.toString()}/${paymentMethod?.expirationYear.toString().substring(2, 4)}',
+                  //     cardHolderName: '${paymentMethod?.cardHolder.name}',
+                  //     cvvCode: '',
+                  //     showBackView: false,
+                  //     isSwipeGestureEnabled: false,
+                  //     isHolderNameVisible: true,
+                  //     onCreditCardWidgetChange: (CreditCardBrand brand) {},
+                  //     padding: 0,
+                  //   ),
+                  // ),
                 ],
               ),
             ),

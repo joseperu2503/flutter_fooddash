@@ -7,7 +7,7 @@ import 'package:fooddash/app/features/shared/widgets/custom_text_field.dart';
 import 'package:fooddash/app/config/constants/app_colors.dart';
 import 'package:fooddash/app/features/shared/widgets/back_button.dart';
 import 'package:fooddash/app/features/shared/widgets/custom_button.dart';
-import 'package:flutter_credit_card/flutter_credit_card.dart';
+// import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:mask_input_formatter/mask_input_formatter.dart';
 
 class CardFormScreen extends ConsumerStatefulWidget {
@@ -87,36 +87,36 @@ class CardFormScreenState extends ConsumerState<CardFormScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Center(
-                    child: CreditCardWidget(
-                      cardNumber: paymentState.cardNumber.value,
-                      expiryDate: paymentState.expired.value,
-                      cardHolderName: paymentState.name.value,
-                      cvvCode: '',
-                      showBackView: false,
-                      isSwipeGestureEnabled: false,
-                      isHolderNameVisible: true,
-                      onCreditCardWidgetChange: (CreditCardBrand brand) {
-                        if (brand.brandName == CardType.visa ||
-                            brand.brandName == CardType.mastercard) {
-                          cardNumberFormatter = MaskInputFormatter(
-                            mask: '#### #### #### ####',
-                          );
-                          ccvFormatter = MaskInputFormatter(
-                            mask: '###',
-                          );
-                        }
-                        if (brand.brandName == CardType.americanExpress) {
-                          cardNumberFormatter =
-                              MaskInputFormatter(mask: '#### ###### #####');
-                          ccvFormatter = MaskInputFormatter(
-                            mask: '####',
-                          );
-                        }
-                      },
-                      padding: 0,
-                    ),
-                  ),
+                  // Center(
+                  //   child: CreditCardWidget(
+                  //     cardNumber: paymentState.cardNumber.value,
+                  //     expiryDate: paymentState.expired.value,
+                  //     cardHolderName: paymentState.name.value,
+                  //     cvvCode: '',
+                  //     showBackView: false,
+                  //     isSwipeGestureEnabled: false,
+                  //     isHolderNameVisible: true,
+                  //     onCreditCardWidgetChange: (CreditCardBrand brand) {
+                  //       if (brand.brandName == CardType.visa ||
+                  //           brand.brandName == CardType.mastercard) {
+                  //         cardNumberFormatter = MaskInputFormatter(
+                  //           mask: '#### #### #### ####',
+                  //         );
+                  //         ccvFormatter = MaskInputFormatter(
+                  //           mask: '###',
+                  //         );
+                  //       }
+                  //       if (brand.brandName == CardType.americanExpress) {
+                  //         cardNumberFormatter =
+                  //             MaskInputFormatter(mask: '#### ###### #####');
+                  //         ccvFormatter = MaskInputFormatter(
+                  //           mask: '####',
+                  //         );
+                  //       }
+                  //     },
+                  //     padding: 0,
+                  //   ),
+                  // ),
                   const SizedBox(
                     height: 40,
                   ),
